@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="ps" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>د غزالي خزانه – ډیشبورډ</title>
+<style>
+:root{--bg:#f3f1e8;--ink:#173b2d;--soft:#5a6f60;--line:#d9dccf;--red:#b3402b;--yel:#b98a10;--ok:#1f7a4d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 "Noto Naskh Arabic","Noto Sans Arabic",Tahoma,sans-serif}
+main{max-width:560px;margin:0 auto;padding:12px 14px 80px}h1{font-size:20px;margin:4px 0 8px}
+.c{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:10px}
+input,textarea,select{width:100%;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+textarea{min-height:110px}button{font:inherit;font-weight:700;background:var(--ink);color:#fff;border:0;border-radius:10px;padding:9px 14px;cursor:pointer}
+button.a{background:#e2e8dc;color:var(--ink)}button:disabled{opacity:.5}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.row>.chip{flex:none}
+.chip{padding:3px 12px;border-radius:99px;background:#e2e8dc;font-size:14px;font-weight:400;color:var(--ink)}.chip.on{background:var(--ink);color:#fff}
+.b{display:inline-block;border-radius:6px;padding:0 8px;font-size:13px;color:#fff;margin-inline-start:4px}
+.r{background:var(--red)}.y{background:var(--yel)}.g{background:var(--ok)}.n{background:#7a8a80}.v{background:#3a6ea5}
+.it{cursor:pointer}.it small{color:var(--soft);direction:ltr;display:block;text-align:start}
+label{display:block;font-size:14px;color:var(--soft);margin:8px 0 2px}.bad{outline:2px solid var(--red)}.warn{outline:2px solid var(--yel)}
+.err{color:var(--red);direction:ltr;text-align:left;font-size:14px}.bar{position:sticky;top:0;background:var(--bg);padding:6px 0;z-index:5}
+</style></head><body><main id="app"></main>
+<script>
+(function(){
+var K='AIzaSyCvkQSdO_WPxcCR8i1ER0wOGGtU42Cy_Co',PID='ghazali-nature',DB='projects/'+PID+'/databases/default/documents',BASE='https://firestore.googleapis.com/v1/'+DB;
+var L=['ps','fa','ur','en','ar'],LN={ps:'پښتو',fa:'فارسی',ur:'اردو',en:'English',ar:'العربية'};
+var F=[['mhy','ماهیت'],['mzj','مزاج'],['khs','خواص'],['use','د کارونې طریقه'],['mzr','مضر'],['msl','مصلح'],['bdl','بدل']],REQ=['mzj','mhy','khs','use','mzr'];
+var ST={draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'},FL={all:'ټول',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',red:'نیمګړي'};
+var S={list:[],flt:'all',q:'',E:null,view:'',err:''},G={},app=document.getElementById('app');
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(i){return document.getElementById(i)}
+function fv(v){if(v==null)return{nullValue:null};if(typeof v=='string')return{stringValue:v};if(typeof v=='boolean')return{booleanValue:v};
+if(typeof v=='number')return Number.isInteger(v)?{integerValue:String(v)}:{doubleValue:v};if(Array.isArray(v))return{arrayValue:{values:v.map(fv)}};return{mapValue:{fields:fo(v)}}}
+function fo(o){var f={};Object.keys(o).forEach(function(k){if(o[k]!==undefined)f[k]=fv(o[k])});return f}
+function dv(v){var k=Object.keys(v)[0],x=v[k];if(k=='integerValue')return+x;if(k=='nullValue')return null;if(k=='arrayValue')return(x.values||[]).map(dv);
+if(k=='mapValue'){var o={},f=x.fields||{};for(var n in f)o[n]=dv(f[n]);return o}return x}
+function dec(d){var o=dv({mapValue:{fields:d.fields||{}}});o._t=d.updateTime;return o}
+async function http(u,o){var r;for(var n=0;;n++){try{r=await fetch(u,o);break}catch(x){if(n>=3)throw x;await new Promise(function(z){setTimeout(z,1500*(n+1))})}}
+var j={};try{j=await r.json()}catch(e){}if(!r.ok){var e=new Error((j.error&&j.error.message)||'HTTP '+r.status);e.st=r.status;throw e}return j}
+async function tok(){if(S.tk&&Date.now()<S.exp-60000)return S.tk;var j=await http('https://securetoken.googleapis.com/v1/token?key='+K,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(S.rt)});S.tk=j.id_token;S.rt=j.refresh_token;S.exp=Date.now()+j.expires_in*1000;return S.tk}
+async function api(p,o){o=o||{};o.headers={'Authorization':'Bearer '+await tok(),'Content-Type':'application/json'};return http(p,o)}
+function commit(w){return api('https://firestore.googleapis.com/v1/'+DB+':commit',{method:'POST',body:JSON.stringify({writes:w})})}
+function Q(p){var r=p.pages?0:1,y=0;L.forEach(function(l){var s=(p.sections||{})[l]||{};REQ.forEach(function(f){if(!(s[f]||'').trim())r++});['msl','bdl'].forEach(function(f){if(!(s[f]||'').trim())y++})});return[r,y]}
+function bd(p){var q=Q(p);return'<span class="b '+(p.status=='approved'?'g':p.status=='reviewed'?'v':'n')+'">'+ST[p.status]+'</span>'+(q[0]?'<span class="b r">'+q[0]+' سور</span>':'')+(q[1]?'<span class="b y">'+q[1]+' ژېړ</span>':'')}
+function vid(n){return'v'+('000'+n).slice(-4)}
+async function load(){S.list=[];var t='';do{var j=await api(BASE+'/plants?pageSize=100'+(t?'&pageToken='+t:''));(j.documents||[]).forEach(function(d){S.list.push(dec(d))});t=j.nextPageToken}while(t);S.list.sort(function(a,b){return a.code<b.code?-1:1})}
+function nm(p){return(p.name&&(p.name.ps||p.name.en))||p.code}
+function render(){app.innerHTML=!S.tk?loginV():S.view=='h'?histV():S.E?editV():listV();if(!S.E&&S.tk)drawList()}
+function loginV(){return'<h1>د ادمین ننوتل</h1><div class="c"><label>بریښنالیک</label><input id="em" type="email" dir="ltr"><label>پټنوم</label><input id="pw" type="password" dir="ltr"><div class="err">'+esc(S.err)+'</div><br><button data-a="login">ننوتل</button></div>'}
+G.login=async function(){try{S.err='';var j=await http('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+K,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('em').value.trim(),password:$('pw').value,returnSecureToken:true})});
+S.tk=j.idToken;S.rt=j.refreshToken;S.exp=Date.now()+j.expiresIn*1000;S.uid=j.localId;try{await load();S.msg='لوستل سول: '+S.list.length+' بوټي'}catch(e){S.msg='لوستل ونه سول: '+e.message}render()}catch(e){S.err=e.message;render()}};
+function listV(){var c={},n=0;S.list.forEach(function(p){c[p.status]=(c[p.status]||0)+1;if(Q(p)[0])n++});
+return'<div class="bar"><h1>د غزالي خزانه – ډیشبورډ</h1><input data-i="q" placeholder="لټون: نوم، علمي نوم، کوډ" value="'+esc(S.q)+'"><div class="row" style="margin-top:6px">'+Object.keys(FL).map(function(k){return'<button class="chip a'+(S.flt==k?' on':'')+'" data-a="flt" data-v="'+k+'">'+FL[k]+'</button>'}).join('')+'</div></div>'+
+'<div class="c">ټول: '+S.list.length+' · مسوده: '+(c.draft||0)+' · بیاکتل: '+(c.reviewed||0)+' · تایید: '+(c.approved||0)+' · سره: '+n+'</div><div class="row" style="margin-bottom:10px"><button data-a="add">+ نوی بوټی</button><button class="a" data-a="reload">تازه کړه</button>'+'<button class="a" data-a="imp">'+(S.list.length?'معلومات بشپړ کړه':'لومړني معلومات پورته کړه')+'</button>'+'</div><div id="lst"></div><div id="msg" class="err">'+esc(S.msg||'')+'</div>'}
+function setMsg(x){S.msg=x;var m=$('msg');if(m)m.textContent=x}
+function drawList(){var q=S.q.toLowerCase(),a=S.list.filter(function(p){if(S.flt=='red')return Q(p)[0]>0;if(S.flt!='all'&&p.status!=S.flt)return false;return!q||(p.code+' '+(p.scientific||'')+' '+L.map(function(l){return(p.name||{})[l]||''}).join(' ')).toLowerCase().indexOf(q)>=0});
+var e=$('lst');if(e)e.innerHTML=a.map(function(p){return'<div class="c it" data-a="open" data-v="'+esc(p.code)+'"><b>'+esc(nm(p))+'</b> '+bd(p)+'<small>'+esc(p.code)+' · '+esc(p.scientific||'')+'</small></div>'}).join('')||'<div class="c">څه ونه موندل سول</div>'}
+G.flt=function(v){S.flt=v;render()};G.reload=async function(){try{await load();S.msg='لوستل سول: '+S.list.length+' بوټي'}catch(e){S.msg='لوستل ونه سول: '+e.message}render()};
+G.open=function(c){var p=S.list.filter(function(x){return x.code==c})[0];S.E={p:JSON.parse(JSON.stringify(p)),tab:'ps',note:''};S.dirty=false;render()};
+G.back=function(){if(S.dirty&&!confirm('بدلونونه نه دي ذخیره سوي. بیرته ځو؟'))return;S.E=null;S.view='';render()};
+G.tab=function(v){S.E.tab=v;render()};
+function editV(){var E=S.E,p=E.p,l=E.tab,s=p.sections[l]=p.sections[l]||{},nmv=(p.name||{})[l]||'';
+return'<div class="bar"><div class="row"><button class="a" data-a="back">←</button><button data-a="save">ذخیره</button><button class="a" data-a="hist">تاریخچه</button></div></div>'+
+'<div class="c"><b>'+esc(p.code)+'</b> '+bd(p)+'<label>حالت</label><select data-i="status">'+Object.keys(ST).map(function(k){return'<option value="'+k+'"'+(p.status==k?' selected':'')+'>'+ST[k]+'</option>'}).join('')+'</select><div class="row"><div><label>علمي نوم</label><input dir="ltr" data-i="sci" value="'+esc(p.scientific)+'"></div><div><label>د کتاب مخ</label><input data-i="pg" class="'+(p.pages?'':'bad')+'" value="'+esc(p.pages)+'"></div></div></div>'+
+'<div class="row" style="margin-bottom:8px">'+L.map(function(k){return'<button class="chip a'+(k==l?' on':'')+'" data-a="tab" data-v="'+k+'">'+LN[k]+'</button>'}).join('')+'</div>'+
+'<div class="c" dir="'+(l=='en'?'ltr':'rtl')+'"><label>نوم</label><input data-i="nm" value="'+esc(nmv)+'">'+F.map(function(f){var v=s[f[0]]||'',cl=v.trim()?'':(REQ.indexOf(f[0])>=0?'bad':'warn');return'<label>'+f[1]+'</label><textarea data-i="f:'+f[0]+'" class="'+cl+'">'+esc(v)+'</textarea>'}).join('')+'</div>'+
+'<div class="c"><label>د بدلون یادښت (اختیاري)</label><input data-i="note" value="'+esc(E.note)+'"></div>'}
+app.addEventListener('click',function(e){var t=e.target.closest('[data-a]');if(t&&G[t.dataset.a])G[t.dataset.a](t.dataset.v)});
+app.addEventListener('input',function(e){var t=e.target,d=t.dataset.i;if(!d)return;var E=S.E,p=E&&E.p,v=t.value;if(d=='q'){S.q=v;drawList();return}S.dirty=true;
+if(d=='status')p.status=v;else if(d=='sci')p.scientific=v;else if(d=='fam')p.family=v;else if(d=='pg')p.pages=v;else if(d=='note')E.note=v;
+else if(d=='nm'){p.name=p.name||{};p.name[E.tab]=v}else if(d.slice(0,2)=='f:')(p.sections[E.tab]=p.sections[E.tab]||{})[d.slice(2)]=v});
+G.save=async function(){var E=S.E,p=E.p;if(p.status=='approved'&&Q(p)[0]){alert('تایید نه سي کېدای: لا سره نیمګړتیاوې شته.');return}
+var old=p.version||1;try{p.version=old+1;var now=new Date().toISOString(),b={name:p.name,sections:p.sections,scientific:p.scientific||'',family:p.family||'',pages:p.pages||'',status:p.status,version:p.version,updatedBy:S.uid},f=fo(b);f.updatedAt={timestampValue:now};
+var sn=JSON.parse(JSON.stringify(p));delete sn._t;var vf=fo({snapshot:sn,version:p.version,by:S.uid,note:E.note||''});vf.at={timestampValue:now};
+var r=await commit([{update:{name:DB+'/plants/'+p.code,fields:f},updateMask:{fieldPaths:Object.keys(b).concat(['updatedAt'])},currentDocument:{updateTime:p._t}},{update:{name:DB+'/plants/'+p.code+'/versions/'+vid(p.version),fields:vf},currentDocument:{exists:false}}]);
+p._t=r.writeResults[0].updateTime;E.note='';S.dirty=false;for(var i=0;i<S.list.length;i++)if(S.list[i].code==p.code)S.list[i]=JSON.parse(JSON.stringify(p));render();alert('ذخیره سو (نسخه '+p.version+')')}
+catch(e){p.version=old;alert('ذخیره ونه سوه: '+e.message+(e.st==409||e.st==400?'\nښايي بل چا بدل کړی؛ بیرته پرانیزئ.':''))}};
+G.hist=async function(){try{var j=await api(BASE+'/plants/'+S.E.p.code+'/versions?pageSize=100');S.H=(j.documents||[]).map(dec).sort(function(a,b){return b.version-a.version});S.view='h';render()}catch(e){alert(e.message)}};
+function histV(){return'<div class="bar"><div class="row"><button class="a" data-a="hback">←</button></div></div><h1>'+esc(S.E.p.code)+' – تاریخچه</h1>'+(S.H.length?S.H.map(function(v,i){return'<div class="c"><b>نسخه '+v.version+'</b> <small dir="ltr">'+esc((v.at||'').slice(0,16).replace('T',' '))+'</small><div>'+esc(v.note||'—')+'</div><button class="a" data-a="rest" data-v="'+i+'">دا نسخه بیرته راوړه</button></div>'}).join(''):'<div class="c">تاریخچه نشته</div>')}
+G.hback=function(){S.view='';render()};
+G.rest=function(i){var v=S.H[+i],E=S.E,keep={_t:E.p._t,version:E.p.version},s=JSON.parse(JSON.stringify(v.snapshot));s._t=keep._t;s.version=keep.version;E.p=s;E.note='له نسخې '+v.version+' بیرته راوړل سو';S.dirty=true;S.view='';render();alert('نسخه په ایډیټ کې راغله. «ذخیره» وکېکاږئ چې نوې نسخه جوړه سي.')};
+G.add=async function(){var c=prompt('د نوي بوټي کوډ (مثلاً N001):');if(!c)return;c=c.trim();var n=prompt('د بوټي نوم په پښتو:');if(!n)return;
+var p={code:c,status:'draft',pages:'',scientific:'',family:'',name:{ps:n,fa:'',ur:'',en:'',ar:''},sections:{},otherNames:[],extras:{},source:'',version:1,updatedBy:S.uid};try{await mk(p);await load();G.open(c)}catch(e){alert(e.st==409?'دا کوډ مخکې شته':e.message)}};
+function mk(p){var now=new Date().toISOString(),f=fo(p);f.createdAt={timestampValue:now};f.updatedAt={timestampValue:now};f.updatedBy={stringValue:S.uid};var vf=fo({snapshot:p,version:1,by:S.uid,note:'لومړنی کاپي'});vf.at={timestampValue:now};
+return commit([{update:{name:DB+'/plants/'+p.code,fields:f},currentDocument:{exists:false}},{update:{name:DB+'/plants/'+p.code+'/versions/v0001',fields:vf},currentDocument:{exists:false}}])}
+function pick(){return new Promise(function(res,rej){var i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=function(){var f=i.files[0];if(!f)return rej(new Error('فایل نه دی ټاکل سوی'));f.text().then(function(x){res(JSON.parse(x))},rej)};i.click()})}
+G.imp=async function(){var D;try{D=await pick()}catch(e){setMsg('فایل ونه لوستل سو: '+e.message);return}if(!D.plants||!D.bookIndex){setMsg('دا plants_export.json نه دی');return}if(!confirm(D.plants.length+' بوټي او '+D.bookIndex.length+' نومونه پورته کړو؟'))return;var p={ok:0,sk:0,fl:0},x={ok:0,sk:0,fl:0},first='';
+function bad(c,e,id){c.fl++;if(!first)first=id+': '+e.message}
+for(var k=0;k<D.plants.length;k++){try{await mk(D.plants[k]);p.ok++}catch(e){if(e.st==409)p.sk++;else bad(p,e,D.plants[k].code)}setMsg('بوټي '+(k+1)+'/'+D.plants.length)}
+var ix=D.bookIndex,pos=0;function wr(r){return{update:{name:DB+'/bookIndex/'+r.code,fields:fo(r)},currentDocument:{exists:false}}}
+async function w(){while(pos<ix.length){var b=ix.slice(pos,pos+25);pos+=25;try{await commit(b.map(wr));x.ok+=b.length}catch(e){for(var q=0;q<b.length;q++){try{await commit([wr(b[q])]);x.ok++}catch(e2){if(e2.st==409)x.sk++;else bad(x,e2,b[q].code)}}}setMsg('فهرست '+Math.min(pos,ix.length)+'/'+ix.length)}}
+await Promise.all([w(),w(),w()]);
+var sum='بوټي: نوي '+p.ok+'، مخکې '+p.sk+'، ناکام '+p.fl+' | فهرست: نوي '+x.ok+'، مخکې '+x.sk+'، ناکام '+x.fl+(first?' | '+first:'');
+try{await load();sum+=' | لوستل سول: '+S.list.length+' بوټي'}catch(e){sum+=' | لوستل ونه سول: '+e.message}
+S.msg=sum;render()};
+window.onerror=function(m){S.err=m};render();
+})();
+</script></body></html>
