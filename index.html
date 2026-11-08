@@ -22,7 +22,21 @@ select option{background:var(--deep);color:var(--ink)}
 #login .lg{color:var(--gold);width:54px;height:54px}
 #login h2{margin:6px 0 4px;font-size:24px}#login .tg{color:var(--gold);margin:0 0 14px}
 #login input{margin:6px 0;background:#fff;color:#222;border-radius:20px;padding:12px 18px}
-#app{display:none;grid-template-columns:380px 1fr;height:100vh}
+#app{display:none;grid-template-columns:360px 1fr;grid-template-rows:auto 1fr;height:100vh}
+#app.nolib{grid-template-columns:1fr}#app.nolib aside{display:none}
+#top{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding:8px 18px;background:var(--deep);border-bottom:1px solid rgba(255,255,255,.08)}
+#top .brand{padding:0;flex:none}#top .brand b{font-size:19px}
+#sec{display:flex;gap:6px;flex:1;overflow-x:auto;padding:2px}
+#sec button{flex:none;border-radius:12px;padding:4px 14px;font-size:14px;line-height:1.5;min-height:38px;white-space:nowrap}#sec button.on{background:var(--gold);color:var(--bg);font-weight:700}
+#top .tools{display:flex;gap:6px;flex:none}#top .tools button{padding:4px 12px;font-size:14px}
+.seg{display:inline-flex;background:var(--deep);border-radius:14px;padding:3px;gap:2px}.seg button{border-radius:11px;padding:2px 12px;font-size:14px;background:transparent}.seg button.on{background:var(--gold);color:var(--bg);font-weight:700}
+.tb{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:12px}.tb button{padding:2px 12px;font-size:14px}.tb .sp{flex:1}
+details.box>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:10px 0;color:var(--gold);font-size:18px;font-weight:700}
+details.box>summary::-webkit-details-marker{display:none}details.box>summary::before{content:'▾';font-size:14px;transition:transform .15s}details.box:not([open])>summary::before{transform:rotate(90deg)}
+details.box>summary .gc{margin-inline-start:auto;font-size:13px;font-weight:400;color:var(--soft)}
+details.fl2{margin:0}details.fl2>summary{cursor:pointer;color:var(--soft);font-size:14px}
+textarea{min-height:56px;font-size:var(--fs,16px);overflow:hidden;transition:border-color .15s}input{font-size:var(--fs,16px)}
+aside .t .row2{display:flex;gap:6px}aside .t .row2 .p{flex:1}
 aside{background:var(--deep);display:flex;flex-direction:column;min-height:0;border-inline-start:1px solid rgba(255,255,255,.08)}
 .brand{display:flex;align-items:center;gap:10px;padding:18px 18px 4px}
 .brand svg{width:34px;height:34px;color:var(--gold);flex:none}
@@ -62,9 +76,7 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 .prog{height:14px;border-radius:99px;background:var(--deep);overflow:hidden;display:flex;margin:6px 0 4px}.prog i{display:block;height:100%}
 .rec{display:flex;gap:10px;padding:8px 14px;border-radius:14px;background:var(--deep);margin-top:8px;cursor:pointer}.rec small{color:var(--soft);margin-inline-start:auto;direction:ltr}
 .hrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)}.hrow span{flex:1;min-width:200px}
-.sec{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 16px 0}.sec button{border-radius:12px;padding:4px 8px;font-size:14px;line-height:1.5;min-height:40px}.sec button.on{background:var(--gold);color:var(--bg);font-weight:700}.sec button:first-child{grid-column:1/3}
-.nolib .t,.nolib #list{display:none}
-#fc{max-height:84px;overflow:auto}#fc button{padding:0 9px;height:30px;font-size:13px}
+#fc{max-height:90px;overflow:auto;margin-top:6px}#fc button{padding:0 9px;height:30px;font-size:13px}
 .pv{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv span{background:var(--deep);border-radius:12px;padding:2px 14px}
 .hint{color:var(--soft);font-size:13px;margin:4px 4px 0}
 </style>
@@ -73,15 +85,14 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
 <div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
 <div id="app">
+<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div class="tools"><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
 <aside>
-<div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div>
-<div class="sec" id="sec"></div>
 <div class="t">
 <input id="q" placeholder="لټون: نوم، کوډ، علمي نوم…">
 <div class="fl" id="fs"></div>
 <div class="fl" id="ft"></div>
-<div class="fl" id="fc"></div>
-<div class="acts"><button class="p" id="new">+ نوی بوټی</button><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div>
+<details class="fl2"><summary>د لومړي توري له مخې</summary><div class="fl" id="fc"></div></details>
+<div class="row2"><button class="p" id="new">+ نوی بوټی</button></div>
 <small id="cnt"></small>
 </div>
 <div id="list"></div>
@@ -119,6 +130,8 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2800)};
 if(CFG.apiKey.startsWith('YOUR')){$('#lerr').textContent='لومړی د فایل په سر کې د Firebase تنظیمات (CFG) ولیکئ.'}
 const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
+let FSZ=16,HIDE=false,CL=new Set();try{FSZ=+localStorage.getItem('gk_fs')||16;HIDE=localStorage.getItem('gk_hide')==='1'}catch(e){}
+document.documentElement.style.setProperty('--fs',FSZ+'px');
 let sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
 $('#go').onclick=()=>signInWithEmailAndPassword(auth,$('#em').value,$('#pw').value).catch(e=>$('#lerr').textContent='ننوتنه ونه شوه: '+e.code);
 $('#out').onclick=()=>signOut(auth);
@@ -131,7 +144,7 @@ const ok=v=>String(v??'').trim().length>0;
 function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fields?.[l]||{};per[l]=CORE.filter(k=>!ok(f[k])).length;red+=per[l];yel+=SOFT.filter(k=>!ok(f[k])).length});return{red,yel,per}}
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
 function chipsRow(){const lc={};Object.values(DB).forEach(h=>{const c=initial(nm(h));lc[c]=(lc[c]||0)+1});const ls=Object.keys(lc).sort(new Intl.Collator('ps',{numeric:true}).compare);$('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');const V=Object.values(DB),cn={all:V.length,index:0,draft:0,reviewed:0,approved:0,inc:0};V.forEach(h=>{cn[h.status]=(cn[h.status]||0)+1;if(h.status!=='index'&&Q(h).red)cn.inc++});$('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');$('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t}</button>`).join('')}
-function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}</button>`).join('');document.querySelector('aside').classList.toggle('nolib',sec!=='lib')}
+function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}</button>`).join('');$('#app').classList.toggle('nolib',sec!=='lib')}
 function secPage(){const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
@@ -161,23 +174,26 @@ async function openHerb(c){if(dirty&&!confirm('بدلونونه ذخیره نه 
  cur=structuredClone(DB[c]);cur.code=c;cur.names??={};cur.otherNames??={};cur.fields??={};L.forEach(l=>{cur.fields[l]??={}});dirty=false;baseAt=DB[c].updatedAt||0;ref='';
  imgs=[];HS=[];render();renderList();const s=await getDocs(collection(db,'herbs',c,'images'));imgs=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.order??0)-(b.order??0));if(cur&&cur.code===c)render()}
 function chips(){const h=cur,q=Q(h);if(h.status==='index')return '<span class="chip">یوازې فهرست</span>';return (/pending/i.test(h.names?.en||'')?'<span class="chip bad">English ⚠</span>':'')+L.map(l=>`<span class="chip ${q.per[l]?'bad':''}">${l} ${q.per[l]?q.per[l]+' خالي':'✓'}</span>`).join('')}
-function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index',cl=ok(v)||idx?'':CORE.includes(k)?'bad':SOFT.includes(k)?'warn':'';
+function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index';if(HIDE&&!ok(v)&&!ok(h.fields[ref]?.[k]))return '';const cl=ok(v)||idx?'':CORE.includes(k)?'bad':SOFT.includes(k)?'warn':'';
  const lab=LAB[lang][k]+(lang!=='ps'?` <small>${LAB.ps[k]}</small>`:'');
  const right=ref?`<div><label>${LAB[ref][k]}</label><textarea readonly dir="${dirOf(ref)}">${esc(h.fields[ref]?.[k])}</textarea></div>`:'';
  return `<div class="${ref?'cmp':''}"><div><label>${lab}</label><textarea dir="${dirOf(lang)}" class="${cl}" data-p="fields.${lang}.${k}">${esc(v)}</textarea></div>${right}</div>`}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><select id="st" data-p="status">${Object.entries(ST).map(([s,t])=>`<option value="${s}" ${h.status===s?'selected':''}>${t}</option>`).join('')}</select><button id="hist">تاریخچه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
+ $('#ed').innerHTML=`<div class="bar"><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
  <div class="tabs">${L.map(l=>`<button class="${l===lang?'on':''}" data-l="${l}">${LN[l]}${h.status!=='index'&&Q(h).per[l]?` <span class="chip bad">${Q(h).per[l]}</span>`:''}</button>`).join('')}<select id="ref"><option value="">پرتله: هیڅ</option>${L.filter(l=>l!==lang).map(l=>`<option value="${l}" ${ref===l?'selected':''}>پرتله: ${LN[l]}</option>`).join('')}</select></div>
  <div class="box"><div class="${ref?'cmp':''}"><div><label>نوم (${LN[lang]})</label><input dir="${dirOf(lang)}" data-p="names.${lang}" value="${esc(h.names[lang])}"></div>${ref?`<div><label>نوم (${LN[ref]})</label><input readonly dir="${dirOf(ref)}" value="${esc(h.names[ref])}"></div>`:''}</div>
  <div class="${ref?'cmp':''}"><div><label>نور نومونه (هر کرښه: ژبه: نوم)</label><textarea style="min-height:60px" dir="${dirOf(lang)}" data-p="otherNames.${lang}">${esc(h.otherNames[lang])}</textarea></div>${ref?`<div><label>&nbsp;</label><textarea readonly style="min-height:60px" dir="${dirOf(ref)}">${esc(h.otherNames[ref])}</textarea></div>`:''}</div></div>
- ${GROUPS.map(([t,ks])=>`<section class="box"><h3>${t}</h3>${ks.map(fieldBlock).join('')}</section>`).join('')}
+ <div class="tb"><span class="seg"><button id="fsm" title="کوچنی">A−</button><button id="fsp" title="غټ">A+</button></span><button id="hide" class="${HIDE?'p':''}">${HIDE?'✓ ':''}یوازې ډک ځایونه</button><button id="colall">ټولې برخې پټې</button><button id="expall">ټولې برخې خلاصې</button><span class="sp"></span><span class="hint">د هر ځای ښکته ښي کونج په ایستلو سره یې لوی/کوچنی کولای سئ</span></div>
+ ${GROUPS.map(([t,ks])=>{const f=ks.filter(k=>ok(h.fields[lang][k])).length;return `<details class="box" data-g="${t}" ${CL.has(t)?'':'open'}><summary>${t}<span class="gc">${f} / ${ks.length}</span></summary>${ks.map(fieldBlock).join('')||'<p class="hint">دلته ډک ځای نشته.</p>'}</details>`}).join('')}
  <div class="box"><label>د بدلون یادښت (اختیاري، د تاریخچې لپاره)</label><input id="vnote" placeholder="لکه: د ۱۲ مخ سره پرتله سوه"><div class="hint">نسخه: ${DB[h.code]?.version||0} · وروستی ذخیره: ${DB[h.code]?.updatedBy?esc(DB[h.code].updatedBy):'—'}</div></div>
  <div class="box"><h3>تایید او د ایپ ښودنه</h3>${h.status==='approved'?`<p>✓ دا بوټی <b>تایید سوی</b> دی${DB[h.code]?.approvedAt?' · '+esc(DB[h.code].approvedBy||'')+' · '+new Date(DB[h.code].approvedAt).toLocaleDateString():''}. په ایپ کې به یوازې تایید سوي بوټي ښکاره سي (کله چې ایپ له Firebase سره وتړل سي).</p>`:`<p>دا بوټی لا <b>تایید نه دی سوی</b> (${ST[h.status]}). په ایپ کې به نه ښکاري تر څو حالت «تایید سوی» نه وي.</p>`}<label>د تایید یادونه (اختیاري)</label><input data-p="approvalNote" value="${esc(h.approvalNote)}" placeholder="لکه: د ۱۲–۱۵ مخونو سره پرتله سو"></div>
- <div class="box"><b>عکسونه</b> <button id="addimg">+ عکس زیات کړئ</button><div class="imgs">${imgs.map(i=>`<div class="im"><img src="${i.data}"><select data-im="${i.id}">${IMG.map(x=>`<option ${i.label===x?'selected':''}>${x}</option>`).join('')}</select><button data-del="${i.id}" style="width:100%;margin-top:4px">ړنګول</button></div>`).join('')||'<span class="hint">لا عکس نشته</span>'}</div></div><div id="hl"></div>`}
+ <div class="box"><b>عکسونه</b> <button id="addimg">+ عکس زیات کړئ</button><div class="imgs">${imgs.map(i=>`<div class="im"><img src="${i.data}"><select data-im="${i.id}">${IMG.map(x=>`<option ${i.label===x?'selected':''}>${x}</option>`).join('')}</select><button data-del="${i.id}" style="width:100%;margin-top:4px">ړنګول</button></div>`).join('')||'<span class="hint">لا عکس نشته</span>'}</div></div><div id="hl"></div>`;grows()}
+function grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight+4,900)+'px'}
+function grows(){document.querySelectorAll('#ed textarea').forEach(grow)}
 function setPath(p,v){const k=p.split('.');let o=cur;for(let i=0;i<k.length-1;i++)o=o[k[i]]??={};o[k[k.length-1]]=v}
-$('#ed').addEventListener('input',e=>{const p=e.target.dataset.p;if(!p)return;setPath(p,e.target.value);dirty=true;$('#save').disabled=false;
+$('#ed').addEventListener('input',e=>{const p=e.target.dataset.p;if(!p)return;setPath(p,e.target.value);dirty=true;$('#save').disabled=false;$('#disc').hidden=false;if(e.target.tagName==='TEXTAREA')grow(e.target);
  $('#chips').innerHTML=chips();const t=document.querySelector('.tabs');
  L.forEach((l,i)=>{const b=t.children[i],q=Q(cur).per[l],c=b.querySelector('.chip');if(cur.status!=='index'&&q){if(c)c.textContent=q;else b.insertAdjacentHTML('beforeend',` <span class="chip bad">${q}</span>`)}else if(c)c.remove()});
  if(p==='status'){render();return}
@@ -185,13 +201,20 @@ $('#ed').addEventListener('input',e=>{const p=e.target.dataset.p;if(!p)return;se
  if(p==='pages')e.target.classList.toggle('bad',!ok(e.target.value)&&!idx);
  else if(p.startsWith('fields.'))e.target.className=ok(e.target.value)||idx?'':CORE.includes(k)?'bad':SOFT.includes(k)?'warn':''});
 $('#ed').addEventListener('click',async e=>{const t=e.target.closest('[data-l],[data-del],[data-restore],[data-c],button')||e.target;
- if(t.dataset.c){openHerb(t.dataset.c)}
+ if(t.dataset.st){setPath('status',t.dataset.st);dirty=true;render()}
+ else if(t.id==='disc'){if(confirm('ټول نه خوندي سوي بدلونونه لغوه سي؟')){dirty=false;await openHerb(cur.code)}}
+ else if(t.id==='fsm'||t.id==='fsp'){FSZ=Math.max(13,Math.min(24,FSZ+(t.id==='fsp'?1:-1)));document.documentElement.style.setProperty('--fs',FSZ+'px');try{localStorage.setItem('gk_fs',FSZ)}catch(x){}grows()}
+ else if(t.id==='hide'){HIDE=!HIDE;try{localStorage.setItem('gk_hide',HIDE?'1':'0')}catch(x){}render()}
+ else if(t.id==='colall'){GROUPS.forEach(([g])=>CL.add(g));render()}
+ else if(t.id==='expall'){CL.clear();render()}
+ else if(t.dataset.c){openHerb(t.dataset.c)}
  else if(t.dataset.l){lang=t.dataset.l;if(ref===lang)ref='';render()}
  else if(t.id==='save')await save();
  else if(t.id==='addimg')$('#imgf').click();
  else if(t.dataset.del){if(confirm('عکس ړنګ سي؟')){await deleteDoc(doc(db,'herbs',cur.code,'images',t.dataset.del));imgs=imgs.filter(i=>i.id!==t.dataset.del);render()}}
  else if(t.id==='hist')await hist()
  else if(t.dataset.restore!==undefined){cur=structuredClone(HS[+t.dataset.restore].data);dirty=true;render();toast('بیرته راوړل سو. ذخیره کېکاږئ.')}});
+$('#ed').addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g){d.open?CL.delete(d.dataset.g):CL.add(d.dataset.g);if(d.open)grows()}},true);
 $('#ed').addEventListener('change',async e=>{const id=e.target.dataset.im;if(id){const i=imgs.find(x=>x.id===id);i.label=e.target.value;await setDoc(doc(db,'herbs',cur.code,'images',id),{label:i.label},{merge:true})}
  if(e.target.id==='ref'){ref=e.target.value;render()}});
 async function save(){const h=cur;
