@@ -1,0 +1,5738 @@
+[
+ {
+  "code": "T001",
+  "ur": "انجیر",
+  "en": "Fig",
+  "page": "1",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T002",
+  "ur": "السی (تخم کتان)",
+  "en": "Flax / Linseed",
+  "page": "5",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T003",
+  "ur": "انار",
+  "en": "Pomegranate",
+  "page": "8",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T004",
+  "ur": "آبنوس",
+  "en": "Ebony",
+  "page": "15",
+  "note": "دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T005",
+  "ur": "آڑو",
+  "en": "Peach",
+  "page": "16",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T006",
+  "ur": "آکھ (آک) مدار",
+  "en": "Calotropis / Madar",
+  "page": "17",
+  "note": "کتاب څو ډولونه یادوي. دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T007",
+  "ur": "آل (پتنگ)",
+  "en": "Sappar Wood (د کتاب املا)",
+  "page": "20",
+  "note": "دقیق بوټی تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T008",
+  "ur": "آلو (پٹیٹو)",
+  "en": "Potato",
+  "page": "21",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T009",
+  "ur": "آلوبالو (وائلڈ چیری)",
+  "en": "Wild Cherry (د کتاب نوم)",
+  "page": "22",
+  "note": "دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T010",
+  "ur": "آلو بخارا (پرون)",
+  "en": "Plum / Prunes",
+  "page": "23",
+  "note": "دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T011",
+  "ur": "آنبہ ہلدی",
+  "en": "Mango Ginger",
+  "page": "24",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T012",
+  "ur": "آملہ (آؤلہ)",
+  "en": "Indian Gooseberry / Emblic Myrobalan",
+  "page": "25",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T013",
+  "ur": "ابہل",
+  "en": "Juniper / Juniper Berries",
+  "page": "28",
+  "note": "کتاب څو ډولونه یادوي. دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T014",
+  "ur": "اشتنگ",
+  "en": "Blepharis edulis (د کتاب نوم)",
+  "page": "31",
+  "note": "علمي نوم تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T015",
+  "ur": "اتیس تلخ",
+  "en": "Indian Atees",
+  "page": "32",
+  "note": "د عکس لټون: Aconitum heterophyllum",
+  "type": "T"
+ },
+ {
+  "code": "T016",
+  "ur": "اتیس شیریں",
+  "en": "Sweet Atees (د اردو نوم ژباړه)",
+  "page": "33",
+  "note": "دقیق بوټی تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T017",
+  "ur": "اجمود (کرفس)",
+  "en": "Celery / Celery Seeds",
+  "page": "33",
+  "note": "د عکس لټون: Apium graveolens",
+  "type": "T"
+ },
+ {
+  "code": "T018",
+  "ur": "اجوائن خراسانی",
+  "en": "Black Henbane",
+  "page": "34",
+  "note": "د عکس لټون: Hyoscyamus niger",
+  "type": "T"
+ },
+ {
+  "code": "T019",
+  "ur": "اجوائن دیسی (ناخواہ)",
+  "en": "Ajwain / Omum Seeds",
+  "page": "36",
+  "note": "له Black Henbane څخه یې جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T020",
+  "ur": "اخروٹ",
+  "en": "Walnut",
+  "page": "37",
+  "note": "د عکس لټون: Juglans regia",
+  "type": "T"
+ },
+ {
+  "code": "T021",
+  "ur": "ادرک / زنجبیل",
+  "en": "Ginger",
+  "page": "39",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T022",
+  "ur": "اذخر",
+  "en": "Lemongrass (د کتاب نوم)",
+  "page": "42",
+  "note": "دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T023",
+  "ur": "اراروٹ",
+  "en": "Arrowroot starch",
+  "page": "43",
+  "note": "محصول. کتاب د نشایستې لپاره څو بوټنیزې سرچینې یادوي. د یوه بوټي عکس مه ورسره تړوئ",
+  "type": "T"
+ },
+ {
+  "code": "T024",
+  "ur": "ارجن",
+  "en": "Arjun tree",
+  "page": "44",
+  "note": "د عکس لټون: Terminalia arjuna",
+  "type": "T"
+ },
+ {
+  "code": "T025",
+  "ur": "ارلو",
+  "en": "Indian trumpet tree",
+  "page": "46",
+  "note": "د عکس لټون: Oroxylum indicum",
+  "type": "T"
+ },
+ {
+  "code": "T026",
+  "ur": "ارنڈ (بید انجیر)",
+  "en": "Castor oil plant",
+  "page": "46",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T027",
+  "ur": "ارنی",
+  "en": "Clerodendrum (د کتاب له لاتیني نومه)",
+  "page": "48",
+  "note": "دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T028",
+  "ur": "اروی",
+  "en": "Taro",
+  "page": "49",
+  "note": "کتاب C. Antiquorum لیکي. دقیق ډول تر تایید پوري انتظار",
+  "type": "T"
+ },
+ {
+  "code": "T029",
+  "ur": "ارہر",
+  "en": "Pigeon pea / Congo pea",
+  "page": "50",
+  "note": "د عکس لټون: Cajanus cajan",
+  "type": "T"
+ },
+ {
+  "code": "T030",
+  "ur": "اڑد (ماش)",
+  "en": "Black gram / Urad",
+  "page": "50",
+  "note": "د عکس لټون: Vigna mungo. کتاب Kidney Bean لیکي، خو د ماش لپاره هغه نوم مه کاروئ",
+  "type": "T"
+ },
+ {
+  "code": "T031",
+  "ur": "اڑوسہ (بانسہ)",
+  "en": "Vaska",
+  "page": "51",
+  "note": "د کتاب نوم. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T032",
+  "ur": "اسپند (حرمل)",
+  "en": "Syrian rue",
+  "page": "54",
+  "note": "د عکس لټون: Peganum harmala",
+  "type": "T"
+ },
+ {
+  "code": "T033",
+  "ur": "اسپغول مسلم",
+  "en": "Psyllium / Ispaghula",
+  "page": "56",
+  "note": "د عکس لټون: Plantago ovata. د ۵۸م مخ پوستکی هم د همدې بوټي برخه ده",
+  "type": "T"
+ },
+ {
+  "code": "T034",
+  "ur": "اسطوخودوس",
+  "en": "Lavender",
+  "page": "58",
+  "note": "د عکس لټون: Lavandula stoechas، د کتاب له علمي نوم سره سم",
+  "type": "T"
+ },
+ {
+  "code": "T035",
+  "ur": "اسگند ناگوری (اشوگندھا)",
+  "en": "Winter cherry / Ashwagandha",
+  "page": "59",
+  "note": "د عکس لټون: Withania somnifera",
+  "type": "T"
+ },
+ {
+  "code": "T036",
+  "ur": "اشق",
+  "en": "Gum ammoniac / Ammoniacum",
+  "page": "61",
+  "note": "د بوټي صمغ. د کتاب نوم Dorema ammoniacum دی. د بوټي عکس له تایید وروسته راټول کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T037",
+  "ur": "اشنان",
+  "en": "H. Multi Florum",
+  "page": "62",
+  "note": "د کتاب لنډ علمي نوم. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T038",
+  "ur": "اشوکا",
+  "en": "Ashoka tree",
+  "page": "63",
+  "note": "کتاب Saraca indica لیکي. د عکس لپاره دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T039",
+  "ur": "افسنتین",
+  "en": "Wormwood",
+  "page": "65",
+  "note": "د عکس لټون: Artemisia absinthium",
+  "type": "T"
+ },
+ {
+  "code": "T040",
+  "ur": "افیون (اوپیم)",
+  "en": "Opium / Opium poppy",
+  "page": "66",
+  "note": "افیون د بوټي محصول دئ. د بوټي د عکس لټون: Papaver somniferum",
+  "type": "T"
+ },
+ {
+  "code": "T041",
+  "ur": "اقاقیا — عصارہ (کچی پھلی) ببول",
+  "en": "Acacia extract / Babul",
+  "page": "70",
+  "note": "د بوټي د نارسېدلو پلو عصاره. د کتاب نوم Acacia arabica دئ. د بوټي عکس له تایید وروسته راټول کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T042",
+  "ur": "افتیمون (آکاس بیل)",
+  "en": "Ari creeper / Dodder",
+  "page": "71",
+  "note": "د کتاب نوم او عام انګلیسي نوم. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T043",
+  "ur": "اگر — عود ہندی",
+  "en": "Eaglewood / Agarwood",
+  "page": "72",
+  "note": "کتاب Aquilaria agallocha لیکي. د عکس لپاره علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T044",
+  "ur": "الائچی خورد",
+  "en": "Small cardamom",
+  "page": "74",
+  "note": "د عکس لټون: Elettaria cardamomum",
+  "type": "T"
+ },
+ {
+  "code": "T045",
+  "ur": "الائچی کلاں (موٹی الائچی)",
+  "en": "Large cardamom",
+  "page": "75",
+  "note": "د عکس لټون: Amomum subulatum",
+  "type": "T"
+ },
+ {
+  "code": "T046",
+  "ur": "الٹ کمبل",
+  "en": "Devil’s cotton",
+  "page": "76",
+  "note": "د کتاب علمي نوم Abroma augusta دئ",
+  "type": "T"
+ },
+ {
+  "code": "T047",
+  "ur": "امرود",
+  "en": "Guava",
+  "page": "78",
+  "note": "د عکس لټون: Psidium guajava",
+  "type": "T"
+ },
+ {
+  "code": "T048",
+  "ur": "امڑہ",
+  "en": "Hog plum",
+  "page": "79",
+  "note": "عام نوم څو بوټو ته کارېږي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T049",
+  "ur": "امل بید گلگ",
+  "en": "Common sorrel (د کتاب نوم)",
+  "page": "79",
+  "note": "دقیق ډول او د اردو سرلیک وروستۍ کلمه بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T050",
+  "ur": "املتاس (خیار شنبر)",
+  "en": "Purging cassia",
+  "page": "80",
+  "note": "د عکس لټون: Cassia fistula. د ۸۱–۸۲ مخونو ګوده او پوست یې جلا بوټي نه دي",
+  "type": "T"
+ },
+ {
+  "code": "T051",
+  "ur": "املی (تمر ہندی)",
+  "en": "Tamarind",
+  "page": "83",
+  "note": "د عکس لټون: Tamarindus indica. د ۸۵م مخ تخم هم د همدې بوټي برخه ده",
+  "type": "T"
+ },
+ {
+  "code": "T052",
+  "ur": "آم (انب)",
+  "en": "Mango",
+  "page": "85",
+  "note": "د عکس لټون: Mango tree",
+  "type": "T"
+ },
+ {
+  "code": "T053",
+  "ur": "انت مول",
+  "en": "Country ipecacuanha",
+  "page": "87",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T054",
+  "ur": "انجبار کی جڑ (تخم انجبار)",
+  "en": "Bistort root (د کتاب نوم)",
+  "page": "87",
+  "note": "د کتاب سرلیک ریښه او تخم یادوي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T055",
+  "ur": "انجدان — تخم ہینگ، تخم حلتیت",
+  "en": "Ferula narthex (د کتاب نوم)",
+  "page": "89",
+  "note": "تر تایید پوري د بل Ferula ډول عکس مه ورسره تړوئ",
+  "type": "T"
+ },
+ {
+  "code": "T056",
+  "ur": "اندرجو شیریں و تلخ",
+  "en": "Tellicherry seeds (د کتاب نوم)",
+  "page": "90",
+  "note": "د خوږ او تریخ توکي تړاو او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T057",
+  "ur": "اندرائن، حنظل",
+  "en": "Colocynth",
+  "page": "91",
+  "note": "کتاب دوه ډولونه یادوي. عکسونه تر تایید پوري جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T058",
+  "ur": "انزروت",
+  "en": "Gum resin",
+  "page": "96",
+  "note": "صمغ دئ. دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T059",
+  "ur": "انکول",
+  "en": "Alangium (د کتاب انګلیسي املا: Alan Opium)",
+  "page": "97",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T060",
+  "ur": "انگور",
+  "en": "Grape",
+  "page": "98",
+  "note": "د عکس لټون: Grapevine",
+  "type": "T"
+ },
+ {
+  "code": "T061",
+  "ur": "انناس",
+  "en": "Pineapple",
+  "page": "99",
+  "note": "د عکس لټون: Pineapple plant",
+  "type": "T"
+ },
+ {
+  "code": "T062",
+  "ur": "انیسون",
+  "en": "Anise / Aniseed",
+  "page": "100",
+  "note": "د عکس لټون: Pimpinella anisum",
+  "type": "T"
+ },
+ {
+  "code": "T063",
+  "ur": "اونٹ کٹارا",
+  "en": "Thistle",
+  "page": "102",
+  "note": "د کتاب علمي نوم Echinops echinatus دئ",
+  "type": "T"
+ },
+ {
+  "code": "T064",
+  "ur": "ایرسا",
+  "en": "Orris root",
+  "page": "103",
+  "note": "د بوټي ریښه. دقیق Iris ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T065",
+  "ur": "ایشور مول",
+  "en": "Indian birthwort",
+  "page": "105",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T066",
+  "ur": "ایلوا، مصبر، گھیگوار",
+  "en": "Aloes / Aloe vera",
+  "page": "105",
+  "note": "د بوټي او مصبر عکسونه جلا نومول کېږي",
+  "type": "T"
+ },
+ {
+  "code": "T067",
+  "ur": "باوچی",
+  "en": "Bavchi / Balochi seeds",
+  "page": "107",
+  "note": "کتاب Psoralea corylifolia لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T068",
+  "ur": "بابونہ",
+  "en": "Chamomile",
+  "page": "109",
+  "note": "کتاب Matricaria chamomilla لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T069",
+  "ur": "باجرہ",
+  "en": "Spiked millet",
+  "page": "110",
+  "note": "د عکس لپاره دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T070",
+  "ur": "باد آورد",
+  "en": "Fagonia arabica (د سرلیک نوم)",
+  "page": "111",
+  "note": "په مدخل کښي بل علمي نوم هم لیکل سوی. عکس تر تایید پوري وځنډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T071",
+  "ur": "بادام میٹھا",
+  "en": "Sweet almond",
+  "page": "112",
+  "note": "د ۱۱۴م مخ تېل د همدې مدخل اړوند محصول دئ",
+  "type": "T"
+ },
+ {
+  "code": "T072",
+  "ur": "بادام تلخ (کڑوا بادام)",
+  "en": "Bitter almond",
+  "page": "115",
+  "note": "د خوږ بادام پر ځای یې عکس مه کاروئ",
+  "type": "T"
+ },
+ {
+  "code": "T073",
+  "ur": "بادرنجبویہ",
+  "en": "د کتاب نومونه: Nepata Puderalis / Nepta Hindostana",
+  "page": "116",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T074",
+  "ur": "بادیان خطائی",
+  "en": "Star anise (د کتاب انګلیسي نوم)",
+  "page": "117",
+  "note": "په کتاب کښي د کورنۍ نوم بیا کتنه غواړي. عکس تر تایید پوري وځنډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T075",
+  "ur": "بارہنگ (سبز)",
+  "en": "Broadleaf plantain / Plantago major",
+  "page": "118",
+  "note": "د ۱۱۹م مخ تخم یې له همدې ریکارډ سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T076",
+  "ur": "باقلۃ، باکلہ",
+  "en": "Broad bean (احتمالي)",
+  "page": "120",
+  "note": "د کتاب لاتیني نوم ناڅرګند دئ. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T077",
+  "ur": "بالچھڑ (سنبل الطیب)",
+  "en": "Valerian",
+  "page": "121",
+  "note": "کتاب Valeriana officinalis لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T078",
+  "ur": "بانس",
+  "en": "Bamboo",
+  "page": "123",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T079",
+  "ur": "باؤ بڑنگ",
+  "en": "Embelia",
+  "page": "123",
+  "note": "کتاب E. Robesta او Embelia Ribes لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T080",
+  "ur": "بائے کھنپہ",
+  "en": "Morusingra (د کتاب املا)",
+  "page": "125",
+  "note": "دقیق ډول او د اردو املا بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T081",
+  "ur": "بتھوا",
+  "en": "White goosefoot",
+  "page": "125",
+  "note": "د ۱۲۶م مخ تخم یې له همدې ریکارډ سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T082",
+  "ur": "میٹھا تیلیا، بچہ ناگ، بیش",
+  "en": "Aconite",
+  "page": "127",
+  "note": "کتاب Aconitum falconeri لیکي. له اتیس تلخ سره یې مه ګډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T083",
+  "ur": "بداری کند (باراہی کند)",
+  "en": "I. digitata (د کتاب نوم)",
+  "page": "131",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T084",
+  "ur": "بدھارا، بدارا",
+  "en": "Elephant creeper",
+  "page": "132",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T085",
+  "ur": "برگ تبّت",
+  "en": "Tibbat leaf (د نوم ژباړه)",
+  "page": "133",
+  "note": "علمي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T086",
+  "ur": "برہم ڈنڈی",
+  "en": "Yellow thistle",
+  "page": "134",
+  "note": "کتاب Tricholepis glaberrima لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T087",
+  "ur": "برنا",
+  "en": "Crateya Religiosa (د کتاب املا)",
+  "page": "135",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T088",
+  "ur": "برنجاسف",
+  "en": "Milfoil / Yarrow",
+  "page": "136",
+  "note": "کتاب Achillea millefolium لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T089",
+  "ur": "برو",
+  "en": "Skimmia Lauriola (د کتاب املا)",
+  "page": "137",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T090",
+  "ur": "برہمی",
+  "en": "Indian pennywort (د کتاب نوم)",
+  "page": "138",
+  "note": "کتاب Bacopa monnieri او Hydrocotyle asiatica دواړه یادوي. عکسونه مه ګډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T091",
+  "ur": "بریارا (بریال)",
+  "en": "S. rhombifolia (د کتاب نوم)",
+  "page": "140",
+  "note": "بشپړ علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T092",
+  "ur": "بڑہل",
+  "en": "Artocarpus Lakoocha (د کتاب نوم)",
+  "page": "140",
+  "note": "د عکس لپاره علمي املا بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T093",
+  "ur": "بسفائج",
+  "en": "Polypodium / Polypody",
+  "page": "141",
+  "note": "کتاب Polypodium Vulgare ته ورته نوم لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T094",
+  "ur": "بسکھپرا (اٹ سٹ)",
+  "en": "Spreading hogweed",
+  "page": "142",
+  "note": "کتاب Trianthema Portulacastrum لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T095",
+  "ur": "بکائن (دھرک)",
+  "en": "Persian lilac / Bead tree",
+  "page": "145",
+  "note": "دقیق علمي نوم تر عکس مخکي تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T096",
+  "ur": "بکن (بکم)",
+  "en": "Lippia nodiflora (د کتاب نوم)",
+  "page": "147",
+  "note": "د اردو املا او اوسنی علمي نوم بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T097",
+  "ur": "بلادر (بھلاواں)",
+  "en": "Marking nut",
+  "page": "148",
+  "note": "کتاب Semecarpus anacardium لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T098",
+  "ur": "بلوط، ثمر بلوط",
+  "en": "Oak tree / Acorn",
+  "page": "150",
+  "note": "کتاب Quercus Incana لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T099",
+  "ur": "بنکرا",
+  "en": "Cymbivm Tissalipos (د کتاب املا)",
+  "page": "151",
+  "note": "د اردو املا او علمي هویت بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T100",
+  "ur": "بنفشہ",
+  "en": "Violet",
+  "page": "152",
+  "note": "کتاب Viola odorata لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T101",
+  "ur": "بنولہ (پنبد دانہ)",
+  "en": "Cotton seeds",
+  "page": "154",
+  "note": "د پنبې تخم. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T102",
+  "ur": "بوٹی فرید",
+  "en": "Pedium Murex (د کتاب املا)",
+  "page": "155",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T103",
+  "ur": "بوزیدان",
+  "en": "Pyretrum indicum (د کتاب املا)",
+  "page": "157",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T104",
+  "ur": "بوٹ، نخود سبز، کچا چنا",
+  "en": "Fresh Bengal gram / Chickpea",
+  "page": "158",
+  "note": "د تازه شنو پلو او دانو عکسونه ورسره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T105",
+  "ur": "بوڑ، برگد",
+  "en": "Banyan tree",
+  "page": "158",
+  "note": "کتاب Ficus bengalensis ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T106",
+  "ur": "بہمن",
+  "en": "Salive Haemotodes (د کتاب املا)",
+  "page": "160",
+  "note": "مدخل سپین او سور ډولونه یادوي. دقیق بوټی تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T107",
+  "ur": "بھنڈی",
+  "en": "Okra / Lady’s fingers",
+  "page": "161",
+  "note": "د بوټي او پلو عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T108",
+  "ur": "بھنگ (ورق القنب)",
+  "en": "Indian hemp",
+  "page": "162",
+  "note": "د ۱۶۴م مخ تخم له همدې مدخل سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T109",
+  "ur": "بھرنگراج",
+  "en": "Eclipta (د کتاب نوم)",
+  "page": "165",
+  "note": "دقیق علمي نوم او د اردو سرلیک املا بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T110",
+  "ur": "بھوج پتر",
+  "en": "Birch bark",
+  "page": "166",
+  "note": "د ونې پوستکی. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T111",
+  "ur": "بھوپھلی",
+  "en": "Carchorus (د کتاب املا)",
+  "page": "166",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T112",
+  "ur": "بھوسی گندم",
+  "en": "Wheat bran",
+  "page": "167",
+  "note": "د غنمو برخه. د سبوس او بوټي عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T113",
+  "ur": "بھومی آملہ",
+  "en": "Phyllanthus Niruri (د کتاب نوم)",
+  "page": "168",
+  "note": "له آمله سره یې مه ګډوئ. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T114",
+  "ur": "بہی، سفرجل",
+  "en": "Quince",
+  "page": "168",
+  "note": "کتاب Cydonia vulgaris او Aegle marmelos په یوه کرښه کښي راوړي. د عکس لپاره یې جلا وڅېړئ",
+  "type": "T"
+ },
+ {
+  "code": "T115",
+  "ur": "بہیدانہ",
+  "en": "Quince seed (کتاب Queens Seed لیکي)",
+  "page": "171",
+  "note": "د ۱۶۸م مخ له بهي سره احتمالي تړاو. د عکس تر راټولولو مخکي تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T116",
+  "ur": "بہیڑہ، بلیلہ",
+  "en": "Beleric myrobalan",
+  "page": "172",
+  "note": "کتاب Terminalia Belerica لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T117",
+  "ur": "بیج بند",
+  "en": "Sida cordifolia seeds (د کتاب نوم)",
+  "page": "173",
+  "note": "د تخم او بوټي عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T118",
+  "ur": "بید سادہ",
+  "en": "White willow",
+  "page": "174",
+  "note": "کتاب Salix alba لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T119",
+  "ur": "بید مشک",
+  "en": "Sallow (کتاب Salow لیکي)",
+  "page": "175",
+  "note": "کتاب Salix caprea لیکي. د سیمه‌ییز نوم او ډول تړاو تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T120",
+  "ur": "بیر",
+  "en": "Jujube fruit",
+  "page": "177",
+  "note": "دقیق Ziziphus ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T121",
+  "ur": "بیل گری",
+  "en": "Bael fruit",
+  "page": "178",
+  "note": "کتاب Aegle marmelos لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T142",
+  "ur": "بیر بہوٹی",
+  "en": "Aramia Coccinia (د کتاب املا)",
+  "page": "178",
+  "note": "بېرته شامل سو. بوټنیز هویت لا نه دئ تایید سوی",
+  "type": "T"
+ },
+ {
+  "code": "T122",
+  "ur": "بینگن",
+  "en": "Brinjal / Eggplant",
+  "page": "180",
+  "note": "د بوټي، ګل او مېوې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T123",
+  "ur": "پاٹھل",
+  "en": "Bignouia (د کتاب املا)",
+  "page": "181",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T124",
+  "ur": "پارس پیپل",
+  "en": "Paras peepal",
+  "page": "182",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T125",
+  "ur": "پاکر (ون)",
+  "en": "F. Infection (د کتاب املا)",
+  "page": "183",
+  "note": "علمي نوم او هویت بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T126",
+  "ur": "پالک",
+  "en": "Spinach",
+  "page": "184",
+  "note": "د ۱۸۵م مخ تخم له همدې مدخل سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T127",
+  "ur": "پالک جویی",
+  "en": "R. Communis (د کتاب نوم)",
+  "page": "185",
+  "note": "له عام پالک سره یې مه ګډوئ. د بوټي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T128",
+  "ur": "پان",
+  "en": "Betel leaf",
+  "page": "186",
+  "note": "د بوټي او پاڼي عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T129",
+  "ur": "پان چوئی، گوکرن پان",
+  "en": "Sods Rcamnvrs (د کتاب املا)",
+  "page": "187",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T130",
+  "ur": "پیپلا مول (بیخ دار فلفل)",
+  "en": "Long pepper root",
+  "page": "188",
+  "note": "د ۱۸۹م مخ له Piper longum سره یې د ریښې په توګه وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T143",
+  "ur": "پائے گراتی",
+  "en": "English name pending",
+  "page": "188",
+  "note": "بېرته شامل سو. د نوم املا او هویت بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T131",
+  "ur": "پیپل",
+  "en": "Long pepper",
+  "page": "189",
+  "note": "کتاب Piper longum لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T132",
+  "ur": "پیٹھا بیج (تخم پیٹھا)",
+  "en": "St. Lgntaus Beans (د کتاب املا)",
+  "page": "190",
+  "note": "د اردو املا او علمي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T133",
+  "ur": "پپیتہ (ارنڈ خربوزہ)",
+  "en": "Papaya (کتاب Pays لیکي)",
+  "page": "191",
+  "note": "د بوټي، پاڼي، ګل او مېوې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T134",
+  "ur": "پت پاپڑا، شاہترہ",
+  "en": "Fumitory",
+  "page": "193",
+  "note": "کتاب Fumaria parviflora لیکي. د ۱۹۴م مخ عرق جلا بوټی نه دئ",
+  "type": "T"
+ },
+ {
+  "code": "T135",
+  "ur": "پچر چپٹ",
+  "en": "English name pending",
+  "page": "194",
+  "note": "د اردو املا او بوټی تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T136",
+  "ur": "پدامک",
+  "en": "Bird cherry (د کتاب نوم)",
+  "page": "195",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T137",
+  "ur": "پرمالی",
+  "en": "Paedenta Foetida (د کتاب املا)",
+  "page": "195",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T138",
+  "ur": "پر سیاوشان (موی سیاہ)",
+  "en": "Maidenhair fern",
+  "page": "196",
+  "note": "کتاب څو Adiantum ډولونه یادوي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T139",
+  "ur": "پرش پنی",
+  "en": "Uraria picta (د کتاب نوم)",
+  "page": "197",
+  "note": "د اردو املا بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T140",
+  "ur": "پستہ (مغز پستہ)",
+  "en": "Pistachio nut",
+  "page": "198",
+  "note": "کتاب Pistacia vera لیکي. د ۱۹۹م مخ پوست یې اړونده برخه ده",
+  "type": "T"
+ },
+ {
+  "code": "T141",
+  "ur": "پلاس پاپڑا",
+  "en": "Butea seeds",
+  "page": "200",
+  "note": "د بوټي تخم. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T144",
+  "ur": "پلول (پرور)",
+  "en": "Wild Shaple Gourd (د کتاب املا)",
+  "page": "201",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T145",
+  "ur": "پن چکنی (بیخ پلکسی)",
+  "en": "English name pending",
+  "page": "203",
+  "note": "د سرلیک املا او هویت بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T146",
+  "ur": "پنواڑ",
+  "en": "Cassia tora (د کتاب نوم)",
+  "page": "203",
+  "note": "د عکس لپاره علمي نوم تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T147",
+  "ur": "پودینہ (منٹ)",
+  "en": "Mint",
+  "page": "206",
+  "note": "کتاب Mentha arvensis لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T148",
+  "ur": "پودینہ رومی / پودینہ جنگلی",
+  "en": "Mentha viridis (د کتاب نوم)",
+  "page": "206",
+  "note": "دقیق اوسنی نوم تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T149",
+  "ur": "پودینہ فلفلی",
+  "en": "Peppermint",
+  "page": "206",
+  "note": "د کتاب جلا مدخل. ست او عرق د بوټي جلا ریکارډونه نه دي",
+  "type": "T"
+ },
+ {
+  "code": "T150",
+  "ur": "پودینہ بری",
+  "en": "Mentha sylvestris (د کتاب نوم)",
+  "page": "206",
+  "note": "دقیق نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T151",
+  "ur": "پودینہ نہری",
+  "en": "Water mint",
+  "page": "206",
+  "note": "کتاب Mentha aquatica لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T152",
+  "ur": "پودینہ کوہی (مشک طرامشیع)",
+  "en": "Penny Royal Savin (د کتاب نوم)",
+  "page": "208",
+  "note": "د سرلیک او علمي نوم تړاو تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T153",
+  "ur": "پوئی",
+  "en": "Malabar nightshade (د کتاب نوم)",
+  "page": "210",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T154",
+  "ur": "پشکر مول / پوکھر مول",
+  "en": "Inula racemosa (د کتاب نوم)",
+  "page": "213",
+  "note": "د ریښې او بوټي عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T155",
+  "ur": "پھٹ / پھوٹ",
+  "en": "Pubescent cucumber (د کتاب نوم)",
+  "page": "214",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T156",
+  "ur": "پیلا آلو",
+  "en": "English name pending",
+  "page": "214",
+  "note": "د سرلیک املا او دقیق هویت بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T157",
+  "ur": "پیاز",
+  "en": "Onion",
+  "page": "215",
+  "note": "کتاب Allium cepa لیکي. بصل بل نوم دئ، د ۲۱۶م مخ تخم هم د همدې ریکارډ برخه ده",
+  "type": "T"
+ },
+ {
+  "code": "T158",
+  "ur": "پیاز جنگلی (عنصل)",
+  "en": "Indian squill",
+  "page": "217",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T159",
+  "ur": "پیپل",
+  "en": "Ficus religiosa (د کتاب علمي نوم)",
+  "page": "218",
+  "note": "کتاب Maple هم لیکي. د هویت تر تایید مخکي د Maple عکس مه کاروئ. د T136 له Long pepper څخه جلا مدخل دئ",
+  "type": "T"
+ },
+ {
+  "code": "T160",
+  "ur": "پیٹھا",
+  "en": "White pumpkin (د کتاب نوم)",
+  "page": "219",
+  "note": "د ۱۹۰م مخ له تخم سره احتمالي تړاو. تر تایید پوري جلا حوالې وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T161",
+  "ur": "پیلو (جال)",
+  "en": "Toothbrush tree",
+  "page": "220",
+  "note": "دقیق Salvadora ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T162",
+  "ur": "تاڑ",
+  "en": "Palmyra palm",
+  "page": "222",
+  "note": "تاړي په همدې مخ کښي د ونې محصول دئ",
+  "type": "T"
+ },
+ {
+  "code": "T163",
+  "ur": "تال مکھانہ",
+  "en": "Asteracantha (د کتاب نوم)",
+  "page": "223",
+  "note": "دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T164",
+  "ur": "تالیس پتر",
+  "en": "Yowzilverfin (د کتاب املا)",
+  "page": "224",
+  "note": "هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T165",
+  "ur": "پتّی (کھٹی بوٹی)",
+  "en": "Indian sorrel (د کتاب نوم)",
+  "page": "227",
+  "note": "د اردو املا او دقیق ډول بیا وګورئ. له پخواني Common sorrel سره تړاو لا نه دئ تایید سوی",
+  "type": "T"
+ },
+ {
+  "code": "T166",
+  "ur": "تتلی (سداب)",
+  "en": "Garden rue / Euphorbia lathyrus (د کتاب نومونه)",
+  "page": "228",
+  "note": "نومونه یو شان هویت نه ثابتوي. تر تایید پوري عکس مه ټاکئ. ۲۲۹م مخ یې تخم یادوي",
+  "type": "T"
+ },
+ {
+  "code": "T167",
+  "ur": "تج (قرفہ)",
+  "en": "Cassia lignea / Cinnamomum tamala (د کتاب نومونه)",
+  "page": "229",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T168",
+  "ur": "تخم بالنگو",
+  "en": "Lallemantia royleana (د کتاب نوم ته نژدې املا)",
+  "page": "230",
+  "note": "د دقیقې املا او هویت کتنه پاته ده",
+  "type": "T"
+ },
+ {
+  "code": "T169",
+  "ur": "تخم بلسان (حب بلسان)",
+  "en": "Balsam seed (د سرلیک ژباړه)",
+  "page": "231",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T170",
+  "ur": "تخم ریحان",
+  "en": "Basil seed",
+  "page": "231",
+  "note": "کتاب Ocimum basilicum لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T171",
+  "ur": "تخم حیات (پنیر ڈوڈا)",
+  "en": "Vegetable rennet",
+  "page": "233",
+  "note": "کتاب Withania coagulans ته ورته نوم لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T172",
+  "ur": "تربوز",
+  "en": "Watermelon",
+  "page": "234",
+  "note": "د ۲۳۵م مخ تخم له همدې ریکارډ سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T173",
+  "ur": "تارا میرا",
+  "en": "Rocket",
+  "page": "236",
+  "note": "کتاب Eruca sativa ته ورته نوم لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T174",
+  "ur": "ترمس",
+  "en": "White lupin",
+  "page": "237",
+  "note": "کتاب Lupinus albus لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T175",
+  "ur": "ترنج",
+  "en": "Citron",
+  "page": "238",
+  "note": "کتاب Citrus medica لیکي. پوست او تخم له همدې مدخل سره تړلي دي",
+  "type": "T"
+ },
+ {
+  "code": "T176",
+  "ur": "ترنجبین",
+  "en": "Manna (د کتاب Nanna)",
+  "page": "240",
+  "note": "بوټنیز محصول. دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T177",
+  "ur": "ترور",
+  "en": "Tanner’s cassia (د کتاب نوم)",
+  "page": "241",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T178",
+  "ur": "تگر، اسارون",
+  "en": "Indian valerian",
+  "page": "242",
+  "note": "کتاب Valeriana wallichii ته ورته املا لري. له پخواني Valerian سره یې بې له تاییده مه یوځای کوئ",
+  "type": "T"
+ },
+ {
+  "code": "T179",
+  "ur": "تل، کنجد",
+  "en": "Sesame",
+  "page": "243",
+  "note": "کتاب Sesamum indicum لیکي. د ۲۴۴م مخ تېل یې محصول دئ",
+  "type": "T"
+ },
+ {
+  "code": "T180",
+  "ur": "تلسی",
+  "en": "Holy basil",
+  "page": "245",
+  "note": "کتاب Ocimum sanctum لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T181",
+  "ur": "تلسی جنگلی",
+  "en": "Ocimum album (د کتاب نوم)",
+  "page": "247",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T182",
+  "ur": "تمباکو",
+  "en": "Tobacco",
+  "page": "248",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T183",
+  "ur": "تن",
+  "en": "Cedrela toona (د کتاب نوم)",
+  "page": "249",
+  "note": "اوسنی علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T184",
+  "ur": "توت سفید",
+  "en": "White mulberry",
+  "page": "250",
+  "note": "کتاب Morus indica لیکي. د عکس لپاره دقیق هویت بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T185",
+  "ur": "توت سیاہ، شہتوت سیاہ",
+  "en": "Black mulberry",
+  "page": "251",
+  "note": "کتاب Morus nigra لیکي. شربت یې په ۲۵۲م مخ کښي د همدې بوټي محصول دئ",
+  "type": "T"
+ },
+ {
+  "code": "T186",
+  "ur": "تودری",
+  "en": "Wallflower (د کتاب نوم)",
+  "page": "252",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T187",
+  "ur": "توری (ترئی)",
+  "en": "Ridge gourd (د عکس د لټون احتمالي نوم)",
+  "page": "253",
+  "note": "کتاب د توري دوه ډولونه یادوي. د عکس له ټاکلو مخکي یې جلا تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T188",
+  "ur": "تومیا کدوئے تلخ",
+  "en": "Bitter bottle gourd",
+  "page": "254",
+  "note": "د کتاب جلا مدخل. د اردو املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T189",
+  "ur": "تھوہر، زقوم",
+  "en": "Milk hedge spurge (د کتاب نوم)",
+  "page": "255",
+  "note": "کتاب Euphorbiaceae لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T190",
+  "ur": "تیندو",
+  "en": "Wild mangosteen (د کتاب نوم)",
+  "page": "259",
+  "note": "عام نوم د دقیق بوټي د ټاکلو لپاره بسنه نه کوي",
+  "type": "T"
+ },
+ {
+  "code": "T191",
+  "ur": "ٹماٹر",
+  "en": "Tomato",
+  "page": "260",
+  "note": "د بوټي، پاڼي، ګل او مېوې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T192",
+  "ur": "ٹنڈے",
+  "en": "Round cucumber (د کتاب نوم)",
+  "page": "260",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T193",
+  "ur": "ثعلب مصری",
+  "en": "Salep",
+  "page": "261",
+  "note": "د ارکید اړوند توکی. دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T194",
+  "ur": "جامہ المرغی، سلق الماء",
+  "en": "English name pending",
+  "page": "262",
+  "note": "د اردو املا او هویت بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T195",
+  "ur": "جامن",
+  "en": "Jambul / Jamun",
+  "page": "262",
+  "note": "د بوټي، پاڼي، ګل او مېوې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T222",
+  "ur": "جاوتری",
+  "en": "Mace",
+  "page": "263",
+  "note": "د کتاب جلا مدخل. د جاوتري عکسونه په خپل کوډ ثبت کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T196",
+  "ur": "جائفل، جوز بوا",
+  "en": "Nutmeg",
+  "page": "264",
+  "note": "کتاب Myristica fragrans ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T197",
+  "ur": "جاؤشیر (جواشیر)",
+  "en": "Galbanum",
+  "page": "267",
+  "note": "بوټنیز صمغ دئ. د عکس لپاره دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T198",
+  "ur": "جعدہ رومی",
+  "en": "English name pending",
+  "page": "270",
+  "note": "دقیق هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T199",
+  "ur": "جالاپ",
+  "en": "Jalap",
+  "page": "271",
+  "note": "دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T200",
+  "ur": "جل کنبھی",
+  "en": "Water lettuce (د عکس د لټون نوم)",
+  "page": "271",
+  "note": "کتاب Pistia stratiotes ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T201",
+  "ur": "جل نیم",
+  "en": "Lycopus europaeus (د کتاب نوم)",
+  "page": "272",
+  "note": "د عکس لپاره د محلي او علمي نوم تړاو تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T202",
+  "ur": "جمال گوٹہ، حب السلاطین",
+  "en": "Croton seeds",
+  "page": "273",
+  "note": "کتاب Croton tiglium لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T203",
+  "ur": "جنطیانہ",
+  "en": "Gentian",
+  "page": "276",
+  "note": "کتاب Gentiana lutea لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T204",
+  "ur": "جو",
+  "en": "Barley",
+  "page": "277",
+  "note": "د ۲۷۸–۲۷۹ مخونو آبي جو، دلیا او ستو یې اړوند توکي دي",
+  "type": "T"
+ },
+ {
+  "code": "T205",
+  "ur": "جوار (چری)",
+  "en": "Maize (د کتاب انګلیسي نوم)",
+  "page": "281",
+  "note": "د اردو او انګلیسي نومونو تړاو روښانه نه دئ. تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T206",
+  "ur": "جواسا",
+  "en": "Camel thorn",
+  "page": "281",
+  "note": "کتاب Alhagi camelorum لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T207",
+  "ur": "جوز السرو (سرو)",
+  "en": "Cypress cone",
+  "page": "283",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T208",
+  "ur": "جھاؤ",
+  "en": "Tamarix tree",
+  "page": "284",
+  "note": "کتاب Tamarix gallica لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T209",
+  "ur": "سرخ جھاؤ",
+  "en": "Red tamarisk (د سرلیک ژباړه)",
+  "page": "285",
+  "note": "له ۲۸۴م مخ سره د تړاو تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T210",
+  "ur": "کاندرو، جنگلی بیر",
+  "en": "Wild plum (د کتاب نوم)",
+  "page": "286",
+  "note": "له پخواني بیر سره یې مه یوځای کوئ تر څو هویت تایید سي",
+  "type": "T"
+ },
+ {
+  "code": "T211",
+  "ur": "جیا پوتا",
+  "en": "Putranjiva roxburghii ته ورته نوم (د کتاب املا)",
+  "page": "287",
+  "note": "د اردو املا او علمي نوم بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T212",
+  "ur": "چاکسو",
+  "en": "Cassia absus seeds (د کتاب نوم)",
+  "page": "287",
+  "note": "د بوټي او تخم عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T213",
+  "ur": "چال موگرا (چاول موگری)",
+  "en": "Chaulmoogra",
+  "page": "288",
+  "note": "کتاب Ghorcardia odorata ته ورته نوم لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T214",
+  "ur": "چام گھاس",
+  "en": "English name pending",
+  "page": "290",
+  "note": "د اردو املا او هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T215",
+  "ur": "چاندنی کے پھول (کلی)",
+  "en": "Chandni flowers (د سرلیک ژباړه)",
+  "page": "290",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T216",
+  "ur": "چاول",
+  "en": "Rice",
+  "page": "292",
+  "note": "د بوټي، وږي او دانو عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T217",
+  "ur": "چائے",
+  "en": "Tea",
+  "page": "293",
+  "note": "د چای بوټي او پاڼي عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T218",
+  "ur": "چچنڈا",
+  "en": "Snake gourd",
+  "page": "295",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T219",
+  "ur": "چرائتہ",
+  "en": "Chiretta",
+  "page": "295",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T220",
+  "ur": "چرچٹہ (اپامارگ)",
+  "en": "Prickly chaff flower",
+  "page": "298",
+  "note": "د اردو فرعي نوم او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T221",
+  "ur": "چرونجی",
+  "en": "Cuddapah almond",
+  "page": "300",
+  "note": "د بوټي دقیق علمي نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T223",
+  "ur": "چقندر",
+  "en": "Beetroot",
+  "page": "301",
+  "note": "د بوټي، پاڼي او ریښې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T224",
+  "ur": "چکوترا",
+  "en": "Citron (د کتاب نوم)",
+  "page": "302",
+  "note": "له ترنج سره احتمالي تړاو. تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T225",
+  "ur": "چکوانہ، چکلا دانہ، چکا دانہ",
+  "en": "English name pending",
+  "page": "302",
+  "note": "د اردو املا او دقیق بوټی بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T226",
+  "ur": "چلغوزہ",
+  "en": "Filbert nut (د کتاب انګلیسي نوم)",
+  "page": "303",
+  "note": "د کتاب انګلیسي نوم او اردو نوم سره مه یو شان ګڼئ. د عکس لپاره علمي نوم تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T227",
+  "ur": "چمپا",
+  "en": "Champak",
+  "page": "303",
+  "note": "کتاب Michelia champaca لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T228",
+  "ur": "چنار",
+  "en": "Oriental plane",
+  "page": "306",
+  "note": "کتاب Platanus orientalis ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T229",
+  "ur": "چنبیلی (چمبیلی)",
+  "en": "Jasmine",
+  "page": "307",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T230",
+  "ur": "چندر رس",
+  "en": "Sandrae (د کتاب املا)",
+  "page": "308",
+  "note": "د صمغ دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T231",
+  "ur": "چندن سفید (صندل سفید)",
+  "en": "White sandalwood",
+  "page": "308",
+  "note": "کتاب Santalum album لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T232",
+  "ur": "چندن لال (صندل سرخ)",
+  "en": "Red sandalwood",
+  "page": "310",
+  "note": "کتاب Pterocarpus santalinus لیکي. له سپین صندل څخه جلا دئ",
+  "type": "T"
+ },
+ {
+  "code": "T233",
+  "ur": "چوب چینی",
+  "en": "China root",
+  "page": "312",
+  "note": "کتاب Smilax china لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T234",
+  "ur": "چوب حیات",
+  "en": "English name pending",
+  "page": "314",
+  "note": "د لرګي دقیق بوټنیز اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T235",
+  "ur": "چوکا (حماض)",
+  "en": "Rumex Vesicarius (د کتاب نوم ته نژدې املا)",
+  "page": "314",
+  "note": "د عکس لپاره دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T236",
+  "ur": "چولائی (چولائی کا ساگ)",
+  "en": "Amaranth",
+  "page": "316",
+  "note": "کتاب Amaranth Hermaphrodite لیکي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T237",
+  "ur": "چوہاکانی",
+  "en": "Ipomoea Renniformis (د کتاب املا)",
+  "page": "319",
+  "note": "د اردو او علمي نوم املا بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T238",
+  "ur": "چھڑیلا (اشنہ)",
+  "en": "Lichen",
+  "page": "321",
+  "note": "کتاب Parmelia Perlata لیکي. د بوټو له عکسونو جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T239",
+  "ur": "چھوٹی چندن (اسرول)",
+  "en": "Rauwolfia serpentina (د کتاب نوم)",
+  "page": "322",
+  "note": "له سپین او سور صندل څخه جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T240",
+  "ur": "چھوہارا (خرمہ)",
+  "en": "Dried date / Date palm",
+  "page": "324",
+  "note": "کتاب Phoenix dactylifera لیکي. وچې خرما او ونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T241",
+  "ur": "چیتہ، چترا (شیطرج)",
+  "en": "Leadwort",
+  "page": "325",
+  "note": "کتاب Plumbagin او Zeylanica لیکي. دقیق نوم تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T242",
+  "ur": "چینہ",
+  "en": "Millet (د کتاب نوم)",
+  "page": "327",
+  "note": "له باجرې سره تر تایید پوري مه یوځای کوئ",
+  "type": "T"
+ },
+ {
+  "code": "T243",
+  "ur": "حاشا (تھومس)",
+  "en": "Wild thyme",
+  "page": "329",
+  "note": "کتاب Thymus serpyllum لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T244",
+  "ur": "حب آس (آس، تخم مورد)",
+  "en": "Myrtle berry",
+  "page": "330",
+  "note": "کتاب Myrtus communis لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T245",
+  "ur": "حب البطم (حبۃ الخضراء)",
+  "en": "English name pending",
+  "page": "331",
+  "note": "د دقیقې نوعې تایید پاته دئ",
+  "type": "T"
+ },
+ {
+  "code": "T246",
+  "ur": "حب الزلم",
+  "en": "English name pending",
+  "page": "332",
+  "note": "د بوټي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T247",
+  "ur": "حب القلقل (اناردانہ دشتی)",
+  "en": "English name pending",
+  "page": "332",
+  "note": "دقیق هویت تایید غواړي. د انار عکس بې له تاییده مه کاروئ",
+  "type": "T"
+ },
+ {
+  "code": "T248",
+  "ur": "حسن یوسف",
+  "en": "English name pending",
+  "page": "333",
+  "note": "علمي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T249",
+  "ur": "حلو کدو",
+  "en": "Pumpkin",
+  "page": "333",
+  "note": "له پیټها او تومیا کدو څخه جلا چاپي مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T250",
+  "ur": "خبازی (تخم خبازی)",
+  "en": "Common mallow",
+  "page": "334",
+  "note": "کتاب Malva sylvestris لیکي. د ۳۳۵م مخ تخم اړونده برخه ده",
+  "type": "T"
+ },
+ {
+  "code": "T251",
+  "ur": "بطیخ، خربوزہ",
+  "en": "Sweet melon",
+  "page": "335",
+  "note": "کتاب Cucumis melo لیکي. د پوست او تخم حوالې په ۳۳۶–۳۳۷ مخونو کښي دي",
+  "type": "T"
+ },
+ {
+  "code": "T252",
+  "ur": "خرفہ کے بیج (تخم خرفہ)",
+  "en": "Purslane seed (د نوم ژباړه)",
+  "page": "337",
+  "note": "د عکس لپاره دقیق بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T253",
+  "ur": "خرنوب (جند)",
+  "en": "Carob (د سرلیک احتمالي ژباړه)",
+  "page": "338",
+  "note": "کتاب د Prosopis spicigera نوم هم راوړي. عکس تر تایید پوري وځنډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T254",
+  "ur": "خزانی (خزامے)",
+  "en": "Lavandula (د کتاب نوم)",
+  "page": "339",
+  "note": "کتاب څو ډولونه یادوي. له پخواني اسطوخودوس سره تړاو تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T255",
+  "ur": "خس",
+  "en": "Cuscus grass (د کتاب نوم)",
+  "page": "340",
+  "note": "علمي هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T256",
+  "ur": "خطمی (ریشہ خطمی)",
+  "en": "Marsh mallow",
+  "page": "342",
+  "note": "کتاب Althaea officinalis ته ورته نوم لري. د ۳۴۲–۳۴۳ مخونو تخم او ګل اړوندې برخې دي",
+  "type": "T"
+ },
+ {
+  "code": "T257",
+  "ur": "خوبانی",
+  "en": "Apricot",
+  "page": "343",
+  "note": "د بوټي، پاڼي، ګل او مېوې عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T258",
+  "ur": "خوب کلاں (خاکشی)",
+  "en": "Sisymbrium seeds (د کتاب نوم)",
+  "page": "344",
+  "note": "کتاب Sisymbrium irio ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T259",
+  "ur": "خولنجان",
+  "en": "Greater galangal",
+  "page": "345",
+  "note": "کتاب Alpinia galanga ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T260",
+  "ur": "داد مردان",
+  "en": "Ringworm shrub (د کتاب نوم)",
+  "page": "346",
+  "note": "د اردو املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T261",
+  "ur": "دارچینی (قرفہ)",
+  "en": "Cinnamon bark",
+  "page": "347",
+  "note": "کتاب Cinnamomum zeylanicum لیکي. د ۳۴۹م مخ تېل اړوند محصول دئ. د تج (۲۲۹) له مدخل سره یې بې له تاییده مه ګډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T262",
+  "ur": "دار ہلد",
+  "en": "Barberry root",
+  "page": "349",
+  "note": "کتاب Berberis aristata ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T263",
+  "ur": "درمنہ ترکی",
+  "en": "Santonin (د کتاب انګلیسي سرلیک)",
+  "page": "350",
+  "note": "کتاب د Artemisia دوه نومونه راوړي. د عکس لپاره دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T264",
+  "ur": "درونج عقربی",
+  "en": "Doronicum root",
+  "page": "352",
+  "note": "د کتاب لاتیني نوم بیا کتنه غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T265",
+  "ur": "دم الاخوین",
+  "en": "Malabar kino (د کتاب نوم)",
+  "page": "353",
+  "note": "د بوټي صمغ. دقیق اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T266",
+  "ur": "دوب (دوب)",
+  "en": "Couch grass (د کتاب نوم)",
+  "page": "354",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T267",
+  "ur": "دودھی ہزار دانی",
+  "en": "Euphorbia hirta",
+  "page": "355",
+  "note": "کتاب څو بڼې یادوي. د عکس لپاره دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T268",
+  "ur": "دوقو",
+  "en": "Wild carrot seeds",
+  "page": "362",
+  "note": "د عکس لپاره دقیق علمي نوم تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T269",
+  "ur": "دھتورہ (جوز ماثل)",
+  "en": "Thorn apple",
+  "page": "363",
+  "note": "کتاب Datura stramonium لیکي. له ورته ډولونو سره یې مه ګډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T270",
+  "ur": "دود ماروا (مرزنجوش)",
+  "en": "Origanum vulgare (په کتاب کښي یو نوم)",
+  "page": "365",
+  "note": "کتاب بل لاتیني نوم هم راوړي. دقیق هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T271",
+  "ur": "دھنیا (کشنیز)",
+  "en": "Coriander",
+  "page": "367",
+  "note": "د بشپړ بوټي، پاڼي، ګل او تخم عکسونه",
+  "type": "T"
+ },
+ {
+  "code": "T272",
+  "ur": "دیودار (دیار)",
+  "en": "Deodar cedar",
+  "page": "370",
+  "note": "کتاب Pinus Deodara لیکي. اوسنی علمي نوم بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T273",
+  "ur": "ڈھاک (پلاس)",
+  "en": "Flame of the forest (د لټون نوم)",
+  "page": "371",
+  "note": "کتاب Butea frondosa لیکي. له پلاس پاپړه سره اړونده حواله وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T274",
+  "ur": "ڈنکالی، موکل",
+  "en": "Cambi resin (د کتاب نوم)",
+  "page": "372",
+  "note": "بوټنیز صمغ. د نوم املا او اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T275",
+  "ur": "راب",
+  "en": "Treacle",
+  "page": "372",
+  "note": "محصول دئ. د سرچینې بوټی جلا ثبت کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T276",
+  "ur": "راسن (راستا)",
+  "en": "Vanela Roxburghii (د کتاب املا)",
+  "page": "373",
+  "note": "د دقیق هویت او اردو املا تایید پاته دئ",
+  "type": "T"
+ },
+ {
+  "code": "T277",
+  "ur": "رال",
+  "en": "Resin",
+  "page": "373",
+  "note": "بوټنیز محصول. دقیق اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T278",
+  "ur": "رائی (خردل)",
+  "en": "Indian mustard",
+  "page": "375",
+  "note": "د عکس لپاره دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T279",
+  "ur": "رب السوس (ست ملٹھی)",
+  "en": "Liquorice extract",
+  "page": "377",
+  "note": "د ملټهي محصول. د بشپړ بوټي عکس د اصلي مدخل له مخې وټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T280",
+  "ur": "رتالو",
+  "en": "Yam",
+  "page": "377",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T281",
+  "ur": "رتن جوت",
+  "en": "Alkanet root (د کتاب نوم)",
+  "page": "378",
+  "note": "کتاب Onosma echioides ته ورته املا لري. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T282",
+  "ur": "رس بھری",
+  "en": "Raspberry / Gooseberry (د کتاب نومونه)",
+  "page": "379",
+  "note": "دواړه نومونه په مدخل کښي سته. عکس تر تایید پوري وځنډوئ",
+  "type": "T"
+ },
+ {
+  "code": "T283",
+  "ur": "رسونت",
+  "en": "Barberry extract",
+  "page": "380",
+  "note": "د دار هلد (۳۴۹) اړوند محصول. د عصاره عکس جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T284",
+  "ur": "رواسن",
+  "en": "Agati grandiflora (د کتاب نوم)",
+  "page": "381",
+  "note": "د اردو املا او اوسنی علمي نوم بیا وګورئ",
+  "type": "T"
+ },
+ {
+  "code": "T285",
+  "ur": "روونتی",
+  "en": "Cressa cretica (د کتاب نوم)",
+  "page": "382",
+  "note": "کتاب د بل ډول یادونه هم کوي. دقیق هویت تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T286",
+  "ur": "روغن بلسان",
+  "en": "Balsam of Mecca",
+  "page": "385",
+  "note": "بوټنیز محصول. دقیق اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T287",
+  "ur": "روغن تارپین",
+  "en": "Turpentine oil",
+  "page": "386",
+  "note": "بوټنیز محصول. دقیق اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T288",
+  "ur": "روغن زیتون",
+  "en": "Olive oil",
+  "page": "388",
+  "note": "د زیتون د مېوې او تېلو عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T289",
+  "ur": "روغن کائپوٹی",
+  "en": "Cajeput oil",
+  "page": "393",
+  "note": "بوټنیز محصول. د سرچینې دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T290",
+  "ur": "روغن گل",
+  "en": "Damask rose oil",
+  "page": "393",
+  "note": "کتاب Rosa damascena لیکي. ګل او تېل جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T291",
+  "ur": "روغن مال کنگنی",
+  "en": "Malkangni oil",
+  "page": "394",
+  "note": "د نباتي اصل تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T292",
+  "ur": "روغن مغز کدو",
+  "en": "Pumpkin kernel oil",
+  "page": "395",
+  "note": "د پخوانیو کدو مدخلونو سره د دقیق ډول تړاو تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T293",
+  "ur": "روغن ناریل",
+  "en": "Coconut oil",
+  "page": "395",
+  "note": "د ناریل او تېلو عکسونه جلا نوم کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T294",
+  "ur": "روغن نیم",
+  "en": "Neem oil",
+  "page": "396",
+  "note": "د نیم اړوند محصول دئ",
+  "type": "T"
+ },
+ {
+  "code": "T295",
+  "ur": "رودنی",
+  "en": "Bastard cedar (د کتاب نوم)",
+  "page": "397",
+  "note": "دقیق ډول او اردو املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T296",
+  "ur": "رویڑا",
+  "en": "Bushy gardenia (د کتاب نوم)",
+  "page": "398",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T297",
+  "ur": "ریٹھا",
+  "en": "Soapnut",
+  "page": "398",
+  "note": "کتاب Sapindus trifoliatus ته ورته املا لري",
+  "type": "T"
+ },
+ {
+  "code": "T298",
+  "ur": "ریباس",
+  "en": "Rhubarb",
+  "page": "400",
+  "note": "دقیق Rheum ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T299",
+  "ur": "ریوند خطائی (ریوند چینی)",
+  "en": "Rhubarb root (Rheum emodi in book)",
+  "page": "401",
+  "note": "له ریباس T298 سره د پرتله کولو حواله. کتاب دلته ځانګړی لاتیني نوم لیکي",
+  "type": "T"
+ },
+ {
+  "code": "T300",
+  "ur": "زخم حیات",
+  "en": "Cut-leaf kalanchoe (Kalanchoe laciniata)",
+  "page": "404",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T301",
+  "ur": "زرآوند دراز (زرآوند طویل)",
+  "en": "Long birthwort (Aristolochia longa)",
+  "page": "405",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T302",
+  "ur": "زرآوند مدحرج",
+  "en": "Round birthwort (Aristolochia rotunda)",
+  "page": "406",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T303",
+  "ur": "زرشک",
+  "en": "Common barberry (Berberis vulgaris)",
+  "page": "406",
+  "note": "له دار هلد T262 سره جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T304",
+  "ur": "زفت رومی (زفت رطب)",
+  "en": "Wood tar",
+  "page": "407",
+  "note": "د لرګي محصول",
+  "type": "T"
+ },
+ {
+  "code": "T305",
+  "ur": "زمین قند",
+  "en": "Elephant foot yam (Amorphophallus campanulatus in book)",
+  "page": "408",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T306",
+  "ur": "زوفا خشک",
+  "en": "Hyssop (Hyssopus officinalis)",
+  "page": "410",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T307",
+  "ur": "زیرہ سفید (کمون ابیض)",
+  "en": "Cumin (Cuminum cyminum)",
+  "page": "412",
+  "note": "انګلیسي نوم د کتاب له لاتیني نوم سره سم ټاکل سوی",
+  "type": "T"
+ },
+ {
+  "code": "T308",
+  "ur": "زیرہ سیاہ (کمون اسود)",
+  "en": "Black cumin (book name)",
+  "page": "413",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T309",
+  "ur": "ساگوان",
+  "en": "Teak (Indian teak tree)",
+  "page": "414",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T310",
+  "ur": "ساگودانہ",
+  "en": "Sago",
+  "page": "414",
+  "note": "نشایسته ده. د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T311",
+  "ur": "سال (ساکھوا)",
+  "en": "Sal tree",
+  "page": "415",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T312",
+  "ur": "سالپنی",
+  "en": "Desmodium gangeticum",
+  "page": "415",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T313",
+  "ur": "سپاری (چھالیہ)",
+  "en": "Areca nut (betel nut)",
+  "page": "418",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T314",
+  "ur": "ستاور",
+  "en": "Shatavari (Asparagus racemosus)",
+  "page": "420",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T315",
+  "ur": "ستونا",
+  "en": "Alstonia scholaris",
+  "page": "421",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T316",
+  "ur": "ستیاناسی",
+  "en": "Yellow thistle (book name)",
+  "page": "421",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T317",
+  "ur": "سرب چیا",
+  "en": "Indian shot (book name)",
+  "page": "423",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T318",
+  "ur": "سدا سہاگن (سندوری)",
+  "en": "Sada suhagan (transliteration)",
+  "page": "424",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T319",
+  "ur": "سرپھوکہ (سرپنگکھ)",
+  "en": "Purple tephrosia (Tephrosia purpurea)",
+  "page": "425",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T320",
+  "ur": "سرخس",
+  "en": "Male fern",
+  "page": "426",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T321",
+  "ur": "سروا",
+  "en": "Sarwa (transliteration)",
+  "page": "427",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T322",
+  "ur": "سرس (شریش)",
+  "en": "Siris tree",
+  "page": "428",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T323",
+  "ur": "سرس متی",
+  "en": "Siris variant (book entry)",
+  "page": "429",
+  "note": "له T322 سره یې پرتله کړئ. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T324",
+  "ur": "سرسوں (سرسوں کا ساگ، تخم سرسوں)",
+  "en": "Field mustard (Brassica campestris in book)",
+  "page": "430",
+  "note": "د رائی T278 او روغن سرسوں (۳۹۲) سره تړلې حواله",
+  "type": "T"
+ },
+ {
+  "code": "T325",
+  "ur": "سرولی",
+  "en": "French marigold",
+  "page": "435",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T326",
+  "ur": "سرول (سرواز)",
+  "en": "Sarol (transliteration)",
+  "page": "436",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T327",
+  "ur": "سقمونیا",
+  "en": "Scammony (book name)",
+  "page": "439",
+  "note": "د بوټي او صمغ عکسونه جلا وپېژنئ",
+  "type": "T"
+ },
+ {
+  "code": "T328",
+  "ur": "سکبینج (کندل)",
+  "en": "Sagapenum (provisional)",
+  "page": "441",
+  "note": "هویت او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T329",
+  "ur": "سکند پھل",
+  "en": "Indian jack tree (book name)",
+  "page": "442",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T330",
+  "ur": "سکھ درشن",
+  "en": "Crinum latifolium",
+  "page": "442",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T331",
+  "ur": "سلاس (میعہ سائلہ، عسل لبنی)",
+  "en": "Storax (Styrax in book)",
+  "page": "444",
+  "note": "د ونې شیره. د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T332",
+  "ur": "سماق (پوست سماق)",
+  "en": "Sumac (Rhus coriaria)",
+  "page": "446",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T333",
+  "ur": "سمندر پھل",
+  "en": "Barringtonia (genus)",
+  "page": "446",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T334",
+  "ur": "سمندر سوکھ",
+  "en": "Argy Rctaspectosa (book spelling)",
+  "page": "448",
+  "note": "لاتیني املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T335",
+  "ur": "سن (پٹ سن)",
+  "en": "Hemp flax (book name)",
+  "page": "448",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T336",
+  "ur": "سناء (سنا مکی)",
+  "en": "Senna (Cassia angustifolia in book)",
+  "page": "449",
+  "note": "کتاب څو ډولونه یادوي",
+  "type": "T"
+ },
+ {
+  "code": "T337",
+  "ur": "سمبھالو (تخم سمبھالو)",
+  "en": "Five-leaved chaste tree (book heading)",
+  "page": "451",
+  "note": "انګلیسي او لاتیني نومونه پرتله غواړي. تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T338",
+  "ur": "سنکھاہولی",
+  "en": "Shankhahuli (book Latin spelling: Cancscore Decussata)",
+  "page": "453",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T339",
+  "ur": "سنگترہ (نارنگی، سنترہ)",
+  "en": "Orange",
+  "page": "455",
+  "note": "دقیق Citrus ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T340",
+  "ur": "سنگھاڑہ (جل پھل)",
+  "en": "Indian water chestnut (Trapa bispinosa in book)",
+  "page": "458",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T341",
+  "ur": "سورج مکھی",
+  "en": "Sunflower",
+  "page": "459",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T342",
+  "ur": "سورنجان شیریں",
+  "en": "Meadow saffron (Colchicum, book name)",
+  "page": "460",
+  "note": "دقیق ډول تایید غواړي. له سورنجان تلخ سره جلا ثبت",
+  "type": "T"
+ },
+ {
+  "code": "T343",
+  "ur": "سورنجان تلخ",
+  "en": "Bitter colchicum (book name)",
+  "page": "460",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T344",
+  "ur": "سوما کلپاٹا (سوم کلپاٹا)",
+  "en": "Ephedra (genus)",
+  "page": "462",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T345",
+  "ur": "سونف (بادیان)",
+  "en": "Fennel",
+  "page": "467",
+  "note": "د ۴۶۸ مخ د بادیان د ریښې حواله هم ورسره ده",
+  "type": "T"
+ },
+ {
+  "code": "T346",
+  "ur": "سویا (شبت)",
+  "en": "Dill",
+  "page": "468",
+  "note": "د ۴۶۹ مخ د تخم حواله هم ورسره ده",
+  "type": "T"
+ },
+ {
+  "code": "T347",
+  "ur": "سہانجنہ (سہجنہ)",
+  "en": "Moringa / horseradish tree",
+  "page": "471",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T348",
+  "ur": "سہہ مولی (سہملی)",
+  "en": "Yellow barleria (book name)",
+  "page": "472",
+  "note": "د سرلیک املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T349",
+  "ur": "سہورا",
+  "en": "Sohra (book Latin spelling: Streplusoper)",
+  "page": "473",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T350",
+  "ur": "سیب (ایپل)",
+  "en": "Apple",
+  "page": "474",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T351",
+  "ur": "سیم",
+  "en": "Bean (book English: Gon Bean)",
+  "page": "477",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T352",
+  "ur": "سیمل (سیمبھل)",
+  "en": "Silk cotton tree",
+  "page": "477",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T353",
+  "ur": "شاہ پسند",
+  "en": "Sweet sultan seed (provisional)",
+  "page": "481",
+  "note": "په کتاب کښي Centroarea Mosehate لیکل شوي. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T354",
+  "ur": "شبرم",
+  "en": "Shubrum (transliteration)",
+  "page": "481",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T355",
+  "ur": "سیتا پھل (شریفہ پھل)",
+  "en": "Custard apple",
+  "page": "483",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T356",
+  "ur": "شکاعی",
+  "en": "Shuka'i (transliteration)",
+  "page": "484",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T357",
+  "ur": "نبات (شکر سفید، چینی، کھانڈ دیسی)",
+  "en": "Sugar / rock sugar",
+  "page": "485",
+  "note": "پروسس شوی محصول",
+  "type": "T"
+ },
+ {
+  "code": "T358",
+  "ur": "شکر قند (شکر قندی)",
+  "en": "Sweet potato",
+  "page": "486",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T359",
+  "ur": "شلجم (گول گلو)",
+  "en": "Turnip",
+  "page": "487",
+  "note": "د همدې مخ د تخم مدخل هم په دې کوډ کښي دی",
+  "type": "T"
+ },
+ {
+  "code": "T360",
+  "ur": "شمشاد",
+  "en": "Boxwood (provisional)",
+  "page": "487",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T361",
+  "ur": "شیر خشت",
+  "en": "Shir-khesht manna",
+  "page": "492",
+  "note": "د محصول سرچینه تایید غواړي. ترنجبین T176 د پرتله کولو حواله ده",
+  "type": "T"
+ },
+ {
+  "code": "T362",
+  "ur": "شیشم (ٹاہلی)",
+  "en": "Indian rosewood (Dalbergia sissoo)",
+  "page": "493",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T363",
+  "ur": "سکاکائی (شیکہ کائی)",
+  "en": "Shikakai (Acacia concinna in book)",
+  "page": "494",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T364",
+  "ur": "صعتر (ساتر)",
+  "en": "Oregano (Origanum vulgare)",
+  "page": "495",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T365",
+  "ur": "صنوبر",
+  "en": "Chir pine (Pinus longifolia in book)",
+  "page": "496",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T366",
+  "ur": "طراثیت",
+  "en": "Taratheeth (book Latin: Gummi Ferum)",
+  "page": "497",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T367",
+  "ur": "عاقر قرحا (عقر قرحا)",
+  "en": "Pellitory root",
+  "page": "497",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T368",
+  "ur": "عشبہ (عشبہ مغربی)",
+  "en": "Sarsaparilla root (Sarsa Radix in book)",
+  "page": "499",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T369",
+  "ur": "عشق پیچاں",
+  "en": "Ivy (Hedera helix in book)",
+  "page": "500",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T370",
+  "ur": "عناب",
+  "en": "Jujube (Zizyphus vulgaris in book)",
+  "page": "501",
+  "note": "له بیر T120 سره د پرتله کولو حواله. د دقیق ډول تر تایید پوري جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T371",
+  "ur": "عود بلسان",
+  "en": "Balsam wood",
+  "page": "504",
+  "note": "له تخم بلسان T169 او روغن بلسان T286 سره تړلې حواله",
+  "type": "T"
+ },
+ {
+  "code": "T372",
+  "ur": "عود صلیب (فاوانیا)",
+  "en": "Himalayan peony (Paeonia emodi)",
+  "page": "504",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T373",
+  "ur": "غار",
+  "en": "Cherry laurel (book name)",
+  "page": "506",
+  "note": "د کتاب نومونه پرتله او دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T374",
+  "ur": "غافث",
+  "en": "Ghāfith (book Latin: D. Zali)",
+  "page": "507",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T375",
+  "ur": "فالسہ",
+  "en": "Phalsa (Grewia asiatica)",
+  "page": "508",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T376",
+  "ur": "فراش (مثل جھاؤ، لال جھاؤ)",
+  "en": "Red tamarisk (book aliases)",
+  "page": "509",
+  "note": "د T208 او T209 د پرتله کولو حواله. نوی عکس تر تایید پوري مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T377",
+  "ur": "فربیون",
+  "en": "Euphorbium (Euphorbia antiquorum in book)",
+  "page": "510",
+  "note": "د صمغ او د سرچینې بوټي تر منځ توپیر ثبت کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T378",
+  "ur": "فرنجمشک (جنگلی تلسی)",
+  "en": "Sweet basil (book name)",
+  "page": "511",
+  "note": "له T170 سره د دقیق ډول پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T379",
+  "ur": "بندق (فندق، بادام کوہی، بادام کشمیری)",
+  "en": "Hazelnut / filbert",
+  "page": "512",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T380",
+  "ur": "قطورین صغیر",
+  "en": "Polycarpa (book Latin)",
+  "page": "514",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T381",
+  "ur": "قطورین کبیر (دوفالی کبیر)",
+  "en": "Qaturin kabir (transliteration)",
+  "page": "514",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T382",
+  "ur": "کونیم (قونیون، شوکران)",
+  "en": "Poison hemlock (Conium maculatum)",
+  "page": "514",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T383",
+  "ur": "کاجو",
+  "en": "Cashew",
+  "page": "516",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T384",
+  "ur": "کاسنی (ہندباء)",
+  "en": "Endive / chicory (book name)",
+  "page": "517",
+  "note": "دقیق ډول تایید غواړي. د ۵۱۸م مخ د تخم مدخل هم ورسره دی",
+  "type": "T"
+ },
+ {
+  "code": "T385",
+  "ur": "کافور (درخت کافور)",
+  "en": "Camphor tree / camphor",
+  "page": "519",
+  "note": "د ۵۲۹م مخ د تېلو مدخل هم ورسره دی",
+  "type": "T"
+ },
+ {
+  "code": "T386",
+  "ur": "کاک بنگلا",
+  "en": "Kak bangla (book Latin: Lec Hirta)",
+  "page": "522",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T387",
+  "ur": "کاکڑا سنگھی (موک)",
+  "en": "Pistacia galls",
+  "page": "522",
+  "note": "د عکس لپاره د کوربه بوټي ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T388",
+  "ur": "کاکنج (پنیر بوٹی)",
+  "en": "Indian rennet plant (Puneeria Coagulaus in book)",
+  "page": "524",
+  "note": "دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T389",
+  "ur": "کالا دانہ (تخم عشق پیچ، حب النیل)",
+  "en": "Kaladana seed",
+  "page": "525",
+  "note": "له عشق پیچاں T369 سره د نوم ورته والی لري. دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T390",
+  "ur": "کالی زیری (زیرہ دشتی، کمون بری)",
+  "en": "Purple fleabane (Vernonia anthelmintica in book)",
+  "page": "526",
+  "note": "له نورو Black cumin نومونو سره یې جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T391",
+  "ur": "کان سلائی",
+  "en": "Kan salai (plant, book description)",
+  "page": "527",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T392",
+  "ur": "کاہو",
+  "en": "Lettuce (Lactuca scariola in book)",
+  "page": "527",
+  "note": "د ۵۲۸م مخ د تخم لپاره کتاب Lactuca sativa لیکي. عکسونه تر تایید پوري جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T393",
+  "ur": "کائے پھل",
+  "en": "Box myrtle (Myrica nagi in book)",
+  "page": "529",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T394",
+  "ur": "کباب چینی (کبابہ، فلفل چینی)",
+  "en": "Cubeb pepper (Piper cubeba)",
+  "page": "531",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T395",
+  "ur": "کبابہ شندال",
+  "en": "Kababah shandal (transliteration)",
+  "page": "533",
+  "note": "دقیق ډول او د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T396",
+  "ur": "کبر (بیخ کبر، کیپر)",
+  "en": "Caper plant (Capparis spinosa)",
+  "page": "534",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T397",
+  "ur": "کتھ (کتھا)",
+  "en": "Catechu (Acacia catechu in book)",
+  "page": "535",
+  "note": "د ونې عصاره",
+  "type": "T"
+ },
+ {
+  "code": "T398",
+  "ur": "کتیرا (گوند کتیرا)",
+  "en": "Gum tragacanth",
+  "page": "536",
+  "note": "د سرچینې بوټی تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T399",
+  "ur": "کنٹکاری خرد",
+  "en": "Wild eggplant (Solanum jacquini in book)",
+  "page": "538",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T400",
+  "ur": "کنٹکاری کلاں",
+  "en": "Indian nightshade (Solanum indicum in book)",
+  "page": "540",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T401",
+  "ur": "کٹکی (کوڑ، خربق)",
+  "en": "Kutki (Picrorhiza kurroa in book)",
+  "page": "541",
+  "note": "انګلیسي سرلیک Helle Borus هم لیکي. د عکس تر ټاکلو مخکي هویت تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T402",
+  "ur": "کومری (کوہ پھلی، انجیر دشتی)",
+  "en": "Wild fig (book alias; provisional)",
+  "page": "542",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T403",
+  "ur": "کچالو",
+  "en": "Kachalu (tuber, book description)",
+  "page": "543",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T404",
+  "ur": "کچلہ (اذراقی)",
+  "en": "Poison nut / nux vomica",
+  "page": "544",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T405",
+  "ur": "کچنال (کچنار)",
+  "en": "Orchid tree (Bauhinia variegata in book)",
+  "page": "546",
+  "note": "د متن B. purpurea حواله هم وڅېړئ",
+  "type": "T"
+ },
+ {
+  "code": "T406",
+  "ur": "کچور (زرنباد، کچور)",
+  "en": "Zedoary (Curcuma zedoaria)",
+  "page": "547",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T407",
+  "ur": "کدو (لوکی، کدو دراز)",
+  "en": "White gourd / lauki (book heading)",
+  "page": "549",
+  "note": "دقیق ډول تایید کړئ. د ۵۴۹ تېلو او ۵۵۰ اوبو حوالې هم ورسره دي",
+  "type": "T"
+ },
+ {
+  "code": "T408",
+  "ur": "کرفس پہاڑی (کرفس کوہی)",
+  "en": "Mountain celery (Apium in book)",
+  "page": "550",
+  "note": "له اجمود T017 سره د دقیق ډول پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T409",
+  "ur": "کرنجوا (سکھ چین)",
+  "en": "Indian bean / pongam (book name)",
+  "page": "551",
+  "note": "له ۵۵۲م مخ کرنجوا سره د دقیق هویت پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T410",
+  "ur": "کرم کلہ (بند گوبھی)",
+  "en": "Cabbage",
+  "page": "551",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T411",
+  "ur": "کرنب (شلغم فرنگی)",
+  "en": "Kohlrabi (provisional)",
+  "page": "552",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T412",
+  "ur": "کرنجوا (مغز کرنجوا)",
+  "en": "Bonduc nut",
+  "page": "552",
+  "note": "له سکھ چین سره یې جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T413",
+  "ur": "کرنڈ پتھر",
+  "en": "Ammannia baccifera (book identification)",
+  "page": "554",
+  "note": "د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T414",
+  "ur": "کروندہ",
+  "en": "Karonda (book English: Corinda)",
+  "page": "554",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T415",
+  "ur": "کریات",
+  "en": "Andrographis paniculata",
+  "page": "555",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T416",
+  "ur": "کریلا",
+  "en": "Bitter melon (Momordica charantia)",
+  "page": "555",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T417",
+  "ur": "کڑا چھال (دراک)",
+  "en": "Kurchi bark",
+  "page": "557",
+  "note": "د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T418",
+  "ur": "قرطم (حب قرطم)",
+  "en": "Safflower (book name)",
+  "page": "557",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T419",
+  "ur": "کسوندی (تلوار پھلی)",
+  "en": "Coffee senna (provisional)",
+  "page": "559",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T420",
+  "ur": "کسیرو",
+  "en": "Cyperus tuberosus (book identification)",
+  "page": "560",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T421",
+  "ur": "کشمش",
+  "en": "Raisins",
+  "page": "561",
+  "note": "د انګورو وچ محصول",
+  "type": "T"
+ },
+ {
+  "code": "T422",
+  "ur": "کگڑودہ",
+  "en": "Dog bush (book name)",
+  "page": "562",
+  "note": "د سرلیک املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T423",
+  "ur": "ککڑی (قثاء)",
+  "en": "Cucumber (book heading)",
+  "page": "563",
+  "note": "له ۵۸۸م مخ خیار سره دقیق ډول پرتله کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T424",
+  "ur": "ککوڑا",
+  "en": "Spiny gourd (Momordica dioica)",
+  "page": "564",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T425",
+  "ur": "کالتھی (دال کالتھی، حب القلت)",
+  "en": "Horse gram (Dolichos biflorus in book)",
+  "page": "564",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T426",
+  "ur": "کلونجی (شونیز)",
+  "en": "Black seed (Nigella sativa)",
+  "page": "565",
+  "note": "د ۵۶۷م مخ د تېلو حواله هم ورسره ده",
+  "type": "T"
+ },
+ {
+  "code": "T427",
+  "ur": "کلہاری (سورنجلی)",
+  "en": "Wolfsbane (book English heading)",
+  "page": "567",
+  "note": "د هویت تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T428",
+  "ur": "کماندریوس (بلوط الارض)",
+  "en": "Germander (provisional)",
+  "page": "568",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T429",
+  "ur": "کمرکس (چھیا گوند، ڈھاک کا گوند)",
+  "en": "Bengal kino / Butea gum",
+  "page": "569",
+  "note": "د ډهاک T273 اړوند محصول",
+  "type": "T"
+ },
+ {
+  "code": "T430",
+  "ur": "کمرکھ",
+  "en": "Star fruit (Averrhoa carambola)",
+  "page": "569",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T431",
+  "ur": "کمیلا (قنبیل)",
+  "en": "Kamala",
+  "page": "570",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T432",
+  "ur": "کندر (لبان)",
+  "en": "Frankincense / olibanum",
+  "page": "571",
+  "note": "د سرچینې Boswellia ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T433",
+  "ur": "کندور (کندروس)",
+  "en": "Trichosanthes (book identification)",
+  "page": "572",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T434",
+  "ur": "کندوری کی بیل",
+  "en": "Ivy gourd (Cephalandra indica in book)",
+  "page": "572",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T435",
+  "ur": "کنکول (مرچ کنکول)",
+  "en": "Kankol pepper (book heading)",
+  "page": "573",
+  "note": "له کباب چینی T394 سره د هویت پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T436",
+  "ur": "کنگھی (کنگھی بوٹی)",
+  "en": "Country mallow",
+  "page": "573",
+  "note": "د ۵۷۵م مخ تخم ورسره تړلی دی",
+  "type": "T"
+ },
+ {
+  "code": "T437",
+  "ur": "کنوچہ (تخم کنوچہ)",
+  "en": "S. spinosa (book abbreviation)",
+  "page": "575",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T438",
+  "ur": "کنول (کنول گٹو)",
+  "en": "Lotus",
+  "page": "575",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T439",
+  "ur": "کنیر (دفلی)",
+  "en": "Oleander (Nerium odorum in book)",
+  "page": "576",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T440",
+  "ur": "کوٹھ (قسط شیریں)",
+  "en": "Costus root (Saussurea lappa in book)",
+  "page": "578",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T441",
+  "ur": "کوٹھ کڑوا (قسط تلخ، قسط ہندی)",
+  "en": "Bitter costus (book heading)",
+  "page": "580",
+  "note": "له قسط شیریں سره جلا چاپي مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T442",
+  "ur": "کوڈول",
+  "en": "Punctured paspalum (book heading)",
+  "page": "581",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T443",
+  "ur": "کوکم",
+  "en": "Kokum butter",
+  "page": "582",
+  "note": "د سرچینې بوټی او محصول جلا وښیاست",
+  "type": "T"
+ },
+ {
+  "code": "T444",
+  "ur": "کونچ (چلولی بوٹی)",
+  "en": "Velvet bean (Mucuna pruriens)",
+  "page": "582",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T445",
+  "ur": "کوبل",
+  "en": "Indian mezereon (book heading)",
+  "page": "583",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T446",
+  "ur": "کھرنی",
+  "en": "Khirni (book English spelling unclear)",
+  "page": "587",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T447",
+  "ur": "خیار",
+  "en": "Cucumber",
+  "page": "588",
+  "note": "له ککڑی (۵۶۳) سره د ډول پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T448",
+  "ur": "کھیلا (ہلیلہ فارسی)",
+  "en": "Kheela (transliteration)",
+  "page": "590",
+  "note": "د سرلیک املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T449",
+  "ur": "کھینی",
+  "en": "Khaini (transliteration)",
+  "page": "590",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T450",
+  "ur": "کیسنی",
+  "en": "Kesni (transliteration)",
+  "page": "591",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T451",
+  "ur": "کیتھ",
+  "en": "Wood apple",
+  "page": "591",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T452",
+  "ur": "کیسر (زعفران)",
+  "en": "Saffron (Crocus sativus)",
+  "page": "594",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T453",
+  "ur": "کیکر (ببول، مغیلان)",
+  "en": "Babul acacia (Acacia arabica in book)",
+  "page": "595",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T454",
+  "ur": "کیکر کا گوند (ببول کا گوند، صمغ عربی)",
+  "en": "Gum arabic / acacia gum",
+  "page": "596",
+  "note": "د ۵۹۵م مخ له ونې سره تړلی محصول",
+  "type": "T"
+ },
+ {
+  "code": "T455",
+  "ur": "کیلا",
+  "en": "Banana",
+  "page": "598",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T456",
+  "ur": "کیوڑہ",
+  "en": "Fragrant screw pine",
+  "page": "599",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T457",
+  "ur": "گاجر",
+  "en": "Carrot",
+  "page": "600",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T458",
+  "ur": "گاؤ زبان",
+  "en": "Echium (book heading)",
+  "page": "601",
+  "note": "دقیق ډول تایید غواړي. د ۶۰۲م مخ شربت، خمیره او عرق هم ورسره تړلي دي",
+  "type": "T"
+ },
+ {
+  "code": "T459",
+  "ur": "گج پیپل",
+  "en": "Gaj pippal (transliteration)",
+  "page": "603",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T460",
+  "ur": "گرجن",
+  "en": "Gurjun / gurjun balsam",
+  "page": "604",
+  "note": "د سرچینې ونه تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T461",
+  "ur": "گڑ (قند سیاہ)",
+  "en": "Jaggery",
+  "page": "605",
+  "note": "د ۶۱۹م مخ ګني او د ۴۸۵م مخ شکر سره تړلی جلا محصول",
+  "type": "T"
+ },
+ {
+  "code": "T462",
+  "ur": "گڑمار بوٹی (گڑمار)",
+  "en": "Gymnema (Gymnema sylvestre, book identification)",
+  "page": "605",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T463",
+  "ur": "گڑھل (گل گڑھل)",
+  "en": "China rose (Hibiscus rosa-sinensis)",
+  "page": "606",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T464",
+  "ur": "گلاب (گل سرخ)",
+  "en": "Rose",
+  "page": "607",
+  "note": "د ۶۰۸م مخ ګلقند او عرق، او د ۶۰۹م مخ د ګل د زېرې حوالې ورسره تړلې دي",
+  "type": "T"
+ },
+ {
+  "code": "T465",
+  "ur": "گل چمپا (چمپا)",
+  "en": "Temple tree / frangipani (book heading)",
+  "page": "609",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T466",
+  "ur": "گل داؤدی",
+  "en": "Chrysanthemum",
+  "page": "611",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T467",
+  "ur": "گل دوپہری",
+  "en": "Moon flower (book heading)",
+  "page": "612",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T468",
+  "ur": "گل دھاوا",
+  "en": "Flori Bunda (book spelling)",
+  "page": "612",
+  "note": "دقیق ډول او د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T469",
+  "ur": "گل سیوتا (گل نسرین)",
+  "en": "China rose (book heading)",
+  "page": "613",
+  "note": "له ۶۰۶م مخ سره د انګلیسي نوم ورته والی لري. دقیق ډول جلا تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T470",
+  "ur": "گل عباسی",
+  "en": "Four o'clock (Mirabilis jalapa)",
+  "page": "613",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T471",
+  "ur": "گلگل",
+  "en": "Gul-gul (transliteration)",
+  "page": "614",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T472",
+  "ur": "گل پنگ",
+  "en": "P. Suberi Folium (book spelling)",
+  "page": "615",
+  "note": "دقیق ډول او د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T473",
+  "ur": "گل مہندی",
+  "en": "Henna flowers",
+  "page": "616",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T474",
+  "ur": "گلو",
+  "en": "Guduchi (Tinospora cordifolia)",
+  "page": "617",
+  "note": "د ۶۱۸م مخ ست ګلو اړوند محصول دی",
+  "type": "T"
+ },
+ {
+  "code": "T475",
+  "ur": "گمبھاری (گمباری)",
+  "en": "Gmelina (Gmelina arborea, book identification)",
+  "page": "619",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T476",
+  "ur": "گنا (پوَنڈا)",
+  "en": "Sugarcane",
+  "page": "619",
+  "note": "له شکر او ګوړې سره د سرچینې بوټی",
+  "type": "T"
+ },
+ {
+  "code": "T477",
+  "ur": "گندنا (پوگات، پیازی)",
+  "en": "Leek (book heading)",
+  "page": "620",
+  "note": "دقیق ډول او د بدیلو نومونو املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T478",
+  "ur": "گندہ بہروزہ (بہروزہ)",
+  "en": "Pine resin",
+  "page": "621",
+  "note": "له صنوبر (۴۹۶) سره تړلی محصول",
+  "type": "T"
+ },
+ {
+  "code": "T479",
+  "ur": "سنگتین (گل شکری)",
+  "en": "Sangtin (transliteration)",
+  "page": "624",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T480",
+  "ur": "گوار پھلی",
+  "en": "Cluster bean / guar",
+  "page": "625",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T481",
+  "ur": "گوبھی (پھول گوبھی)",
+  "en": "Cauliflower",
+  "page": "625",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T482",
+  "ur": "گوند گندم",
+  "en": "Wheat gum (book heading)",
+  "page": "626",
+  "note": "د ۶۴۰م مخ غنمو سره تړلی توکی",
+  "type": "T"
+ },
+ {
+  "code": "T483",
+  "ur": "گوکھرو (خار خسک)",
+  "en": "Small caltrops (book heading)",
+  "page": "626",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T484",
+  "ur": "گوگل (مقل)",
+  "en": "Guggul gum",
+  "page": "627",
+  "note": "د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T485",
+  "ur": "گولر",
+  "en": "Cluster fig (Ficus glomerata in book)",
+  "page": "629",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T486",
+  "ur": "گومال (گومہ)",
+  "en": "Leucos Linifolia (book spelling)",
+  "page": "631",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T487",
+  "ur": "گوند بطم",
+  "en": "Terebinth gum (provisional)",
+  "page": "632",
+  "note": "د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T488",
+  "ur": "گومل",
+  "en": "Gomal (transliteration)",
+  "page": "632",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T489",
+  "ur": "گوندنی (گوندی)",
+  "en": "Gondni (book English: Dell)",
+  "page": "632",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T490",
+  "ur": "گھیکر بیل",
+  "en": "Bristly luffa (book heading)",
+  "page": "634",
+  "note": "دقیق ډول او د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T491",
+  "ur": "گھونگچی (گنج، رتی)",
+  "en": "Rosary pea (Abrus precatorius)",
+  "page": "635",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T492",
+  "ur": "گیندا کا پھول (گل صد برگ)",
+  "en": "Marigold (Calendula in book)",
+  "page": "639",
+  "note": "له French marigold (۴۳۵) سره دقیق ډول پرتله کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T493",
+  "ur": "گیہوں (گندم)",
+  "en": "Wheat",
+  "page": "640",
+  "note": "له بھوسی گندم T112 سره تړلې حواله",
+  "type": "T"
+ },
+ {
+  "code": "T494",
+  "ur": "گیہوں جنگلی",
+  "en": "Wild wheat (book heading)",
+  "page": "641",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T495",
+  "ur": "لادن",
+  "en": "Labdanum (book identification)",
+  "page": "642",
+  "note": "د سرچینې Cistus ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T496",
+  "ur": "لال ساگ",
+  "en": "Red amaranth (A. gangeticus in book)",
+  "page": "644",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T497",
+  "ur": "گل لال (لالہ)",
+  "en": "Windflower (Pulsatilla, book heading)",
+  "page": "645",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T498",
+  "ur": "لکڑی",
+  "en": "Lakri (transliteration)",
+  "page": "646",
+  "note": "دقیق ډول او د سرلیک املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T499",
+  "ur": "لاجونتی (چھوئی موئی، شرم بوٹی)",
+  "en": "Sensitive plant (book heading)",
+  "page": "647",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T500",
+  "ur": "لفاح (عنب الثعلب سیاہ)",
+  "en": "Mandrake / Belladonna (conflicting book labels)",
+  "page": "647",
+  "note": "تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T501",
+  "ur": "لوبان",
+  "en": "Benzoin resin (book identification)",
+  "page": "649",
+  "note": "له کندر (۵۷۱) سره یې جلا وساتئ",
+  "type": "T"
+ },
+ {
+  "code": "T502",
+  "ur": "لوبیا (روال)",
+  "en": "Cowpea / lobia (provisional)",
+  "page": "651",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T503",
+  "ur": "لودھ پٹھانی",
+  "en": "Lodh tree / lodhra bark",
+  "page": "652",
+  "note": "د سرچینې ونه تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T504",
+  "ur": "لوکاٹ",
+  "en": "Loquat (Eriobotrya japonica)",
+  "page": "653",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T505",
+  "ur": "لونگ (قرنفل)",
+  "en": "Cloves",
+  "page": "653",
+  "note": "د ۶۵۴م مخ د تېلو مدخل هم ورسره تړلی دی",
+  "type": "T"
+ },
+ {
+  "code": "T506",
+  "ur": "لہسن (ثوم)",
+  "en": "Garlic (Allium sativum)",
+  "page": "657",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T507",
+  "ur": "لسوڑہ (سپستان)",
+  "en": "Cordia / sebesten fruit",
+  "page": "660",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T508",
+  "ur": "لیچی",
+  "en": "Lychee (book English: Chin Fruit)",
+  "page": "661",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T509",
+  "ur": "لیموں (نیمبو)",
+  "en": "Lemon",
+  "page": "662",
+  "note": "د ۶۶۲–۶۶۳ مخونو اوبه، تخم، پوست او اچار ورسره تړلي دي",
+  "type": "T"
+ },
+ {
+  "code": "T510",
+  "ur": "مازو پھل (مازوئے سبز)",
+  "en": "Oak galls / gallnuts",
+  "page": "664",
+  "note": "له Pistacia galls T387 څخه جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T511",
+  "ur": "مال کنگنی",
+  "en": "Staff tree (Celastrus paniculatus)",
+  "page": "665",
+  "note": "د ۶۶۶م مخ د تېلو مدخل هم ورسره دی",
+  "type": "T"
+ },
+ {
+  "code": "T512",
+  "ur": "مامیشا (عصارہ مامیشا)",
+  "en": "Common poppy (Papaver rhoeas)",
+  "page": "667",
+  "note": "د بوټي او عصاره عکسونه جلا وپېژنئ",
+  "type": "T"
+ },
+ {
+  "code": "T513",
+  "ur": "مامیرا (مامیران)",
+  "en": "Coptis teeta (book identification)",
+  "page": "668",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T514",
+  "ur": "ماہودانہ",
+  "en": "Spurge (Euphorbia, book identification)",
+  "page": "669",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T515",
+  "ur": "ماہی زہر (ماہی زہرہ، قشنہ بیر)",
+  "en": "Mahi zahra (transliteration)",
+  "page": "669",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T516",
+  "ur": "مٹر",
+  "en": "Field peas",
+  "page": "670",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T517",
+  "ur": "منجٹھ (فوۃ)",
+  "en": "Indian madder (Rubia cordifolia)",
+  "page": "672",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T518",
+  "ur": "مچھپچھھی",
+  "en": "Machh-pachhi (transliteration)",
+  "page": "675",
+  "note": "کتاب دا یو اوبیز بوټی بولي. املا او دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T519",
+  "ur": "مرچ سیاہ (فلفل سیاہ)",
+  "en": "Black pepper (Piper nigrum)",
+  "page": "676",
+  "note": "په ۶۷۷م مخ کښي سپین مرچ هم یادېږي",
+  "type": "T"
+ },
+ {
+  "code": "T520",
+  "ur": "مرچ سرخ یا لال (سرخ مرچ)",
+  "en": "Red pepper (Capsicum annuum)",
+  "page": "678",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T521",
+  "ur": "مر (مر مکی)",
+  "en": "Myrrh",
+  "page": "680",
+  "note": "د سرچینې بوټی تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T522",
+  "ur": "مروڑ پھلی",
+  "en": "Indian screw tree",
+  "page": "681",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T523",
+  "ur": "مسور (عدس)",
+  "en": "Lentils",
+  "page": "682",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T524",
+  "ur": "مشک دانہ",
+  "en": "Musk seeds / ambrette (provisional)",
+  "page": "685",
+  "note": "دقیق ډول تایید غواړي. له حیواني مشک څخه جلا توکی",
+  "type": "T"
+ },
+ {
+  "code": "T525",
+  "ur": "مصطگی رومی",
+  "en": "Mastic (Pistacia lentiscus)",
+  "page": "686",
+  "note": "صمغ او د سرچینې بوټی جلا وپېژنئ",
+  "type": "T"
+ },
+ {
+  "code": "T526",
+  "ur": "مکو (عنب الثعلب)",
+  "en": "Black nightshade (Solanum nigrum in book)",
+  "page": "688",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T527",
+  "ur": "مکھانا (پھول مکھانا)",
+  "en": "Makhana (book English: Lotus Seed Parchee)",
+  "page": "690",
+  "note": "له کنول T438 سره یې هویت مه ګډوئ. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T528",
+  "ur": "مکئی (ذرت)",
+  "en": "Maize / corn",
+  "page": "692",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T529",
+  "ur": "ملٹھی (اصل السوس)",
+  "en": "Liquorice root",
+  "page": "693",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T530",
+  "ur": "ملیم",
+  "en": "Malim (transliteration)",
+  "page": "695",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T531",
+  "ur": "مندوا (منڈل)",
+  "en": "Finger millet (provisional)",
+  "page": "696",
+  "note": "د کتاب لاتیني املا او دقیق هویت تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T532",
+  "ur": "گل منڈی (منڈی، گورکھ منڈی)",
+  "en": "East Indian globe thistle (Sphaeranthus indicus in text)",
+  "page": "696",
+  "note": "په سرلیک کې Sphaeranthus hirtus هم راغلی. دقیق ډول تایید کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T533",
+  "ur": "منقیٰ (مویز، زبیب الجبل)",
+  "en": "Large raisins",
+  "page": "698",
+  "note": "له کشمش (۵۶۱) سره تړلی وچ محصول. د کتاب جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T534",
+  "ur": "منگوسٹان",
+  "en": "Mangosteen",
+  "page": "700",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T535",
+  "ur": "موٹھ (ماش ہندی)",
+  "en": "Moth bean (book: Phaccolus)",
+  "page": "702",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T536",
+  "ur": "موچرس (سیمبل کی گوند)",
+  "en": "Silk cotton tree gum",
+  "page": "703",
+  "note": "له سیمل T352 سره تړلی محصول",
+  "type": "T"
+ },
+ {
+  "code": "T537",
+  "ur": "موصلی سفید",
+  "en": "White musli (book: Arundinaceum)",
+  "page": "704",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T538",
+  "ur": "موصلی سیاہ",
+  "en": "Black musli (book: Murdannia Seapiflora)",
+  "page": "704",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T539",
+  "ur": "موگرا",
+  "en": "Mogra jasmine",
+  "page": "705",
+  "note": "له چنبیلی T229 سره د دقیق ډول پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T540",
+  "ur": "مولسری",
+  "en": "Spanish cherry (Mimusops elengi)",
+  "page": "705",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T541",
+  "ur": "مولی (ترب)",
+  "en": "Radish",
+  "page": "707",
+  "note": "د ۷۰۸م مخ تخم، د پاڼو اوبه او مالګه ورسره تړلي دي",
+  "type": "T"
+ },
+ {
+  "code": "T542",
+  "ur": "مونج",
+  "en": "Rope grass (book heading)",
+  "page": "710",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T543",
+  "ur": "مونگ (دال مونگ)",
+  "en": "Mung bean / green gram",
+  "page": "710",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T544",
+  "ur": "مونگ پھلی",
+  "en": "Peanut / groundnut",
+  "page": "711",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T545",
+  "ur": "مویزج",
+  "en": "Stavesacre seeds (book: Staphisagria Seeds)",
+  "page": "712",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T546",
+  "ur": "مہوا",
+  "en": "Mahua / Indian butter tree",
+  "page": "714",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T547",
+  "ur": "میتھی (حلبہ)",
+  "en": "Fenugreek (Trigonella foenum-graecum)",
+  "page": "716",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T548",
+  "ur": "میدہ لکڑی (میدہ سک)",
+  "en": "Maida wood (book: L. Sebifera)",
+  "page": "717",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T549",
+  "ur": "مین پھل",
+  "en": "Emetic nut (book heading)",
+  "page": "718",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T550",
+  "ur": "مینڈھا سنگی",
+  "en": "Mendha singi (transliteration)",
+  "page": "720",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T551",
+  "ur": "ناخونہ (اکلیل الملک)",
+  "en": "Sweet clover (provisional)",
+  "page": "720",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T552",
+  "ur": "ناریل (کھوپرا، نارگیل)",
+  "en": "Coconut",
+  "page": "722",
+  "note": "د ۷۲۴م مخ د تېلو مدخل له T293 سره وتړئ",
+  "type": "T"
+ },
+ {
+  "code": "T553",
+  "ur": "ناریل دریائی",
+  "en": "Sea coconut (book heading)",
+  "page": "724",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T554",
+  "ur": "ناری کا ساگ",
+  "en": "Nari greens (transliteration)",
+  "page": "725",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T555",
+  "ur": "ناشپاتی",
+  "en": "Pear (Pyrus sinensis in book)",
+  "page": "725",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T556",
+  "ur": "ناگ پھنا (ناگ پھنّی)",
+  "en": "Prickly pear",
+  "page": "726",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T557",
+  "ur": "ناگر موتھا (سعد کوفی)",
+  "en": "Nutgrass (Cyperus scariosus in book)",
+  "page": "726",
+  "note": "له کسیرو (۵۶۰) سره جلا مدخل",
+  "type": "T"
+ },
+ {
+  "code": "T558",
+  "ur": "ناگ کیسر (ناگ کیسر، نارمشک)",
+  "en": "Ceylon ironwood (Mesua ferrea)",
+  "page": "727",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T559",
+  "ur": "نرسی (جدوار، ماہ پروین)",
+  "en": "Jadwar (book labels: Curcuma zedoaria and Delphinium)",
+  "page": "729",
+  "note": "تر تایید پوري عکس مه ټاکئ",
+  "type": "T"
+ },
+ {
+  "code": "T560",
+  "ur": "نرگس",
+  "en": "Narcissus",
+  "page": "731",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T561",
+  "ur": "نسوت (تربد)",
+  "en": "Turpeth (book heading)",
+  "page": "731",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T562",
+  "ur": "نشاستہ",
+  "en": "Starch",
+  "page": "733",
+  "note": "د بوټي پروسس شوی محصول",
+  "type": "T"
+ },
+ {
+  "code": "T563",
+  "ur": "نک چھکنی (ناک چھکنی)",
+  "en": "Sneezewort (book heading)",
+  "page": "735",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T564",
+  "ur": "گندہ بہاری (اک بیلا)",
+  "en": "Gandah bahari (transliteration)",
+  "page": "736",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T565",
+  "ur": "نمام (کالی تلسی)",
+  "en": "Namam (book aliases)",
+  "page": "737",
+  "note": "له تلسی T180 سره د دقیق ډول پرتله غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T566",
+  "ur": "نواری کا پھول",
+  "en": "Nawari flower (transliteration)",
+  "page": "740",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T567",
+  "ur": "نیل (وسمہ)",
+  "en": "Indigo",
+  "page": "741",
+  "note": "د بوټي دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T568",
+  "ur": "نرملی",
+  "en": "Clearing nut tree (book heading)",
+  "page": "743",
+  "note": "دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T569",
+  "ur": "نیل کنٹھی",
+  "en": "Nilkanthi (transliteration)",
+  "page": "744",
+  "note": "دقیق ډول او املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T570",
+  "ur": "نیلوفر (چھوٹا کنول، کمیل)",
+  "en": "Water lily",
+  "page": "745",
+  "note": "له Lotus T438 سره یې مه ګډوئ. دقیق ډول تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T571",
+  "ur": "نیم",
+  "en": "Neem / margosa tree",
+  "page": "746",
+  "note": "د ۷۴۸م مخ صمغ او د ۳۹۶م مخ تېل T294 ورسره تړلي دي",
+  "type": "T"
+ },
+ {
+  "code": "T572",
+  "ur": "ورچ (وج)",
+  "en": "Sweet flag root",
+  "page": "749",
+  "note": "راټول یې کړئ",
+  "type": "T"
+ },
+ {
+  "code": "T573",
+  "ur": "ورس",
+  "en": "Wars (book Latin spelling: Flamirgia Grahammmana)",
+  "page": "750",
+  "note": "دقیق ډول او لاتیني املا تایید غواړي",
+  "type": "T"
+ },
+ {
+  "code": "T574",
+  "ur": "باتاخورڑی",
+  "en": "Heliotrope (book heading)",
+  "page": "751",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T575",
+  "ur": "ہاتھی سونڈی (جوال بوٹی)",
+  "en": "Heliotrope (book heading)",
+  "page": "752",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T576",
+  "ur": "ہار سنگھار",
+  "en": "Night jasmine",
+  "page": "752",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T577",
+  "ur": "ہالوں (حب الرشاد، تیزک)",
+  "en": "Garden cress",
+  "page": "753",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T578",
+  "ur": "ہرن کھری",
+  "en": "Haran khari (transliteration)",
+  "page": "754",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T579",
+  "ur": "ہڑجوڑ",
+  "en": "Veld grape (Vitis Quadrangular in book)",
+  "page": "756",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T580",
+  "ur": "مازریون (ہفت برگ)",
+  "en": "Mezereon (book heading)",
+  "page": "757",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T581",
+  "ur": "ہلدی (زرد چوب)",
+  "en": "Turmeric",
+  "page": "757",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T582",
+  "ur": "ہلدیہ کیٹھالی",
+  "en": "Poisonous turmeric (book heading)",
+  "page": "758",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T583",
+  "ur": "ہلیل",
+  "en": "Carayela seeds (book spelling)",
+  "page": "759",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T584",
+  "ur": "ہلیلہ (ہڑ)",
+  "en": "Chebulic myrobalan (Terminalia in book)",
+  "page": "759",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T585",
+  "ur": "ہلیون",
+  "en": "Halyun (book heading)",
+  "page": "761",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T586",
+  "ur": "ہمیشہ بہار (سدا بہار)",
+  "en": "Everlasting / sada bahar (book names)",
+  "page": "762",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T587",
+  "ur": "ہنگوٹ",
+  "en": "Hingot (book English: Delle)",
+  "page": "763",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "T588",
+  "ur": "ہینگ (حلتیت)",
+  "en": "Asafoetida",
+  "page": "765",
+  "note": "",
+  "type": "T"
+ },
+ {
+  "code": "A001",
+  "ur": "ابریشم",
+  "en": "Silk",
+  "page": "30",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A002",
+  "ur": "اسفنج",
+  "en": "Sponge",
+  "page": "53",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A003",
+  "ur": "انڈا",
+  "en": "Egg",
+  "page": "93",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A004",
+  "ur": "پوست بیضہ مرغ",
+  "en": "Eggshell",
+  "page": "95",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A005",
+  "ur": "روغن بیضہ مرغ",
+  "en": "Egg oil",
+  "page": "96",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A006",
+  "ur": "بارہ سنگھا (شاخ گوزن)",
+  "en": "Stag antler",
+  "page": "119، 479",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A007",
+  "ur": "بال",
+  "en": "Hair",
+  "page": "121",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A008",
+  "ur": "بٹیر",
+  "en": "Quail",
+  "page": "127",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A009",
+  "ur": "بچھو (عقرب)",
+  "en": "Scorpion",
+  "page": "130",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A010",
+  "ur": "بسد",
+  "en": "Coral",
+  "page": "141",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A011",
+  "ur": "بطخ",
+  "en": "Duck",
+  "page": "144",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A012",
+  "ur": "بکری",
+  "en": "Goat",
+  "page": "146",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A013",
+  "ur": "بودار چمڑا",
+  "en": "Old leather",
+  "page": "156",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A014",
+  "ur": "پنیر",
+  "en": "Cheese",
+  "page": "204",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A015",
+  "ur": "پنیر مایہ",
+  "en": "Rennet / coagulant (source needs verification)",
+  "page": "205",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A016",
+  "ur": "تیلی مکھی",
+  "en": "Blister beetle (exact species unconfirmed)",
+  "page": "258",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A017",
+  "ur": "جگنو",
+  "en": "Firefly / glow-worm (exact species unconfirmed)",
+  "page": "270",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A018",
+  "ur": "جندبیدستر",
+  "en": "Castoreum",
+  "page": "274",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A019",
+  "ur": "جونک",
+  "en": "Leech",
+  "page": "283",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A020",
+  "ur": "جھینگا",
+  "en": "Prawn / shrimp",
+  "page": "286",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A021",
+  "ur": "چربی",
+  "en": "Animal fat",
+  "page": "297",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A022",
+  "ur": "چھاچھ",
+  "en": "Buttermilk",
+  "page": "320",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A023",
+  "ur": "چیونٹا، چیونٹی",
+  "en": "Ant",
+  "page": "328",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A024",
+  "ur": "دندان فیل",
+  "en": "Elephant tusk / ivory",
+  "page": "354",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A025",
+  "ur": "دودھ",
+  "en": "Milk (camel, goat, sheep, buffalo, human, cow, donkey and mare in the entry)",
+  "page": "357–362",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A026",
+  "ur": "دہی",
+  "en": "Yogurt",
+  "page": "368",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A027",
+  "ur": "دیمک",
+  "en": "Termite",
+  "page": "370",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A028",
+  "ur": "ریگ ماہی (سمک الرمل)",
+  "en": "Sand lizard (book name)",
+  "page": "401",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A029",
+  "ur": "سانپ (ناگ)",
+  "en": "Snake",
+  "page": "416",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A030",
+  "ur": "سانڈہ (روغن سانڈہ)",
+  "en": "Spiny-tailed lizard / lizard oil",
+  "page": "417",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A031",
+  "ur": "سریش (سرشم)",
+  "en": "Gelatin",
+  "page": "436",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A032",
+  "ur": "سرشم ماہی",
+  "en": "Isinglass",
+  "page": "437",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A033",
+  "ur": "سقنقور",
+  "en": "Skink (Lacerta scincus in book)",
+  "page": "440",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A034",
+  "ur": "سمندر جھاگ (کف دریا)",
+  "en": "Cuttlebone",
+  "page": "447",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A035",
+  "ur": "سنکھ (حلزون)",
+  "en": "Conch shell",
+  "page": "453",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A036",
+  "ur": "سنگدان (سنگ دانہ مرغ)",
+  "en": "Chicken gizzard stone (book description)",
+  "page": "456",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A037",
+  "ur": "سیپ (صدف)",
+  "en": "Shell (book says Oyster Shell and Cypraea moneta; identity to verify)",
+  "page": "475",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A038",
+  "ur": "شتر مرغ",
+  "en": "Ostrich",
+  "page": "482",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A039",
+  "ur": "شکر تیغال (قند تیغال)",
+  "en": "Insect-derived sugar casing (book: Hemiptere; identity to verify)",
+  "page": "485",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A040",
+  "ur": "شہد (عسل)",
+  "en": "Honey",
+  "page": "490",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A041",
+  "ur": "عنبر (امبر گریس، عنبر اشہب)",
+  "en": "Ambergris",
+  "page": "503",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A042",
+  "ur": "کف ابابیل",
+  "en": "Swallow (book identification; exact species unconfirmed)",
+  "page": "550",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A043",
+  "ur": "کوڑی (خرمہرہ، گوڑی)",
+  "en": "Cowrie shell (له A037 سره د دقیق هویت پرتله غواړي)",
+  "page": "581",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A044",
+  "ur": "کھِیس (پہلی دودھ)",
+  "en": "Colostrum",
+  "page": "589",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A045",
+  "ur": "کیچوا (خراطین، گنڈوے)",
+  "en": "Earthworms",
+  "page": "593",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A046",
+  "ur": "کیکڑا (سرطان نہری)",
+  "en": "Crab",
+  "page": "597",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A047",
+  "ur": "گائے روچن",
+  "en": "Cow gallstone",
+  "page": "602",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A048",
+  "ur": "گوہ (ضب)",
+  "en": "Lizard (book heading) (دقیق ډول تایید غواړي)",
+  "page": "633",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A049",
+  "ur": "گھی (روغن زرد)",
+  "en": "Clarified butter / ghee",
+  "page": "636",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A050",
+  "ur": "لاکھ (لک مغسول)",
+  "en": "Lac (insect resin)",
+  "page": "643",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A051",
+  "ur": "مچھلی (ماہی)",
+  "en": "Fish",
+  "page": "673",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A052",
+  "ur": "مچھلی بام",
+  "en": "Eel-like fish (book description) (دقیق ډول تایید غواړي)",
+  "page": "674",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A053",
+  "ur": "نافہ (مشک، کستوری)",
+  "en": "Musk (musk deer)",
+  "page": "683",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A054",
+  "ur": "مکڑی کا جالا",
+  "en": "Cobweb / spider silk",
+  "page": "688",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A055",
+  "ur": "مکھن",
+  "en": "Butter",
+  "page": "690",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A056",
+  "ur": "مکھی",
+  "en": "Fly (دقیق ډول تایید غواړي)",
+  "page": "691",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A057",
+  "ur": "ملائی دودھ کی",
+  "en": "Milk cream",
+  "page": "693",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A058",
+  "ur": "مروارید (موتی، سچے موتی)",
+  "en": "Pearls (د ۷۰۲م مخ کشتہ مروارید ورسره تړلی دی)",
+  "page": "701",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A059",
+  "ur": "موم (شہد کی موم)",
+  "en": "Beeswax",
+  "page": "709",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A060",
+  "ur": "مینڈک",
+  "en": "Frog (دقیق ډول تایید غواړي)",
+  "page": "719",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A061",
+  "ur": "نکھ (ناخن پریاں)",
+  "en": "Shell (book heading) (دقیق هویت او د حیواني سرچینې طبقه‌بندي تایید غواړي)",
+  "page": "735",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "A062",
+  "ur": "نیولا (ابن عرس)",
+  "en": "Mongoose (book heading) (دقیق ډول تایید غواړي)",
+  "page": "749",
+  "note": "",
+  "type": "A"
+ },
+ {
+  "code": "M001",
+  "ur": "ابرک",
+  "en": "Mica / talc (identity needs verification)",
+  "page": "27",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M002",
+  "ur": "پارہ",
+  "en": "Mercury",
+  "page": "182",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M003",
+  "ur": "پنا (زمرد)",
+  "en": "Emerald",
+  "page": "202",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M004",
+  "ur": "پھٹکری",
+  "en": "Alum",
+  "page": "211",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M005",
+  "ur": "تانبا",
+  "en": "Copper",
+  "page": "225",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M006",
+  "ur": "جست",
+  "en": "Zinc",
+  "page": "268",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M007",
+  "ur": "جوکھار",
+  "en": "Potassium carbonate preparation",
+  "page": "280",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M008",
+  "ur": "چاندی",
+  "en": "Silver",
+  "page": "291",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M009",
+  "ur": "چمک پتھر",
+  "en": "Lodestone",
+  "page": "304",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M010",
+  "ur": "چونا",
+  "en": "Lime (exact form to verify)",
+  "page": "317",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M011",
+  "ur": "دار چکنا",
+  "en": "Mercuric chloride (book identification)",
+  "page": "347",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M012",
+  "ur": "دپچون",
+  "en": "Copper filings",
+  "page": "369",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M013",
+  "ur": "رانگ",
+  "en": "Tin",
+  "page": "374",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M014",
+  "ur": "رس کپور",
+  "en": "Mercurous chloride (book identification)",
+  "page": "379",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M015",
+  "ur": "زبرجد",
+  "en": "Zabarjad (gemstone; exact identity unconfirmed)",
+  "page": "403",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M016",
+  "ur": "زنگار",
+  "en": "Copper subacetate (book identification)",
+  "page": "409",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M017",
+  "ur": "زہر مہرہ",
+  "en": "Mineral bezoar (book name; exact composition unconfirmed)",
+  "page": "411",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M018",
+  "ur": "سجی",
+  "en": "Barilla / sodium carbonate preparation",
+  "page": "423",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M019",
+  "ur": "سرمہ (کحل، اثمد)",
+  "en": "Antimony-based kohl (exact composition unconfirmed)",
+  "page": "433",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M020",
+  "ur": "سفیدہ کاشغری (سفیدہ)",
+  "en": "Lead carbonate (book identification)",
+  "page": "438",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M021",
+  "ur": "سلاجیت",
+  "en": "Shilajit (asphalt in book; rock exudate)",
+  "page": "443",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M022",
+  "ur": "سنگ جراحت",
+  "en": "Soapstone",
+  "page": "455",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M023",
+  "ur": "سنگ چقماق",
+  "en": "Flint",
+  "page": "456",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M024",
+  "ur": "سنگ سرماہی (حجر السمک)",
+  "en": "Calcium silicate (book identification)",
+  "page": "457",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M025",
+  "ur": "سنگ یہود (حجر الیہود)",
+  "en": "Jews' stone (book name; exact identity to verify)",
+  "page": "457",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M026",
+  "ur": "طلا (سونا، گولڈ)",
+  "en": "Gold (p. 464 describes Kushta Sona)",
+  "page": "463",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M027",
+  "ur": "سونا مکھی (روپا مکھی)",
+  "en": "Bismuth (book identification; identity to verify)",
+  "page": "464",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M028",
+  "ur": "سمکھیا (سم الفار)",
+  "en": "Arsenic (book identification)",
+  "page": "465",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M029",
+  "ur": "سہاگہ (تنکار)",
+  "en": "Borax",
+  "page": "470",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M030",
+  "ur": "سیسہ (سرب)",
+  "en": "Lead",
+  "page": "476",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M031",
+  "ur": "سیندور",
+  "en": "Red lead oxide (book identification)",
+  "page": "478",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M032",
+  "ur": "شادنج (شاد نہ)",
+  "en": "Reddish stone (book description; exact identity to verify)",
+  "page": "480",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M033",
+  "ur": "شنگرف (زنجفر)",
+  "en": "Cinnabar",
+  "page": "488",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M034",
+  "ur": "شورہ قلمی",
+  "en": "Potassium nitrate",
+  "page": "489",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M035",
+  "ur": "عقیق (عقیق یمنی)",
+  "en": "Agate (gemstone; book English spelling: Conuchien)",
+  "page": "501",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M036",
+  "ur": "فیروزہ",
+  "en": "Turquoise",
+  "page": "513",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M037",
+  "ur": "کھپرا (سنگ بصری)",
+  "en": "Zinc ore (book identification) (له جست M006 سره تړلی مواد دی)",
+  "page": "584",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M038",
+  "ur": "کہربا (کہربا شمعی)",
+  "en": "Amber (fossil resin) (له عنبر A041 سره جلا توکی دی)",
+  "page": "586",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M039",
+  "ur": "گل ارمنی (طین ارمنی)",
+  "en": "Red Armenian bole",
+  "page": "610",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M040",
+  "ur": "گل مختوم (طین مختوم، مٹی مختوم)",
+  "en": "Sealed earth / terra sigillata (book aliases) (دقیق ترکیب تایید غواړي)",
+  "page": "615",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M041",
+  "ur": "گندھک (کبریت)",
+  "en": "Sulfur",
+  "page": "622",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M042",
+  "ur": "گیرو (گیری)",
+  "en": "Red ochre",
+  "page": "638",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M043",
+  "ur": "لاجورد (لازورد)",
+  "en": "Lapis lazuli",
+  "page": "641",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M044",
+  "ur": "لال",
+  "en": "Ruby (book heading)",
+  "page": "644",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M045",
+  "ur": "فولاد (لوہا، حدید، آہن)",
+  "en": "Iron / steel (book heading) (د ۶۵۶م مخ کشتہ فولاد ورسره تړلی دی)",
+  "page": "655",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M046",
+  "ur": "لوہے کا میل (خبث الحدید)",
+  "en": "Ferric oxide (book identification)",
+  "page": "657",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M047",
+  "ur": "مٹی داغستانی",
+  "en": "Dagestani earth (book heading) (دقیق ترکیب تایید غواړي)",
+  "page": "670",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M048",
+  "ur": "مٹی کھڑیا (کھڑیا مٹی)",
+  "en": "Chalk",
+  "page": "671",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M049",
+  "ur": "مٹی ملتانی (گل ملتانی)",
+  "en": "Multan clay / fuller's earth",
+  "page": "671",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M050",
+  "ur": "مردار سنگ",
+  "en": "Lead monoxide (book identification)",
+  "page": "679",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M051",
+  "ur": "مرقشیشا",
+  "en": "Marqashisha (metallic mineral in book) (دقیق ترکیب او املا تایید غواړي)",
+  "page": "680",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M052",
+  "ur": "منسل (زرنیخ احمر)",
+  "en": "Red arsenic sulfide (book identification)",
+  "page": "698",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M053",
+  "ur": "مومیائی",
+  "en": "Mumiyai (book describes a tar-like substance) (له سلاجیت M021 سره دقیق تړاو تایید غواړي)",
+  "page": "709",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M054",
+  "ur": "نفط",
+  "en": "Rock oil / petroleum (book heading)",
+  "page": "734",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M055",
+  "ur": "نمک (لون)",
+  "en": "Salt (sodium chloride)",
+  "page": "737",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M056",
+  "ur": "سیندھا نمک (نمک لاہوری)",
+  "en": "Rock salt",
+  "page": "737",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M057",
+  "ur": "نمک شیشہ",
+  "en": "Transparent salt (book heading)",
+  "page": "738",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M058",
+  "ur": "نمک سانبھر",
+  "en": "Lake salt",
+  "page": "738",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M059",
+  "ur": "نمک شور",
+  "en": "Sea salt",
+  "page": "738",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M060",
+  "ur": "نمک سیاہ (کالا نمک)",
+  "en": "Black salt",
+  "page": "738",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M061",
+  "ur": "نوشادر (ملح النشادر)",
+  "en": "Ammonium chloride",
+  "page": "740",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M062",
+  "ur": "نیلا تھوتھا (توتیائے اخضر)",
+  "en": "Copper sulfate",
+  "page": "742",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M063",
+  "ur": "نیلم",
+  "en": "Sapphire",
+  "page": "744",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M064",
+  "ur": "ہرتال ورقی (زرنیخ صفری)",
+  "en": "Yellow arsenic sulfide (book identification) (د ۷۵۶م مخ هرتال ګوډتي او کشتہ اړوند حوالې دي)",
+  "page": "755",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M065",
+  "ur": "ہیرا (الماس)",
+  "en": "Diamond (د ۷۶۳–۷۶۴ مخونو کشتہ الماس جلا چاپي حواله ده)",
+  "page": "763",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M066",
+  "ur": "ہیرا کسیس",
+  "en": "Ferrous sulfate (book identification)",
+  "page": "764",
+  "note": "",
+  "type": "M"
+ },
+ {
+  "code": "M067",
+  "ur": "یشب (سنگ یشب)",
+  "en": "Yashb (book English: Agate) (له عقیق M035 سره دقیق معدني هویت پرتله کړئ)",
+  "page": "767",
+  "note": "",
+  "type": "M"
+ }
+]
