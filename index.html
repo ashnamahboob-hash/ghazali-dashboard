@@ -62,6 +62,10 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 .prog{height:14px;border-radius:99px;background:var(--deep);overflow:hidden;display:flex;margin:6px 0 4px}.prog i{display:block;height:100%}
 .rec{display:flex;gap:10px;padding:8px 14px;border-radius:14px;background:var(--deep);margin-top:8px;cursor:pointer}.rec small{color:var(--soft);margin-inline-start:auto;direction:ltr}
 .hrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)}.hrow span{flex:1;min-width:200px}
+.sec{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 16px 0}.sec button{border-radius:12px;padding:4px 8px;font-size:14px;line-height:1.5;min-height:40px}.sec button.on{background:var(--gold);color:var(--bg);font-weight:700}.sec button:first-child{grid-column:1/3}
+.nolib .t,.nolib #list{display:none}
+#fc{max-height:84px;overflow:auto}#fc button{padding:0 9px;height:30px;font-size:13px}
+.pv{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv span{background:var(--deep);border-radius:12px;padding:2px 14px}
 .hint{color:var(--soft);font-size:13px;margin:4px 4px 0}
 </style>
 </head>
@@ -71,10 +75,12 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 <div id="app">
 <aside>
 <div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div>
+<div class="sec" id="sec"></div>
 <div class="t">
 <input id="q" placeholder="لټون: نوم، کوډ، علمي نوم…">
 <div class="fl" id="fs"></div>
 <div class="fl" id="ft"></div>
+<div class="fl" id="fc"></div>
 <div class="acts"><button class="p" id="new">+ نوی بوټی</button><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div>
 <small id="cnt"></small>
 </div>
@@ -97,12 +103,23 @@ const GROUPS=[['پېژندنه',['mhy']],['پیدایښت او یادونه',['o
 const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ بوټی','پاڼه','ګل','مېوه','تخم','ریښه','نور'];
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
+/* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
+const SEC=[['lib','کتابتون (بوټي)'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
+const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
+const SECINFO={
+ regions:['د افغانستان طبي بوټي','د ایپ په دې برخه کې کارونکی ولایت غوره کوي. د دې ولایت مستند ریکارډونه لا نه دي داخل سوي.'],
+ farming:['کرنه او اقتصادي ارزښت','په ایپ کې دوه فرعي برخې لري: «د کرنې او پروسس معلومات» (اقلیم، خاوره، اوبه، حاصل، وچول او پروسس) او «د بازار معلومات» (د بازار نرخونه، لګښتونه او عاید به له تایید وروسته داخل سي).'],
+ health:['روغتیا او ناروغۍ','په ایپ کې: «دلته به د روغتیا او ناروغیو تایید سوي مطالب ځای پر ځای سي.»'],
+ compounds:['یوناني مرکبات','په ایپ کې: «دلته به د یوناني مرکباتو نومونه، پېژندنه او سرچینې ثبت سي.»'],
+ pharm:['فارما کوپیا قرابادین','په ایپ کې: «د کتاب نوم، چاپ، مخ او اړوندې مدخل به دلته ثبت سي.»'],
+ qanun:['فارماکوپیا قانون مفرداعضاء','په ایپ کې: «د کتاب نوم، څپرکي، مخونه او اړوندې مدخل به دلته ثبت سي.»']};
+const initial=n=>(String(n||'').normalize('NFKC').match(/[\p{L}\p{N}]/u)?.[0]||'#').toUpperCase();
 const dirOf=l=>l==='en'?'ltr':'rtl';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2800)};
 if(CFG.apiKey.startsWith('YOUR')){$('#lerr').textContent='لومړی د فایل په سر کې د Firebase تنظیمات (CFG) ولیکئ.'}
 const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
-let DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all'};
+let sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
 $('#go').onclick=()=>signInWithEmailAndPassword(auth,$('#em').value,$('#pw').value).catch(e=>$('#lerr').textContent='ننوتنه ونه شوه: '+e.code);
 $('#out').onclick=()=>signOut(auth);
 onAuthStateChanged(auth,async u=>{$('#login').style.display=u?'none':'block';$('#app').style.display=u?'grid':'none';if(u)await load()});
@@ -113,11 +130,18 @@ const ok=v=>String(v??'').trim().length>0;
    که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ، هغه بشپړ شمېرل کېږي. */
 function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fields?.[l]||{};per[l]=CORE.filter(k=>!ok(f[k])).length;red+=per[l];yel+=SOFT.filter(k=>!ok(f[k])).length});return{red,yel,per}}
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
-function chipsRow(){$('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t}</button>`).join('');$('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t}</button>`).join('')}
-function renderList(){chipsRow();const q=$('#q').value.trim().toLowerCase();
+function chipsRow(){const lc={};Object.values(DB).forEach(h=>{const c=initial(nm(h));lc[c]=(lc[c]||0)+1});const ls=Object.keys(lc).sort(new Intl.Collator('ps',{numeric:true}).compare);$('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');$('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t}</button>`).join('');$('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t}</button>`).join('')}
+function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}</button>`).join('');document.querySelector('aside').classList.toggle('nolib',sec!=='lib')}
+function secPage(){const [t,d]=SECINFO[sec];
+ $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
+ ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
+ <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
+$('#sec').onclick=async e=>{const k=e.target.closest('[data-sec]')?.dataset.sec;if(!k||k===sec)return;if(dirty&&!confirm('بدلونونه ذخیره نه دي. برخه بدلوئ؟'))return;dirty=false;sec=k;if(k!=='lib')cur=null;secBar();if(k==='lib')renderList();else secPage()};
+function renderList(){secBar();if(sec!=='lib')return secPage();chipsRow();const q=$('#q').value.trim().toLowerCase();
  const a=Object.entries(DB).filter(([c,h])=>{
   if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false;
   if(flt.ty!=='all'&&(h.type||'T')!==flt.ty)return false;
+  if(flt.ch&&initial(nm(h))!==flt.ch)return false;
   return !q||(c+' '+Object.values(h.names||{}).join(' ')+' '+(h.scientific||'')).toLowerCase().includes(q)}).sort((x,y)=>(x[1].order??9e9)-(y[1].order??9e9));
  $('#cnt').textContent=a.length+' / '+Object.keys(DB).length;
  $('#list').innerHTML=a.map(([c,h])=>`<div class="it ${cur&&cur.code===c?'on':''}" data-c="${c}"><span class="dot s-${h.status}"></span><small>${c}</small><span class="nm">${esc(nm(h))}</span>${badges(h)}${h.note&&h.status==='index'?'<span title="'+esc(h.note)+'" style="color:var(--warn)">⚑</span>':''}</div>`).join('');
@@ -130,6 +154,7 @@ function home(){const v=Object.values(DB),n=s=>v.filter(h=>h.status===s).length,
  <div class="box"><h3>وروستي بدلونونه</h3>${rec.map(([c,h])=>`<div class="rec" data-c="${c}"><b>${c}</b><span>${esc(nm(h))}</span><small>${new Date(h.updatedAt).toLocaleString()}</small></div>`).join('')||'<span class="hint">تر اوسه هیڅ بدلون نشته.</span>'}</div></div>`}
 $('#q').oninput=renderList;
 $('#fs').onclick=e=>{const k=e.target.dataset.fs;if(k){flt.st=k;renderList()}};
+$('#fc').onclick=e=>{const b=e.target.closest('button');if(b){flt.ch=b.dataset.fc;renderList()}};
 $('#ft').onclick=e=>{const k=e.target.dataset.ft;if(k){flt.ty=k;renderList()}};
 $('#list').onclick=e=>{const i=e.target.closest('.it');if(i)openHerb(i.dataset.c)};
 async function openHerb(c){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بل بوټی خلاصوئ؟'))return;
