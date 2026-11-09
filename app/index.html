@@ -1771,7 +1771,7 @@ function applyHerbs(list){
   let changed=false;
   const KEYS=wordDetailLayout.order;
   for(const h of list){
-    const code=h&&h.code;if(!code||!h.fields||!h.names)continue;
+    const code=h&&h.code;if(!code||!h.names)continue;
     const nm=h.names;
     let p=H.find(x=>x.taj&&x.taj[0]===code),rec=wordDetailLayout.records[code];
     if(!p){
@@ -1779,6 +1779,7 @@ function applyHerbs(list){
       p={nm:{ps:nm.ps||'',fa:nm.fa||nm.ps||'',ur:nm.ur||nm.ps||'',en:nm.en||'',ar:nm.ar||''},s:h.scientific||'',c:'#2d5c4a',img:undefined,taj:row,imported:true};
       H.push(p);changed=true;
     }
+    if(h.status==='index'||!h.fields)continue;
     if(!rec){
       rec={code,scientific:h.scientific||'',family:h.family||'',name:{},names:{},name_notes:{},fields:{},tables:{},identity_note:{},pages:String(h.pages||'')};
       for(const l of LG){
@@ -1823,6 +1824,7 @@ function applyHerbs(list){
     window.gkSendFb=x=>{if(x&&!x.sent)window.gkUpload(x,null)};
     const snap=await getDocs(query(collection(db,'herbs'),where('status','in',['reviewed','approved'])));
     const list=snap.docs.map(d=>({...d.data(),code:d.id}));
+    try{const s2=await getDocs(query(collection(db,'herbs'),where('status','==','index'),where('added','==',true)));s2.docs.forEach(d=>list.push({...d.data(),code:d.id}))}catch(e){console.warn('index list',e)}
     applyHerbs(list);
     try{localStorage.setItem(CK,JSON.stringify(list))}catch(e){}
   }catch(e){console.warn('Firebase',e)}

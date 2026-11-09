@@ -5,9 +5,9 @@ service cloud.firestore {
       return request.auth != null
         && request.auth.token.email in ['habibrm18@gmail.com'];
     }
-    // بوټي: کارکوونکي یوازې بیاکتل/تایید سوي لولي، ادمین ټول لولي او لیکي
+    // بوټي: کارکوونکي فهرست/بیاکتل/تایید سوي لولي (مسوده نه)، ادمین ټول لولي او لیکي
     match /herbs/{id} {
-      allow read: if isAdmin() || resource.data.status in ['reviewed', 'approved'];
+      allow read: if isAdmin() || resource.data.status in ['index', 'reviewed', 'approved'];
       allow write: if isAdmin();
       match /images/{img} { allow read: if true; allow write: if isAdmin(); }
       match /history/{h}  { allow read, write: if isAdmin(); }

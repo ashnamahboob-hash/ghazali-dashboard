@@ -268,7 +268,7 @@ $('#imgf').onchange=async e=>{for(const f of e.target.files){const b=await creat
  const d=await addDoc(collection(db,'herbs',cur.code,'images'),o);imgs.push({id:d.id,...o})}
  e.target.value='';render();toast('عکسونه ذخیره سول ✓')};
 $('#new').onclick=async()=>{const n=Math.max(0,...Object.keys(DB).filter(c=>c[0]==='T').map(c=>+c.slice(1)||0))+1,code=prompt('د نوي بوټي کوډ',('T'+String(n).padStart(3,'0')));if(!code||DB[code])return toast('کوډ تش یا تکراري دی');
- const h={code,type:code[0]||'T',order:Object.keys(DB).length+1,note:'',status:'draft',pages:'',scientific:'',family:'',names:{},otherNames:{},fields:{ps:{},fa:{},ur:{},en:{},ar:{}},version:0};await setDoc(doc(db,'herbs',code),h);DB[code]=h;renderList();openHerb(code)};
+ const h={code,type:code[0]||'T',order:Object.keys(DB).length+1,added:true,note:'',status:'draft',pages:'',scientific:'',family:'',names:{},otherNames:{},fields:{ps:{},fa:{},ur:{},en:{},ar:{}},version:0};await setDoc(doc(db,'herbs',code),h);DB[code]=h;renderList();openHerb(code)};
 $('#imp').onclick=()=>$('#seedf').click();
 $('#seedf').onchange=async e=>{const arr=JSON.parse(await e.target.files[0].text());let add=0,b=writeBatch(db),n=0;
  for(const h of arr){if(DB[h.code])continue;b.set(doc(db,'herbs',h.code),h);DB[h.code]=h;add++;if(++n===400){await b.commit();b=writeBatch(db);n=0}}
