@@ -1678,7 +1678,17 @@ buildFeedback=function(p){
  // wrap send to support sharing the photo
  var ta=box.querySelector("textarea"),inp=box.querySelector("input[type=text]");
  var orig=send.onclick;
+ if(window.gkUpload){note.textContent=({ps:"عکس د نظر سره یو ځای ایډمین ته لېږل کېږي.",fa:"عکس همراه نظر برای مدیر ارسال می‌شود.",ur:"تصویر رائے کے ساتھ ایڈمن کو بھیجی جاتی ہے۔",en:"The photo is sent to the admin together with your note.",ar:"تُرسل الصورة مع الملاحظة إلى المشرف."})[lang]||""}
  send.onclick=function(ev){
+  if(window.gkUpload){
+   var text0=ta.value.trim();if(!text0){toast(FB.empty[lang]||FB.empty.en);ta.focus();return}
+   var tp0=box.querySelector(".fb-types .on"),who0=inp.value.trim();
+   var e0={id:fbTid(box,id),type:tp0?tp0.textContent:"",text:text0,name:who0,ts:Date.now(),sent:true};
+   var a0=fbLoad();a0.push(e0);fbSave(a0);
+   var f0=picked;send.disabled=true;
+   window.gkUpload(e0,f0).then(function(ok){send.disabled=false;toast(ok?(FB.saved[lang]||FB.saved.en):({ps:"نظر ونه لېږل سو، بیا هڅه وکړئ",fa:"ارسال نشد، دوباره تلاش کنید",ur:"نہیں بھیجا جا سکا، دوبارہ کوشش کریں",en:"Could not send, please try again",ar:"تعذّر الإرسال، حاول مجدداً"})[lang])});
+   ta.value="";rm.onclick();return;
+  }
   if(picked&&navigator.canShare&&navigator.canShare({files:[picked]})){
    var text=ta.value.trim();if(!text){toast(FB.empty[lang]||FB.empty.en);ta.focus();return}
    var tp=box.querySelector(".fb-types .on"),who=inp.value.trim();
@@ -1802,10 +1812,15 @@ function applyHerbs(list){
       import('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'),
       import('https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js')]);
     const db=getFirestore(initializeApp(CFG));
-    window.gkSendFb=x=>{
-      if(!x||x.sent)return;
-      addDoc(collection(db,'feedback'),{herbId:String(x.id||'').slice(0,20),type:String(x.type||'').slice(0,40),text:String(x.text||'').slice(0,2000),name:String(x.name||'').slice(0,60),lang:String(lang||'').slice(0,5),ts:Number(x.ts)||Date.now(),status:'new',createdAt:serverTimestamp()}).catch(e=>console.warn('feedback',e));
+    const photoUrl=file=>new Promise(res=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{let m=1000,q=.7,out='';for(let k=0;k<5;k++){const r=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*r);c.height=Math.round(i.height*r);c.getContext('2d').drawImage(i,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;m*=.8;q-=.08}URL.revokeObjectURL(u);res(out.length<900000?out:'')};i.onerror=()=>{URL.revokeObjectURL(u);res('')};i.src=u});
+    window.gkUpload=async(x,file)=>{
+      try{
+        const d={herbId:String(x.id||'').slice(0,20),type:String(x.type||'').slice(0,40),text:String(x.text||'').slice(0,2000),name:String(x.name||'').slice(0,60),lang:String(lang||'').slice(0,5),ts:Number(x.ts)||Date.now(),status:'new',createdAt:serverTimestamp()};
+        if(file){const ph=await photoUrl(file);if(ph)d.photo=ph}
+        await addDoc(collection(db,'feedback'),d);return true;
+      }catch(e){console.warn('feedback',e);return false}
     };
+    window.gkSendFb=x=>{if(x&&!x.sent)window.gkUpload(x,null)};
     const snap=await getDocs(query(collection(db,'herbs'),where('status','in',['reviewed','approved'])));
     const list=snap.docs.map(d=>({...d.data(),code:d.id}));
     applyHerbs(list);
