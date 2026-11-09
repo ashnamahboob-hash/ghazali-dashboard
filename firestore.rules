@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email in ['habibrm18@gmail.com'];
+    }
+    // بوټي: کارکوونکي یوازې بیاکتل/تایید سوي لولي، ادمین ټول لولي او لیکي
+    match /herbs/{id} {
+      allow read: if isAdmin() || resource.data.status in ['reviewed', 'approved'];
+      allow write: if isAdmin();
+      match /images/{img} { allow read: if true; allow write: if isAdmin(); }
+      match /history/{h}  { allow read, write: if isAdmin(); }
+    }
+    // د ایپ کارکوونکو نظرونه: هر څوک کولی شي نوی نظر ولېږي (محدود اندازه)، یوازې ادمین لولي او اداره کوي
+    match /feedback/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['herbId','type','text','name','lang','ts','status','createdAt'])
+        && request.resource.data.status == 'new'
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 2000
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60
+        && request.resource.data.herbId is string && request.resource.data.herbId.size() <= 20;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

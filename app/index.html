@@ -1514,7 +1514,7 @@ enhanceDetail=function(){
 
 /* ===== v3.1: source line + feedback ===== */
 // ---- ډاټا: د نظرونو د ترلاسه کولو لار. دلته خپل شمېره (د هېواد کوډ سره، پرته له +) یا ایمیل ولیکئ ----
-var FEEDBACK={whatsapp:"93704689338",email:""};
+var FEEDBACK={whatsapp:"",email:""};
 var FB={
  title:{ps:"ستاسو نظر",fa:"نظر شما",ur:"آپ کی رائے",en:"Your feedback",ar:"رأيك"},
  hint:{ps:"د دې مدخل په اړه سمون، نوې معلومات، عکس یا وړاندیز ولیکئ.",fa:"درباره این مدخل اصلاح، اطلاعات تازه، عکس یا پیشنهاد بنویسید.",ur:"اس اندراج کے بارے میں اصلاح، نئی معلومات، تصویر یا تجویز لکھیں۔",en:"Write a correction, new information, a photo or a suggestion about this entry.",ar:"اكتب تصحيحاً أو معلومات جديدة أو صورة أو اقتراحاً حول هذا المدخل."},
@@ -1528,7 +1528,7 @@ var FB={
  mine:{ps:"ستاسو پخواني نظرونه (په دې وسیله کې)",fa:"نظرهای قبلی شما (در این دستگاه)",ur:"آپ کی پچھلی آراء (اس ڈیوائس پر)",en:"Your earlier notes (on this device)",ar:"ملاحظاتك السابقة (على هذا الجهاز)"}
 };
 function fbLoad(){try{return JSON.parse(localStorage.getItem("gk_feedback")||"[]")}catch(e){return[]}}
-function fbSave(a){try{localStorage.setItem("gk_feedback",JSON.stringify(a.slice(-200)))}catch(e){}}
+function fbSave(a){try{localStorage.setItem("gk_feedback",JSON.stringify(a.slice(-200)))}catch(e){}try{if(window.gkSendFb&&a.length)window.gkSendFb(a[a.length-1])}catch(e){}}
 function fbUrl(msg){
  var f=FEEDBACK||{};
  if(f.whatsapp)return "https://wa.me/"+String(f.whatsapp).replace(/\D/g,"")+"?text="+encodeURIComponent(msg);
@@ -1561,7 +1561,7 @@ function buildFeedback(p){
   var a=fbLoad();a.push({id:fbTid(box,id),type:type,text:text,name:who,ts:Date.now()});fbSave(a);
   var url=fbUrl(msg);
   if(url){window.open(url,"_blank");toast(FB.saved[lang]||FB.saved.en)}
-  else if(navigator.clipboard){navigator.clipboard.writeText(msg).then(function(){toast(FB.copied[lang]||FB.copied.en)},function(){toast(FB.saved[lang]||FB.saved.en)})}
+  else if(!window.gkSendFb&&navigator.clipboard){navigator.clipboard.writeText(msg).then(function(){toast(FB.copied[lang]||FB.copied.en)},function(){toast(FB.saved[lang]||FB.saved.en)})}
   else toast(FB.saved[lang]||FB.saved.en);
   ta.value="";renderList();
  };
@@ -1748,5 +1748,71 @@ render=function(){
 };
 render();
 </script>
+<script type="module">
+/* ===== Firebase: د ډیشبورډ ډاټا لوستل + نظرونه لېږل ===== */
+const CFG={apiKey:"AIzaSyAhBekjZhte7rhP2Tbu7h4cEcIsCk5nigY",authDomain:"ghazali-herbs.firebaseapp.com",projectId:"ghazali-herbs"};
+const LG=['ps','fa','ur','en','ar'],CK='gk_herbs_cache_v1';
+const norm=x=>String(x==null?'':x).replace(/\s+/g,'');
+const flat=bl=>(bl||[]).map(b=>(b.subtitle?b.subtitle+': ':'')+(b.text||'')).join('\n');
+const blocks=t=>String(t||'').split(/\n+/).map(x=>x.trim()).filter(Boolean).map(x=>({text:x,subtitle:'',source_ref:'dashboard'}));
+const parseOther=t=>String(t||'').split(/\n+/).map(x=>x.trim()).filter(Boolean).map(x=>{const i=x.search(/[:：]/);return i>0?[x.slice(0,i).trim(),x.slice(i+1).trim()]:['',x]});
+const otherFlat=a=>(a||[]).map(x=>x[0]+': '+x[1]).join('\n');
+function applyHerbs(list){
+  let changed=false;
+  const KEYS=wordDetailLayout.order;
+  for(const h of list){
+    const code=h&&h.code;if(!code||!h.fields||!h.names)continue;
+    const nm=h.names;
+    let p=H.find(x=>x.taj&&x.taj[0]===code),rec=wordDetailLayout.records[code];
+    if(!p){
+      const row=[code,nm.ur||nm.ps||code,nm.en||'',String(h.pages||''),''];tajRecords.push(row);
+      p={nm:{ps:nm.ps||'',fa:nm.fa||nm.ps||'',ur:nm.ur||nm.ps||'',en:nm.en||'',ar:nm.ar||''},s:h.scientific||'',c:'#2d5c4a',img:undefined,taj:row,imported:true};
+      H.push(p);changed=true;
+    }
+    if(!rec){
+      rec={code,scientific:h.scientific||'',family:h.family||'',name:{},names:{},name_notes:{},fields:{},tables:{},identity_note:{},pages:String(h.pages||'')};
+      for(const l of LG){
+        rec.name[l]=nm[l]||nm.ps||'';
+        rec.names[l]=parseOther(h.otherNames&&h.otherNames[l]);
+        rec.fields[l]={};for(const k of KEYS)rec.fields[l][k]=blocks(h.fields[l]&&h.fields[l][k]);
+      }
+      wordDetailLayout.records[code]=rec;
+      for(const l of LG)if(rec.name[l])p.nm[l]=rec.name[l];
+      p.s=rec.scientific||p.s;changed=true;continue;
+    }
+    /* موجود ریکارډ: یوازې هغه څه بدلوو چې ډیشبورډ کې بدل سوي */
+    for(const l of LG){
+      if(nm[l]&&nm[l]!==rec.name[l]){rec.name[l]=nm[l];p.nm[l]=nm[l];changed=true}
+      const on=h.otherNames&&h.otherNames[l];
+      if(typeof on==='string'&&norm(on)!==norm(otherFlat(rec.names[l]))){rec.names[l]=parseOther(on);changed=true}
+      for(const k of KEYS){
+        const nv=h.fields[l]&&h.fields[l][k];if(nv===undefined)continue;
+        if(norm(nv)!==norm(flat(rec.fields[l][k]))){rec.fields[l][k]=blocks(nv);changed=true}
+      }
+    }
+    if(typeof h.scientific==='string'&&h.scientific&&h.scientific!==rec.scientific){rec.scientific=h.scientific;p.s=h.scientific;changed=true}
+    if(typeof h.family==='string'&&h.family!==rec.family&&h.family){rec.family=h.family;changed=true}
+  }
+  if(changed){try{render()}catch(e){console.warn(e)}}
+}
+(async()=>{
+  try{const c=JSON.parse(localStorage.getItem(CK)||'null');if(c&&c.length)applyHerbs(c)}catch(e){}
+  try{
+    const [{initializeApp},{getFirestore,collection,query,where,getDocs,addDoc,serverTimestamp}]=await Promise.all([
+      import('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js')]);
+    const db=getFirestore(initializeApp(CFG));
+    window.gkSendFb=x=>{
+      if(!x||x.sent)return;
+      addDoc(collection(db,'feedback'),{herbId:String(x.id||'').slice(0,20),type:String(x.type||'').slice(0,40),text:String(x.text||'').slice(0,2000),name:String(x.name||'').slice(0,60),lang:String(lang||'').slice(0,5),ts:Number(x.ts)||Date.now(),status:'new',createdAt:serverTimestamp()}).catch(e=>console.warn('feedback',e));
+    };
+    const snap=await getDocs(query(collection(db,'herbs'),where('status','in',['reviewed','approved'])));
+    const list=snap.docs.map(d=>({...d.data(),code:d.id}));
+    applyHerbs(list);
+    try{localStorage.setItem(CK,JSON.stringify(list))}catch(e){}
+  }catch(e){console.warn('Firebase',e)}
+})();
+</script>
+
 </body>
 </html>

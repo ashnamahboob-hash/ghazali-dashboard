@@ -117,7 +117,7 @@ const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ ب�
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
-const SEC=[['lib','کتابتون (بوټي)'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
+const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
 const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
 const SECINFO={
  regions:['د افغانستان طبي بوټي','د ایپ په دې برخه کې کارونکی ولایت غوره کوي. د دې ولایت مستند ریکارډونه لا نه دي داخل سوي.'],
@@ -140,11 +140,11 @@ if(CFG.apiKey.startsWith('YOUR')){$('#lerr').textContent='لومړی د فایل
 const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
 let FSZ=16,HIDE=false,CL=new Set();try{FSZ=+localStorage.getItem('gk_fs')||16;HIDE=localStorage.getItem('gk_hide')==='1'}catch(e){}
 document.documentElement.style.setProperty('--fs',FSZ+'px');
-let sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
+let FBK=[],FBN=0,FBV='new',sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
 $('#go').onclick=()=>signInWithEmailAndPassword(auth,$('#em').value,$('#pw').value).catch(e=>$('#lerr').textContent='ننوتنه ونه شوه: '+e.code);
 $('#out').onclick=()=>signOut(auth);
 onAuthStateChanged(auth,async u=>{$('#login').style.display=u?'none':'block';$('#app').style.display=u?'grid':'none';if(u)await load()});
-async function load(){const s=await getDocs(collection(db,'herbs'));DB={};s.forEach(d=>DB[d.id]=d.data());renderList()}
+async function load(){const s=await getDocs(collection(db,'herbs'));DB={};s.forEach(d=>DB[d.id]=d.data());renderList();fbLoadAll().then(()=>secBar())}
 const nm=h=>h.names?.ps||h.names?.ur||h.names?.en||'';
 const ok=v=>String(v??'').trim().length>0;
 /* بشپړتیا: سور = اړین ځایونه خالي (مزاج، ماهیت، خواص، استعمال، زیانونه + د کتاب مخ)، ژېړ = مصلح/بدل خالي.
@@ -166,8 +166,20 @@ function chipsRow(){const q=norm($('#gs').value),E=Object.entries(DB),cn={all:0,
  $('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');
  $('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');
  $('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t} <span class="n">${ct[k]||0}</span></button>`).join('')}
-function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}</button>`).join('');$('#app').classList.toggle('nolib',sec!=='lib')}
-function secPage(){const [t,d]=SECINFO[sec];
+function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}${k==='feedback'&&FBN?` <span class="b r">${FBN}</span>`:''}</button>`).join('');$('#app').classList.toggle('nolib',sec!=='lib')}
+async function fbLoadAll(){try{const s=await getDocs(query(collection(db,'feedback'),orderBy('createdAt','desc'),limit(200)));FBK=s.docs.map(d=>({id:d.id,...d.data()}));FBN=FBK.filter(x=>x.status==='new').length;return true}catch(e){FBK=[];return e.code||String(e)}}
+function fbRender(){const list=FBK.filter(x=>FBV==='all'||x.status==='new');
+ $('#ed').innerHTML=`<div class="home"><h2>نظرونه</h2><p>هغه نظرونه چې د ایپ کارکوونکو ولېږل. دا یوازې تاسو ته ښکاري.</p></div>
+ <div class="tb"><span class="seg"><button data-fbv="new" class="${FBV==='new'?'on':''}">نوي (${FBN})</button><button data-fbv="all" class="${FBV==='all'?'on':''}">ټول (${FBK.length})</button></span><button id="fbre">تازه کول</button></div>
+ ${list.map(x=>{const h=DB[x.herbId],dt=x.createdAt?.toDate?x.createdAt.toDate():new Date(x.ts||0);return `<div class="box" style="${x.status==='new'?'border:1px solid var(--gold)':''}"><div class="hrow" style="border:0"><b>${esc(x.herbId||'عمومي')}</b><span>${h?esc(nm(h)):'عمومي نظر'} · ${esc(x.type||'')} · ${esc(x.lang||'')} · ${dt.toLocaleString()}</span>${x.status==='new'?'<span class="b r">نوی</span>':''}</div><p style="white-space:pre-wrap;margin:6px 0">${esc(x.text)}</p>${x.name?`<div class="hint">— ${esc(x.name)}</div>`:''}<div class="tb">${h?`<button data-fbopen="${esc(x.herbId)}">بوټی خلاص کړه</button>`:''}${x.status==='new'?`<button data-fbread="${x.id}">لوستل سو ✓</button>`:''}<button data-fbdel="${x.id}">ړنګول</button></div></div>`}).join('')||'<div class="box"><p class="hint">هیڅ نظر نشته.</p></div>'}`}
+async function fbPage(){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2><p>لوستل کېږي…</p></div>';const r=await fbLoadAll();secBar();if(r!==true){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2></div><div class="box"><p>نظرونه ونه لوستل سول ('+esc(r)+'). ډېر ځله دا د Firestore Rules له امله وي، چې باید نوي Rules Publish سي.</p></div>';return}fbRender()}
+$('#ed').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||sec!=='feedback')return;
+ if(b.dataset.fbv){FBV=b.dataset.fbv;fbRender()}
+ else if(b.id==='fbre')await fbPage()
+ else if(b.dataset.fbopen)await gotoHerb(b.dataset.fbopen)
+ else if(b.dataset.fbread){await setDoc(doc(db,'feedback',b.dataset.fbread),{status:'read'},{merge:true});const x=FBK.find(y=>y.id===b.dataset.fbread);if(x)x.status='read';FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}
+ else if(b.dataset.fbdel){if(confirm('دا نظر ړنګ سي؟')){await deleteDoc(doc(db,'feedback',b.dataset.fbdel));FBK=FBK.filter(y=>y.id!==b.dataset.fbdel);FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}}});
+function secPage(){if(sec==='feedback')return fbPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
