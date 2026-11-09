@@ -34,6 +34,10 @@ select option{background:var(--deep);color:var(--ink)}
 details.box>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:10px 0;color:var(--gold);font-size:18px;font-weight:700}
 details.box>summary::-webkit-details-marker{display:none}details.box>summary::before{content:'▾';font-size:14px;transition:transform .15s}details.box:not([open])>summary::before{transform:rotate(90deg)}
 details.box>summary .gc{margin-inline-start:auto;font-size:13px;font-weight:400;color:var(--soft)}
+#gsw{position:relative;flex:none;width:300px}#gs{background:#fff;color:#222;border-radius:20px;padding:6px 16px}#gs::placeholder{color:#889}
+#gsr{position:absolute;top:100%;inset-inline:0;min-width:360px;max-height:70vh;overflow:auto;background:var(--deep);border:1px solid var(--tile);border-radius:16px;z-index:30;display:none;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+#gsr .gr{display:flex;gap:10px;align-items:center;padding:8px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06)}#gsr .gr:hover,#gsr .gr.on{background:var(--tile)}
+#gsr .gr small{color:var(--gold);direction:ltr;min-width:46px}#gsr .gr em{margin-inline-start:auto;font-style:normal;font-size:12px;color:var(--soft);white-space:nowrap}#gsr .gm{padding:8px 14px;color:var(--soft);font-size:13px}
 details.fl2{margin:0}details.fl2>summary{cursor:pointer;color:var(--soft);font-size:14px}
 textarea{min-height:56px;font-size:var(--fs,16px);overflow:hidden;transition:border-color .15s}input{font-size:var(--fs,16px)}
 aside .t .row2{display:flex;gap:6px}aside .t .row2 .p{flex:1}
@@ -85,7 +89,7 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
 <div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
 <div id="app">
-<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div class="tools"><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
+<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" placeholder="🔍 لټون په ټولو بوټو کې: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
 <aside>
 <div class="t">
 <input id="q" placeholder="لټون: نوم، کوډ، علمي نوم…">
@@ -125,6 +129,12 @@ const SECINFO={
  pharm:['فارما کوپیا قرابادین','په ایپ کې: «د کتاب نوم، چاپ، مخ او اړوندې مدخل به دلته ثبت سي.»'],
  qanun:['فارماکوپیا قانون مفرداعضاء','په ایپ کې: «د کتاب نوم، څپرکي، مخونه او اړوندې مدخل به دلته ثبت سي.»']};
 const initial=n=>(String(n||'').normalize('NFKC').match(/[\p{L}\p{N}]/u)?.[0]||'#').toUpperCase();
+/* لټون: د ایپ په څېر نورمال کول (عربي/فارسي توري، حرکات، شمېرې) او په ټولو نومونو، نورو نومونو، علمي نوم او کوډ کې */
+const norm=v=>String(v??'').normalize('NFKC').toLowerCase().replace(/[ً-ٰٟـ]/g,'').replace(/[أإآ]/g,'ا').replace(/[يى]/g,'ی').replace(/ك/g,'ک').replace(/[۰-۹]/g,d=>String(d.charCodeAt(0)-0x06F0)).replace(/[٠-٩]/g,d=>String(d.charCodeAt(0)-0x0660)).replace(/[ہه]/g,'ه').replace(/ے/g,'ی').replace(/[^\p{L}\p{N}]/gu,'');
+const sv=v=>Array.isArray(v)?v.join(' '):String(v??'');
+const HC=new Map();
+function hay(c,h){const k=c+'|'+(h.version||0)+'|'+(h.updatedAt||0),o=HC.get(c);if(o&&o.k===k)return o.s;const s=norm([c,h.scientific,h.family,...Object.values(h.names||{}),...Object.values(h.otherNames||{})].map(sv).join(' '));HC.set(c,{k,s});return s}
+function why(c,h,q){if(norm(c).includes(q))return 'کوډ';for(const l of L)if(norm(h.names?.[l]).includes(q))return LN[l];for(const l of L)if(norm(sv(h.otherNames?.[l])).includes(q))return 'نور نومونه ('+LN[l]+')';if(norm(h.scientific).includes(q))return 'علمي نوم';if(norm(h.family).includes(q))return 'کورنۍ';return ''}
 const dirOf=l=>l==='en'?'ltr':'rtl';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2800)};
@@ -143,19 +153,29 @@ const ok=v=>String(v??'').trim().length>0;
    که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ، هغه بشپړ شمېرل کېږي. */
 function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fields?.[l]||{};per[l]=CORE.filter(k=>!ok(f[k])).length;red+=per[l];yel+=SOFT.filter(k=>!ok(f[k])).length});return{red,yel,per}}
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
-function chipsRow(){const lc={};Object.values(DB).forEach(h=>{const c=initial(nm(h));lc[c]=(lc[c]||0)+1});const ls=Object.keys(lc).sort(new Intl.Collator('ps',{numeric:true}).compare);$('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');const V=Object.values(DB),cn={all:V.length,index:0,draft:0,reviewed:0,approved:0,inc:0};V.forEach(h=>{cn[h.status]=(cn[h.status]||0)+1;if(h.status!=='index'&&Q(h).red)cn.inc++});$('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');$('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t}</button>`).join('')}
+function pass(c,h,skip,q){
+ if(skip!=='st'){if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false}
+ if(skip!=='ty'&&flt.ty!=='all'&&(h.type||'T')!==flt.ty)return false;
+ if(skip!=='ch'&&flt.ch&&initial(nm(h))!==flt.ch)return false;
+ return !q||hay(c,h).includes(q)}
+/* شمېرې د اوسنیو نورو فلټرونو او لټون له مخې بدلېږي (faceted) */
+function chipsRow(){const q=norm($('#q').value),E=Object.entries(DB),cn={all:0,index:0,draft:0,reviewed:0,approved:0,inc:0},ct={all:0,T:0,M:0,A:0},lc={};
+ for(const [c,h] of E){if(pass(c,h,'st',q)){cn.all++;cn[h.status]=(cn[h.status]||0)+1;if(h.status!=='index'&&Q(h).red)cn.inc++}
+  if(pass(c,h,'ty',q)){ct.all++;const ty=h.type||'T';ct[ty]=(ct[ty]||0)+1}
+  if(pass(c,h,'ch',q)){const i=initial(nm(h));lc[i]=(lc[i]||0)+1}}
+ if(flt.ch&&!lc[flt.ch])lc[flt.ch]=0;
+ const ls=Object.keys(lc).sort(new Intl.Collator('ps',{numeric:true}).compare);
+ $('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');
+ $('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');
+ $('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t} <span class="n">${ct[k]||0}</span></button>`).join('')}
 function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}</button>`).join('');$('#app').classList.toggle('nolib',sec!=='lib')}
 function secPage(){const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
 $('#sec').onclick=async e=>{const k=e.target.closest('[data-sec]')?.dataset.sec;if(!k||k===sec)return;if(dirty&&!confirm('بدلونونه ذخیره نه دي. برخه بدلوئ؟'))return;dirty=false;sec=k;if(k!=='lib')cur=null;secBar();if(k==='lib')renderList();else secPage()};
-function renderList(){secBar();if(sec!=='lib')return secPage();chipsRow();const q=$('#q').value.trim().toLowerCase();
- const a=Object.entries(DB).filter(([c,h])=>{
-  if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false;
-  if(flt.ty!=='all'&&(h.type||'T')!==flt.ty)return false;
-  if(flt.ch&&initial(nm(h))!==flt.ch)return false;
-  return !q||(c+' '+Object.values(h.names||{}).join(' ')+' '+(h.scientific||'')).toLowerCase().includes(q)}).sort((x,y)=>(x[1].order??9e9)-(y[1].order??9e9));
+function renderList(){secBar();if(sec!=='lib')return secPage();chipsRow();const q=norm($('#q').value);
+ const a=Object.entries(DB).filter(([c,h])=>pass(c,h,'',q)).sort((x,y)=>(x[1].order??9e9)-(y[1].order??9e9));
  $('#cnt').textContent=a.length+' / '+Object.keys(DB).length;
  $('#list').innerHTML=a.map(([c,h])=>`<div class="it ${cur&&cur.code===c?'on':''}" data-c="${c}"><span class="dot s-${h.status}"></span><small>${c}</small><span class="nm">${esc(nm(h))}</span>${badges(h)}${h.status==='approved'?'<span class="b pub" title="د ایپ لپاره تایید سوی">✓ ایپ</span>':''}${h.note&&h.status==='index'?'<span title="'+esc(h.note)+'" style="color:var(--warn)">⚑</span>':''}</div>`).join('');
  if(!cur)home()}
@@ -241,7 +261,20 @@ $('#seedf').onchange=async e=>{const arr=JSON.parse(await e.target.files[0].text
  for(const h of arr){if(DB[h.code])continue;b.set(doc(db,'herbs',h.code),h);DB[h.code]=h;add++;if(++n===400){await b.commit();b=writeBatch(db);n=0}}
  if(n)await b.commit();e.target.value='';renderList();toast(add+' بوټي واردات سول')};
 $('#exp').onclick=()=>{const a=Object.values(DB).sort((x,y)=>(x.order??9e9)-(y.order??9e9)),u=URL.createObjectURL(new Blob([JSON.stringify(a,null,1)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='ghazali-backup-'+new Date().toISOString().slice(0,10)+'.json';l.click();URL.revokeObjectURL(u)};
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(cur&&dirty)save()}});
+async function gotoHerb(c){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بل بوټی خلاصوئ؟'))return;dirty=false;sec='lib';flt={st:'all',ty:'all',ch:''};$('#q').value='';$('#gs').value='';$('#gsr').style.display='none';secBar();renderList();await openHerb(c);document.querySelector(`#list [data-c="${c}"]`)?.scrollIntoView({block:'center'})}
+let GR=[],GI=0;
+function gsRender(){const box=$('#gsr'),q=norm($('#gs').value);if(!q){box.style.display='none';return}
+ const m=Object.entries(DB).filter(([c,h])=>hay(c,h).includes(q)).map(([c,h])=>{const n=norm(h.names?.ps),cc=norm(c);return {c,h,s:cc===q?0:cc.startsWith(q)?1:n.startsWith(q)?2:3}}).sort((a,b)=>a.s-b.s||(a.h.order??9e9)-(b.h.order??9e9));
+ GR=m.slice(0,15);GI=0;
+ box.innerHTML=GR.map((r,i)=>`<div class="gr ${i?'':'on'}" data-gc="${r.c}"><small>${r.c}</small><span>${esc(nm(r.h))}</span><em>${esc(why(r.c,r.h,q))} · ${ST[r.h.status]||''}</em></div>`).join('')+(m.length?`<div class="gm">${m.length} پایله${m.length>15?' (لومړي ۱۵ ښودل سوي)':''}</div>`:'<div class="gm">هیڅ پایله ونه موندل سوه.</div>');box.style.display='block'}
+$('#gs').oninput=gsRender;$('#gs').onfocus=gsRender;
+$('#gs').onkeydown=e=>{const rows=[...document.querySelectorAll('#gsr .gr')];if(e.key==='Escape'){$('#gs').value='';$('#gsr').style.display='none'}
+ else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(!rows.length)return;rows[GI]?.classList.remove('on');GI=(GI+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;rows[GI].classList.add('on');rows[GI].scrollIntoView({block:'nearest'})}
+ else if(e.key==='Enter'&&GR[GI])gotoHerb(GR[GI].c)};
+$('#gsr').onmousedown=e=>{const r=e.target.closest('[data-gc]');if(r){e.preventDefault();gotoHerb(r.dataset.gc)}};
+document.addEventListener('click',e=>{if(!e.target.closest('#gsw'))$('#gsr').style.display='none'});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#gs').focus()}
+ if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();if(cur&&dirty)save()}});
 window.addEventListener('beforeunload',e=>{if(dirty)e.preventDefault()});
 </script>
 </body>
