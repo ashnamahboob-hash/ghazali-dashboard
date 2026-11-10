@@ -10,7 +10,7 @@ window.addEventListener("unhandledrejection",function(e){show("promise: "+(e.rea
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>د غزالي خزانه</title>
+<title>غزالي خزانه</title>
 <meta name="theme-color" content="#174a38">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
@@ -1532,7 +1532,7 @@ function fbSave(a){try{localStorage.setItem("gk_feedback",JSON.stringify(a.slice
 function fbUrl(msg){
  var f=FEEDBACK||{};
  if(f.whatsapp)return "https://wa.me/"+String(f.whatsapp).replace(/\D/g,"")+"?text="+encodeURIComponent(msg);
- if(f.email)return "mailto:"+f.email+"?subject="+encodeURIComponent("د غزالي خزانه نظر")+"&body="+encodeURIComponent(msg);
+ if(f.email)return "mailto:"+f.email+"?subject="+encodeURIComponent("غزالي خزانه نظر")+"&body="+encodeURIComponent(msg);
  return "";
 }
 function fbTid(box,id){return box._tg?box._tg().id:id}
@@ -1709,7 +1709,7 @@ render=function(){_render4.apply(this,arguments);if(view==="home"&&homeQuery)hom
 
 /* ===== v5: About page (replaces account button) ===== */
 window.ABOUT={
- ps:{title:"د ایپ په اړه",link:"د ایپ په اړه، نظر او شریکول",prog:"د ثبت پرمختګ",share:"ایپ شریک کړئ",fbT:"نظر او وړاندیز",fbH:"د ایپ یا کوم بوټي په اړه نظر، سمون، نوي معلومات یا عکس ولیکئ. که د یو ځانګړي بوټي په اړه وي، لاندې یې وټاکئ.",pick:"د کوم بوټي په اړه؟ (اختیاري)",pph:"بوټی یا کوډ ولټوئ…",gen:"عمومي نظر",src:"سرچینه او اخطار",ver:"نسخه",shareTxt:"د غزالي خزانه — د طبي بوټو علمي کتابتون"},
+ ps:{title:"د ایپ په اړه",link:"د ایپ په اړه، نظر او شریکول",prog:"د ثبت پرمختګ",share:"ایپ شریک کړئ",fbT:"نظر او وړاندیز",fbH:"د ایپ یا کوم بوټي په اړه نظر، سمون، نوي معلومات یا عکس ولیکئ. که د یو ځانګړي بوټي په اړه وي، لاندې یې وټاکئ.",pick:"د کوم بوټي په اړه؟ (اختیاري)",pph:"بوټی یا کوډ ولټوئ…",gen:"عمومي نظر",src:"سرچینه او اخطار",ver:"نسخه",shareTxt:"غزالي خزانه — د طبي بوټو علمي کتابتون"},
  fa:{title:"درباره برنامه",link:"درباره برنامه، نظر و اشتراک",prog:"پیشرفت ثبت",share:"اشتراک برنامه",fbT:"نظر و پیشنهاد",fbH:"درباره برنامه یا یک گیاه نظر، اصلاح، اطلاعات تازه یا عکس بنویسید. اگر درباره گیاه مشخصی است، آن را در پایین انتخاب کنید.",pick:"درباره کدام گیاه؟ (اختیاری)",pph:"نام یا کد گیاه را جستجو کنید…",gen:"نظر عمومی",src:"منبع و هشدار",ver:"نسخه",shareTxt:"گنجینه غزالی — کتابخانه علمی گیاهان دارویی"},
  ur:{title:"ایپ کے بارے میں",link:"ایپ کے بارے میں، رائے اور شیئر",prog:"اندراج کی پیش رفت",share:"ایپ شیئر کریں",fbT:"رائے اور تجویز",fbH:"ایپ یا کسی بوٹی کے بارے میں رائے، اصلاح، نئی معلومات یا تصویر لکھیں۔ اگر کسی خاص بوٹی کے بارے میں ہے تو نیچے منتخب کریں۔",pick:"کس بوٹی کے بارے میں؟ (اختیاری)",pph:"بوٹی یا کوڈ تلاش کریں…",gen:"عمومی رائے",src:"ماخذ اور انتباہ",ver:"ورژن",shareTxt:"غزالی خزانہ — طبی جڑی بوٹیوں کی علمی لائبریری"},
  en:{title:"About",link:"About, feedback & share",prog:"Entries completed",share:"Share the app",fbT:"Feedback & suggestions",fbH:"Write feedback, a correction, new information or a photo about the app or a herb. If it is about a specific herb, pick it below.",pick:"About which herb? (optional)",pph:"Search herb name or code…",gen:"General feedback",src:"Source & notice",ver:"Version",shareTxt:"Ghazali's Treasury — a scientific library of medicinal herbs"},
