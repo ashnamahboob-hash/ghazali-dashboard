@@ -86,12 +86,12 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 .hint{color:var(--soft);font-size:13px;margin:4px 4px 0}
 @media (max-width:900px){
  html,body{font-size:15px}
- #app{grid-template-columns:minmax(0,1fr);height:100vh;height:100dvh}#sec{min-width:0}#app.nolib{grid-template-columns:minmax(0,1fr)}
+ #app{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-auto-rows:auto;height:auto;min-height:100dvh;align-content:start}#top{position:static}aside{height:auto;display:flex}#list{overflow:visible;flex:none}main{overflow:visible}.bar{position:static}#save{position:fixed;bottom:16px;left:16px;z-index:30;box-shadow:0 4px 14px rgba(0,0,0,.5);padding:12px 22px}#sec{min-width:0}#app.nolib{grid-template-columns:minmax(0,1fr)}
  #top{flex-wrap:wrap;gap:8px;padding:8px 10px}#top .brand b{font-size:16px}#top .brand span{font-size:12px}
  #top .tools{margin-inline-start:auto}
  #sec{order:3;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;height:auto}
  #gsw{order:2;flex:1 1 100%;width:auto}#gsr{min-width:0}
- main{min-width:0;overflow-x:hidden}.hrow span{min-width:0}#app:not(.nolib):not(.ed) main{display:none}#app.ed aside{display:none}
+ main{min-width:0;overflow-x:hidden}.hrow span{min-width:0}#app:not(.nolib):not(.ed) main{display:none!important}#app.ed aside{display:none}
  aside{border:0}main{padding:12px 12px 60px}
  .bar{top:-12px;gap:6px}.bar h2{font-size:19px;min-width:0;flex:1 1 60%}
  .grid,.cmp{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
