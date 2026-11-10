@@ -1758,6 +1758,64 @@ render=function(){
 };
 render();
 </script>
+<script>
+/* ===== photo identification (Pl@ntNet) ===== */
+(function(){
+var KEY='2b108DeGuliVjfzA6CCAqDxUju';
+var TX={
+ ps:{run:'پیژندنه روانه ده…',ai:'احتمالي پایله (Pl@ntNet)',inbook:'په کتاب کې:',genus:'د همدې جنس مدخلونه په کتاب کې:',none:'په کتاب کې نه دی لیکل شوی',open:'مدخل کتل',err:'پیژندنه ونه شوه. انټرنټ وګورئ او بیا هڅه وکړئ.',noplant:'په عکس کې بوټی ونه موندل شو.',note:'پایله یوازې احتمالي ده. بوټی د کتاب له مدخل سره یوازې د علمي نوم له مخې پرتله کېږي.',idt:'د بوټي عکس واخله یا وټاکه. ایپ به یې احتمالي نوم ولټوي او د کتاب مدخل ورسره پرتله کړي.'},
+ fa:{run:'در حال شناسایی…',ai:'نتیجه احتمالی (Pl@ntNet)',inbook:'در کتاب:',genus:'مدخل‌های هم‌جنس در کتاب:',none:'در کتاب نوشته نشده است',open:'دیدن مدخل',err:'شناسایی انجام نشد. اینترنت را بررسی کنید و دوباره تلاش کنید.',noplant:'گیاهی در عکس پیدا نشد.',note:'نتیجه فقط احتمالی است. تطبیق با کتاب فقط بر اساس نام علمی انجام می‌شود.',idt:'عکس گیاه را بگیرید یا انتخاب کنید. برنامه نام احتمالی را جستجو و با مدخل‌های کتاب تطبیق می‌دهد.'},
+ ur:{run:'پہچان جاری ہے…',ai:'ممکنہ نتیجہ (Pl@ntNet)',inbook:'کتاب میں:',genus:'اسی جنس کے اندراجات کتاب میں:',none:'کتاب میں نہیں لکھا گیا',open:'اندراج دیکھیں',err:'پہچان نہیں ہو سکی۔ انٹرنیٹ دیکھیں اور دوبارہ کوشش کریں۔',noplant:'تصویر میں پودا نہیں ملا۔',note:'نتیجہ صرف ممکنہ ہے۔ کتاب سے ملاپ صرف سائنسی نام کی بنیاد پر ہوتا ہے۔',idt:'پودے کی تصویر لیں یا منتخب کریں۔ ایپ ممکنہ نام تلاش کر کے کتاب کے اندراجات سے ملائے گی۔'},
+ en:{run:'Identifying…',ai:'Possible result (Pl@ntNet)',inbook:'In the book:',genus:'Entries of the same genus in the book:',none:'Not written in the book',open:'Open entry',err:'Identification failed. Check your internet and try again.',noplant:'No plant found in the photo.',note:'The result is only probable. Matching with the book uses the scientific name only.',idt:'Take or choose a photo of the plant. The app finds a probable name and compares it with the book entries.'}
+};
+function T2(){return TX[lang]||TX.en}
+try{['ps','fa','ur','en','ar'].forEach(function(l){if(L[l]&&(TX[l]||TX.en))L[l].idt=(TX[l]||TX.en).idt})}catch(e){}
+try{var st=document.createElement('style');st.textContent='.photo-shortcut .soon{display:none}.idres{margin-top:14px}.idres .idc{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;margin:8px 0}.idres .idc b{display:block;direction:ltr;text-align:start;font-size:16px}.idres .idc small{color:var(--soft)}.idres .idb{display:block;width:100%;text-align:start;margin-top:6px;padding:10px 12px;border-radius:12px;border:1px solid var(--bd);background:rgba(255,255,255,.05);color:var(--ink);font:inherit;cursor:pointer}.idres .idn{color:var(--soft);font-size:13px;margin-top:10px}';document.head.appendChild(st)}catch(e){}
+var IDX=null;
+function build(){
+ IDX={sp:{},ge:{}};
+ H.forEach(function(p,i){
+  if(!p.s||p.hiddenDuplicate)return;
+  String(p.s).split(/\s*(?:\/|;|,)\s*/).forEach(function(part){
+   var w=part.replace(/[×x]\s+/,' ').trim().split(/\s+/);var g=(w[0]||'').toLowerCase();if(!/^[a-z-]+$/.test(g))return;
+   (IDX.ge[g]=IDX.ge[g]||[]);if(IDX.ge[g].indexOf(i)<0)IDX.ge[g].push(i);
+   var s=(w[1]||'').toLowerCase();if(/^[a-z-]+$/.test(s)&&!/^(spp?|species|var|subsp)$/.test(s)){var k=g+' '+s;(IDX.sp[k]=IDX.sp[k]||[]);if(IDX.sp[k].indexOf(i)<0)IDX.sp[k].push(i)}
+  });
+ });
+}
+function shrink(file){return new Promise(function(res,rej){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){var m=1280,r=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(function(b){b?res(b):rej(new Error('blob'))},'image/jpeg',.85)};im.onerror=function(){rej(new Error('img'))};im.src=u})}
+function nameOf(i){try{return herbDisplay(H[i])}catch(e){return H[i].s}}
+function render(rs,box){
+ var t=T2(),h='<div class="idn"><b>'+t.ai+'</b></div>';
+ rs.slice(0,3).forEach(function(r){
+  var sci=(r.species&&r.species.scientificNameWithoutAuthor)||'',w=sci.toLowerCase().split(/\s+/),k=w[0]+' '+(w[1]||''),g=w[0];
+  var sp=IDX.sp[k]||[],ge=(IDX.ge[g]||[]).filter(function(i){return sp.indexOf(i)<0});
+  var pc=Math.round((r.score||0)*100);
+  h+='<div class="idc"><b>'+esc(sci)+'</b><small>'+pc+'%</small>';
+  if(sp.length){h+='<div class="idn">'+t.inbook+'</div>'+sp.map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+t.open+'</button>'}).join('')}
+  else if(ge.length){h+='<div class="idn">'+t.genus+'</div>'+ge.slice(0,5).map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+t.open+'</button>'}).join('')}
+  else h+='<div class="idn">'+t.none+'</div>';
+  h+='</div>';
+ });
+ box.innerHTML=h+'<div class="idn">'+t.note+'</div>';
+}
+var _pv=window.pv;
+window.pv=pv=function(el){
+ _pv(el);var file=el.files&&el.files[0];if(!file)return;
+ var box=document.getElementById('idres');if(!box){box=document.createElement('div');box.id='idres';box.className='idres';var p=document.getElementById('pv');p.after(box)}
+ var t=T2();box.innerHTML='<div class="idn">'+t.run+'</div>';
+ if(!IDX)build();
+ shrink(file).then(function(b){
+  var fd=new FormData();fd.append('images',b,'photo.jpg');fd.append('organs','auto');
+  return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+KEY+'&nb-results=5&lang=en',{method:'POST',body:fd})
+ }).then(function(r){
+  if(r.status===404){box.innerHTML='<div class="idn">'+t.noplant+'</div>';return null}
+  if(!r.ok)throw new Error(r.status);return r.json()
+ }).then(function(j){if(!j)return;if(!j.results||!j.results.length){box.innerHTML='<div class="idn">'+t.noplant+'</div>';return}render(j.results,box)})
+ .catch(function(e){console.warn('identify',e);box.innerHTML='<div class="idn">'+t.err+'</div>'});
+};
+})();
+</script>
 <script type="module">
 /* ===== Firebase: د ډیشبورډ ډاټا لوستل + نظرونه لېږل ===== */
 const CFG={apiKey:"AIzaSyAhBekjZhte7rhP2Tbu7h4cEcIsCk5nigY",authDomain:"ghazali-herbs.firebaseapp.com",projectId:"ghazali-herbs"};
