@@ -1843,11 +1843,12 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
           const s=await getDocs(collection(db,'herbs',h.code,'images'));
           const im=s.docs.map(d=>d.data()).filter(x=>x&&typeof x.data==='string'&&/^data:image\//.test(x.data)).sort((x,y)=>(x.order||0)-(y.order||0));
           if(!im.length)return;
-          const p=H.find(x=>x.taj&&x.taj[0]===h.code);
-          if(p){p.img=im[0].data;p.imgs=im.map(x=>x.data);any=true}
+          const SL={'بشپړ بوټی':'plant','پاڼه':'leaf','ګل':'flower','مېوه':'fruit','تخم':'used','ریښه':'used'};
+          const e=(window.HERB_PHOTOS[h.code]=window.HERB_PHOTOS[h.code]||{}),seen={};
+          im.forEach(x=>{const k=SL[x.label];if(k&&!seen[k]){seen[k]=1;e[k]=x.data;any=true}});
         }catch(e){}
       }));
-      if(any){try{render()}catch(e){}}
+      if(any){try{applyPhotos()}catch(e){}try{render()}catch(e){}}
     }catch(e){console.warn('images',e)}
   }catch(e){console.warn('Firebase',e)}
 })();
