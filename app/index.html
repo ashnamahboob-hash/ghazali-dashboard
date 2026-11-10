@@ -1807,11 +1807,11 @@ function render(rs,box){
 }
 var _pv=window.pv;
 window.pv=pv=function(el){
- _pv(el);var file=el.files&&el.files[0];if(!file)return;
+ var file=el.files&&el.files[0];if(!file)return;var bytes=file.arrayBuffer?file.arrayBuffer():Promise.reject(new Error('no arrayBuffer'));bytes.catch(function(){});_pv(el);
  var box=document.getElementById('idres');if(!box){box=document.createElement('div');box.id='idres';box.className='idres';var p=document.getElementById('pv');p.after(box)}
  var t=T2();box.innerHTML='<div class="idn">'+t.run+'</div>';
  if(!IDX)build();
- shrink(file).then(function(b){
+ bytes.then(function(buf){return shrink(new Blob([buf],{type:file.type||'image/jpeg'}))},function(){throw new Error('unreadable file (choose another photo or take a new one)')}).then(function(b){
   var fd=new FormData();fd.append('images',b,'photo.jpg');fd.append('organs','auto');
   return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+KEY+'&nb-results=5&lang=en',{method:'POST',body:fd})
  }).then(function(r){
