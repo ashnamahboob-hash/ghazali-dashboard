@@ -1812,7 +1812,7 @@ window.pv=pv=function(el){
   if(r.status===404){box.innerHTML='<div class="idn">'+t.noplant+'</div>';return null}
   if(!r.ok)throw new Error(r.status);return r.json()
  }).then(function(j){if(!j)return;if(!j.results||!j.results.length){box.innerHTML='<div class="idn">'+t.noplant+'</div>';return}render(j.results,box)})
- .catch(function(e){console.warn('identify',e);box.innerHTML='<div class="idn">'+t.err+'</div>'});
+ .catch(function(e){console.warn('identify',e);var m=String(e&&e.message||e);box.innerHTML='<div class="idn">'+t.err+'</div><div class="idn" dir="ltr">['+(/^\d+$/.test(m)?'HTTP '+m:'network/CORS: '+m)+']</div>'});
 };
 })();
 </script>
