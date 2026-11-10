@@ -1784,7 +1784,12 @@ function build(){
   });
  });
 }
-function shrink(file){return new Promise(function(res,rej){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){var m=1280,r=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(function(b){b?res(b):rej(new Error('blob'))},'image/jpeg',.85)};im.onerror=function(){rej(new Error('img'))};im.src=u})}
+function toBlob(src,w,h){var m=1280,r=Math.min(1,m/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*r));c.height=Math.max(1,Math.round(h*r));c.getContext('2d').drawImage(src,0,0,c.width,c.height);return new Promise(function(res,rej){c.toBlob(function(b){b?res(b):rej(new Error('blob'))},'image/jpeg',.85)})}
+function viaImg(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onerror=function(){rej(new Error('read '+file.size))};fr.onload=function(){var im=new Image();im.onload=function(){toBlob(im,im.naturalWidth||im.width,im.naturalHeight||im.height).then(res,rej)};im.onerror=function(){rej(new Error('img '+(file.type||'?')+' '+file.size))};im.src=fr.result};fr.readAsDataURL(file)})}
+function shrink(file){
+ if(!file.size)return Promise.reject(new Error('empty file'));
+ if(window.createImageBitmap){return createImageBitmap(file).then(function(bm){return toBlob(bm,bm.width,bm.height)}).catch(function(){return viaImg(file)})}
+ return viaImg(file)}
 function nameOf(i){try{return herbDisplay(H[i])}catch(e){return H[i].s}}
 function render(rs,box){
  var t=T2(),h='<div class="idn"><b>'+t.ai+'</b></div>';
