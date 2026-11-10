@@ -1836,6 +1836,19 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
     try{const s2=await getDocs(query(collection(db,'herbs'),where('status','==','index'),where('added','==',true)));s2.docs.forEach(d=>list.push({...d.data(),code:d.id}))}catch(e){console.warn('index list',e)}
     applyHerbs(list);
     try{localStorage.setItem(CK,JSON.stringify(list))}catch(e){}
+    try{
+      let any=false;
+      await Promise.all(list.filter(h=>h.status!=='index'||h.added).map(async h=>{
+        try{
+          const s=await getDocs(collection(db,'herbs',h.code,'images'));
+          const im=s.docs.map(d=>d.data()).filter(x=>x&&typeof x.data==='string'&&/^data:image\//.test(x.data)).sort((x,y)=>(x.order||0)-(y.order||0));
+          if(!im.length)return;
+          const p=H.find(x=>x.taj&&x.taj[0]===h.code);
+          if(p){p.img=im[0].data;p.imgs=im.map(x=>x.data);any=true}
+        }catch(e){}
+      }));
+      if(any){try{render()}catch(e){}}
+    }catch(e){console.warn('images',e)}
   }catch(e){console.warn('Firebase',e)}
 })();
 </script>
