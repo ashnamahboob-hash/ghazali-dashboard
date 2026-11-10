@@ -392,6 +392,7 @@ body.typing .jump,body.typing .bar{position:static!important}
 .filelabel{position:relative;overflow:hidden;cursor:pointer}
 .filelabel input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0}
 label.camera{display:flex;align-items:center;justify-content:center;text-align:center}
+.camera.gal{background:transparent;color:var(--ink);border:1px solid var(--bd);margin-top:0;font-size:16px}
 .fb-photo label.fb-add{display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--soft);background:var(--card);color:var(--ink);font-size:14px;border-radius:14px;min-height:44px;padding:0 14px}
 
 /* ===== v5: About page ===== */
@@ -550,7 +551,7 @@ function render(){
   }else if(view==="regions"||view==="farming"){
     h=regionPage(view);
   }else if(view==="id"){
-    h=bar(homeLabels[lang][1])+'<div class="sec">'+T.idt+'</div><label class="camera filelabel">'+T.idb+'<input type="file" accept="image/*" id="f" onchange="pv(this)"></label><div id="pv">'+previewImage()+'</div><div class="note">'+T.idn+'</div>';
+    h=bar(homeLabels[lang][1])+'<div class="sec">'+T.idt+'</div><label class="camera filelabel">'+T.idb+'<input type="file" accept="image/*" capture="environment" id="f" onchange="pv(this)"></label><label class="camera filelabel gal">'+({ps:'له ګالري وټاکه',fa:'انتخاب از گالری',ur:'گیلری سے منتخب کریں',en:'Choose from gallery',ar:'اختر من المعرض'}[lang]||'Gallery')+'<input type="file" accept="image/*" id="f2" onchange="pv(this)"></label><div id="pv">'+previewImage()+'</div><div class="note">'+T.idn+'</div>';
   }else if(view==="about"){
     h=aboutPage();
   }else if(view==="usr"){
