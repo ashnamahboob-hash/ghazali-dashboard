@@ -17,7 +17,7 @@ textarea[readonly]{background:rgba(0,0,0,.22);color:var(--soft)}
 textarea.bad{border-color:var(--red)}textarea.warn{border-color:var(--yel)}input.bad{border-color:var(--red)}
 select option{background:var(--deep);color:var(--ink)}
 #small{display:none;padding:40px;text-align:center}
-@media (max-width:1000px){#small{display:block}#app,#login{display:none!important}}
+#small{display:none!important}.mb{display:none}
 #login{max-width:380px;margin:10vh auto;background:var(--tile);padding:30px;border-radius:24px;text-align:center}
 #login .lg{color:var(--gold);width:54px;height:54px}
 #login h2{margin:6px 0 4px;font-size:24px}#login .tg{color:var(--gold);margin:0 0 14px}
@@ -84,6 +84,22 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 #fc{max-height:90px;overflow:auto;margin-top:6px}#fc button{padding:0 9px;height:30px;font-size:13px}
 .pv{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv span{background:var(--deep);border-radius:12px;padding:2px 14px}
 .hint{color:var(--soft);font-size:13px;margin:4px 4px 0}
+@media (max-width:900px){
+ html,body{font-size:15px}
+ #app{grid-template-columns:minmax(0,1fr);height:100vh;height:100dvh}#sec{min-width:0}
+ #top{flex-wrap:wrap;gap:8px;padding:8px 10px}#top .brand b{font-size:16px}#top .brand span{font-size:12px}
+ #top .tools{margin-inline-start:auto}
+ #sec{order:3;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;height:auto}
+ #gsw{order:2;flex:1 1 100%;width:auto}#gsr{min-width:0}
+ main{min-width:0;overflow-x:hidden}.hrow span{min-width:0}#app:not(.nolib):not(.ed) main{display:none}#app.ed aside{display:none}
+ aside{border:0}main{padding:12px 12px 60px}
+ .bar{top:-12px;gap:6px}.bar h2{font-size:19px;min-width:0;flex:1 1 60%}
+ .grid,.cmp{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
+ .tabs select{width:100%;margin:0}.tabs button{padding:0 12px}
+ .mb{display:inline-block}
+ #login{margin:6vh 14px}
+ .box{padding:6px 12px 14px}
+}
 </style>
 </head>
 <body>
@@ -187,7 +203,7 @@ function secPage(){if(sec==='feedback')return fbPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
-$('#sec').onclick=async e=>{const k=e.target.closest('[data-sec]')?.dataset.sec;if(!k||k===sec)return;if(dirty&&!confirm('بدلونونه ذخیره نه دي. برخه بدلوئ؟'))return;dirty=false;sec=k;if(k!=='lib')cur=null;secBar();if(k==='lib')renderList();else secPage()};
+$('#sec').onclick=async e=>{const k=e.target.closest('[data-sec]')?.dataset.sec;if(!k||k===sec)return;if(dirty&&!confirm('بدلونونه ذخیره نه دي. برخه بدلوئ؟'))return;dirty=false;sec=k;if(k!=='lib')cur=null;$('#app').classList.remove('ed');secBar();if(k==='lib')renderList();else secPage()};
 function renderList(){secBar();if(sec!=='lib')return secPage();chipsRow();const q=norm($('#gs').value);
  const a=Object.entries(DB).filter(([c,h])=>pass(c,h,'',q)).sort((x,y)=>(x[1].order??9e9)-(y[1].order??9e9));
  $('#cnt').textContent=a.length+' / '+Object.keys(DB).length;
@@ -204,6 +220,7 @@ $('#fc').onclick=e=>{const b=e.target.closest('button');if(b){flt.ch=b.dataset.f
 $('#ft').onclick=e=>{const k=e.target.dataset.ft;if(k){flt.ty=k;renderList()}};
 $('#list').onclick=e=>{const i=e.target.closest('.it');if(i)openHerb(i.dataset.c)};
 async function openHerb(c){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بل بوټی خلاصوئ؟'))return;
+ $('#app').classList.add('ed');window.scrollTo(0,0);
  cur=structuredClone(DB[c]);cur.code=c;cur.names??={};cur.otherNames??={};cur.fields??={};L.forEach(l=>{cur.fields[l]??={}});dirty=false;baseAt=DB[c].updatedAt||0;ref='';
  imgs=[];HS=[];render();renderList();const s=await getDocs(collection(db,'herbs',c,'images'));imgs=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.order??0)-(b.order??0));if(cur&&cur.code===c)render()}
 function chips(){const h=cur,q=Q(h);if(h.status==='index')return '<span class="chip">یوازې فهرست</span>';return (/pending/i.test(h.names?.en||'')?'<span class="chip bad">English ⚠</span>':'')+L.map(l=>`<span class="chip ${q.per[l]?'bad':''}">${l} ${q.per[l]?q.per[l]+' خالي':'✓'}</span>`).join('')}
@@ -212,7 +229,7 @@ function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index
  const right=ref?`<div><label>${LAB[ref][k]}</label><textarea readonly dir="${dirOf(ref)}">${esc(h.fields[ref]?.[k])}</textarea></div>`:'';
  return `<div class="${ref?'cmp':''}"><div><label>${lab}</label><textarea dir="${dirOf(lang)}" class="${cl}" data-p="fields.${lang}.${k}">${esc(v)}</textarea></div>${right}</div>`}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
+ $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>د تایید لینک (لیست)</label><input dir="ltr" data-p="link" value="${esc(h.link)}">
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
@@ -293,6 +310,7 @@ $('#syn').onclick=async()=>{const LG5=['ps','fa','ur','en','ar'],ch=[];
   k++}
  if(m)await b.commit();
  renderList();if(cur&&LST[cur.code])openHerb(cur.code);toast(k+' مدخلونه برابر سول ✓')};
+document.addEventListener('click',e=>{if(e.target.closest('#back')){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بیرته لیست ته؟'))return;dirty=false;$('#app').classList.remove('ed')}});
 $('#imp').onclick=()=>$('#seedf').click();
 $('#seedf').onchange=async e=>{const arr=JSON.parse(await e.target.files[0].text());let add=0,b=writeBatch(db),n=0;
  for(const h of arr){if(DB[h.code])continue;b.set(doc(db,'herbs',h.code),h);DB[h.code]=h;add++;if(++n===400){await b.commit();b=writeBatch(db);n=0}}
