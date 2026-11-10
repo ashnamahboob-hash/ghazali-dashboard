@@ -275,12 +275,12 @@ const is45=c=>c[0]==='T'&&+c.slice(1)<=45;
 $('#syn').onclick=async()=>{const LG5=['ps','fa','ur','en','ar'],ch=[];
  for(const [c,x] of Object.entries(LST)){const h=DB[c];if(!h)continue;const nn=h.names||{};
   const df=LG5.filter(l=>x[l]&&(nn[l]||'').trim()!==x[l]);
-  const ex=[];if(!is45(c)){if(x.s&&(h.scientific||'').trim()!==x.s)ex.push('scientific');if(x.f&&(h.family||'').trim()!==x.f)ex.push('family');if(x.l&&(h.link||'')!==x.l)ex.push('link')}
+  const ex=[];if(x.s&&(h.scientific||'').trim()!==x.s)ex.push('scientific');if(x.f&&(h.family||'').trim()!==x.f)ex.push('family');if(x.l&&(h.link||'')!==x.l)ex.push('link');
   if(df.length||ex.length)ch.push([c,df,ex,x])}
  if(!ch.length)return toast('ټول مدخلونه له لیست سره سم دي');
  if(dirty&&!confirm('بدلونونه ذخیره نه دي. دوام؟'))return;
  const n45=ch.filter(r=>is45(r[0])).length;
- if(!confirm('په '+ch.length+' مدخلونو کې به بدلون راسي ('+n45+' د T001–T045 چې یوازې نومونه بدلېږي، او '+(ch.length-n45)+' نور چې نومونه، علمي نوم، کورنۍ او لینک یې د لیست سره برابرېږي). د کتاب متنونه نه بدلېږي. دوام؟'))return;
+ if(!confirm('په '+ch.length+' مدخلونو کې به بدلون راسي (نومونه، علمي نوم، کورنۍ او لینک د لیست سره برابرېږي). د کتاب متنونه نه بدلېږي. دوام؟'))return;
  let k=0,b=writeBatch(db),m=0;
  for(const [c,df,ex,x] of ch){const h=DB[c];h.names={...(h.names||{})};df.forEach(l=>h.names[l]=x[l]);
   if(ex.includes('scientific'))h.scientific=x.s;if(ex.includes('family'))h.family=x.f;if(ex.includes('link'))h.link=x.l;

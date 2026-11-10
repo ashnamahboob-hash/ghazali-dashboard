@@ -1810,7 +1810,7 @@ const LST45={"T001":{"ur":"انجیر","en":"Fig","s":"Ficus carica","ps":"ان�
 (function(){let ch=0;for(const [c,x] of Object.entries(LST45)){const p=H.find(y=>y.taj&&y.taj[0]===c),rec=wordDetailLayout.records[c],is45=c[0]==='T'&&+c.slice(1)<=45;
  for(const l of ['ps','fa','ur','en','ar']){if(!x[l])continue;if(p&&p.nm[l]!==x[l]){p.nm[l]=x[l];ch=1}if(rec&&rec.name&&rec.name[l]!==x[l]){rec.name[l]=x[l];ch=1}}
  const t=tajRecords.find(r=>r[0]===c);if(t){t[1]=x.ur;t[2]=x.en}
- if(!is45&&p){if(x.s&&p.s!==x.s){p.s=x.s;ch=1}if(x.f)p.fam=x.f;if(x.l)p.link=x.l}}
+ if(p){if(x.s&&p.s!==x.s){p.s=x.s;ch=1}if(x.f)p.fam=x.f;if(x.l)p.link=x.l}if(rec){if(x.s)rec.scientific=x.s;if(x.f)rec.family=x.f}}
  if(ch){try{render()}catch(e){}}})();
 (async()=>{
   try{const c=JSON.parse(localStorage.getItem(CK)||'null');if(c&&c.length)applyHerbs(c)}catch(e){}
