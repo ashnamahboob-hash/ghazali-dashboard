@@ -1848,7 +1848,8 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
           if(old&&old.credit&&im.length)e.credit=old.credit;
           if(old||im.length)any=true;
           const p=H.find(x=>x.taj&&x.taj[0]===h.code);if(p&&!im.length)p.img='';
-          im.forEach(x=>{const k=SL[x.label];if(k&&!seen[k]){seen[k]=1;e[k]=x.data}});
+          const left=[];im.forEach(x=>{const k=SL[x.label];if(k&&!seen[k]){seen[k]=1;e[k]=x.data}else left.push(x)});
+          ['plant','leaf','flower','fruit','used'].forEach(k=>{if(!e[k]&&left.length)e[k]=left.shift().data});
         }catch(e){}
       }));
       if(any){try{applyPhotos()}catch(e){}try{render()}catch(e){}}
