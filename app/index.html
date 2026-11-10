@@ -1729,7 +1729,7 @@ function aboutPage(){
   '<div class="prog"><div class="prog-t"><span>'+A.prog+'</span><b dir="ltr">'+real+' / '+total+'</b></div><div class="prog-bar"><i style="width:'+(real/total*100).toFixed(1)+'%"></i></div></div>'+
   '<button class="share-app" onclick="shareApp()">'+ic("share")+'<span>'+A.share+'</span></button></section>'+
   '<div id="about-fb"></div>'+
-  '<section class="sec"><h3>'+A.src+'</h3><p class="fb-hint"><b>'+u.offline+'</b> '+u.privacy+'</p></section>';
+  '<section class="sec"><p class="fb-hint"><b>'+u.offline+'</b> '+u.privacy+'</p></section>';
 }
 function buildGeneralFeedback(){
  var A=ABOUT[lang]||ABOUT.en,dummy={nm:{ps:"",fa:"",ur:"",en:""},s:""};
