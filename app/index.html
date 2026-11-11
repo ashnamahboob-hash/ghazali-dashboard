@@ -14,7 +14,7 @@ window.addEventListener("unhandledrejection",function(e){show("promise: "+(e.rea
 <meta name="theme-color" content="#174a38">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--bg:#174a38;--tile:#2d5c4a;--gold:#e0c36a;--ink:#fff;--soft:#cfe3d8;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#174a38;--tile:#2d5c4a;--gold:#e0c36a;--ink:#fff;--soft:#cfe3d8;color-scheme:dark;box-sizing:border-box;padding-top:0;padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Naskh Arabic","Segoe UI",Tahoma,sans-serif}
 .app{max-width:480px;margin:0 auto;padding:20px 16px 32px;min-height:100vh}
@@ -127,7 +127,7 @@ body{background:radial-gradient(900px 520px at 90% -5%,rgba(224,195,106,.18),tra
 .fg .fc b{display:block;font-size:12.5px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .regions{margin-bottom:12px}.regions select{width:100%;padding:12px;border:1px solid var(--gold);border-radius:12px;background:var(--tile);color:var(--ink);font:inherit}
 /* Home and settings */
-.app.ho{height:auto;min-height:calc(100dvh / var(--z,1));overflow:visible;padding:16px 16px 91px}
+.app.ho{height:auto;min-height:calc(100dvh / var(--z,1));overflow:visible;padding:0 16px 91px}
 .ho .brand{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;margin:0 0 16px}
 .brand h1{font-size:clamp(17px,4.7vw,23px);line-height:1.35;margin:0}
 .brand p{font-size:11px;line-height:1.5;color:var(--soft);margin:4px 0 0}
