@@ -320,14 +320,14 @@ $('#seedf').onchange=async e=>{
  for(const h of arr){if(!ok(h)){bad.push(h&&h.code||'؟');continue}const o=DB[h.code];if(!o)nw.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
  if(!nw.length&&!mg.length){e.target.value='';return alert('هیڅ نوی یا د ډکولو وړ مدخل ونه موندل سو.'+(sk.length?'\nبیاکتل/تایید سوي مدخلونه نه بدلیږي: '+sk.slice(0,10).join(', '):'')+(bad.length?'\nناسم کوډونه: '+bad.slice(0,10).join(', '):''))}
  if(!confirm('نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (حالت «مسوده» کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
- const s=v=>typeof v==='string'&&v.trim()?v.trim():'';let k=0;
+ const PH='په کتاب کې نه دی لیکل شوی',s=v=>typeof v==='string'&&v.trim()&&v.trim()!==PH?v.trim():'',sf=(v,old)=>typeof v==='string'&&v.trim()&&(v.trim()!==PH||!old||!String(old).trim())?v.trim():'';let k=0;
  for(const h of nw){const x={...h,added:true,status:h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft',version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};if(!x.type)x.type=h.code[0];if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),JSON.parse(JSON.stringify(x)));DB[h.code]=x;k++}
  let m=0;
  for(const h of mg){const o=DB[h.code],x=JSON.parse(JSON.stringify(o));
   ['scientific','family','pages','note','link'].forEach(f=>{if(s(h[f]))x[f]=s(h[f])});
   x.names={...(x.names||{})};LG.forEach(l=>{if(s(h.names&&h.names[l]))x.names[l]=s(h.names[l])});
   x.otherNames={...(x.otherNames||{})};LG.forEach(l=>{if(s(h.otherNames&&h.otherNames[l]))x.otherNames[l]=s(h.otherNames[l])});
-  x.fields={...(x.fields||{})};LG.forEach(l=>{const src=h.fields&&h.fields[l];if(!src)return;x.fields[l]={...(x.fields[l]||{})};for(const [key,v] of Object.entries(src))if(s(v))x.fields[l][key]=s(v)});
+  x.fields={...(x.fields||{})};LG.forEach(l=>{const src=h.fields&&h.fields[l];if(!src)return;x.fields[l]={...(x.fields[l]||{})};for(const [key,v] of Object.entries(src)){const t=sf(v,x.fields[l][key]);if(t)x.fields[l][key]=t}});
   x.status='draft';x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
   await setDoc(doc(db,'herbs',h.code),x);
   await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د JSON واردات له لارې ډک سو',data:x});
