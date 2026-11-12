@@ -2,6 +2,23 @@
 <html lang="ps" dir="rtl">
 <head>
 <script>
+
+/* GHazali mint identification interface: localized, actual request states. */
+var gkLensOrgan='auto';
+var GK_LENS_COPY={
+ ps:['عکس واخلئ، بوټی وپېژنئ','د مصنوعي ځیرکتیا په مرسته','د AI ماډل','ګالري','بیا عکس','پاڼه','ګل','مېوه','ټول بوټی','عکس څېړل کېږي','عکس چمتو کېږي','له Pl@ntNet سره پرتله کېږي','پایله چمتو ده','روښانه او نږدې عکس غوره کړئ','د بوټي برخه','کمرې ته لاسرسی نشته؛ له ګالرۍ عکس غوره کړئ','پایله احتمالي ده؛ د بوټي هویت تایید کړئ.'],
+ fa:['عکس بگیرید، گیاه را بشناسید','با کمک هوش مصنوعی','مدل هوش مصنوعی','گالری','عکس تازه','برگ','گل','میوه','تمام گیاه','در حال بررسی عکس','آماده‌سازی عکس','مقایسه با Pl@ntNet','نتیجه آماده است','عکس واضح و نزدیک انتخاب کنید','بخش گیاه','دسترسی به دوربین ممکن نیست؛ از گالری انتخاب کنید','نتیجه احتمالی است؛ هویت گیاه را تأیید کنید.'],
+ ur:['تصویر لیں، پودا پہچانیں','مصنوعی ذہانت کی مدد سے','AI ماڈل','گیلری','نئی تصویر','پتہ','پھول','پھل','پورا پودا','تصویر کا تجزیہ جاری ہے','تصویر تیار ہو رہی ہے','Pl@ntNet سے موازنہ جاری ہے','نتیجہ تیار ہے','واضح اور قریب سے تصویر منتخب کریں','پودے کا حصہ','کیمرہ دستیاب نہیں؛ گیلری سے تصویر منتخب کریں','نتیجہ ممکنہ شناخت ہے؛ پودے کی شناخت کی تصدیق کریں۔'],
+ ar:['صوّر النبتة وتعرّف عليها','بمساعدة الذكاء الاصطناعي','نموذج الذكاء الاصطناعي','المعرض','صورة جديدة','ورقة','زهرة','ثمرة','النبتة كاملة','جارٍ تحليل الصورة','جارٍ تجهيز الصورة','جارٍ المقارنة مع Pl@ntNet','النتيجة جاهزة','اختر صورة واضحة وقريبة','جزء النبات','الكاميرا غير متاحة؛ اختر صورة من المعرض','النتيجة احتمالية؛ تحقّق من هوية النبتة.'],
+ en:['Take a photo. Discover a plant.','With artificial intelligence','AI model','Gallery','Retake','Leaf','Flower','Fruit','Whole plant','Analyzing your photo','Preparing photo','Comparing with Pl@ntNet','Results ready','Choose a clear, close-up photo','Plant part','Camera unavailable; choose a photo from Gallery','A possible match; verify the plant’s identity.']
+};
+function gkLensCopy(){return GK_LENS_COPY[typeof lang==='string'?lang:'ps']||GK_LENS_COPY.ps}
+function gkChooseOrgan(button){gkLensOrgan=button.dataset.organ;button.parentElement.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b===button))})}
+function gkLensMarkup(T){
+ var c=gkLensCopy(),organs=['leaf','flower','fruit','auto'];
+ return '<div class="lens mint-lens"><header class="mint-intro"><h2>'+c[0]+'</h2><p>'+c[1]+'</p></header><div class="mint-model"><span class="mint-chip" aria-hidden="true">'+ic('leaf')+'</span><div><small>'+c[2]+'</small><strong dir="ltr">Pl@ntNet</strong></div><span class="mint-ai" dir="ltr">AI</span></div><div class="lstage" id="lstage"><video id="lv" autoplay playsinline muted></video><img id="lp" alt="'+c[9]+'"><div class="mint-empty" aria-hidden="true">'+ic('leaf')+'</div><div class="lframe"><i></i><i></i><i></i><i></i></div><div class="lscan"></div><div class="lhint" id="lhint">'+c[13]+'</div><div class="mint-scanning" role="status" aria-live="polite"><span class="mint-orbit"></span><b>'+c[9]+'</b><small id="mint-phase">'+c[10]+'</small></div><div class="mint-controls"><div class="mint-organs" role="group" aria-label="'+c[14]+'">'+organs.map(function(o,i){return '<button type="button" data-organ="'+o+'" aria-pressed="'+(gkLensOrgan===o)+'" onclick="gkChooseOrgan(this)">'+c[i+5]+'</button>'}).join('')+'</div><div class="lctl"><label class="lbtn mint-gallery">'+ic('gal')+'<span>'+c[3]+'</span><input type="file" accept="image/*" aria-label="'+c[3]+'" id="f2" onchange="pv(this)"></label><button class="lshut" id="lshut" aria-label="'+T.idb+'"><span></span></button><button class="lbtn" id="lretake" aria-label="'+c[4]+'">'+ic('redo')+'<span>'+c[4]+'</span></button></div></div><input type="file" accept="image/*" capture="environment" id="f" aria-label="'+T.idb+'" onchange="pv(this)" hidden></div><div class="lsheet idres" id="idres" aria-live="polite"><div class="idn">'+c[16]+'</div></div></div>';
+}
+
 /* error banner: shows a visible message instead of a silent blank page */
 (function(){var shown=0;function show(m){if(shown++>2)return;try{var d=document.createElement("div");d.style.cssText="position:fixed;top:0;left:0;right:0;z-index:99999;background:#7a1f1f;color:#fff;font:12px/1.5 sans-serif;padding:8px 12px;direction:ltr;word-break:break-all";d.textContent="⚠ "+m;d.onclick=function(){d.remove()};(document.body||document.documentElement).appendChild(d)}catch(x){}}
 window.addEventListener("error",function(e){show((e.message||"error")+" @"+(e.lineno||"")+":"+(e.colno||""))});
@@ -413,6 +430,14 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .pick-sel{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 8px 7px 14px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;font-size:14px}
 .pick-sel button{border:0;background:rgba(255,255,255,.12);color:inherit;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:15px;line-height:1}
 </style>
+
+<style id="ghazali-mint-lens">
+.mint-lens{--mint:#c7fa62;--deep:#042f27;--ink:#103c31;--soft:#52695e;--bd:#d8e4db;--card:#fff;--bg:#f5f8f3;background:var(--bg);border-radius:24px;padding:14px;color:var(--ink);margin:0 0 30px}
+.mint-intro{text-align:center;padding:4px 0 12px}.mint-intro h2{font-size:clamp(22px,6vw,32px);line-height:1.6;margin:0;font-weight:850;color:#042f27}.mint-intro p{margin:2px 0;color:#52695e;font-size:14px}.mint-model{display:flex;gap:12px;align-items:center;padding:12px 16px;background:#042f27;border-radius:20px;color:#fff;margin-bottom:12px}.mint-model small{display:block;color:#dce8db;font-size:12px}.mint-model strong{display:block;font-family:Arial,sans-serif;font-size:24px}.mint-chip{display:grid;place-items:center;width:42px;height:42px;border:1px solid #7a9e67;border-radius:12px;color:var(--mint)}.mint-chip svg{width:27px;height:27px}.mint-ai{margin-inline-start:auto;border:1px solid #799c6b;border-radius:9px;padding:5px 8px;color:var(--mint);font-size:12px;font-weight:800}
+.mint-lens .lstage{height:clamp(330px,49svh,490px);min-height:330px;max-height:none;border-radius:22px;background:radial-gradient(ellipse at 45% 25%,#356c46,#052f27 75%);box-shadow:none}.mint-lens .lstage.done{height:300px;min-height:300px}.mint-empty{position:absolute;inset:20% 25% 38%;display:grid;place-items:center;color:#91b76c;opacity:.28}.mint-empty svg{width:110px;height:110px}.lstage.live .mint-empty,.lstage.scan .mint-empty,.lstage.done .mint-empty{display:none}.mint-lens .lframe i{border-color:var(--mint);width:26px;height:26px}.mint-lens .lframe i:nth-child(-n+2){top:20%}.mint-lens .lframe i:nth-child(n+3){bottom:43%}.mint-lens .lhint{font-size:11px;top:12px;background:#062e279c}.mint-controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,#042f27f5,#042f27d9);padding:12px 12px 16px;border-radius:25px 25px 0 0;z-index:3}.mint-organs{display:flex;gap:6px}.mint-organs button{flex:1;min-width:0;border:1px solid #8eaa89;background:transparent;color:white;border-radius:99px;font:inherit;font-size:12px;min-height:35px;padding:4px;cursor:pointer}.mint-organs button[aria-pressed=true]{background:var(--mint);border-color:var(--mint);color:#042f27;font-weight:800}.mint-lens .lctl{position:relative;bottom:auto;left:auto;right:auto;margin-top:13px;gap:16px}.mint-lens .lbtn{width:62px;height:58px;border:none;background:transparent;display:flex;flex-direction:column;justify-content:center;gap:4px;backdrop-filter:none}.mint-lens .lbtn span{font-size:11px;white-space:nowrap}.mint-lens .lbtn svg{width:25px;height:25px}.mint-lens .lshut{width:65px;height:65px;border-width:3px}.mint-lens .lshut span{background:var(--mint)}.mint-lens button:focus-visible,.mint-lens label:focus-within{outline:3px solid #85bf31;outline-offset:4px}.mint-lens button:disabled{opacity:.4;cursor:wait}.mint-lens .scan .mint-controls{pointer-events:none;opacity:.45}.mint-lens .lstage.scan:after{z-index:1;background:#02251c70}.mint-lens .lscan{z-index:2;background:linear-gradient(90deg,transparent,#c7fa62,transparent);box-shadow:0 0 25px #b6f758;animation:mintSweep 2.4s ease-in-out infinite alternate}.mint-scanning{display:none;position:absolute;inset:19% 8% auto;z-index:3;text-align:center;color:#fff;flex-direction:column;align-items:center;gap:8px;text-shadow:0 1px 6px #03281e}.scan .mint-scanning{display:flex}.mint-scanning b{font-size:18px}.mint-scanning small{font-size:12px}.mint-orbit{width:48px;height:48px;border-radius:50%;border:2px solid #c7fa6240;border-top-color:#c7fa62;border-right-color:#c7fa62;animation:idr 1.3s linear infinite;margin-bottom:5px}.mint-lens .lsheet.idres{margin:12px 0 0;padding:0 0 16px;min-height:0;box-shadow:none;border:0;background:transparent;border-radius:0}.mint-lens .lgrab{display:none}.mint-lens .idres .idc{background:white;border:1px solid #d8e4db;box-shadow:0 4px 16px #082f2707;border-radius:20px;padding:16px;margin:12px 0}.mint-lens .idres .idc>b{font-size:22px;color:#063e2c}.mint-lens .idres .idb{background:#042f27;color:#fff;border:0;line-height:1.6}.mint-lens .idres .idbar{background:#e8efdF;height:7px}.mint-lens .idres .idbar i{background:linear-gradient(90deg,#84ba39,#c7fa62)}.mint-confidence{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.mint-confidence strong{font-size:22px;color:#154b31}.mint-lens .idres .idl{color:#19593f}.mint-lens .idbook,.mint-lens .idexternal{border-radius:14px}.mint-lens .idres .idspin:before{border-color:#d9e6cc;border-top-color:#497c24}.mint-lens .idn{line-height:1.8}.mint-lens .idres{overflow-wrap:anywhere}
+@keyframes mintSweep{from{top:15%}to{top:58%}}@media(prefers-reduced-motion:reduce){.mint-lens *{animation:none!important;transition:none!important}}@media(max-width:360px){.mint-lens{padding:10px}.mint-organs button{font-size:11px}.mint-intro h2{font-size:22px}}
+</style>
+
 </head>
 <body>
 <div class="app" id="app"></div>
@@ -551,7 +576,7 @@ function render(){
   }else if(view==="regions"||view==="farming"){
     h=regionPage(view);
   }else if(view==="id"){
-    h=bar(homeLabels[lang][1])+'<div class="lens"><div class="lstage" id="lstage"><video id="lv" autoplay playsinline muted></video><img id="lp" alt=""><div class="lframe"><i></i><i></i><i></i><i></i></div><div class="lscan"></div><div class="lhint" id="lhint">'+T.idt+'</div><div class="lctl"><label class="lbtn">'+ic("gal")+'<input type="file" accept="image/*" id="f2" onchange="pv(this)"></label><button class="lshut" id="lshut" aria-label="'+T.idb+'"><span></span></button><button class="lbtn" id="lretake" aria-label="retake">'+ic("redo")+'</button></div><input type="file" accept="image/*" capture="environment" id="f" onchange="pv(this)" style="display:none"></div><div class="lsheet idres" id="idres"><span class="lgrab"></span><div class="idn">'+T.idn+'</div></div></div>';
+    h=bar(homeLabels[lang][1])+gkLensMarkup(T);
   }else if(view==="about"){
     h=aboutPage();
   }else if(view==="usr"){
@@ -1998,7 +2023,7 @@ function renderRes(rs,box){
   var family=species.family&&species.family.scientificNameWithoutAuthor||meta.family||'',genus=species.genus&&species.genus.scientificNameWithoutAuthor||meta.genus||'';
   var author=species.scientificNameAuthorship||meta.scientificNameAuthorship||'',full=species.scientificName||(sci+(author?' '+author:''));
   h+='<section class="idc" dir="'+(l==='en'?'ltr':'rtl')+'"><div class="idn">'+esc(t.science)+'</div><b dir="ltr">'+esc(sci)+'</b>';
-  h+='<small>'+esc(t.confidence)+': '+percent+'%</small><div class="idbar"><i style="width:'+percent+'%"></i></div>';
+  h+='<small class="mint-confidence"><span>'+esc(t.confidence)+'</span><strong>'+percent+'%</strong></small><div class="idbar"><i style="width:'+percent+'%"></i></div>';
   if(exact.length)h+='<div class="idn">'+esc(t.inbook)+'</div>'+exact.map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else if(sameGenus.length)h+='<div class="idn">'+esc(t.genus)+'</div>'+sameGenus.slice(0,5).map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else h+='<div class="idn">'+esc(t.none)+'</div>';
@@ -2043,26 +2068,26 @@ function paintLast(){
  var image=$('lp');if(image&&photoUrl){image.src=photoUrl;setMode('done')}
 }
 
-var stream=null,busy=false;
+var stream=null,busy=false,idAbort=null,idTimer=null;
 function lensStop(){if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}}
 function $(i){return document.getElementById(i)}
-function setMode(m){var s=$('lstage');if(!s)return;s.className='lstage '+m}
+function setMode(m){var s=$('lstage');if(!s)return;s.className='lstage '+m;s.setAttribute('aria-busy',String(m==='scan'));s.querySelectorAll('button,input').forEach(function(el){el.disabled=m==='scan'});var hint=$('lhint');if(hint)hint.textContent=gkLensCopy()[m==='nocam'?15:13]}
 function lensInit(){
  var s=$('lstage');if(!s)return;setMode('live');
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){setMode('nocam');return}
  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false}).then(function(st){
-  if(!$('lv')){st.getTracks().forEach(function(t){t.stop()});return}
+  if(!$('lv')||busy||view!=='id'){st.getTracks().forEach(function(t){t.stop()});return}
   lensStop();stream=st;var v=$('lv');v.srcObject=st;v.play&&v.play().catch(function(){});setMode('live')
  }).catch(function(){setMode('nocam')})
 }
 function runId(blobP,previewUrl){
  if(busy)return;busy=true;lastPayload=null;var request=++identificationRun,requestLang=apiLanguage(appLanguage());
- setMode('scan');lensStop();var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>';
+ idAbort=new AbortController();idTimer=setTimeout(function(){if(idAbort)idAbort.abort()},45000);setMode('scan');lensStop();var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>';
  blobP.then(function(blob){
   if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl=URL.createObjectURL(blob);
   var image=$('lp');if(image)image.src=photoUrl;
-  var data=new FormData();data.append('images',blob,'photo.jpg');data.append('organs','auto');
-  return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+encodeURIComponent(KEY)+'&nb-results=5&lang='+encodeURIComponent(requestLang)+'&include-related-images=true',{method:'POST',body:data});
+  var data=new FormData();data.append('images',blob,'photo.jpg');data.append('organs',gkLensOrgan);var phase=$('mint-phase');if(phase)phase.textContent=gkLensCopy()[11];
+  return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+encodeURIComponent(KEY)+'&nb-results=5&lang='+encodeURIComponent(requestLang)+'&include-related-images=true',{method:'POST',body:data,signal:idAbort.signal});
  }).then(function(response){
   if(response.status===404)return {results:[]};
   if(!response.ok)throw new Error(String(response.status));return response.json();
@@ -2073,7 +2098,7 @@ function runId(blobP,previewUrl){
   else if(current&&view==='id')current.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().noplant)+'</div>';
  }).catch(function(error){
   var current=$('idres');if(current&&view==='id')current.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().err)+'</div>';
- }).then(function(){if(request===identificationRun){busy=false;if(view==='id')setMode('done')}});
+ }).then(function(){clearTimeout(idTimer);idAbort=null;if(request===identificationRun){busy=false;if(view==='id')setMode('done')}});
 }
 function grabFrame(){
  var v=$('lv');if(!v||!v.videoWidth)return null;
@@ -2086,11 +2111,11 @@ document.addEventListener('click',function(e){
   if(g){g.then(function(x){runId(Promise.resolve(x[0]),x[1])})}
   else{var f=$('f');if(f)f.click()}
  }else if(e.target.closest('#lretake')){
-  if(busy)return;lastPayload=null;if(photoUrl){URL.revokeObjectURL(photoUrl);photoUrl=''}var b=$('idres');if(b)b.innerHTML='<span class="lgrab"></span><div class="idn">'+T2().idn+'</div>';lensInit()
+  if(busy)return;lastPayload=null;if(photoUrl){URL.revokeObjectURL(photoUrl);photoUrl=''}var b=$('idres');if(b)b.innerHTML='<span class="lgrab"></span><div class="idn">'+gkLensCopy()[16]+'</div>';lensInit()
  }
 });
 window.pv=pv=function(el){
- var file=el.files&&el.files[0];if(!file)return;
+ var file=el.files&&el.files[0];if(!file)return;el.value='';
  var bytes=file.arrayBuffer?file.arrayBuffer():Promise.reject(new Error('no arrayBuffer'));
  var url=null;
  runId(bytes.then(function(buf){return shrink(new Blob([buf],{type:file.type||'image/jpeg'}))},function(){throw new Error('unreadable file (choose another photo or take a new one)')}),url);
