@@ -24,5 +24,29 @@ assert.equal(ctx.splitSourceExtract('Description without uses.','en').uses,'');
  ctx.fetch=async()=>({ok:true,json:async()=>({query:{pages:[{title:'Blepharis',extract:'Blepharis is a genus.'}]}})});
  assert.equal((await ctx.fetchSpeciesDetails('Blepharis ciliaris','en')).state,'missing','reject broader taxon');
  ctx.fetch=async()=>{throw new Error('offline')};assert.equal((await ctx.fetchSpeciesDetails('Offline species','fa')).state,'error');
+
+ ctx.infoRow=(label,value)=>'<p>'+ctx.esc(label)+': '+ctx.esc(value)+'</p>';
+ let sourceCalls=0;
+ ctx.fetch=async url=>{
+  sourceCalls++;
+  const u=new URL(url);
+  if(u.hostname==='api.gbif.org')return {ok:true,json:async()=>({matchType:'EXACT',rank:'SPECIES',kingdom:'Plantae',canonicalName:'Ficus carica',scientificName:'Ficus carica L.',usageKey:5361909,family:'Moraceae'})};
+  if(u.hostname==='en.wikipedia.org')return {ok:true,json:async()=>({query:{pages:[{title:'Fig',pageprops:{wikibase_item:'Q36146'}}]}})};
+  assert.equal(u.searchParams.get('ids'),'Q36146','resolve scientific redirect before fetching Wikidata');
+  return {ok:true,json:async()=>({entities:{Q36146:{id:'Q36146',claims:{P225:[{mainsnak:{datavalue:{value:'Ficus carica'}}}]},descriptions:{ps:{language:'ps',value:'د انځر پېژندنه'},en:{language:'en',value:'Fig species'}}}}})};
+ };
+ await Promise.all([ctx.fetchExtraSource('Ficus carica','gbif'),ctx.fetchExtraSource('Ficus carica','gbif'),ctx.fetchExtraSource('Ficus carica','wikidata')]);
+ assert.equal(sourceCalls,3,'coalesce GBIF and resolve Wikidata redirect');
+ for(const l of ['ps','fa','ur','ar','en']){
+  const out=ctx.extraSpeciesDetails('Ficus carica',l);
+  assert(out.includes(ctx.EXTRA_TEXT[l].taxonomy));assert(out.includes('Moraceae'));assert(out.includes('https://www.gbif.org/species/5361909'));
+  if(l==='ps')assert(out.includes('د انځر پېژندنه'));else if(l!=='en'){assert(out.includes(ctx.DETAIL_TEXT[l].missing));assert(!out.includes('Fig species'),'no silent English fallback');}
+ }
+ ctx.fetch=async()=>({ok:true,json:async()=>({matchType:'HIGHERRANK',rank:'GENUS',kingdom:'Plantae',canonicalName:'Unknown species',usageKey:1})});
+ assert.equal((await ctx.fetchExtraSource('Unknown species','gbif')).state,'missing');
+ assert.equal(ctx.exactEntity({claims:{P225:[{rank:'deprecated',mainsnak:{datavalue:{value:'Ficus carica'}}}]}},'Ficus carica'),false);
+ assert.equal(ctx.exactEntity({claims:{P225:[{mainsnak:{datavalue:{value:'Ficus palmata'}}}]}},'Ficus carica'),false);
+ ctx.fetch=async()=>{throw Error('offline')};
+ assert.equal((await ctx.fetchExtraSource('Offline extra','gbif')).state,'error');
  console.log('Passed: five-language real book fields, escaping, source sections, missing translations, exact species guard, request coalescing, offline errors, script parsing.');
 })().catch(e=>{console.error(e);process.exitCode=1});

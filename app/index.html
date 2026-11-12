@@ -1925,6 +1925,69 @@ function externalSpeciesDetails(sci,l){
 }
 try{var detailStyle=document.createElement('style');detailStyle.textContent='.idbook,.idexternal{margin-top:14px;padding:14px;border:1px solid var(--bd);border-radius:16px;background:var(--card);overflow-wrap:anywhere}.idbook summary{font-weight:700;cursor:pointer;line-height:1.8}.idtext{padding:10px 0;border-bottom:1px solid var(--bd)}.idtext h4,.idexternal h3{margin:4px 0 8px;font-size:15px;color:var(--ink)}.idtext h5{margin:8px 0;font-size:14px}.idtext p,.idexternal>p{font-size:14px;line-height:1.9;margin:6px 0;white-space:pre-line}.idsources{font-size:12px;line-height:1.8;padding-top:12px}.idsources a{color:var(--ink);text-decoration:underline}.idsources .sec{padding:0;margin:0;border:0;box-shadow:none}.idres{padding-bottom:120px}';document.head.appendChild(detailStyle)}catch(e){}
 
+
+// Supplemental sources are independent: one unavailable service cannot hide the others.
+var EXTRA_TEXT={
+ ps:{title:'نور علمي معلومات',short:'لنډه پېژندنه — Wikidata',taxonomy:'علمي وېش — GBIF',kingdom:'عالم',phylum:'څانګه',class:'ټولګی',order:'رتبه',family:'کورنۍ',genus:'جنس',scientificName:'بشپړ علمي نوم'},
+ fa:{title:'اطلاعات علمی بیشتر',short:'معرفی کوتاه — Wikidata',taxonomy:'رده‌بندی علمی — GBIF',kingdom:'فرمانرو',phylum:'شاخه',class:'رده',order:'راسته',family:'خانواده',genus:'سرده',scientificName:'نام کامل علمی'},
+ ur:{title:'مزید سائنسی معلومات',short:'مختصر تعارف — Wikidata',taxonomy:'سائنسی درجہ بندی — GBIF',kingdom:'سلطنت',phylum:'شعبہ',class:'جماعت',order:'ترتیب',family:'خاندان',genus:'جنس',scientificName:'مکمل سائنسی نام'},
+ ar:{title:'معلومات علمية إضافية',short:'تعريف موجز — Wikidata',taxonomy:'التصنيف العلمي — GBIF',kingdom:'المملكة',phylum:'الشعبة',class:'الطائفة',order:'الرتبة',family:'الفصيلة',genus:'الجنس',scientificName:'الاسم العلمي الكامل'},
+ en:{title:'More scientific information',short:'Short description — Wikidata',taxonomy:'Scientific classification — GBIF',kingdom:'Kingdom',phylum:'Phylum',class:'Class',order:'Order',family:'Family',genus:'Genus',scientificName:'Full scientific name'}
+};
+var extraCache=Object.create(null),extraPending=Object.create(null);
+function extraRequest(url){
+ var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},12000);
+ return fetch(url,{signal:controller.signal}).then(function(r){if(!r.ok)throw new Error('source');return r.json()}).finally(function(){clearTimeout(timer)});
+}
+function exactEntity(entity,sci){
+ return (entity&&entity.claims&&entity.claims.P225||[]).some(function(c){var v=c.mainsnak&&c.mainsnak.datavalue;return c.rank!=='deprecated'&&v&&speciesKey(v.value)===speciesKey(sci)});
+}
+function fetchExtraSource(sci,source){
+ var key=source+'|'+speciesKey(sci);if(extraCache[key])return Promise.resolve(extraCache[key]);
+ if(extraPending[key])return extraPending[key];
+ var request;
+ if(source==='gbif'){
+  request=extraRequest('https://api.gbif.org/v1/species/match?strict=true&kingdom=Plantae&name='+encodeURIComponent(sci)).then(function(j){
+   if(j.matchType!=='EXACT'||j.rank!=='SPECIES'||j.kingdom!=='Plantae'||speciesKey(j.canonicalName)!==speciesKey(sci)||!Number.isSafeInteger(j.usageKey)||j.usageKey<=0)return {state:'missing'};
+   return {state:'ready',data:j,url:'https://www.gbif.org/species/'+j.usageKey};
+  });
+ }else{
+  request=wikiRequest('en',{prop:'pageprops',titles:sci}).then(function(page){
+   var id=page&&page.pageprops&&page.pageprops.wikibase_item;
+   if(!/^Q[0-9]+$/.test(id||''))return {entities:{}};
+   return extraRequest('https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&origin=*&ids='+encodeURIComponent(id)+'&props=claims%7Clabels%7Cdescriptions&languages=ps%7Cfa%7Cur%7Car%7Cen');
+  }).then(function(j){
+   var entities=Object.values(j.entities||{}),entity=entities.find(function(e){return /^Q[0-9]+$/.test(e.id||'')&&exactEntity(e,sci)});
+   return entity?{state:'ready',data:entity,url:'https://www.wikidata.org/wiki/'+entity.id}:{state:'missing'};
+  });
+ }
+ extraPending[key]=request.catch(function(){return {state:'error'}}).then(function(record){
+  delete extraPending[key];extraCache[key]=record;
+  if(typeof view!=='undefined'&&view==='id')paintLast();return record;
+ });return extraPending[key];
+}
+function extraSpeciesDetails(sci,l){
+ var copy=EXTRA_TEXT[l],base=DETAIL_TEXT[l],h='<section class="idexternal"><h3>'+esc(copy.title)+'</h3>';
+ ['wikidata','gbif'].forEach(function(source){
+  var key=source+'|'+speciesKey(sci),record=extraCache[key];
+  h+='<div class="idtext"><h4>'+esc(source==='gbif'?copy.taxonomy:copy.short)+'</h4>';
+  if(!record)h+='<p role="status">'+esc(base.loading)+'</p>';
+  else if(record.state!=='ready')h+='<p>'+esc(record.state==='error'?base.unavailable:base.missing)+'</p>';
+  else{
+   if(source==='gbif'){
+    ['scientificName','kingdom','phylum','class','order','family','genus'].forEach(function(field){if(record.data[field])h+=infoRow(copy[field],record.data[field],true)});
+   }else{
+    var description=record.data.descriptions&&record.data.descriptions[l],label=record.data.labels&&record.data.labels[l];
+    if(label&&label.language===l)h+='<p><b>'+esc(label.value)+'</b></p>';
+    h+=detailParagraphsHtml(description&&description.language===l?description.value:base.missing);
+   }
+   h+='<div class="idsources">'+esc(base.source)+': <a target="_blank" rel="noopener" href="'+esc(record.url)+'">'+(source==='gbif'?'GBIF':'Wikidata (CC0)')+'</a></div>';
+  }
+  h+='</div>';
+  if(!record)fetchExtraSource(sci,source);
+ });return h+'</section>';
+}
+
 function renderRes(rs,box){
  if(!box)return;build();
  var l=appLanguage(),t=T2(),h='<div class="idn"><b>'+esc(t.ai)+'</b></div>';
@@ -1941,6 +2004,7 @@ function renderRes(rs,box){
   else h+='<div class="idn">'+esc(t.none)+'</div>';
   h+=exact.length?bookSpeciesDetails(exact,l):'<p class="idn">'+esc(DETAIL_TEXT[l].noBook)+'</p>';
   h+=externalSpeciesDetails(sci,l);
+  h+=extraSpeciesDetails(sci,l);
   h+='<div class="idmore"><div class="idn"><b>'+esc(t.more)+'</b></div><div class="idmeta">';
   if(full)h+=infoRow(t.fullName,full,true);if(author)h+=infoRow(t.authority,author,true);
   if(genus)h+=infoRow(t.genusName,genus,true);if(family)h+=infoRow(t.fam,family,true);
