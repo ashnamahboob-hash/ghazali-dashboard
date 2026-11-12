@@ -1829,6 +1829,7 @@ function fetchMeta(sci,l){
 }
 function ensureMetadata(payload,l){
  (payload.results||[]).slice(0,3).forEach(function(r){var sci=(r.species||{}).scientificNameWithoutAuthor;if(!sci)return;
+  fetchSpeciesDetails(sci,l);
   fetchMeta(sci,l).then(function(){if(payload===lastPayload&&appLanguage()===l&&typeof view!=='undefined'&&view==='id')paintLast()});
  });
 }
@@ -1840,6 +1841,90 @@ function imageDate(image,l){
  var n=image.date&&image.date.timestamp;if(typeof n!=='number'||!Number.isFinite(n))return '';
  try{return new Intl.DateTimeFormat({ps:'ps-AF',fa:'fa-AF',ur:'ur-PK',ar:'ar',en:'en'}[l]).format(new Date(n))}catch(e){return ''}
 }
+
+var DETAIL_TEXT={"ps": {"book": "د کتاب معلومات — برابر علمي نوم", "external": "اضافي معلومات — ویکیپیډیا", "description": "ماهیت او پېژندنه", "uses": "د سرچینې له مخي استعمال", "missing": "په دې ژبه کي باوري معلومات ونه موندل سول.", "usesMissing": "په دې سرچینه کي استعمال جلا نه دی بیان سوی.", "loading": "اضافي معلومات راټولېږي…", "source": "سرچینه", "unavailable": "اضافي معلومات اوس نه ترلاسه کېږي. انټرنټ وګورئ.", "caution": "دا عمومي معلومات دي؛ د عکس احتمالي پېژندنه د درملیز استعمال تایید نه دئ.", "noBook": "په کتاب کي د همدې نوعي برابر مدخل نشته. د ورته جنس استعمال دې بوټي ته نه سي منسوبېدای."}, "fa": {"book": "اطلاعات کتاب — تطبیق نام علمی", "external": "اطلاعات تکمیلی — ویکی‌پدیا", "description": "ماهیت و معرفی", "uses": "کاربردهای ذکرشده در منبع", "missing": "اطلاعات در این زبان یافت نشد.", "usesMissing": "کاربرد در این منبع جداگانه بیان نشده است.", "loading": "دریافت اطلاعات تکمیلی…", "source": "منبع", "unavailable": "اطلاعات تکمیلی اکنون در دسترس نیست. اتصال را بررسی کنید.", "caution": "این اطلاعات عمومی است؛ شناسایی احتمالی عکس تأیید مصرف دارویی نیست.", "noBook": "مدخل مطابق با همین گونه در کتاب موجود نیست. کاربرد گونه‌های هم‌جنس را نمی‌توان به این گیاه نسبت داد."}, "ur": {"book": "کتاب کی معلومات — سائنسی نام کا ملاپ", "external": "اضافی معلومات — ویکیپیڈیا", "description": "ماہیت اور تعارف", "uses": "ماخذ میں بیان کردہ استعمال", "missing": "اس زبان میں معلومات نہیں ملیں۔", "usesMissing": "اس ماخذ میں استعمال الگ بیان نہیں ہوا۔", "loading": "اضافی معلومات حاصل ہو رہی ہیں…", "source": "ماخذ", "unavailable": "اضافی معلومات اس وقت دستیاب نہیں۔ انٹرنیٹ دیکھیں۔", "caution": "یہ عمومی معلومات ہیں؛ تصویر کی ممکنہ شناخت دوائی کے استعمال کی تصدیق نہیں۔", "noBook": "کتاب میں اسی نوع کا مطابق اندراج نہیں۔ ایک ہی جنس کی دوسری انواع کا استعمال اس پودے سے منسوب نہیں کیا جا سکتا۔"}, "en": {"book": "Book information — matching scientific name", "external": "Additional information — Wikipedia", "description": "Description", "uses": "Uses stated by the source", "missing": "Information was not found in this language.", "usesMissing": "Uses are not separately described in this source.", "loading": "Loading additional information…", "source": "Source", "unavailable": "Additional information is unavailable. Check your connection.", "caution": "General information only. A probable photo identification does not confirm medicinal use.", "noBook": "No matching species entry is available in the book. Uses of other species in the same genus cannot be attributed to this plant."}, "ar": {"book": "معلومات الكتاب — تطابق الاسم العلمي", "external": "معلومات إضافية — ويكيبيديا", "description": "الماهية والوصف", "uses": "الاستعمالات المذكورة في المصدر", "missing": "لم تُعثر على معلومات بهذه اللغة.", "usesMissing": "لم تُذكر الاستعمالات بشكل مستقل في هذا المصدر.", "loading": "جارٍ تحميل المعلومات الإضافية…", "source": "المصدر", "unavailable": "المعلومات الإضافية غير متاحة الآن. تحقق من الاتصال.", "caution": "معلومات عامة؛ التعرف الاحتمالي من الصورة لا يؤكد صلاحية الاستعمال الطبي.", "noBook": "لا يوجد مدخل مطابق لهذا النوع في الكتاب. لا تُنسب استعمالات الأنواع الأخرى من الجنس نفسه إلى هذا النبات."}};
+
+var speciesDetails=Object.create(null),speciesDetailsPending=Object.create(null);
+function detailKey(sci,l){return l+'|'+speciesKey(sci)}
+function wikiRequest(l,params){
+ var url=new URL('https://'+l+'.wikipedia.org/w/api.php');
+ var values=Object.assign({action:'query',format:'json',formatversion:2,origin:'*',redirects:1},params);
+ Object.keys(values).forEach(function(k){url.searchParams.set(k,values[k])});
+ var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},12000);
+ return fetch(url.href,{signal:controller.signal}).then(function(r){if(!r.ok)throw new Error('source');return r.json()}).then(function(j){
+  var page=j.query&&j.query.pages&&j.query.pages[0];
+  if(!page||page.missing||page.pageprops&&Object.hasOwn(page.pageprops,'disambiguation'))return null;
+  return page;
+ }).finally(function(){clearTimeout(timer)});
+}
+function splitSourceExtract(text,l){
+ var chunks=String(text||'').split(/\n\s*==+\s*([^\n=]+?)\s*==+\s*\n/),uses=[];
+ var titles={en:/^(uses?|medicinal uses?|traditional uses?|ethnobotany|economic uses?)$/i,ps:/^(استعمال|کارونه|کارونې|ګټې|درملیز استعمال)$/,fa:/^(کاربردها|کاربرد|مصارف|خواص|استفاده‌ها|استفاده ها|کاربردهای دارویی)$/,ur:/^(استعمال|استعمالات|طبی استعمال|فوائد)$/,ar:/^(الاستخدامات|الاستعمالات|الاستخدام|الاستعمال|الاستخدامات الطبية|الفوائد)$/};
+ for(var i=1;i<chunks.length;i+=2)if(titles[l].test(chunks[i].trim()))uses.push(chunks[i+1]||'');
+ function clean(v){return v.replace(/\n{3,}/g,'\n\n').trim().slice(0,3500)}
+ return {description:clean(chunks[0]),uses:clean(uses.join('\n\n'))};
+}
+function verifyScientificTaxon(page,sci){
+ var id=page.pageprops&&page.pageprops.wikibase_item;
+ if(!/^Q[0-9]+$/.test(id||''))return Promise.resolve(false);
+ var controller=new AbortController(),timer=setTimeout(function(){controller.abort()},12000);
+ var url='https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&origin=*&props=claims&ids='+encodeURIComponent(id);
+ return fetch(url,{signal:controller.signal}).then(function(r){if(!r.ok)throw new Error('taxon');return r.json()}).then(function(j){
+  var entity=j.entities&&j.entities[id],claims=entity&&entity.claims&&entity.claims.P225||[];
+  return claims.some(function(c){var v=c.mainsnak&&c.mainsnak.datavalue;return v&&speciesKey(v.value)===speciesKey(sci)});
+ }).finally(function(){clearTimeout(timer)});
+}
+function fetchSpeciesDetails(sci,l){
+ var key=detailKey(sci,l);if(speciesDetails[key])return Promise.resolve(speciesDetails[key]);
+ if(speciesDetailsPending[key])return speciesDetailsPending[key];
+ // Resolve the scientific title first; localized pages must come from its language links.
+ speciesDetailsPending[key]=wikiRequest('en',{prop:'extracts|langlinks|pageprops',explaintext:1,exsectionformat:'wiki',lllang:l,lllimit:10,titles:sci}).then(function(base){
+  if(!base)return null;
+  // A redirect to a broader taxon or similarly named plant must never supply uses.
+  var safeTitle=speciesKey(base.title)===speciesKey(sci);
+  var scientificLead=new RegExp('^'+sci.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:\\s|[,.(])','i').test(String(base.extract||'').trim());
+  return (safeTitle||scientificLead?Promise.resolve(true):verifyScientificTaxon(base,sci)).then(function(verified){
+   if(!verified)return null;
+   if(l==='en')return base;
+   var link=(base.langlinks||[]).find(function(x){return x.lang===l});
+   return link?wikiRequest(l,{prop:'extracts|pageprops',explaintext:1,exsectionformat:'wiki',titles:link.title}):null;
+  });
+ }).then(function(page){
+  var result=page?Object.assign(splitSourceExtract(page.extract,l),{url:'https://'+l+'.wikipedia.org/wiki/'+encodeURIComponent(page.title),title:page.title,state:'ready'}):{state:'missing'};
+  speciesDetails[key]=result;return result;
+ }).catch(function(){return {state:'error'}}).then(function(result){
+  delete speciesDetailsPending[key];speciesDetails[key]=result;
+  if(typeof view!=='undefined'&&view==='id'&&appLanguage()===l)paintLast();
+  return result;
+ });return speciesDetailsPending[key];
+}
+function detailParagraphsHtml(value){return String(value||'').split(/\n\s*\n/).filter(Boolean).map(function(v){return '<p>'+esc(v)+'</p>'}).join('')}
+function bookSpeciesDetails(indices,l){
+ var copy=DETAIL_TEXT[l],out='';
+ indices.forEach(function(i){
+  var plant=H[i],record=wordDetailLayout.records[plant.taj&&plant.taj[0]],fields=record&&record.fields&&record.fields[l];
+  out+='<details class="idbook" open><summary>'+esc(copy.book)+' — '+esc(nameOf(i))+'</summary>';
+  if(fields){
+   ['mhy','origin','mzj','khs','benefit','use','mzr','msl','bdl','safety'].forEach(function(key){
+    var items=fields[key];if(!Array.isArray(items)||!items.length)return;
+    out+='<div class="idtext"><h4>'+esc(wordDetailLayout.labels[l][key])+'</h4>'+items.map(function(item){return (item.subtitle?'<h5>'+esc(item.subtitle)+'</h5>':'')+detailParagraphsHtml(item.text)}).join('')+'</div>';
+   });
+  }else out+='<p>'+esc(copy.missing)+'</p>';
+  out+='<button class="idb" onclick="openHerb('+i+')">'+esc(T2().open)+'</button><div class="idsources">'+librarySource(plant)+'</div></details>';
+ });return out;
+}
+function externalSpeciesDetails(sci,l){
+ var copy=DETAIL_TEXT[l],record=speciesDetails[detailKey(sci,l)];
+ var h='<section class="idexternal"><h3>'+esc(copy.external)+'</h3>';
+ if(!record)return h+'<p role="status">'+esc(copy.loading)+'</p></section>';
+ if(record.state!=='ready')return h+'<p>'+esc(record.state==='error'?copy.unavailable:copy.missing)+'</p></section>';
+ h+='<div class="idtext"><h4>'+esc(copy.description)+'</h4>'+detailParagraphsHtml(record.description||copy.missing)+'</div>';
+ h+='<div class="idtext"><h4>'+esc(copy.uses)+'</h4>'+detailParagraphsHtml(record.uses||copy.usesMissing)+'</div>';
+ h+='<p class="idn">'+esc(copy.caution)+'</p><div class="idsources">'+esc(copy.source)+': <a target="_blank" rel="noopener" href="'+esc(record.url)+'">'+esc(record.title)+' · Wikipedia (CC BY-SA)</a></div></section>';
+ return h;
+}
+try{var detailStyle=document.createElement('style');detailStyle.textContent='.idbook,.idexternal{margin-top:14px;padding:14px;border:1px solid var(--bd);border-radius:16px;background:var(--card);overflow-wrap:anywhere}.idbook summary{font-weight:700;cursor:pointer;line-height:1.8}.idtext{padding:10px 0;border-bottom:1px solid var(--bd)}.idtext h4,.idexternal h3{margin:4px 0 8px;font-size:15px;color:var(--ink)}.idtext h5{margin:8px 0;font-size:14px}.idtext p,.idexternal>p{font-size:14px;line-height:1.9;margin:6px 0;white-space:pre-line}.idsources{font-size:12px;line-height:1.8;padding-top:12px}.idsources a{color:var(--ink);text-decoration:underline}.idsources .sec{padding:0;margin:0;border:0;box-shadow:none}.idres{padding-bottom:120px}';document.head.appendChild(detailStyle)}catch(e){}
+
 function renderRes(rs,box){
  if(!box)return;build();
  var l=appLanguage(),t=T2(),h='<div class="idn"><b>'+esc(t.ai)+'</b></div>';
@@ -1854,6 +1939,8 @@ function renderRes(rs,box){
   if(exact.length)h+='<div class="idn">'+esc(t.inbook)+'</div>'+exact.map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else if(sameGenus.length)h+='<div class="idn">'+esc(t.genus)+'</div>'+sameGenus.slice(0,5).map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else h+='<div class="idn">'+esc(t.none)+'</div>';
+  h+=exact.length?bookSpeciesDetails(exact,l):'<p class="idn">'+esc(DETAIL_TEXT[l].noBook)+'</p>';
+  h+=externalSpeciesDetails(sci,l);
   h+='<div class="idmore"><div class="idn"><b>'+esc(t.more)+'</b></div><div class="idmeta">';
   if(full)h+=infoRow(t.fullName,full,true);if(author)h+=infoRow(t.authority,author,true);
   if(genus)h+=infoRow(t.genusName,genus,true);if(family)h+=infoRow(t.fam,family,true);
