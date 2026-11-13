@@ -1237,7 +1237,7 @@ window.receiveAccountState=function(ready,google,signedIn,email,failed,name='',v
  else if(accountMessage==='signed_out'){authDraftEmail='';authDraftName='';accountMode='login';}
  if(view==='usr'||view==='set')render();
 };
-function authBridge(){return window.NativeAccount||window.WebAccount;}
+function authBridge(){return window.WebAccount||window.NativeAccount;}
 function beginAccountAction(method,args=[]){
  if(accountBusy)return false;
  const bridge=authBridge();
@@ -1290,7 +1290,7 @@ function accountPage(){
    '<p class="auth-verification'+(accountVerified?' is-verified':'')+'">'+(accountVerified?'✓ ':'')+c[accountVerified?'verified':'unverified']+'</p>'+notice+
    (!accountVerified?'<div class="auth-actions"><button type="button" class="chip" onclick="beginAccountAction(\'verifyEmail\')"'+offline+'>'+c.verify+'</button><button type="button" class="chip" onclick="beginAccountAction(\'refresh\')"'+offline+'>'+c.refresh+'</button></div>':'')+
    '<form class="profile-form" onsubmit="saveOnlineProfile(event)"><label for="account-name">'+c.name+'</label><input id="account-name" name="displayName" dir="auto" autocomplete="name" maxlength="60" required value="'+esc(accountDisplayName)+'"'+disabled+'><button class="chip on" type="submit"'+offline+'>'+c.save+'</button></form>'+
-   '<button type="button" class="chip" onclick="beginAccountAction(\'signOut\')"'+offline+'>'+c.logout+'</button></section>';
+   '<button type="button" class="chip" onclick="beginAccountAction(\'signOut\')"'+offline+'>'+c.logout+'</button></section>'+(window.gkReviewPanel?window.gkReviewPanel():'');
  }
  const signup=accountMode==='signup',reset=accountMode==='reset',title=c[reset?'reset':signup?'signup':'login'];
  const passwordInput=(id,name,label,confirmation=false)=>'<label for="'+id+'">'+label+'</label><div class="auth-input-row"><input id="'+id+'" name="'+name+'" type="password" dir="ltr" autocomplete="'+(signup?'new-password':'current-password')+'" required maxlength="4096"'+(signup?' minlength="8"':'')+disabled+'><button class="password-toggle" type="button" aria-controls="'+id+'" aria-pressed="false" onclick="toggleAuthPassword(\''+id+'\',this)"'+disabled+'>'+c.show+'</button></div>';
@@ -2271,11 +2271,14 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
     const photoUrl=file=>new Promise(res=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{let m=1000,q=.7,out='';for(let k=0;k<5;k++){const r=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*r);c.height=Math.round(i.height*r);c.getContext('2d').drawImage(i,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;m*=.8;q-=.08}URL.revokeObjectURL(u);res(out.length<900000?out:'')};i.onerror=()=>{URL.revokeObjectURL(u);res('')};i.src=u});
     window.gkUpload=async(x,file)=>{
       try{
-        if(!window.gkWebUser&&!window.NativeAccount)throw new Error('sign_in_required');
+        const sender=window.gkWebUser;
+        if(!sender){toast(authText().sign_in_required);return false;}
         const d={herbId:String(x.id||'').slice(0,20),type:String(x.type||'').slice(0,40),text:String(x.text||'').slice(0,2000),name:String(x.name||'').slice(0,60),lang:String(lang||'').slice(0,5),ts:Number(x.ts)||Date.now(),status:'new',createdAt:serverTimestamp()};
         if(file){const ph=await photoUrl(file);if(ph)d.photo=ph}
-        if(window.gkWebUser)d.uid=window.gkWebUser.uid;
-        await addDoc(collection(db,window.gkWebUser?'suggestions':'feedback'),d);return true;
+        if(window.gkWebUser?.uid!==sender.uid)return false;
+        d.uid=sender.uid;
+        d.name=String(sender.displayName||'').slice(0,60);
+        await addDoc(collection(db,'suggestions'),d);return true;
       }catch(e){console.warn('feedback',e);return false}
     };
     window.gkSendFb=x=>{if(x&&!x.sent)window.gkUpload(x,null)};
