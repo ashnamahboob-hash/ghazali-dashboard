@@ -5,6 +5,17 @@ service cloud.firestore {
       return request.auth != null
         && request.auth.token.email in ['habibrm18@gmail.com'];
     }
+    // Only the authenticated owner can access personal library preferences.
+    match /users/{uid}/private/preferences {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['favorites','recent','updatedAt'])
+        && request.resource.data.favorites is list
+        && request.resource.data.favorites.size() <= 1000
+        && request.resource.data.recent is list
+        && request.resource.data.recent.size() <= 3
+        && request.resource.data.updatedAt == request.time;
+    }
     // بوټي: کارکوونکي فهرست/بیاکتل/تایید سوي لولي (مسوده نه)، ادمین ټول لولي او لیکي
     match /herbs/{id} {
       allow read: if isAdmin() || resource.data.status in ['index', 'reviewed', 'approved'];
@@ -13,6 +24,21 @@ service cloud.firestore {
       match /history/{h}  { allow read, write: if isAdmin(); }
     }
     // د ایپ کارکوونکو نظرونه: هر څوک کولی شي نوی نظر ولېږي (محدود اندازه)، یوازې ادمین لولي او اداره کوي
+    match /suggestions/{id} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','herbId','type','text','name','lang','ts','status','createdAt','photo'])
+        && request.resource.data.status == 'new'
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 2000
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60
+        && request.resource.data.herbId is string && request.resource.data.herbId.size() <= 20
+        && (!('photo' in request.resource.data) || (request.resource.data.photo is string
+            && request.resource.data.photo.size() <= 900000
+            && request.resource.data.photo[0:15] == 'data:image/jpeg'));
+      allow read, update, delete: if isAdmin();
+    }
+    // Compatibility: existing Android clients still submit general feedback.
     match /feedback/{id} {
       allow create: if request.resource.data.keys().hasOnly(['herbId','type','text','name','lang','ts','status','createdAt','photo'])
         && request.resource.data.status == 'new'

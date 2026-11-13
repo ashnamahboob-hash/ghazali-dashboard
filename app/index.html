@@ -593,7 +593,7 @@ function render(){
 }
 var TH=["green","night","light","sand"],FZ=[0.92,1,1.12],fav=[],th="green",fz=1;
 try{fav=JSON.parse(localStorage.getItem("gk_fav")||"[]");th=localStorage.getItem("gk_th")||"green";fz=+localStorage.getItem("gk_fz")||1}catch(e){}
-function sv(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function sv(k,v){try{localStorage.setItem(window.gkStorageKey?window.gkStorageKey(k):k,v)}catch(e){}if(window.gkSavePreferences&&["gk_fav","gk_recent"].includes(k))window.gkSavePreferences();}
 function setTh(i){th=TH[i];sv("gk_th",th);render()}
 function setFz(i){fz=FZ[i];sv("gk_fz",fz);render()}
 function tf(i){var j=fav.indexOf(i);if(j>-1)fav.splice(j,1);else fav.push(i);sv("gk_fav",JSON.stringify(fav));render()}
@@ -1235,9 +1235,9 @@ window.receiveAccountState=function(ready,google,signedIn,email,failed,name='',v
  accountVerified=!!verified;accountBusy=false;accountFailed=!!failed;accountMessage=typeof message==='string'?message:'';
  if(accountSignedIn){authDraftEmail=accountEmail;authDraftName=accountDisplayName;}
  else if(accountMessage==='signed_out'){authDraftEmail='';authDraftName='';accountMode='login';}
- if(view==='usr')render();
+ if(view==='usr'||view==='set')render();
 };
-function authBridge(){return window.NativeAccount;}
+function authBridge(){return window.NativeAccount||window.WebAccount;}
 function beginAccountAction(method,args=[]){
  if(accountBusy)return false;
  const bridge=authBridge();
@@ -1556,8 +1556,8 @@ var FB={
  copied:{ps:"نظر کاپي شو او په دې وسیله کې ثبت شو",fa:"نظر کپی و ذخیره شد",ur:"رائے کاپی اور محفوظ ہو گئی",en:"Copied and saved on this device",ar:"تم النسخ والحفظ على هذا الجهاز"},
  mine:{ps:"ستاسو پخواني نظرونه (په دې وسیله کې)",fa:"نظرهای قبلی شما (در این دستگاه)",ur:"آپ کی پچھلی آراء (اس ڈیوائس پر)",en:"Your earlier notes (on this device)",ar:"ملاحظاتك السابقة (على هذا الجهاز)"}
 };
-function fbLoad(){try{return JSON.parse(localStorage.getItem("gk_feedback")||"[]")}catch(e){return[]}}
-function fbSave(a){try{localStorage.setItem("gk_feedback",JSON.stringify(a.slice(-200)))}catch(e){}try{if(window.gkSendFb&&a.length)window.gkSendFb(a[a.length-1])}catch(e){}}
+function fbLoad(){try{return JSON.parse(localStorage.getItem(window.gkStorageKey?window.gkStorageKey("gk_feedback"):"gk_feedback")||"[]")}catch(e){return[]}}
+function fbSave(a){try{localStorage.setItem(window.gkStorageKey?window.gkStorageKey("gk_feedback"):"gk_feedback",JSON.stringify(a.slice(-200)))}catch(e){}try{if(window.gkSendFb&&a.length)window.gkSendFb(a[a.length-1])}catch(e){}}
 function fbUrl(msg){
  var f=FEEDBACK||{};
  if(f.whatsapp)return "https://wa.me/"+String(f.whatsapp).replace(/\D/g,"")+"?text="+encodeURIComponent(msg);
@@ -1710,13 +1710,13 @@ buildFeedback=function(p){
  if(window.gkUpload){note.textContent=({ps:"عکس د نظر سره یو ځای ایډمین ته لېږل کېږي.",fa:"عکس همراه نظر برای مدیر ارسال می‌شود.",ur:"تصویر رائے کے ساتھ ایڈمن کو بھیجی جاتی ہے۔",en:"The photo is sent to the admin together with your note.",ar:"تُرسل الصورة مع الملاحظة إلى المشرف."})[lang]||""}
  send.onclick=function(ev){
   if(window.gkUpload){
+   if(!window.gkWebUser&&!window.NativeAccount){toast(authText().sign_in_required);go('usr');return}
    var text0=ta.value.trim();if(!text0){toast(FB.empty[lang]||FB.empty.en);ta.focus();return}
    var tp0=box.querySelector(".fb-types .on"),who0=inp.value.trim();
    var e0={id:fbTid(box,id),type:tp0?tp0.textContent:"",text:text0,name:who0,ts:Date.now(),sent:true};
-   var a0=fbLoad();a0.push(e0);fbSave(a0);
    var f0=picked;send.disabled=true;
-   window.gkUpload(e0,f0).then(function(ok){send.disabled=false;toast(ok?(FB.saved[lang]||FB.saved.en):({ps:"نظر ونه لېږل سو، بیا هڅه وکړئ",fa:"ارسال نشد، دوباره تلاش کنید",ur:"نہیں بھیجا جا سکا، دوبارہ کوشش کریں",en:"Could not send, please try again",ar:"تعذّر الإرسال، حاول مجدداً"})[lang])});
-   ta.value="";rm.onclick();return;
+   window.gkUpload(e0,f0).then(function(ok){send.disabled=false;if(ok){var a0=fbLoad();a0.push(e0);fbSave(a0);ta.value='';rm.onclick()}toast(ok?(FB.saved[lang]||FB.saved.en):({ps:"نظر ونه لېږل سو، بیا هڅه وکړئ",fa:"ارسال نشد، دوباره تلاش کنید",ur:"نہیں بھیجا جا سکا، دوبارہ کوشش کریں",en:"Could not send, please try again",ar:"تعذّر الإرسال، حاول مجدداً"})[lang])});
+   return;
   }
   if(picked&&navigator.canShare&&navigator.canShare({files:[picked]})){
    var text=ta.value.trim();if(!text){toast(FB.empty[lang]||FB.empty.en);ta.focus();return}
@@ -2265,13 +2265,17 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
     const [{initializeApp},{getFirestore,collection,query,where,getDocs,addDoc,serverTimestamp}]=await Promise.all([
       import('https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js'),
       import('https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js')]);
-    const db=getFirestore(initializeApp(CFG));
+    const firebaseApp=initializeApp(CFG);
+    const db=getFirestore(firebaseApp);
+    window.gkFirebase={app:firebaseApp,db};window.dispatchEvent(new Event("gk-firebase-ready"));
     const photoUrl=file=>new Promise(res=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{let m=1000,q=.7,out='';for(let k=0;k<5;k++){const r=Math.min(1,m/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*r);c.height=Math.round(i.height*r);c.getContext('2d').drawImage(i,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<700000)break;m*=.8;q-=.08}URL.revokeObjectURL(u);res(out.length<900000?out:'')};i.onerror=()=>{URL.revokeObjectURL(u);res('')};i.src=u});
     window.gkUpload=async(x,file)=>{
       try{
+        if(!window.gkWebUser&&!window.NativeAccount)throw new Error('sign_in_required');
         const d={herbId:String(x.id||'').slice(0,20),type:String(x.type||'').slice(0,40),text:String(x.text||'').slice(0,2000),name:String(x.name||'').slice(0,60),lang:String(lang||'').slice(0,5),ts:Number(x.ts)||Date.now(),status:'new',createdAt:serverTimestamp()};
         if(file){const ph=await photoUrl(file);if(ph)d.photo=ph}
-        await addDoc(collection(db,'feedback'),d);return true;
+        if(window.gkWebUser)d.uid=window.gkWebUser.uid;
+        await addDoc(collection(db,window.gkWebUser?'suggestions':'feedback'),d);return true;
       }catch(e){console.warn('feedback',e);return false}
     };
     window.gkSendFb=x=>{if(x&&!x.sent)window.gkUpload(x,null)};
@@ -2353,5 +2357,6 @@ if(view==='set')render();
 })();
 
 </script>
+<script type="module" src="./accounts.js"></script>
 </body>
 </html>
