@@ -320,7 +320,7 @@ $('#ed').addEventListener('click',async e=>{const t=e.target.closest('[data-l],[
  else if(t.dataset.l){lang=t.dataset.l;if(ref===lang)ref='';render()}
  else if(t.id==='save')await save();
  else if(t.dataset.lic)openDlg('up',t.dataset.lic);
- else if(t.id==='addimg')openDlg('cm');
+ else if(t.id==='addimg')openDlg('inat');
  else if(t.dataset.del){if(confirm('عکس ړنګ سي؟')){await deleteDoc(doc(db,'herbs',cur.code,'images',t.dataset.del));imgs=imgs.filter(i=>i.id!==t.dataset.del);render()}}
  else if(t.id==='hist')await hist()
  else if(t.dataset.restore!==undefined){cur=structuredClone(HS[+t.dataset.restore].data);dirty=true;render();toast('بیرته راوړل سو. ذخیره کېکاږئ.')}});
@@ -435,7 +435,7 @@ function closeDlg(){pendFiles.forEach(p=>{try{URL.revokeObjectURL(p.url)}catch(e
 function openDlg(tab='cm',editId=null){
  closeDlg();licEdit=editId;pendFiles=[];
  const o=document.createElement('div');o.id='licdlg';
- o.innerHTML=`<div class="lbox"><div class="lh"><b>${editId?'د عکس ليسنس':'عکس زیات کړئ'}${cur?' · '+esc(cur.code):''}</b><button data-x>×</button></div>${editId?'':'<div class="seg"><button data-tab="cm">د ویکیمېډیا کامنز لټون</button><button data-tab="up">له کمپیوټر</button></div>'}<div id="lbody"></div></div>`;
+ o.innerHTML=`<div class="lbox"><div class="lh"><b>${editId?'د عکس ليسنس':'عکس زیات کړئ'}${cur?' · '+esc(cur.code):''}</b><button data-x>×</button></div>${editId?'':'<div class="seg"><button data-tab="inat">iNaturalist</button><button data-tab="cm">د ویکیمېډیا کامنز لټون</button><button data-tab="up">له کمپیوټر</button></div>'}<div id="lbody"></div></div>`;
  document.body.appendChild(o);
  o.addEventListener('click',onDlg);
  o.addEventListener('change',e=>{const s=$('#selc');if(s)s.textContent=document.querySelectorAll('#cmres input[data-sel]:checked').length;const t=e.target;if(t.dataset?.ar!==undefined&&pendFiles[+t.dataset.ar])pendFiles[+t.dataset.ar].sel=t.checked;if(t.dataset?.arl!==undefined&&pendFiles[+t.dataset.arl])pendFiles[+t.dataset.arl].label=t.value});
@@ -444,8 +444,9 @@ function openDlg(tab='cm',editId=null){
 function showTab(t){
  $('#licdlg').querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
  const box=$('#lbody');
- if(t==='cm'){
-  box.innerHTML=`<p class="hint">د بوټي لپاره ۴ عکسونه (بشپړ بوټی، پاڼه، ګل، مېوه) په اتوماتیک ډول وړاندیز کیږي. وګورئ چې عکس همدې بوټي ته دی، بیا «زیات کړه» کېکاږئ. یوازې CC0، عامه ملکیت، CC BY او CC BY-SA ښودل کیږي، او ليسنس/جوړونکی/لینک ځان په ځان ذخیره کیږي.</p><div class="cmq"><input id="cmq" value="${esc(cur?.scientific||'')}" placeholder="علمي نوم، لکه Aconitum napellus"><button class="p" data-act="cmgo">لټون</button></div><label class="ck"><input type="checkbox" id="cmplain"> ساده لټون (۴ برخې نه)</label><div id="cmres"></div>`;
+ if(t==='cm'||t==='inat'){
+  SRC=t;
+  box.innerHTML=`<p class="hint">${t==='inat'?'د iNaturalist هغه عکسونه چې د ټولنې له خوا د بوټي نوم یې تایید سوی (research grade) او CC0، CC BY یا CC BY-SA ليسنس لري. بشپړ بوټی، ګل او مېوه مخکې ټاکل کیږي. ليسنس، جوړونکی او لینک ځان په ځان ذخیره کیږي. NC عکسونه نه ښودل کیږي.':'د بوټي لپاره ۴ عکسونه (بشپړ بوټی، پاڼه، ګل، مېوه) په اتوماتیک ډول وړاندیز کیږي. وګورئ چې عکس همدې بوټي ته دی، بیا «زیات کړه» کېکاږئ. یوازې CC0، عامه ملکیت، CC BY او CC BY-SA ښودل کیږي، او ليسنس/جوړونکی/لینک ځان په ځان ذخیره کیږي.'}</p><div class="cmq"><input id="cmq" value="${esc(cur?.scientific||'')}" placeholder="علمي نوم، لکه Aconitum napellus"><button class="p" data-act="cmgo">لټون</button></div>${t==="cm"?'<label class="ck"><input type="checkbox" id="cmplain"> ساده لټون (۴ برخې نه)</label>':''}<div id="cmres"></div>`;
   if(cur?.scientific)cmGo()}
  else{
   const l=licEdit?(imgs.find(i=>i.id===licEdit)?.lic||{}):{};
@@ -453,21 +454,47 @@ function showTab(t){
   box.innerHTML=licEdit
    ?`<p class="hint">د دې عکس ليسنس ستا مسؤلیت دی؛ اپ نشي کولی لاسي معلومات تایید کړي. کله چې ليسنس ذخیره کړې، عکس په ایپ کې ښکاري.</p>${fields}<div class="lrow"><button class="p" data-act="lsave">ذخیره</button></div>`
    :`<p class="hint">عکسونه وټاکئ؛ اپ پخپله چک کوي چې د کارولو وړ دي که نه: (۱) آیا همدا عکس په ویکیمېډیا کامنز کې شته او ليسنس یې څه دی، (۲) آیا د فایل په معلوماتو کې ليسنس یا © لیکل سوی. که هیڅ ونه موندل سي، عکس «ډاډ نشته» ښکاري، ذخیره کیږي خو په ایپ کې نه ښودل کیږي.</p><div class="lrow"><button id="pick">عکس یا عکسونه وټاکئ</button><span class="hint" id="pcnt">هیڅ نه دی ټاکل سوی</span></div><div id="ares"></div><details class="box"><summary>ليسنس پېژنم یا د مالک اجازه لرم (اختیاري)</summary><p class="hint">دلته معلومات ولیکئ تر څو «ډاډ نشته» عکسونه هم په ایپ کې وښودل سي. دا ستا مسؤلیت دی.</p>${fields}</details><div class="lrow"><button class="p" data-act="lsave">ذخیره</button></div>`}}
+/* ===== iNaturalist: عکسونه چې هر یو یې خپل CC ليسنس لري ===== */
+const INL={'cc0':'CC0 1.0','cc-by':'CC BY','cc-by-sa':'CC BY-SA'};
+let SRC='cm';
+const inAuthor=(ph,o)=>{const m=(ph.attribution||'').match(/^\(c\)\s*(.+?),\s*(some|no) rights reserved/i);return(m&&m[1].trim())||o?.user?.name||o?.user?.login||''};
+async function inJson(u){const r=await fetch(u);if(!r.ok)throw new Error('http '+r.status);return r.json()}
+async function inTaxon(q){
+ const j=await inJson('https://api.inaturalist.org/v1/taxa?per_page=8&is_active=true&q='+encodeURIComponent(q)),L=q.trim().toLowerCase(),a=j.results||[];
+ return a.find(x=>(x.name||'').toLowerCase()===L)||a[0]||null}
+async function inObs(tid,extra,n){
+ const j=await inJson('https://api.inaturalist.org/v1/observations?taxon_id='+tid+'&photos=true&quality_grade=research&photo_license=cc0,cc-by,cc-by-sa&order_by=votes&order=desc&per_page='+n+extra),out=[];
+ for(const o of j.results||[])for(const ph of o.photos||[]){
+  const lc=ph.license_code;if(!INL[lc]||!ph.url)continue;
+  const au=inAuthor(ph,o);if(!au&&lc!=='cc0')continue;
+  const id='inat:'+ph.id;
+  out.push({thumb:ph.url.replace('/square.','/medium.'),full:ph.url.replace('/square.','/large.'),file:id,lic:{name:INL[lc],url:'',author:au,source:'https://www.inaturalist.org/observations/'+o.id,via:'inaturalist',file:id}})}
+ return out}
+async function inAuto(q){
+ const t=await inTaxon(q);if(!t)return{out:[],skipped:0,note:'بوټی په iNaturalist کې ونه موندل سو'};
+ const slots=[['',20,'بشپړ بوټی'],['&term_id=12&term_value_id=13',12,'ګل'],['&term_id=12&term_value_id=14',12,'مېوه']];
+ const res=await Promise.all(slots.map(([x,n])=>inObs(t.id,x,n).catch(()=>null)));
+ if(res.every(r=>!r))throw new Error('net');
+ const seen=new Set(),all=[];
+ res.forEach((r,n)=>{if(!r)return;let picked=0;
+  for(const x of r){if(seen.has(x.file))continue;seen.add(x.file);x.have=haveImg(x.file);x.label=slots[n][2];
+   if(!x.have&&!picked){x.pick=true;picked=1}else x.pick=false;all.push(x)}});
+ return{out:all,skipped:0,note:'iNaturalist: '+(t.name||'')+(t.preferred_common_name?' ('+t.preferred_common_name+')':'')}}
 async function cmGo(){
  const q=$('#cmq').value.trim(),R=$('#cmres');if(!q)return;R.innerHTML='<p class="hint">لټوم…</p>';
- try{const{out,skipped}=await($('#cmplain')?.checked?cmPlain(q):cmAuto(q));CM=out;
-  if(!out.length){R.innerHTML='<p class="hint">د مناسب ليسنس سره عکس ونه موندل سو.</p>'+(skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:'');return}
+ try{const{out,skipped,note}=await(SRC==='inat'?inAuto(q):$('#cmplain')?.checked?cmPlain(q):cmAuto(q));CM=out;
+  if(!out.length){R.innerHTML='<p class="hint">'+(note||'د مناسب ليسنس سره عکس ونه موندل سو.')+'</p>'+(skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:'');return}
   const n0=out.filter(x=>x.pick).length;
-  R.innerHTML=`<div class="cmgrid">${out.map((x,n)=>`<div class="cmc ${x.pick?'pk':''}"><label class="ck"><input type="checkbox" data-sel="${n}" ${x.pick?'checked':''} ${x.have?'disabled':''}> ${x.have?'✓ مخکې شته':'وټاکئ'}</label><img loading="lazy" src="${esc(x.thumb)}" alt=""><div class="lic ok">✓ ${esc(x.lic.name)}</div><div class="hint">${esc(x.lic.author)}</div><select data-lbl="${n}">${IMG.map(l=>`<option ${x.label===l?'selected':''}>${l}</option>`).join('')}</select></div>`).join('')}</div>${skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:''}<div class="cmf"><button class="p" data-act="addsel">زیات کړه (<span id="selc">${n0}</span>)</button><button class="p" data-act="addnext">زیات کړه او بل بوټی ←</button><button data-act="skipnext">پرېښودل، بل بوټی ←</button></div>`}
+  R.innerHTML=(note?`<p class="hint">${esc(note)}</p>`:'')+`<div class="cmgrid">${out.map((x,n)=>`<div class="cmc ${x.pick?'pk':''}"><label class="ck"><input type="checkbox" data-sel="${n}" ${x.pick?'checked':''} ${x.have?'disabled':''}> ${x.have?'✓ مخکې شته':'وټاکئ'}</label><img loading="lazy" src="${esc(x.thumb)}" alt=""><div class="lic ok">✓ ${esc(x.lic.name)}</div><div class="hint">${esc(x.lic.author)}${x.lic.source?` <a href="${esc(x.lic.source)}" target="_blank" rel="noopener">↗</a>`:''}</div><select data-lbl="${n}">${IMG.map(l=>`<option ${x.label===l?'selected':''}>${l}</option>`).join('')}</select></div>`).join('')}</div>${skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:''}<div class="cmf"><button class="p" data-act="addsel">زیات کړه (<span id="selc">${n0}</span>)</button><button class="p" data-act="addnext">زیات کړه او بل بوټی ←</button><button data-act="skipnext">پرېښودل، بل بوټی ←</button></div>`}
  catch(err){R.innerHTML='<p class="hint">لټون ونه سو؛ انټرنیټ وګورئ.</p>'}}
-async function goNext(){const nx=nextCode();closeDlg();if(!nx)return toast('بل بوټی نشته');await openHerb(nx);if(cur&&cur.code===nx)openDlg('cm')}
+async function goNext(){const nx=nextCode();closeDlg();if(!nx)return toast('بل بوټی نشته');await openHerb(nx);if(cur&&cur.code===nx)openDlg(SRC==='inat'?'inat':'cm')}
 async function addSel(next){
  const cks=[...document.querySelectorAll('#cmres input[data-sel]:checked')];
  if(!cks.length&&!next)return toast('لومړی عکسونه وټاکئ');
  document.querySelectorAll('#cmres .cmf button').forEach(b=>b.disabled=true);
  let n=0;
  for(const c of cks){const i=+c.dataset.sel,x=CM[i],lb=document.querySelector(`#cmres select[data-lbl="${i}"]`)?.value||IMG[0];
-  try{const r=await fetch(x.thumb);if(!r.ok)throw new Error('http');await saveBmp(await createImageBitmap(await r.blob()),x.lic,lb);x.have=true;c.checked=false;c.disabled=true;n++}
+  try{const r=await fetch(x.full||x.thumb);if(!r.ok)throw new Error('http');await saveBmp(await createImageBitmap(await r.blob()),x.lic,lb);x.have=true;c.checked=false;c.disabled=true;n++}
   catch(e){toast(e&&e.message==='big'?'عکس ډېر لوی دی':'یو عکس ونه اخیستل سو')}}
  render();if(n)toast(n+' عکس ذخیره سو ✓');
  if(next)await goNext();
