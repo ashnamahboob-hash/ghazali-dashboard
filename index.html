@@ -73,7 +73,7 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 .im{background:var(--deep);border-radius:18px;padding:8px}.im img{width:100%;height:110px;object-fit:cover;border-radius:12px}
 .lic{font-size:11.5px;line-height:1.5;margin:4px 2px;word-break:break-word}.lic.ok{color:var(--ok)}.lic.bad{color:var(--warn)}.lic a{color:inherit}
 #licdlg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:8;display:grid;place-items:center;padding:16px}#licdlg .lbox{background:var(--bg);border:1px solid var(--gold);border-radius:20px;padding:16px;width:min(760px,100%);max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:12px}#licdlg .lh{display:flex;justify-content:space-between;align-items:center}#licdlg label{display:flex;flex-direction:column;gap:4px;font-size:14px}#licdlg .lrow,#licdlg .cmq{display:flex;gap:8px;align-items:center}#licdlg .cmq input{flex:1}
-.cmgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.cmc{background:var(--deep);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:4px}.cmc img{width:100%;height:110px;object-fit:cover;border-radius:12px}
+.cmgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.cmc{background:var(--deep);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:4px}.cmc img{width:100%;height:110px;object-fit:cover;border-radius:12px}.cmc.pk{outline:2px solid var(--gold)}.cmc select{width:100%}#licdlg .ck{flex-direction:row;align-items:center;gap:6px;font-size:13px}#licdlg .ck input{width:auto}.cmf{position:sticky;bottom:-16px;display:flex;flex-wrap:wrap;gap:8px;padding:10px 0;background:var(--bg)}
 #toast{position:fixed;bottom:20px;inset-inline-start:20px;background:var(--gold);color:var(--bg);font-weight:700;padding:10px 20px;border-radius:14px;display:none;z-index:9}
 .box{background:var(--tile);border-radius:20px;padding:6px 18px 16px;margin-top:16px}.box>h3{color:var(--gold);margin:10px 0 0;font-size:18px}.box b{color:var(--gold)}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:8px 0 20px}
@@ -291,49 +291,77 @@ const LIC_OK=n=>{n=(n||'').trim();return /^(cc0|public domain|pd\b|pdm|cc[ -]by(
 const LIC_PD=n=>/^(cc0|public domain|pd\b|pdm)/i.test((n||'').trim());
 const stripHtml=h=>{const d=new DOMParser().parseFromString(h||'','text/html');return (d.body.textContent||'').replace(/\s+/g,' ').trim().slice(0,140)};
 const licBadge=i=>{const l=i.lic;if(!l||!l.name)return'<div class="lic bad">⚠ ليسنس نه دی معلوم</div>';const s=/^https?:\/\//i.test(l.source||'')?` <a href="${esc(l.source)}" target="_blank" rel="noopener">↗</a>`:'';return `<div class="lic ok">✓ ${esc(l.name)}${l.author?' · '+esc(l.author):''}${s}</div>`};
+/* د هر بوټي ۴ عکسونو لپاره: بشپړ بوټی، پاڼه، ګل، مېوه */
+const SLOTS=[['بشپړ بوټی',''],['پاڼه',' leaf'],['ګل',' flower'],['مېوه',' (fruit OR seed OR berries)']];
+const guessLabel=t=>/leaf|leaves|folium|blatt|feuille|hoja|foglie/i.test(t)?'پاڼه':/flower|bloom|blossom|flos|blüte|fleur|inflorescence/i.test(t)?'ګل':/fruit|berry|berries|pod|capsule|cone/i.test(t)?'مېوه':/seed|semen/i.test(t)?'تخم':/root|rhizome|radix|tuber/i.test(t)?'ریښه':'بشپړ بوټی';
+const haveImg=f=>!!f&&imgs.some(i=>i.lic&&i.lic.file===f);
 let pendFiles=[],licEdit=null,CM=[];
-async function saveBmp(b,lic){
- const r=Math.min(1,1000/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*r);c.height=Math.round(b.height*r);c.getContext('2d').drawImage(b,0,0,c.width,c.height);
- const data=c.toDataURL('image/webp',.8);
+async function saveBmp(b,lic,label=IMG[0]){
+ const r=Math.min(1,800/Math.max(b.width,b.height)),c=document.createElement('canvas');c.width=Math.round(b.width*r);c.height=Math.round(b.height*r);c.getContext('2d').drawImage(b,0,0,c.width,c.height);
+ const data=c.toDataURL('image/webp',.72);
  if(data.length>900000)throw new Error('big');
- const o={data,label:IMG[0],order:imgs.length,w:c.width,h:c.height,lic};
+ const o={data,label,order:imgs.length,w:c.width,h:c.height,lic};
  const d=await addDoc(collection(db,'herbs',cur.code,'images'),o);imgs.push({id:d.id,...o})}
-async function cmSearch(q){
- const u='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40&gsrsearch='+encodeURIComponent(q+' filetype:bitmap')+'&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=1000';
+async function cmSearch(q,limit=12){
+ const u='https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit='+limit+'&gsrsearch='+encodeURIComponent(q+' filetype:bitmap')+'&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=800';
  const r=await fetch(u);if(!r.ok)throw new Error('http '+r.status);
  const j=await r.json(),ps=Object.values(j.query?.pages||{}).sort((a,b)=>(a.index||0)-(b.index||0)),out=[];let skipped=0;
  for(const p of ps){const ii=p.imageinfo?.[0];if(!ii||!/^image\/(jpeg|png|webp)$/.test(ii.mime||''))continue;
   const m=ii.extmetadata||{},name=(m.LicenseShortName?.value||'').trim(),author=stripHtml(m.Artist?.value)||stripHtml(m.Credit?.value);
   if(!LIC_OK(name)||(!author&&!LIC_PD(name))){skipped++;continue}
-  out.push({thumb:ii.thumburl||ii.url,lic:{name,url:m.LicenseUrl?.value||'',author:author||'',source:ii.descriptionurl||'',via:'commons',file:p.title||''}})}
+  out.push({thumb:ii.thumburl||ii.url,file:p.title||'',lic:{name,url:m.LicenseUrl?.value||'',author:author||'',source:ii.descriptionurl||'',via:'commons',file:p.title||''}})}
  return{out,skipped}}
+/* ۴ لټونه (بشپړ بوټی/پاڼه/ګل/مېوه) او له هرې برخې غوره عکس مخکې ټاکل کیږي */
+async function cmAuto(sci){
+ const res=await Promise.all(SLOTS.map(([,x])=>cmSearch(sci+x,10).catch(()=>null)));
+ if(res.every(r=>!r))throw new Error('net');
+ const seen=new Set(),all=[];let skipped=0;
+ res.forEach((r,n)=>{if(!r)return;skipped+=r.skipped;let picked=false;
+  r.out.forEach(x=>{if(seen.has(x.file))return;seen.add(x.file);
+   x.have=haveImg(x.file);x.label=n?SLOTS[n][0]:guessLabel(x.file);
+   x.pick=!picked&&!x.have&&(n>0||x.label==='بشپړ بوټی');if(x.pick)picked=true;all.push(x)})});
+ return{out:all,skipped}}
+async function cmPlain(q){
+ const r=await cmSearch(q,40);r.out.forEach(x=>{x.have=haveImg(x.file);x.label=guessLabel(x.file);x.pick=false});return r}
+function nextCode(){const its=[...document.querySelectorAll('#list .it')],i=its.findIndex(x=>x.dataset.c===cur?.code);return i>=0?its[i+1]?.dataset.c:undefined}
 function closeDlg(){$('#licdlg')?.remove()}
 function openDlg(tab='cm',editId=null){
  closeDlg();licEdit=editId;pendFiles=[];
  const o=document.createElement('div');o.id='licdlg';
- o.innerHTML=`<div class="lbox"><div class="lh"><b>${editId?'د عکس ليسنس':'عکس زیات کړئ'}</b><button data-x>×</button></div>${editId?'':'<div class="seg"><button data-tab="cm">د ویکیمېډیا کامنز لټون</button><button data-tab="up">له کمپیوټر</button></div>'}<div id="lbody"></div></div>`;
+ o.innerHTML=`<div class="lbox"><div class="lh"><b>${editId?'د عکس ليسنس':'عکس زیات کړئ'}${cur?' · '+esc(cur.code):''}</b><button data-x>×</button></div>${editId?'':'<div class="seg"><button data-tab="cm">د ویکیمېډیا کامنز لټون</button><button data-tab="up">له کمپیوټر</button></div>'}<div id="lbody"></div></div>`;
  document.body.appendChild(o);
  o.addEventListener('click',onDlg);
+ o.addEventListener('change',()=>{const s=$('#selc');if(s)s.textContent=document.querySelectorAll('#cmres input[data-sel]:checked').length});
  o.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='cmq')cmGo();if(e.key==='Escape')closeDlg()});
  showTab(editId?'up':tab)}
 function showTab(t){
  $('#licdlg').querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
  const box=$('#lbody');
  if(t==='cm'){
-  box.innerHTML=`<p class="hint">یوازې هغه عکسونه ښودل کیږي چې ليسنس یې CC0، عامه ملکیت، CC BY یا CC BY-SA وي. ليسنس، جوړونکی او لینک ځان په ځان له عکس سره ذخیره کیږي.</p><div class="cmq"><input id="cmq" value="${esc(cur?.scientific||'')}" placeholder="علمي نوم، لکه Aconitum napellus"><button class="p" data-act="cmgo">لټون</button></div><div id="cmres"></div>`;
+  box.innerHTML=`<p class="hint">د بوټي لپاره ۴ عکسونه (بشپړ بوټی، پاڼه، ګل، مېوه) په اتوماتیک ډول وړاندیز کیږي. وګورئ چې عکس همدې بوټي ته دی، بیا «زیات کړه» کېکاږئ. یوازې CC0، عامه ملکیت، CC BY او CC BY-SA ښودل کیږي، او ليسنس/جوړونکی/لینک ځان په ځان ذخیره کیږي.</p><div class="cmq"><input id="cmq" value="${esc(cur?.scientific||'')}" placeholder="علمي نوم، لکه Aconitum napellus"><button class="p" data-act="cmgo">لټون</button></div><label class="ck"><input type="checkbox" id="cmplain"> ساده لټون (۴ برخې نه)</label><div id="cmres"></div>`;
   if(cur?.scientific)cmGo()}
  else{
   const l=licEdit?(imgs.find(i=>i.id===licEdit)?.lic||{}):{};
   box.innerHTML=`<p class="hint">د دې عکس ليسنس ستا مسؤلیت دی؛ اپ نشي کولی لاسي عکس تایید کړي. بې ليسنس معلوماتو عکس نه ذخیره کیږي.</p>${licEdit?'':'<div class="lrow"><button id="pick">عکس یا عکسونه وټاکئ</button><span class="hint" id="pcnt">هیڅ نه دی ټاکل سوی</span></div>'}<label>ليسنس<select id="lsel"><option value="">— وټاکئ —</option>${LICOPT.map(([v,t])=>`<option value="${esc(v)}" ${l.name===v?'selected':''}>${esc(t)}</option>`).join('')}</select></label><label>جوړونکی (د عکس خاوند)<input id="lau" value="${esc(l.author||'')}"></label><label>د سرچینې لینک (یا د اجازې ثبوت)<input id="lsr" value="${esc(l.source||'')}" placeholder="https://…"></label><div class="lrow"><button class="p" data-act="lsave">ذخیره</button></div>`}}
 async function cmGo(){
  const q=$('#cmq').value.trim(),R=$('#cmres');if(!q)return;R.innerHTML='<p class="hint">لټوم…</p>';
- try{const{out,skipped}=await cmSearch(q);CM=out;
-  R.innerHTML=(out.length?`<div class="cmgrid">${out.map((x,n)=>`<div class="cmc"><img loading="lazy" src="${esc(x.thumb)}" alt=""><div class="lic ok">✓ ${esc(x.lic.name)}</div><div class="hint">${esc(x.lic.author)}</div><button class="p" data-add="${n}">+ زیات کړه</button></div>`).join('')}</div>`:'<p class="hint">د مناسب ليسنس سره عکس ونه موندل سو.</p>')+(skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:'')}
+ try{const{out,skipped}=await($('#cmplain')?.checked?cmPlain(q):cmAuto(q));CM=out;
+  if(!out.length){R.innerHTML='<p class="hint">د مناسب ليسنس سره عکس ونه موندل سو.</p>'+(skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:'');return}
+  const n0=out.filter(x=>x.pick).length;
+  R.innerHTML=`<div class="cmgrid">${out.map((x,n)=>`<div class="cmc ${x.pick?'pk':''}"><label class="ck"><input type="checkbox" data-sel="${n}" ${x.pick?'checked':''} ${x.have?'disabled':''}> ${x.have?'✓ مخکې شته':'وټاکئ'}</label><img loading="lazy" src="${esc(x.thumb)}" alt=""><div class="lic ok">✓ ${esc(x.lic.name)}</div><div class="hint">${esc(x.lic.author)}</div><select data-lbl="${n}">${IMG.map(l=>`<option ${x.label===l?'selected':''}>${l}</option>`).join('')}</select></div>`).join('')}</div>${skipped?`<p class="hint">${skipped} پایلې د ليسنس له امله پټې سوې.</p>`:''}<div class="cmf"><button class="p" data-act="addsel">زیات کړه (<span id="selc">${n0}</span>)</button><button class="p" data-act="addnext">زیات کړه او بل بوټی ←</button><button data-act="skipnext">پرېښودل، بل بوټی ←</button></div>`}
  catch(err){R.innerHTML='<p class="hint">لټون ونه سو؛ انټرنیټ وګورئ.</p>'}}
-async function cmAdd(n,btn){
- const x=CM[n];if(!x)return;btn.disabled=true;btn.textContent='…';
- try{const r=await fetch(x.thumb);if(!r.ok)throw new Error('http');await saveBmp(await createImageBitmap(await r.blob()),x.lic);btn.textContent='✓ زیات سو';render();toast('عکس ذخیره سو ✓')}
- catch(e){btn.disabled=false;btn.textContent='+ زیات کړه';toast(e&&e.message==='big'?'عکس ډېر لوی دی':'عکس ونه اخیستل سو')}}
+async function goNext(){const nx=nextCode();closeDlg();if(!nx)return toast('بل بوټی نشته');await openHerb(nx);if(cur&&cur.code===nx)openDlg('cm')}
+async function addSel(next){
+ const cks=[...document.querySelectorAll('#cmres input[data-sel]:checked')];
+ if(!cks.length&&!next)return toast('لومړی عکسونه وټاکئ');
+ document.querySelectorAll('#cmres .cmf button').forEach(b=>b.disabled=true);
+ let n=0;
+ for(const c of cks){const i=+c.dataset.sel,x=CM[i],lb=document.querySelector(`#cmres select[data-lbl="${i}"]`)?.value||IMG[0];
+  try{const r=await fetch(x.thumb);if(!r.ok)throw new Error('http');await saveBmp(await createImageBitmap(await r.blob()),x.lic,lb);x.have=true;c.checked=false;c.disabled=true;n++}
+  catch(e){toast(e&&e.message==='big'?'عکس ډېر لوی دی':'یو عکس ونه اخیستل سو')}}
+ render();if(n)toast(n+' عکس ذخیره سو ✓');
+ if(next)await goNext();
+ else document.querySelectorAll('#cmres .cmf button').forEach(b=>b.disabled=false)}
 async function licSave(btn){
  const name=$('#lsel').value,author=$('#lau').value.trim(),source=$('#lsr').value.trim();
  if(!name)return toast('ليسنس وټاکئ');
@@ -351,8 +379,10 @@ function onDlg(e){
  const b=e.target.closest('button');if(!b)return;
  if('x' in b.dataset)closeDlg();
  else if(b.dataset.tab)showTab(b.dataset.tab);
- else if(b.dataset.add!==undefined)cmAdd(+b.dataset.add,b);
  else if(b.dataset.act==='cmgo')cmGo();
+ else if(b.dataset.act==='addsel')addSel(false);
+ else if(b.dataset.act==='addnext')addSel(true);
+ else if(b.dataset.act==='skipnext')goNext();
  else if(b.dataset.act==='lsave')licSave(b);
  else if(b.id==='pick')$('#imgf').click()}
 $('#imgf').onchange=e=>{pendFiles=[...e.target.files];e.target.value='';const c=$('#pcnt');if(c)c.textContent=pendFiles.length?pendFiles.length+' عکس ټاکل سو':'هیڅ نه دی ټاکل سوی'};
