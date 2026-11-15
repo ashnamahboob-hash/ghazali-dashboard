@@ -3,6 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null
+        && request.auth.token.email_verified == true
         && request.auth.token.email in ['habibrm18@gmail.com'];
     }
     // Only the authenticated owner can access personal library preferences.
@@ -28,6 +29,10 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.keys().hasOnly(['uid','herbId','type','text','name','lang','ts','status','createdAt','photo'])
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.lang in ['ps','fa','ur','en','ar']
+        && request.resource.data.type is string && request.resource.data.type.size() <= 40
+        && request.resource.data.ts is number
         && request.resource.data.status == 'new'
         && request.resource.data.text is string
         && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 2000
@@ -36,19 +41,11 @@ service cloud.firestore {
         && (!('photo' in request.resource.data) || (request.resource.data.photo is string
             && request.resource.data.photo.size() <= 900000
             && request.resource.data.photo[0:15] == 'data:image/jpeg'));
-      allow read, update, delete: if isAdmin();
+      allow read: if isAdmin() || (request.auth != null && resource.data.uid == request.auth.uid);
+      allow update, delete: if isAdmin();
     }
-    // Compatibility: existing Android clients still submit general feedback.
+    // Legacy submissions are readable by admins, but anonymous writes are closed.
     match /feedback/{id} {
-      allow create: if request.resource.data.keys().hasOnly(['herbId','type','text','name','lang','ts','status','createdAt','photo'])
-        && request.resource.data.status == 'new'
-        && request.resource.data.text is string
-        && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 2000
-        && request.resource.data.name is string && request.resource.data.name.size() <= 60
-        && request.resource.data.herbId is string && request.resource.data.herbId.size() <= 20
-        && (!('photo' in request.resource.data) || (request.resource.data.photo is string
-            && request.resource.data.photo.size() <= 900000
-            && request.resource.data.photo[0:15] == 'data:image/jpeg'));
       allow read, update, delete: if isAdmin();
     }
   }

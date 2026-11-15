@@ -12,7 +12,9 @@ The web app uses the existing **ghazali-herbs** Firebase project, matching the d
 
 ## Compatibility and limits
 
-The Android NativeAccount bridge retains precedence. Its existing general feedback uses `feedback`; signed-in web submissions use `suggestions`. Native authentication and cloud profile synchronization still need a coordinated Android update; this change does not rebuild or modify the APK.
+Web and hosted Android WebView now use the same Firebase web session for account actions and Firestore writes. Native bridge presence does not authorize submissions. Android users need to sign in again with an account in **ghazali-herbs**; old native accounts are not automatically migrated. Email/password is available in the embedded app; Google popup is offered only in a regular browser because WebView popup OAuth is unsupported here. No APK was rebuilt.
+
+Anonymous legacy feedback writes are closed in the rules. Publish the web account code and rules together. Existing feedback remains admin-readable. Admin login requires the configured administrator email to be verified. Users can read only their own suggestions; only the administrator can change review status. The account page includes a refreshable list of up to 100 suggestions. Approval is a moderation decision; the administrator still edits and publishes any book changes separately.
 
 Signed-in web preferences use `users/{uid}/private/preferences`, with stable book codes in Firestore. Local personal caches are separated by UID. Sign-out restores guest data. Local caches remain on the device for later use by that account; this is not encrypted storage. Cloud failures display a notice and keep local changes.
 
@@ -23,3 +25,5 @@ Cloud preferences use last-write-wins snapshots, not concurrent multi-device mer
 - `node test-accounts.cjs`
 - `node test-identification-details.cjs`
 - JavaScript syntax checks and `git diff --check`
+
+2026-11-13 checks: authenticated submission, spoofed name replacement, native bridge bypass rejection, and account switching during photo processing. Firebase rules and physical Android login are not emulator/device-verified.

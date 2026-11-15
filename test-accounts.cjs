@@ -34,12 +34,24 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
  assert.equal(context.window.gkWebUser,null);
  const native={...context,window:{NativeAccount:{},gkFirebase:{app:{},db:{}},addEventListener(){}}};
  vm.createContext(native);vm.runInContext(source,native);
- assert.equal(native.window.WebAccount,undefined,'preserve native account adapter');
+ assert.ok(native.window.WebAccount,'Android uses the same authenticated Firestore session');
  for(const file of ['index.html','app/index.html']){
   const html=fs.readFileSync(file,'utf8');
   for(const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
    if(/type="module"/.test(m[1]))continue;new vm.Script(m[2]);
   }
  }
- console.log('Passed account isolation, stable herb IDs, sign-out, stale requests, edits during loading, native bridge preservation and HTML syntax.');
+ const html=fs.readFileSync('app/index.html','utf8');
+ const upload=html.slice(html.indexOf('window.gkUpload=async'),html.indexOf('window.gkSendFb='));
+ const uploads=[];
+ const uc={window:{NativeAccount:{}},console:{warn(){}},lang:'en',toast(){},authText:()=>({sign_in_required:'login'}),db:{},serverTimestamp:()=>123,collection:(db,name)=>name,addDoc:async(c,d)=>uploads.push({c,d}),photoUrl:async()=>''};
+ vm.createContext(uc);vm.runInContext(upload,uc);
+ assert.equal(await uc.window.gkUpload({text:'test'},null),false,'native bridge alone never authorizes a write');
+ uc.window.gkWebUser={uid:'alice',displayName:'Alice'};
+ assert.equal(await uc.window.gkUpload({text:'test',name:'forged'},null),true);
+ assert.equal(uploads[0].c,'suggestions');assert.equal(uploads[0].d.uid,'alice');assert.equal(uploads[0].d.name,'Alice');
+ uc.photoUrl=async()=>{uc.window.gkWebUser={uid:'bob'};return ''};
+ assert.equal(await uc.window.gkUpload({text:'test'},{}),false,'switching accounts during image processing cancels the write');
+ assert.equal(uploads.length,1);
+ console.log('Passed account isolation, stable herb IDs, sign-out, stale requests, edits during loading, shared Android/web session and HTML syntax.');
 })().catch(e=>{console.error(e);process.exitCode=1});
