@@ -287,7 +287,7 @@ function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index
  const right=ref?`<div><label>${LAB[ref][k]}</label><textarea readonly dir="${dirOf(ref)}">${esc(h.fields[ref]?.[k])}</textarea></div>`:'';
  return `<div class="${ref?'cmp':''}"><div><label>${lab}</label><textarea dir="${dirOf(lang)}" class="${cl}" data-p="fields.${lang}.${k}">${esc(v)}</textarea></div>${right}</div>`}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
+ $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="مدخل په بشپړ ډول ړنګول" style="color:var(--red);border-color:var(--red)">🗑 ړنګول</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>د تایید لینک (لیست)</label><input dir="ltr" data-p="link" value="${esc(h.link)}">
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
@@ -323,10 +323,29 @@ $('#ed').addEventListener('click',async e=>{const t=e.target.closest('[data-l],[
  else if(t.id==='addimg')openDlg('inat');
  else if(t.dataset.del){if(confirm('عکس ړنګ سي؟')){await deleteDoc(doc(db,'herbs',cur.code,'images',t.dataset.del));imgs=imgs.filter(i=>i.id!==t.dataset.del);render()}}
  else if(t.id==='hist')await hist()
+ else if(t.id==='del')await delHerb()
  else if(t.dataset.restore!==undefined){cur=structuredClone(HS[+t.dataset.restore].data);dirty=true;render();toast('بیرته راوړل سو. ذخیره کېکاږئ.')}});
 $('#ed').addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g){d.open?CL.delete(d.dataset.g):CL.add(d.dataset.g);if(d.open)grows()}},true);
 $('#ed').addEventListener('change',async e=>{const id=e.target.dataset.im;if(id){const i=imgs.find(x=>x.id===id);i.label=e.target.value;await setDoc(doc(db,'herbs',cur.code,'images',id),{label:i.label},{merge:true})}
  if(e.target.id==='ref'){ref=e.target.value;render()}});
+async function delHerb(){
+ const h=cur;if(!h)return;const code=h.code;
+ const live=h.status==='approved'?'\n⚠ دا مدخل اوس په عامه اپ کې ښکاري.':'',full=h.status&&h.status!=='index'?'\nحالت: '+(ST[h.status]||h.status):'';
+ if(!confirm('دا مدخل به په بشپړ ډول ړنګ سي:\n'+code+' · '+(nm(h)||'')+full+live+'\n\nدا یوازې مدخل نه، بلکې ټول عکسونه ('+imgs.length+') او تاریخچه یې هم ړنګوي. بیرته نه راځي.\n(مخکې له ړنګولو به د بیک‌اپ فایل ډاونلوډ سي.)\n\nدوام؟'))return;
+ const t=prompt('د تایید لپاره د مدخل کوډ ولیکئ: '+code);
+ if(t===null)return;
+ if(t.trim().toUpperCase()!==code)return toast('کوډ سم نه دی؛ ړنګول لغوه سو');
+ try{
+  const [is,hs]=await Promise.all([getDocs(collection(db,'herbs',code,'images')),getDocs(collection(db,'herbs',code,'history'))]);
+  const bk={deletedAt:new Date().toISOString(),entry:DB[code]||h,images:is.docs.map(d=>({id:d.id,...d.data()})),history:hs.docs.map(d=>({id:d.id,...d.data()}))};
+  const u=URL.createObjectURL(new Blob([JSON.stringify(bk)],{type:'application/json'})),a=document.createElement('a');
+  a.href=u;a.download='ghazali-deleted-'+code+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+  let b=writeBatch(db),m=0;
+  for(const d of [...is.docs,...hs.docs]){b.delete(d.ref);if(++m>=400){await b.commit();b=writeBatch(db);m=0}}
+  b.delete(doc(db,'herbs',code));await b.commit();
+ }catch(e){return alert('ړنګول ونه سو: '+(e.code||e.message))}
+ delete DB[code];cur=null;dirty=false;imgs=[];HS=[];
+ $('#app').classList.remove('ed');renderList();home();toast(code+' ړنګ سو ✓')}
 async function save(){const h=cur;
  if(h.status==='approved'&&Q(h).red){return alert('تایید نه سي کېدای: لا سره (سور) نیمګړتیاوې شته. که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ.')}
  const sv=await getDoc(doc(db,'herbs',h.code));
