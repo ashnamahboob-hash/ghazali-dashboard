@@ -1460,15 +1460,15 @@ stagePhotoSlots=function(all){
  var caps={ps:["بشپړ بوټی","پاڼه","ګل","مېوه یا کارېدونکې برخه"],fa:["گیاه کامل","برگ","گل","میوه یا بخش کاربردی"],ur:["مکمل پودا","پتّا","پھول","پھل یا استعمال شدہ حصہ"],en:["Whole plant","Leaf","Flower","Fruit or used part"],ar:["النبات الكامل","الورقة","الزهرة","الثمرة أو الجزء المستخدم"]}[lang];
  var icons=["sprout","leaf","flower","fruit","fruit"];caps=caps.concat([{ps:"وچه یا کارېدونکې برخه",fa:"خشک یا بخش کاربردی",ur:"خشک یا استعمال شدہ حصہ",en:"Dried or used part",ar:"مجففة أو الجزء المستخدم"}[lang]]);
  var has=PH_KEYS.some(function(k){return e[k]}),first=all?null:PH_KEYS.find(function(k){return e[k]}),hero="";
- if(first){var hi=PH_KEYS.indexOf(first);hero='<button class="ps-hero" data-photo="'+esc(e[first])+'" data-cap="'+esc(caps[hi])+'"><img loading="lazy" src="'+esc(e[first])+'" alt="'+esc(caps[hi])+'"></button>'}
+ if(first){var hi=PH_KEYS.indexOf(first);hero='<button class="ps-hero" data-photo="'+esc(e[first])+'" data-cap="'+esc(caps[hi]+(e.lic&&e.lic[first]?' — '+e.lic[first]:''))+'"><img loading="lazy" src="'+esc(e[first])+'" alt="'+esc(caps[hi])+'"></button>'}
  var row=PH_KEYS.map(function(k,i){
   if(k===first)return"";
   if(!e[k]&&(has||k==="used"))return"";
-  return e[k]?'<figure><button class="ps-img" data-photo="'+esc(e[k])+'" data-cap="'+esc(caps[i])+'"><img loading="lazy" src="'+esc(e[k])+'" alt="'+esc(caps[i])+'"></button><figcaption>'+esc(caps[i])+'</figcaption></figure>'
+  return e[k]?'<figure><button class="ps-img" data-photo="'+esc(e[k])+'" data-cap="'+esc(caps[i]+(e.lic&&e.lic[k]?' — '+e.lic[k]:''))+'"><img loading="lazy" src="'+esc(e[k])+'" alt="'+esc(caps[i])+'"></button><figcaption>'+esc(caps[i])+'</figcaption></figure>'
    :'<figure><div class="ps-empty" aria-hidden="true">'+ic(icons[i])+'</div><figcaption>'+esc(caps[i])+'</figcaption></figure>';
  }).join("");
  return '<section class="sec pslots"><h3>'+figCopy[lang][1]+'</h3>'+hero+'<div class="ps-row" style="grid-template-columns:repeat('+Math.max(1,Math.min(4,PH_KEYS.filter(function(k){return k!==first&&(e[k]||(!has&&k!=="used"))}).length))+',minmax(0,1fr))">'+row+'</div>'+
-  (has?'':'<p class="ps-soon">'+(PH_SOON[lang]||PH_SOON.en)+'</p>')+(e.credit?'<p class="ps-credit">'+esc(e.credit)+'</p>':'')+'</section>';
+  (has?'':'<p class="ps-soon">'+(PH_SOON[lang]||PH_SOON.en)+'</p>')+(e.credit?'<p class="ps-credit">'+esc(e.credit)+'</p>':'')+(e.licCredit?'<p class="ps-credit">📷 '+esc(e.licCredit)+'</p>':'')+'</section>';
 };
 /* ===== v2.2: temperament filter ===== */
 var MZL={ps:["ګرم","سوړ","وچ","لوند"],fa:["گرم","سرد","خشک","مرطوب"],ur:["گرم","سرد","خشک","تر"],en:["Hot","Cold","Dry","Moist"],ar:["حار","بارد","يابس","رطب"]};
@@ -2296,8 +2296,10 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
           if(old&&old.credit&&im.length)e.credit=old.credit;
           if(old||im.length)any=true;
           const p=H.find(x=>x.taj&&x.taj[0]===h.code);if(p&&!im.length)p.img='';
-          const left=[];im.forEach(x=>{const k=SL[x.label];if(k&&!seen[k]){seen[k]=1;e[k]=x.data}else left.push(x)});
-          ['plant','leaf','flower','fruit','used'].forEach(k=>{if(!e[k]&&left.length)e[k]=left.shift().data});
+          const left=[];e.lic={};const ln=x=>x&&x.lic&&x.lic.name?(x.lic.author?x.lic.author+' — ':'')+x.lic.name:'';
+          im.forEach(x=>{const k=SL[x.label];if(k&&!seen[k]){seen[k]=1;e[k]=x.data;e.lic[k]=ln(x)}else left.push(x)});
+          ['plant','leaf','flower','fruit','used'].forEach(k=>{if(!e[k]&&left.length){const y=left.shift();e[k]=y.data;e.lic[k]=ln(y)}});
+          e.licCredit=[...new Set(Object.values(e.lic).filter(Boolean))].join(' · ');
         }catch(e){}
       }));
       if(any){try{applyPhotos()}catch(e){}try{render()}catch(e){}}
