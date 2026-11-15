@@ -2289,7 +2289,7 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
       await Promise.all(list.filter(h=>h.status!=='index'||h.added).map(async h=>{
         try{
           const s=await getDocs(collection(db,'herbs',h.code,'images'));
-          const im=s.docs.map(d=>d.data()).filter(x=>x&&typeof x.data==='string'&&/^data:image\//.test(x.data)).sort((x,y)=>(x.order||0)-(y.order||0));
+          const im=s.docs.map(d=>d.data()).filter(x=>x&&!x.hide&&typeof x.data==='string'&&/^data:image\//.test(x.data)).sort((x,y)=>(x.order||0)-(y.order||0));
           const SL={'بشپړ بوټی':'plant','پاڼه':'leaf','ګل':'flower','مېوه':'fruit','تخم':'used','ریښه':'used','وچ بوټي':'used','کارېدونکې برخه':'used'};
           const old=window.HERB_PHOTOS[h.code];
           const e=window.HERB_PHOTOS[h.code]={},seen={};
