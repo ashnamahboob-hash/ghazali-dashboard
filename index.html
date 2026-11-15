@@ -163,7 +163,7 @@ label{color:#56704a;font-size:13px;margin:15px 2px 7px}label small{color:#9aa28e
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
 <div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
 <div id="app">
-<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="rcb" title="هغه مدخلونه چې نوي اضافه سوي (لکه د JSON واردات)">نوي مدخلونه</button><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
+<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="rcb" title="هغه مدخلونه چې نوي اضافه سوي (لکه د JSON واردات)">نوي مدخلونه</button><button id="imp" title="Seed JSON">Import</button><button id="fixd" title="هغه مسودې چې د کتاب هیڅ متن نه لري بیرته «یوازې فهرست» کوي">خالي مسودې → فهرست</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
 <aside>
 <div class="t">
 <div class="fl" id="fs"></div>
@@ -226,6 +226,8 @@ const ok=v=>String(v??'').trim().length>0;
 /* بشپړتیا: سور = اړین ځایونه خالي (مزاج، ماهیت، خواص، استعمال، زیانونه + د کتاب مخ)، ژېړ = مصلح/بدل خالي.
    که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ، هغه بشپړ شمېرل کېږي. */
 function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fields?.[l]||{};per[l]=CORE.filter(k=>!ok(f[k])).length;red+=per[l];yel+=SOFT.filter(k=>!ok(f[k])).length});return{red,yel,per}}
+/* مدخل د کتاب متن لري؟ (د لیست معلومات: نوم، علمي نوم، کورنۍ، مخ، لینک، یادونه — متن نه شمېرل کېږي) */
+const hasBody=h=>{const f=h.fields||{},o=h.otherNames||{};return L.some(l=>Object.values(f[l]||{}).some(ok)||ok(sv(o[l])))};
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
 function pass(c,h,skip,q){
  if(skip!=='st'){if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false}
@@ -627,20 +629,35 @@ $('#seedf').onchange=async e=>{
  const nw=[],mg=[],sk=[],bad=[];
  for(const h of arr){if(!ok(h)){bad.push(h&&h.code||'؟');continue}const o=DB[h.code];if(!o)nw.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
  if(!nw.length&&!mg.length){e.target.value='';return alert('هیڅ نوی یا د ډکولو وړ مدخل ونه موندل سو.'+(sk.length?'\nبیاکتل/تایید سوي مدخلونه نه بدلیږي: '+sk.slice(0,10).join(', '):'')+(bad.length?'\nناسم کوډونه: '+bad.slice(0,10).join(', '):''))}
- if(!confirm('نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (حالت «مسوده» کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
+ if(!confirm('نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (یوازې که د کتاب متن ولري «مسوده» کیږي، نه نو «یوازې فهرست» پاتې کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
  const PH='په کتاب کې نه دی لیکل شوی',s=v=>typeof v==='string'&&v.trim()&&v.trim()!==PH?v.trim():'',sf=(v,old)=>typeof v==='string'&&v.trim()&&(v.trim()!==PH||!old||!String(old).trim())?v.trim():'';let k=0;
- for(const h of nw){const x={...h,added:true,status:h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft',version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};if(!x.type)x.type=h.code[0];if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),JSON.parse(JSON.stringify(x)));DB[h.code]=x;k++}
+ for(const h of nw){const st0=h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft';const x={...h,added:true,status:st0==='draft'&&!hasBody(h)?'index':st0,version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};if(!x.type)x.type=h.code[0];if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),JSON.parse(JSON.stringify(x)));DB[h.code]=x;k++}
  let m=0;
  for(const h of mg){const o=DB[h.code],x=JSON.parse(JSON.stringify(o));
   ['scientific','family','pages','note','link'].forEach(f=>{if(s(h[f]))x[f]=s(h[f])});
   x.names={...(x.names||{})};LG.forEach(l=>{if(s(h.names&&h.names[l]))x.names[l]=s(h.names[l])});
   x.otherNames={...(x.otherNames||{})};LG.forEach(l=>{if(s(h.otherNames&&h.otherNames[l]))x.otherNames[l]=s(h.otherNames[l])});
   x.fields={...(x.fields||{})};LG.forEach(l=>{const src=h.fields&&h.fields[l];if(!src)return;x.fields[l]={...(x.fields[l]||{})};for(const [key,v] of Object.entries(src)){const t=sf(v,x.fields[l][key]);if(t)x.fields[l][key]=t}});
-  x.status='draft';x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
+  x.status=(o.status==='index'&&!hasBody(x))?'index':'draft';x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
   await setDoc(doc(db,'herbs',h.code),x);
   await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د JSON واردات له لارې ډک سو',data:x});
   DB[h.code]=x;m++}
  e.target.value='';renderList();toast(k+' نوي، '+m+' ډک سو'+(sk.length?'، '+sk.length+' پرېښودل سول':''))};
+/* خالي مسودې (د کتاب هیڅ متن نه لري) بیرته «یوازې فهرست» ته. بیاکتل/تایید سوي هیڅکله نه لمس کېږي. */
+$('#fixd').onclick=async()=>{
+ const em=Object.entries(DB).filter(([c,h])=>h.status==='draft'&&!hasBody(h));
+ if(!em.length)return toast('هیڅ خالي مسوده ونه موندل سوه');
+ if(dirty&&!confirm('بدلونونه ذخیره نه دي. دوام؟'))return;
+ const t=prompt('دا '+em.length+' مسودې د کتاب هیڅ متن نه لري او بیرته «یوازې فهرست» کیږي. نور څه نه بدلیږي.\nنمونه: '+em.slice(0,5).map(x=>x[0]).join(', ')+'\n\nد تایید لپاره شمېر ولیکئ: '+em.length);
+ if(t===null||t.trim()!==String(em.length))return toast('شمېر سم نه دی؛ لغوه سو');
+ let b=writeBatch(db),m=0,k=0;
+ for(const [c,h] of em){const x=JSON.parse(JSON.stringify(h));x.status='index';x.version=(h.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
+  b.set(doc(db,'herbs',c),x);
+  b.set(doc(collection(db,'herbs',c,'history')),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'خالي مسوده بیرته «یوازې فهرست» سوه',data:x});
+  DB[c]=x;k++;m+=2;if(m>=400){await b.commit();b=writeBatch(db);m=0}}
+ if(m)await b.commit();
+ flt.st='all';if(cur&&DB[cur.code]){dirty=false;await openHerb(cur.code)}
+ renderList();toast(k+' مدخلونه بیرته «یوازې فهرست» سول ✓')};
 $('#exp').onclick=()=>{const a=Object.values(DB).sort((x,y)=>(x.order??9e9)-(y.order??9e9)),u=URL.createObjectURL(new Blob([JSON.stringify(a,null,1)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='ghazali-backup-'+new Date().toISOString().slice(0,10)+'.json';l.click();URL.revokeObjectURL(u)};
 async function gotoHerb(c){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بل بوټی خلاصوئ؟'))return;dirty=false;sec='lib';flt={st:'all',ty:'all',ch:''};$('#gs').value='';$('#gs').value='';$('#gsr').style.display='none';secBar();renderList();await openHerb(c);document.querySelector(`#list [data-c="${c}"]`)?.scrollIntoView({block:'center'})}
 let GR=[],GI=0;
