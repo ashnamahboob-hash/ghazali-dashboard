@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>د غزالي خزانه – ایډمین ډیشبورډ</title>
+<title>غزالي د طبیعت خزانه – ایډمین ډیشبورډ</title>
 <style>
 :root{--bg:#174a38;--tile:#2d5c4a;--deep:#103a2b;--gold:#e0c36a;--ink:#fff;--soft:#cfe3d8;--warn:#f0a98a;--ok:#8fd9a8;--red:#c9583a;--yel:#c79a1e;color-scheme:dark}
 *{box-sizing:border-box}
@@ -104,6 +104,60 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
  .box{padding:6px 12px 14px}
 }
 </style>
+<style id="ghazali-editorial-theme">
+/* The original Firebase dashboard, with the green/white/gold editorial theme. */
+:root{--bg:#f5f6f1;--tile:#fff;--deep:#edf2e9;--gold:#98752f;--ink:#213d32;--soft:#728176;--warn:#a95e43;--ok:#669365;--red:#b35342;--yel:#b28a38;color-scheme:light}
+html,body{font-family:Tahoma,"Segoe UI",sans-serif;font-size:14px;line-height:1.85;background:var(--bg)}
+button,input,select,textarea{border:1px solid #dfe6da;border-radius:9px;padding:9px 13px;background:#fff;min-height:40px}
+button{background:#f0f4ec;transition:background .15s,border-color .15s,transform .1s}button:hover{border-color:#b59350;background:#e9f0e3}
+button.p{background:#174b3c;border-color:#174b3c;color:#fff;font-weight:600}button.p:hover{background:#103b30}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #b58e42;outline-offset:2px}
+input,textarea,select{box-shadow:0 1px 1px #163b2a03}textarea{font-size:var(--fs,16px);line-height:2;min-height:110px}input{font-size:var(--fs,15px)}textarea[readonly]{background:#f3f5ef;color:#66796b}
+select option{background:#fff;color:#213d32}input.bad,textarea.bad{border-color:#d98c79;background:#fffaf7}textarea.warn{border-color:#dcc28a}
+#login{max-width:430px;padding:38px 34px;margin:8vh auto;border:1px solid #e0e6d8;border-top:4px solid #b58e42;border-radius:16px;background:white;box-shadow:0 18px 55px #14382b0b}
+#login::before{content:"GHAZALI · EDITORIAL WORKSPACE";display:block;color:#a58a52;font:10px/1.8 Tahoma;letter-spacing:2px;margin-bottom:22px;direction:ltr}
+#login .lg{width:56px;height:56px;border-radius:50%;border:1px solid #d8c69d;padding:10px;color:#174b3c}
+#login h2{font-size:24px;color:#174b3c;margin-top:15px}#login .tg{font-size:14px;color:#8b7951;margin:5px 0 22px}
+#login input{border:1px solid #dfe6da;border-radius:9px;padding:12px 16px}#login #go{min-height:47px;border-radius:9px;margin-top:15px!important}
+#app{grid-template-columns:315px minmax(0,1fr);height:100dvh;grid-template-rows:auto minmax(0,1fr)}
+#top{background:#174b3c;color:#fff;padding:17px 24px 13px;gap:18px;flex-wrap:wrap;border-bottom:3px solid #b59a5e}
+#top .brand{padding:0;min-width:220px}#top .brand b{font-size:18px;font-weight:600}#top .brand span{color:#c8d5bc;font-size:11px}#top .brand svg{color:#dcc48a;width:36px;height:36px}
+#gsw{margin-inline-start:auto;width:min(330px,30vw)}#gs{border-radius:8px;background:#f9fbf7;padding:9px 15px;font-size:13px;color:#2a4739;min-height:41px}
+#top .tools{gap:5px}#top .tools button{background:#ffffff0d;border:1px solid #ffffff24;color:#e3eadf;border-radius:7px;min-height:38px;font-size:12px;padding:5px 11px}
+#top .tools button:hover{background:#ffffff20;border-color:#d6b76e}
+#sec{order:5;flex:1 1 100%;gap:5px;padding-top:4px}#sec button{background:transparent;color:#c8d8cd;border:1px solid transparent;padding:7px 14px;font-size:13px;border-radius:7px;min-height:37px}
+#sec button.on{background:#ffffff14;color:#f0d597;border-color:#ffffff1a;font-weight:600}#sec button:hover{background:#ffffff0b}
+#gsr{background:#fff;border-color:#d8e1d1;box-shadow:0 12px 35px #15332624;border-radius:10px}#gsr .gr{border-bottom:1px solid #eef1e9}#gsr .gr:hover,#gsr .gr.on{background:#f2f5ee}
+#gsr .gr small{color:#9b7e43}#gsr .gr em,#gsr .gm{color:#758474}
+aside{background:#fff;border-inline-end:1px solid #e1e7db;border-inline-start:0;padding-top:8px}
+aside .t{padding:17px 17px 12px;gap:12px}.fl{gap:5px}.fl button{font-size:12px;border-radius:7px;padding:5px 10px;background:#f7f9f3;border:1px solid #e6eadf;min-height:33px;color:#65745e}.fl button.on{background:#e8efdf;color:#174b3c;border-color:#cfdbc2;font-weight:600}
+.fl .n{color:#8b957d}.fl button.on .n{color:#456743}.fl2 summary{font-size:12px!important;color:#829078!important}
+#new{border-radius:8px;font-size:13px}#cnt{font-size:11px;padding-inline:2px;color:#87937f}
+#list{padding:2px 12px 18px}.it{border:1px solid #e6eadf;border-radius:9px;padding:13px 11px;margin-bottom:8px;background:#fff;gap:8px;font-size:13px;min-height:57px}.it:hover{background:#f7f9f2;border-color:#b5c3a9}.it.on{background:#edf3e7;color:#174b3c;border-color:#b5c9a8;border-inline-start:3px solid #a98c4a}.it small{font:11px/1.5 monospace;color:#9e8246;min-width:35px}.it.on small{color:#987a34}.it .nm{line-height:1.7}.dot{width:7px;height:7px}.b{border-radius:5px;font-size:10px;padding:1px 5px}.pub{background:#e5efe1;color:#4b7145}
+main{background:#f5f6f1;padding:24px 30px 70px;min-width:0}.home h2{font-size:26px;font-weight:600;color:#174b3c;margin:6px 0 10px}.home p{font-size:13px;color:#7a8777}
+.stats{gap:12px;margin-top:23px}.stat{padding:22px 12px;background:#fff;border:1px solid #e0e6d8;border-radius:11px;text-align:start}.stat b{font-family:Georgia,serif;font-size:34px;font-weight:normal;color:#174b3c;margin-bottom:10px}.stat span{font-size:12px;color:#7a8875;display:block}
+.box{background:white;border:1px solid #e1e7dc;border-radius:11px;padding:8px 20px 20px;margin-top:19px}.box>h3{color:#174b3c;font-size:16px;margin:13px 0 16px}.box b{color:#456342}
+details.box>summary{padding:13px 0;color:#365a42;font-size:16px;font-weight:600}details.box>summary::before{color:#a08a55}details.box>summary .gc{font-size:11px;color:#8f9b84}
+.prog{height:7px;background:#ebefe5}.hint{font-size:12px;color:#83917a;line-height:1.9}.rec{background:#f8faf5;border:1px solid #edf0e7;border-radius:8px;padding:12px;font-size:13px;align-items:center}.rec small{font-size:10px;color:#929d88}
+.bar{top:-24px;background:#f5f6f1ed;backdrop-filter:blur(8px);padding:15px 0;border-bottom:1px solid #e0e6d8;margin-bottom:18px}.bar h2{font-size:23px;font-weight:600;color:#174b3c}.bar button{font-size:12px}.seg{background:#edf2e8;border:1px solid #dfe6d6;border-radius:8px}.seg button{border:0;border-radius:6px;min-height:32px;font-size:12px;color:#758367}.seg button.on{background:#174b3c;color:white;font-weight:600}
+label{color:#56704a;font-size:13px;margin:15px 2px 7px}label small{color:#9aa28e}.grid{gap:15px}.tabs{gap:7px;margin:22px 0 9px;padding-bottom:12px;border-bottom:1px solid #dfe6d6}.tabs button{background:#fff;border:1px solid #dfe6d6;border-radius:7px;font-size:13px;padding:0 16px}.tabs button.on{background:#174b3c;color:#fff;border-color:#174b3c}.tabs select{font-size:12px}.chip{border-radius:5px;background:#eaf0e2;color:#6a7f5b;font-size:10px;padding:3px 6px}.chip.bad{background:#f8e7dc;color:#a96542}
+.tb button{font-size:11px;border-radius:6px;min-height:34px}.im{background:#f3f6ee;border:1px dashed #c9d5bc;border-radius:10px;padding:9px}.im img{height:135px;border-radius:7px}.hrow{border-color:#e7ecdf}
+#toast{background:#174b3c;color:#fff;border-radius:9px;box-shadow:0 5px 20px #12332425;font-size:13px;font-weight:400;z-index:60}
+@media(min-width:1500px){main{padding-inline:45px}.stats{gap:18px}.stat{padding:25px}}
+@media(max-width:1150px){#app{grid-template-columns:285px minmax(0,1fr)}#top{gap:12px;padding:15px 18px}.stats{grid-template-columns:repeat(3,1fr)}main{padding-inline:22px}#top .tools button{padding:5px 8px}#top .brand{min-width:190px}#gsw{width:240px}}
+@media(max-width:900px){#app{grid-template-columns:minmax(0,1fr);grid-template-rows:none;height:auto;min-height:100dvh}#top{padding:16px;gap:12px}#top .brand{min-width:0;flex:1}#top .brand b{font-size:17px}#top .tools{gap:4px;flex-wrap:wrap}#top .tools button{font-size:11px;padding:4px 8px;min-height:34px}#gsw{order:3;flex:1 1 100%;width:auto;margin:0}#sec{order:4;flex-wrap:nowrap;overflow:auto;scrollbar-width:thin;padding-block:2px 5px}#sec button{font-size:12px;padding:7px 11px}#list{padding:4px 16px 22px}.it{min-height:61px;padding:15px;font-size:14px}aside .t{padding:19px 16px 13px}aside{border:0}.bar{background:#f5f6f1;backdrop-filter:none}.stats{grid-template-columns:repeat(2,1fr)}.stat{padding:18px}.box{padding:6px 16px 17px}main{padding:15px 16px 85px}.bar h2{font-size:20px}.grid,.cmp{grid-template-columns:1fr;gap:10px}#save{background:#174b3c;border-color:#174b3c;box-shadow:0 4px 18px #174b3c33;color:white;font-size:14px;min-width:115px}#login{margin:6vh auto;width:calc(100% - 32px);padding:30px 24px}.tabs select{width:100%;margin:0}}
+
+
+/* Give the dashboard name its own mobile row, above the action buttons. */
+@media(max-width:900px){
+ #top .brand{flex:0 0 100%;width:100%;min-width:0;order:0;gap:10px}
+ #top .brand>div{min-width:0;flex:1}
+ #top .brand b{white-space:nowrap;font-size:17px;line-height:1.7}
+ #top .brand span{display:block}
+ #top .tools{order:1;flex:0 0 100%;width:100%;min-width:0;flex-wrap:wrap}
+ #top .tools button{white-space:nowrap}
+}
+</style>
 </head>
 <body>
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
@@ -135,7 +189,7 @@ const $=s=>document.querySelector(s),L=['ps','fa','ur','en','ar'],LN={ps:'پښت
 /* د ایپ په څېر ترتیب او لیبلونه (wordDetailLayout) */
 const LAB={"ps": {"mhy": "پېژندنه او ماهیت", "origin": "د پیدا کېدو ځای", "source_note": "یادونه", "color": "رنګ او خوند", "mzj": "مزاج", "khs": "دودیز افعال", "benefit": "ځانګړې ګټه", "mzr": "زیانونه", "msl": "مصلح", "bdl": "بدل", "dose": "د خوراک مقدار", "chem": "کیمیاوي اجزا", "compounds": "مشهور مرکبات", "experience": "د حکیم تجربه", "use": "د کتاب له مخې استعمال", "notes": "نورې یادونې", "poison_signs": "د زهري کېدو نښې", "poison_treatment": "د زهري کېدو علاج او احتیاط", "history": "تاریخ", "excretion": "له بدن څخه اخراج", "safety": "د خوندیتوب اوسنی احتیاط"}, "fa": {"mhy": "ماهیت", "origin": "محل پیدایش", "source_note": "یادداشت", "color": "رنگ و مزه", "mzj": "مزاج", "khs": "افعال", "benefit": "نفع خاص", "mzr": "مضر", "msl": "مصلح", "bdl": "بدل", "dose": "مقدار مصرف", "chem": "اجزای کیمیایی", "compounds": "مرکبات مشهور", "experience": "تجربۀ حکیم", "use": "استعمال", "notes": "یادداشت‌های دیگر", "poison_signs": "علایم تسمم", "poison_treatment": "درمان تسمم و احتیاط", "history": "تاریخ", "excretion": "دفع از بدن", "safety": "احتیاط ایمنی کنونی"}, "ur": {"mhy": "ماہیت", "origin": "مقام پیدائش", "source_note": "نوٹ", "color": "رنگ و ذائقہ", "mzj": "مزاج", "khs": "افعال", "benefit": "نفع خاص", "mzr": "مضر", "msl": "مصلح", "bdl": "بدل", "dose": "مقدار خوراک", "chem": "کیمیائی اجزا", "compounds": "مشہور مرکبات", "experience": "حکیم کا تجربہ", "use": "استعمال", "notes": "دیگر یادداشتیں", "poison_signs": "علامات زہریت", "poison_treatment": "علاج زہریت اور احتیاط", "history": "تاریخ", "excretion": "بدن سے اخراج", "safety": "موجودہ حفاظتی احتیاط"}, "en": {"mhy": "Description", "origin": "Growing regions", "source_note": "Note", "color": "Colour and taste", "mzj": "Temperament", "khs": "Actions", "benefit": "Particular benefit", "mzr": "Harm", "msl": "Corrective", "bdl": "Substitute", "dose": "Source quantity", "chem": "Chemical constituents", "compounds": "Named preparations", "experience": "Hakim’s experience", "use": "Uses", "notes": "Further notes", "poison_signs": "Poisoning signs", "poison_treatment": "Poisoning treatment and precautions", "history": "History", "excretion": "Excretion", "safety": "Current safety precautions"}, "ar": {"mhy": "الماهية", "origin": "موطن النبات", "source_note": "ملاحظة", "color": "اللون والطعم", "mzj": "المزاج", "khs": "الأفعال", "benefit": "النفع الخاص", "mzr": "المضار", "msl": "المصلح", "bdl": "البدل", "dose": "مقدار الاستعمال", "chem": "المكونات الكيميائية", "compounds": "المركبات المشهورة", "experience": "تجربة الحكيم", "use": "الاستعمال", "notes": "ملاحظات أخرى", "poison_signs": "علامات التسمم", "poison_treatment": "علاج التسمم والاحتياط", "history": "التاريخ", "excretion": "الطرح من الجسم", "safety": "احتياطات السلامة الحالية"}};
 const GROUPS=[['پېژندنه',['mhy']],['پیدایښت او یادونه',['origin','source_note']],['خواص',['color','mzj','khs','benefit','mzr','msl','bdl','dose']],['کیمیاوي اجزا',['chem']],['مرکبات او تجربه',['compounds','experience']],['استعمال',['use']],['نورې یادونې',['notes']],['زهري کېدل',['poison_signs','poison_treatment']],['تاریخ او اخراج',['history','excretion']],['خوندیتوب',['safety']]];
-const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ بوټی','پاڼه','ګل','مېوه','تخم','ریښه','نور'];
+const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ بوټی','پاڼه','ګل','مېوه','تخم','ریښه','وچ بوټي','کارېدونکې برخه','نور'];
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
