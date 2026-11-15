@@ -163,7 +163,7 @@ label{color:#56704a;font-size:13px;margin:15px 2px 7px}label small{color:#9aa28e
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
 <div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
 <div id="app">
-<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
+<header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="rcb" title="هغه مدخلونه چې نوي اضافه سوي (لکه د JSON واردات)">نوي مدخلونه</button><button id="imp" title="Seed JSON">Import</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
 <aside>
 <div class="t">
 <div class="fl" id="fs"></div>
@@ -328,6 +328,18 @@ $('#ed').addEventListener('click',async e=>{const t=e.target.closest('[data-l],[
 $('#ed').addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g){d.open?CL.delete(d.dataset.g):CL.add(d.dataset.g);if(d.open)grows()}},true);
 $('#ed').addEventListener('change',async e=>{const id=e.target.dataset.im;if(id){const i=imgs.find(x=>x.id===id);i.label=e.target.value;await setDoc(doc(db,'herbs',cur.code,'images',id),{label:i.label},{merge:true})}
  if(e.target.id==='ref'){ref=e.target.value;render()}});
+async function collectHerb(code){
+ const [is,hs]=await Promise.all([getDocs(collection(db,'herbs',code,'images')),getDocs(collection(db,'herbs',code,'history'))]);
+ return{code,entry:DB[code]||null,images:is.docs.map(d=>({id:d.id,...d.data()})),history:hs.docs.map(d=>({id:d.id,...d.data()})),refs:[...is.docs,...hs.docs].map(d=>d.ref)}}
+/* لومړی د ټولو بیک‌اپ ډاونلوډ کیږي، بیا یو یو مدخل ړنګیږي (لومړی عکسونه/تاریخچه، وروسته مدخل پخپله) */
+async function removeHerbs(codes){
+ const items=[];for(const c of codes)items.push(await collectHerb(c));
+ const u=URL.createObjectURL(new Blob([JSON.stringify({deletedAt:new Date().toISOString(),entries:items.map(({refs,...x})=>x)})],{type:'application/json'})),a=document.createElement('a');
+ a.href=u;a.download='ghazali-deleted-'+(codes.length===1?codes[0]:codes.length+'-entries')+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+ for(const it of items){
+  let b=writeBatch(db),m=0;
+  for(const r of it.refs){b.delete(r);if(++m>=400){await b.commit();b=writeBatch(db);m=0}}
+  b.delete(doc(db,'herbs',it.code));await b.commit();delete DB[it.code]}}
 async function delHerb(){
  const h=cur;if(!h)return;const code=h.code;
  const live=h.status==='approved'?'\n⚠ دا مدخل اوس په عامه اپ کې ښکاري.':'',full=h.status&&h.status!=='index'?'\nحالت: '+(ST[h.status]||h.status):'';
@@ -335,17 +347,35 @@ async function delHerb(){
  const t=prompt('د تایید لپاره د مدخل کوډ ولیکئ: '+code);
  if(t===null)return;
  if(t.trim().toUpperCase()!==code)return toast('کوډ سم نه دی؛ ړنګول لغوه سو');
- try{
-  const [is,hs]=await Promise.all([getDocs(collection(db,'herbs',code,'images')),getDocs(collection(db,'herbs',code,'history'))]);
-  const bk={deletedAt:new Date().toISOString(),entry:DB[code]||h,images:is.docs.map(d=>({id:d.id,...d.data()})),history:hs.docs.map(d=>({id:d.id,...d.data()}))};
-  const u=URL.createObjectURL(new Blob([JSON.stringify(bk)],{type:'application/json'})),a=document.createElement('a');
-  a.href=u;a.download='ghazali-deleted-'+code+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
-  let b=writeBatch(db),m=0;
-  for(const d of [...is.docs,...hs.docs]){b.delete(d.ref);if(++m>=400){await b.commit();b=writeBatch(db);m=0}}
-  b.delete(doc(db,'herbs',code));await b.commit();
- }catch(e){return alert('ړنګول ونه سو: '+(e.code||e.message))}
- delete DB[code];cur=null;dirty=false;imgs=[];HS=[];
+ try{await removeHerbs([code])}catch(e){return alert('ړنګول ونه سو: '+(e.code||e.message))}
+ cur=null;dirty=false;imgs=[];HS=[];
  $('#app').classList.remove('ed');renderList();home();toast(code+' ړنګ سو ✓')}
+/* ===== وروستي اضافه سوي مدخلونه (د JSON واردات یا «+ نوی بوټی»): ډله ییز ړنګول ===== */
+function openRecent(){
+ closeDlg();
+ const a=Object.entries(DB).filter(([c,h])=>h&&h.added).sort((x,y)=>(y[1].updatedAt||0)-(x[1].updatedAt||0));
+ const o=document.createElement('div');o.id='licdlg';
+ o.innerHTML=`<div class="lbox"><div class="lh"><b>نوي اضافه سوي مدخلونه (${a.length})</b><button data-x>×</button></div><p class="hint">دلته یوازې هغه مدخلونه ښکاري چې په ډیشبورډ کې «نوي اضافه سوي» دي (د JSON واردات یا «+ نوی بوټی» له لارې). د کتاب اصلي مدخلونه دلته نشته. هغه ټاکئ چې غواړئ ړنګ سي.</p>${a.length?'<div class="lrow"><button data-rcsel="day">د وروستیو ۲۴ ساعتو</button><button data-rcsel="all">ټول</button><button data-rcsel="none">هیڅ</button></div>':''}<div id="rclist">${a.map(([c,h])=>`<label style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-radius:10px;background:var(--deep);margin-top:6px"><input type="checkbox" data-rc="${esc(c)}" data-t="${+h.updatedAt||0}" style="width:auto"> <b>${esc(c)}</b> <span>${esc(nm(h)||'—')}</span> <small class="hint">${esc(ST[h.status]||h.status||'')} · ${h.updatedAt?new Date(h.updatedAt).toLocaleString():'—'}</small></label>`).join('')||'<span class="hint">هیڅ نوی اضافه سوی مدخل نشته.</span>'}</div><div class="lrow"><button class="p" data-rcdel ${a.length?'':'disabled'}>ټاکل سوي ړنګ کړه (<span id="rcn">0</span>)</button></div></div>`;
+ document.body.appendChild(o);
+ const cnt=()=>{const n=o.querySelectorAll('input[data-rc]:checked').length,e=o.querySelector('#rcn');if(e)e.textContent=n};
+ o.addEventListener('change',cnt);
+ o.addEventListener('click',e=>{
+  if(e.target===o)return closeDlg();
+  const b=e.target.closest('button');if(!b)return;
+  if('x' in b.dataset)return closeDlg();
+  if(b.dataset.rcsel){const lim=Date.now()-864e5;o.querySelectorAll('input[data-rc]').forEach(c=>{c.checked=b.dataset.rcsel==='all'||(b.dataset.rcsel==='day'&&+c.dataset.t>=lim)});cnt()}
+  else if('rcdel' in b.dataset)bulkDel(o)})}
+async function bulkDel(o){
+ const codes=[...o.querySelectorAll('input[data-rc]:checked')].map(c=>c.dataset.rc);
+ if(!codes.length)return toast('لومړی مدخلونه وټاکئ');
+ if(!confirm('دا '+codes.length+' مدخلونه به په بشپړ ډول ړنګ سي (له عکسونو او تاریخچې سره):\n\n'+codes.map(c=>c+' · '+(nm(DB[c])||'')).join('\n')+'\n\nبیرته نه راځي. د بیک‌اپ فایل به لومړی ډاونلوډ سي.\n\nدوام؟'))return;
+ const t=prompt('د تایید لپاره د مدخلونو شمېر ولیکئ: '+codes.length);
+ if(t===null||t.trim()!==String(codes.length))return toast('شمېر سم نه دی؛ ړنګول لغوه سو');
+ const btn=o.querySelector('[data-rcdel]');if(btn)btn.disabled=true;
+ let err='';try{await removeHerbs(codes)}catch(e){err=e.code||e.message}
+ if(cur&&!DB[cur.code]){cur=null;dirty=false;imgs=[];HS=[];$('#app').classList.remove('ed')}
+ closeDlg();renderList();if(!cur)home();
+ if(err)alert('ړنګول یو ځای ودرېد: '+err+'\nهغه مدخلونه چې ړنګ سوي وو لیست نه دي؛ پاتې دي نه ړنګ سوي.');else toast(codes.length+' مدخلونه ړنګ سول ✓')}
 async function save(){const h=cur;
  if(h.status==='approved'&&Q(h).red){return alert('تایید نه سي کېدای: لا سره (سور) نیمګړتیاوې شته. که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ.')}
  const sv=await getDoc(doc(db,'herbs',h.code));
@@ -589,6 +619,7 @@ $('#syn').onclick=async()=>{const LG5=['ps','fa','ur','en','ar'],ch=[];
  renderList();if(cur&&LST[cur.code])openHerb(cur.code);toast(k+' مدخلونه برابر سول ✓')};
 document.addEventListener('click',e=>{if(e.target.closest('#back')){if(dirty&&!confirm('بدلونونه ذخیره نه دي. بیرته لیست ته؟'))return;dirty=false;$('#app').classList.remove('ed')}});
 $('#imp').onclick=()=>$('#seedf').click();
+$('#rcb').onclick=openRecent;
 $('#seedf').onchange=async e=>{
  let arr;try{arr=JSON.parse(await e.target.files[0].text())}catch(er){e.target.value='';return alert('JSON فایل سم نه دی: '+er.message)}
  if(!Array.isArray(arr))arr=arr.entries||arr.herbs||[arr];
