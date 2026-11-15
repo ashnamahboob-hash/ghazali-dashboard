@@ -226,8 +226,8 @@ const ok=v=>String(v??'').trim().length>0;
 /* بشپړتیا: سور = اړین ځایونه خالي (مزاج، ماهیت، خواص، استعمال، زیانونه + د کتاب مخ)، ژېړ = مصلح/بدل خالي.
    که کتاب نه وي لیکلی، «په کتاب کې نه دی لیکل شوی» ولیکئ، هغه بشپړ شمېرل کېږي. */
 function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fields?.[l]||{};per[l]=CORE.filter(k=>!ok(f[k])).length;red+=per[l];yel+=SOFT.filter(k=>!ok(f[k])).length});return{red,yel,per}}
-/* مدخل د کتاب متن لري؟ (د لیست معلومات: نوم، علمي نوم، کورنۍ، مخ، لینک، یادونه — متن نه شمېرل کېږي) */
-const hasBody=h=>{const f=h.fields||{},o=h.otherNames||{};return L.some(l=>Object.values(f[l]||{}).some(ok)||ok(sv(o[l])))};
+/* مدخل د کتاب متن لري؟ یوازې هغه ځایونه چې سور/ژېړ شمېرل کېږي (CORE+SOFT) په ټولو ژبو کې. نور ځایونه، نوم، مخ، لینک او یادونه نه شمېرل کېږي. */
+const hasBody=h=>L.some(l=>[...CORE,...SOFT].some(k=>ok((h.fields?.[l]||{})[k])));
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
 function pass(c,h,skip,q){
  if(skip!=='st'){if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false}
