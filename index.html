@@ -289,7 +289,7 @@ function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index
  const right=ref?`<div><label>${LAB[ref][k]}</label><textarea readonly dir="${dirOf(ref)}">${esc(h.fields[ref]?.[k])}</textarea></div>`:'';
  return `<div class="${ref?'cmp':''}"><div><label>${lab}</label><textarea dir="${dirOf(lang)}" class="${cl}" data-p="fields.${lang}.${k}">${esc(v)}</textarea></div>${right}</div>`}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="مدخل په بشپړ ډول ړنګول" style="color:var(--red);border-color:var(--red)">🗑 ړنګول</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
+ $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="${LST[h.code]?'د لیست مدخل پاتې کیږي؛ یوازې زیات سوي معلومات پاکیږي':'مدخل په بشپړ ډول ړنګول'}" style="color:var(--red);border-color:var(--red)">${LST[h.code]?'🧹 زیات معلومات پاک کړه':'🗑 ړنګول'}</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>د تایید لینک (لیست)</label><input dir="ltr" data-p="link" value="${esc(h.link)}">
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
@@ -342,8 +342,28 @@ async function removeHerbs(codes){
   let b=writeBatch(db),m=0;
   for(const r of it.refs){b.delete(r);if(++m>=400){await b.commit();b=writeBatch(db);m=0}}
   b.delete(doc(db,'herbs',it.code));await b.commit();delete DB[it.code]}}
+/* د لیست (۷۱۷) مدخلونه هیڅکله نه ړنګیږي: یوازې هغه معلومات پاکیږي چې زیات سوي (د کتاب متنونه، نور نومونه، تایید، عکسونه). نوم، علمي نوم، کورنۍ، مخ، لینک او یادونه پاتې کیږي، او حالت «یوازې فهرست» کیږي. تاریخچه پاتې کیږي. */
+async function clearHerb(code){
+ const it=await collectHerb(code),o=DB[code];
+ const u=URL.createObjectURL(new Blob([JSON.stringify({clearedAt:new Date().toISOString(),entries:[(({refs,...x})=>x)(it)]})],{type:'application/json'})),a=document.createElement('a');
+ a.href=u;a.download='ghazali-cleared-'+code+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+ const by=auth.currentUser.email,x=JSON.parse(JSON.stringify(o));
+ await addDoc(collection(db,'herbs',code,'history'),{at:serverTimestamp(),by,version:o.version||0,note:'د پاکولو نه مخکې نسخه',data:o});
+ x.fields={ps:{},fa:{},ur:{},en:{},ar:{}};x.otherNames={};x.approvalNote='';x.approvedAt=null;x.approvedBy=null;x.status='index';
+ x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=by;
+ await setDoc(doc(db,'herbs',code),x);
+ await addDoc(collection(db,'herbs',code,'history'),{at:serverTimestamp(),by,version:x.version,note:'زیات سوي معلومات پاک سول (د لیست مدخل پاتې سو)',data:x});
+ const im=it.refs.slice(0,it.images.length);let b=writeBatch(db),m=0;
+ for(const r of im){b.delete(r);if(++m>=400){await b.commit();b=writeBatch(db);m=0}}
+ if(m)await b.commit();
+ DB[code]=x}
 async function delHerb(){
  const h=cur;if(!h)return;const code=h.code;
+ if(LST[code]){
+  const live=h.status==='approved'?'\n⚠ دا مدخل اوس په عامه اپ کې ښکاري او له ایپ څخه به لاړ سي.':'';
+  if(!confirm('دا د لیست مدخل دی، نه ړنګیږي.\n'+code+' · '+(nm(h)||'')+live+'\n\nیوازې زیات سوي معلومات پاکیږي: د کتاب متنونه (۵ ژبې)، نور نومونه، تایید، او عکسونه ('+imgs.length+').\nنوم، علمي نوم، کورنۍ، مخ، لینک او یادونه پاتې کیږي، او حالت «یوازې فهرست» کیږي.\n(مخکې له پاکولو به د بیک‌اپ فایل ډاونلوډ سي، او پخوانۍ نسخه په تاریخچه کې پاتې کیږي.)\n\nدوام؟'))return;
+  try{await clearHerb(code)}catch(e){return alert('پاکول ونه سول: '+(e.code||e.message))}
+  dirty=false;await openHerb(code);renderList();toast(code+' پاک سو او «یوازې فهرست» سو ✓');return}
  const live=h.status==='approved'?'\n⚠ دا مدخل اوس په عامه اپ کې ښکاري.':'',full=h.status&&h.status!=='index'?'\nحالت: '+(ST[h.status]||h.status):'';
  if(!confirm('دا مدخل به په بشپړ ډول ړنګ سي:\n'+code+' · '+(nm(h)||'')+full+live+'\n\nدا یوازې مدخل نه، بلکې ټول عکسونه ('+imgs.length+') او تاریخچه یې هم ړنګوي. بیرته نه راځي.\n(مخکې له ړنګولو به د بیک‌اپ فایل ډاونلوډ سي.)\n\nدوام؟'))return;
  const t=prompt('د تایید لپاره د مدخل کوډ ولیکئ: '+code);
