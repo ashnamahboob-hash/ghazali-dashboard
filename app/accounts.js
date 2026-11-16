@@ -5,7 +5,7 @@ import {accountKey,encodeHerbs,decodeHerbs,authError} from './account-utils.mjs'
 
 let auth,db,user=null,generation=0,dirty=0,ready=false,queue=Promise.resolve();
 const personal=new Set(['gk_fav','gk_recent','gk_feedback']);
-const syncCopy={ps:'د حساب آنلاین ساتنه ونه سوه؛ معلومات په دې وسیله کي خوندي دي. بیا ننوتل یا د Firebase تنظیم وګورئ.',fa:'همگام‌سازی حساب انجام نشد؛ اطلاعات در این دستگاه محفوظ است.',ur:'اکاؤنٹ کی ہم آہنگی نہیں ہوئی؛ معلومات اس آلے پر محفوظ ہیں۔',en:'Account sync failed; your data is saved on this device. Check Firebase setup or sign in again.',ar:'تعذرت مزامنة الحساب؛ بياناتك محفوظة على هذا الجهاز.'};
+const syncCopy={ps:'د حساب آنلاین ساتنه ونه سوه؛ معلومات په دې وسیله کي خوندي دي. بیا ننوتل یا د Firebase تنظیم وګورئ.',fa:'همگام‌سازی حساب انجام نشد؛ اطلاعات در این دستگاه محفوظ است.',ur:'اکاؤنٹ کی ہم آہنگی نہیں ہوئی؛ معلومات اس آلے پر محفوظ ہیں۔',en:'Account sync failed; your data is saved on this device. Check Firebase setup or sign in again.'};
 window.gkStorageKey=k=>personal.has(k)?accountKey(k,user?.uid):k;
 function localRead(k){try{return JSON.parse(localStorage.getItem(window.gkStorageKey(k))||'[]')}catch{return []}}
 function localWrite(k,v){try{localStorage.setItem(window.gkStorageKey(k),JSON.stringify(v))}catch{}}

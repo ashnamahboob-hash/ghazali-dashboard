@@ -8,7 +8,7 @@ const layouts=html.slice(html.indexOf('const wordDetailLayout ='),html.indexOf('
 // Use the real book data rather than a copy of the renderer's expected structure.
 vm.runInContext(layouts.slice(0,layouts.indexOf('\nfunction detailParagraphs'))+'\nthis.book=wordDetailLayout;',ctx);
 ctx.wordDetailLayout=ctx.book;ctx.H=[{taj:['T001']}];ctx.nameOf=()=>'<Fig>';ctx.librarySource=()=>'<p>book page 1</p>';ctx.T2=()=>({open:'Open'});
-for(const l of ['ps','fa','ur','en','ar']){
+for(const l of ['ps','fa','ur','en']){
  ctx.lang=l;
  const out=ctx.bookSpeciesDetails([0],l);assert(out.includes('idtext'),l+' book fields');assert(out.includes('&lt;Fig&gt;'));assert(!out.includes('undefined'));
  const missing=ctx.externalSpeciesDetails('Blepharis ciliaris',l);assert(missing.includes(ctx.DETAIL_TEXT[l].loading));
@@ -37,7 +37,7 @@ assert.equal(ctx.splitSourceExtract('Description without uses.','en').uses,'');
  };
  await Promise.all([ctx.fetchExtraSource('Ficus carica','gbif'),ctx.fetchExtraSource('Ficus carica','gbif'),ctx.fetchExtraSource('Ficus carica','wikidata')]);
  assert.equal(sourceCalls,3,'coalesce GBIF and resolve Wikidata redirect');
- for(const l of ['ps','fa','ur','ar','en']){
+ for(const l of ['ps','fa','ur','en']){
   const out=ctx.extraSpeciesDetails('Ficus carica',l);
   assert(out.includes(ctx.EXTRA_TEXT[l].taxonomy));assert(out.includes('Moraceae'));assert(out.includes('https://www.gbif.org/species/5361909'));
   if(l==='ps')assert(out.includes('د انځر پېژندنه'));else if(l!=='en'){assert(out.includes(ctx.DETAIL_TEXT[l].missing));assert(!out.includes('Fig species'),'no silent English fallback');}
@@ -48,5 +48,5 @@ assert.equal(ctx.splitSourceExtract('Description without uses.','en').uses,'');
  assert.equal(ctx.exactEntity({claims:{P225:[{mainsnak:{datavalue:{value:'Ficus palmata'}}}]}},'Ficus carica'),false);
  ctx.fetch=async()=>{throw Error('offline')};
  assert.equal((await ctx.fetchExtraSource('Offline extra','gbif')).state,'error');
- console.log('Passed: five-language real book fields, escaping, source sections, missing translations, exact species guard, request coalescing, offline errors, script parsing.');
+ console.log('Passed: four-language real book fields, escaping, source sections, missing translations, exact species guard, request coalescing, offline errors, script parsing.');
 })().catch(e=>{console.error(e);process.exitCode=1});
