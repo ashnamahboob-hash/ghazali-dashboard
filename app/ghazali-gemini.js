@@ -43,8 +43,12 @@ function mount(){
  const s=state,c=COPY[s.lang],labels={ps:['ته','Gemini','د خبرو معلومات'],fa:['شما','Gemini','درباره گفتگو'],ur:['آپ','Gemini','گفتگو کی معلومات'],en:['You','Gemini','About this chat']}[s.lang];
  panel=node('section','','gkai');panel.id='ghazali-gemini';panel.dir=s.lang==='en'?'ltr':'rtl';
  const header=node('header','','gkai-header'),mark=node('span','✦','gkai-mark'),heading=node('div');
- heading.append(node('h3',c[0]),node('small','Gemini · Flash-Lite','gkai-model'));header.append(mark,heading);panel.append(header);
+ heading.append(node('h3',c[0]),node('small','Gemini · Flash-Lite','gkai-model'));header.append(mark,heading);
+ const retakeText={ps:'نوی عکس',fa:'عکس تازه',ur:'نئی تصویر',en:'New photo'}[s.lang];
+ const retake=node('button',retakeText,'gkai-retake');retake.type='button';retake.disabled=s.busy;retake.onclick=()=>document.getElementById('lretake')?.click();header.append(retake);panel.append(header);
  const info=node('details','','gkai-info');info.append(node('summary',labels[2]),node('p',c[5]),node('p',c[6]),node('small',MODEL));panel.append(info);
+ const image=document.getElementById('lp');
+ if(image?.src||window.ghazaliIdentificationPhoto){const preview=node('img','','gkai-photo');preview.src=image?.src||window.ghazaliIdentificationPhoto;preview.alt={ps:'ټاکل سوی عکس',fa:'عکس انتخاب‌شده',ur:'منتخب تصویر',en:'Selected photo'}[s.lang];panel.append(preview);}
  const chat=node('div','','gkai-chat');chat.setAttribute('role','log');chat.setAttribute('aria-live','polite');chat.setAttribute('aria-label',c[0]);
  s.messages.forEach(m=>{
   const bubble=node('div','','gkai-bubble '+m.role);
@@ -59,7 +63,7 @@ function mount(){
  const form=node('form','','gkai-composer'),input=node('textarea');input.placeholder=c[2];input.setAttribute('aria-label',c[2]);input.maxLength=1500;input.rows=1;input.value=s.draft;input.disabled=s.busy;
  input.oninput=()=>{s.draft=input.value;input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px';send.disabled=s.busy||!input.value.trim();};
  const send=node('button',s.busy?'…':'↑','gkai-send');send.type='submit';send.title=c[3];send.setAttribute('aria-label',c[3]);send.disabled=s.busy||!s.draft.trim();
- form.append(input,send);form.onsubmit=e=>{e.preventDefault();ask(input.value);};panel.append(form);host.prepend(panel);
+ form.append(input,send);form.onsubmit=e=>{e.preventDefault();ask(input.value);};panel.append(form);host.prepend(panel);document.body.classList.add('gkai-chat-screen');
  chat.scrollTop=chat.scrollHeight;
 }
 async function ask(question){
@@ -87,7 +91,13 @@ window.addEventListener('ghazali:identification',event=>{
  else state.context=d;
  mount();
 });
-window.addEventListener('ghazali:identification-reset',()=>{state=null;document.getElementById('ghazali-gemini')?.remove();});
+window.addEventListener('ghazali:identification-reset',()=>{state=null;document.getElementById('ghazali-gemini')?.remove();document.body.classList.remove('gkai-chat-screen');});
 const style=node('style');style.textContent=".gkai{margin:16px 0;padding:16px;border:1px solid #c8d8cb;border-radius:22px;background:var(--card,#fff);color:var(--text,#183c28)}.gkai-header{display:flex;align-items:center;gap:10px}.gkai-header h3{font-size:17px;margin:0 0 3px;line-height:1.6}.gkai-mark{display:grid;place-items:center;background:#edf4e8;color:#496c24;border-radius:50%;width:38px;height:38px;font-size:24px;flex-shrink:0}.gkai-model{font-size:11px;color:#6b7b70;direction:ltr;display:block}.gkai-info{font-size:11px;line-height:1.9;color:#64786b;margin:10px 0}.gkai-info summary{cursor:pointer}.gkai-chat{max-height:55vh;min-height:84px;overflow:auto;overscroll-behavior:contain;padding:8px 0;scroll-behavior:smooth}.gkai-bubble{margin:10px 0;overflow-wrap:anywhere;line-height:1.9}.gkai-bubble p{white-space:pre-wrap;margin:3px 0}.gkai-role{font-size:10px;opacity:.65;display:block}.gkai-bubble.model{padding:8px 3px}.gkai-bubble.user{background:#edf3ea;border-radius:18px 18px 4px 18px;padding:10px 14px;margin-inline-start:34px}.gkai-error{color:#a22;font-size:13px;line-height:1.8}#ghazali-gemini .gkai-start{display:inline-block;width:auto;min-height:0;padding:9px 14px;margin:4px 0;border:1px solid #d2ddcc;background:#f5f8f2;color:#244c36;border-radius:18px;font:inherit;font-size:13px;cursor:pointer}#ghazali-gemini .gkai-composer{display:flex;align-items:flex-end;gap:8px;border:1px solid #c4d2c5;background:#f6f8f4;border-radius:24px;padding:8px;margin-top:10px}#ghazali-gemini textarea{box-sizing:border-box;width:100%;flex:1;min-width:0;min-height:40px;max-height:120px;border:0;outline:0;background:transparent;color:inherit;resize:none;font:inherit;font-size:14px;padding:8px;line-height:1.7;margin:0}#ghazali-gemini .gkai-send{display:grid;place-items:center;width:40px;height:40px;min-height:40px;flex:0 0 40px;margin:0;padding:0;border:0;border-radius:50%;background:#073d30;color:white;font-size:25px;cursor:pointer}#ghazali-gemini button:disabled{opacity:.4;cursor:default}.gkai-typing p{opacity:.7;font-size:13px}@media(max-width:380px){.gkai{padding:12px}.gkai-header h3{font-size:15px}}";document.head.append(style);
 // Covers a result already rendered before this deferred module finished loading.
 if(window.ghazaliLastIdentification)window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
+
+// Restore ordinary navigation as soon as the user leaves identification.
+if(typeof MutationObserver!=='undefined')new MutationObserver(()=>{
+ document.body.classList.toggle('gkai-chat-screen',!!document.getElementById('ghazali-gemini'));
+}).observe(document.getElementById('app')||document.body,{childList:true,subtree:true});
+const screenStyle=node('style');screenStyle.textContent=`body.gkai-chat-screen #nav{display:none!important}body.gkai-chat-screen .mint-intro,body.gkai-chat-screen .mint-model,body.gkai-chat-screen #lstage{display:none!important}body.gkai-chat-screen #app{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))!important}body.gkai-chat-screen .lsheet.idres{margin-top:0!important;padding:0 0 20px!important;box-shadow:none!important;border-top:0!important;background:transparent!important}body.gkai-chat-screen .gkai{margin-top:0;min-height:62dvh;display:flex;flex-direction:column}body.gkai-chat-screen .gkai-chat{flex:1;min-height:20dvh;max-height:48dvh}body.gkai-chat-screen .gkai-composer{position:sticky;bottom:env(safe-area-inset-bottom,0px);z-index:3}.gkai-header>div{flex:1;min-width:0}#ghazali-gemini .gkai-retake{width:auto;min-height:36px;margin:0;padding:6px 10px;border:1px solid #c4d2c5;border-radius:14px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer}.gkai-photo{width:84px;height:84px;object-fit:cover;border-radius:15px;align-self:flex-end;margin:8px 0;border:1px solid #c4d2c5}.gkai-results{border:1px solid var(--bd,#c4d2c5);border-radius:16px;margin:10px 0;padding:12px;background:var(--card,#fff)}.gkai-results>summary{cursor:pointer;font-weight:700;line-height:1.9}.gkai-results:not([open])>*:not(summary){display:none}`;document.head.append(screenStyle);
