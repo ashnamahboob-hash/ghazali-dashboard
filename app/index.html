@@ -1904,7 +1904,7 @@ function bookSpeciesDetails(indices,l){
  var copy=DETAIL_TEXT[l],out='';
  indices.forEach(function(i){
   var plant=H[i],record=wordDetailLayout.records[plant.taj&&plant.taj[0]],fields=record&&record.fields&&record.fields[l];
-  out+='<details class="idbook" open><summary>'+esc(copy.book)+' — '+esc(nameOf(i))+'</summary>';
+  out+='<details class="idbook"><summary>'+esc(copy.book)+' — '+esc(nameOf(i))+'</summary>';
   if(fields){
    ['mhy','origin','mzj','khs','benefit','use','mzr','msl','bdl'].forEach(function(key){
     var items=fields[key];if(!Array.isArray(items)||!items.length)return;
@@ -1990,7 +1990,13 @@ function extraSpeciesDetails(sci,l){
 
 function renderRes(rs,box){
  if(!box)return;build();
- var l=appLanguage(),t=T2(),h='<div class="idn"><b>'+esc(t.ai)+'</b></div>';
+ var l=appLanguage(),t=T2(),bookMatches=[],h='';
+ rs.slice(0,3).forEach(function(r){
+  var sci=(r.species||{}).scientificNameWithoutAuthor||'',parts=speciesKey(sci).split(/\s+/);
+  (IDX.sp[parts[0]+' '+(parts[1]||'')]||[]).forEach(function(i){if(bookMatches.indexOf(i)<0)bookMatches.push(i)});
+ });
+ if(bookMatches.length)h+=bookSpeciesDetails(bookMatches,l);
+ h+='<div class="idn"><b>'+esc(t.ai)+'</b></div>';
  rs.slice(0,3).forEach(function(r){
   var species=r.species||{},sci=species.scientificNameWithoutAuthor||'',w=speciesKey(sci).split(/\s+/),key=w[0]+' '+(w[1]||''),g=w[0];
   var exact=IDX.sp[key]||[],sameGenus=(IDX.ge[g]||[]).filter(function(i){return exact.indexOf(i)<0});
@@ -2002,7 +2008,7 @@ function renderRes(rs,box){
   if(exact.length)h+='<div class="idn">'+esc(t.inbook)+'</div>'+exact.map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else if(sameGenus.length)h+='<div class="idn">'+esc(t.genus)+'</div>'+sameGenus.slice(0,5).map(function(i){return '<button class="idb" onclick="openHerb('+i+')">'+esc(nameOf(i))+' — '+esc(t.open)+'</button>'}).join('');
   else h+='<div class="idn">'+esc(t.none)+'</div>';
-  h+=exact.length?bookSpeciesDetails(exact,l):'<p class="idn">'+esc(DETAIL_TEXT[l].noBook)+'</p>';
+  if(!exact.length)h+='<p class="idn">'+esc(DETAIL_TEXT[l].noBook)+'</p>';
   h+=externalSpeciesDetails(sci,l);
   h+=extraSpeciesDetails(sci,l);
   h+='<div class="idmore"><div class="idn"><b>'+esc(t.more)+'</b></div><div class="idmeta">';
@@ -2347,6 +2353,6 @@ if(view==='set')render();
 
 </script>
 <script type="module" src="./accounts.js"></script>
-<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=1"></script>
+<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=2"></script>
 </body>
 </html>
