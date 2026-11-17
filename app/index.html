@@ -2043,6 +2043,10 @@ function renderRes(rs,box){
  });
  box.innerHTML=h+'<div class="idn">'+esc(t.namesNote)+'</div><div class="idn">'+esc(t.note)+'</div></details>';
 }
+function compactAiField(value){
+ if(Array.isArray(value))return value.slice(0,2).map(function(item){return {text:String(typeof item==='string'?item:item&&item.text||'').slice(0,400)}});
+ return typeof value==='string'?value.slice(0,600):'';
+}
 function paintLast(){
  if(!lastPayload||typeof view==='undefined'||view!=='id')return;
  var box=$('idres');if(!box)return;if(!lastPayload.results||!lastPayload.results.length){showPlantnetNote(box,T2().noplant,'no_match');return;}renderRes(lastPayload.results,box);
@@ -2051,7 +2055,7 @@ function paintLast(){
    var sp=r.species||{},scientific=sp.scientificNameWithoutAuthor||'',parts=speciesKey(scientific).split(/\s+/),matches=IDX.sp[parts[0]+' '+(parts[1]||'')]||[];
    matches.slice(0,2).forEach(function(i){
     var plant=H[i],record=wordDetailLayout.records[plant.taj&&plant.taj[0]],fields=record&&record.fields&&record.fields[aiLanguage];
-    if(fields)aiBooks.push({scientific:scientific,name:nameOf(i),fields:JSON.stringify(fields).slice(0,6500)});
+    if(fields)aiBooks.push({scientific:scientific,name:nameOf(i),fields:{mhy:compactAiField(fields.mhy),mzj:compactAiField(fields.mzj)}});
    });
    return {scientific:scientific,confidence:Math.round((Number(r.score)||0)*100),family:sp.family&&sp.family.scientificNameWithoutAuthor||''};
   });
@@ -2369,6 +2373,6 @@ if(view==='set')render();
 
 </script>
 <script type="module" src="./accounts.js"></script>
-<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=4"></script>
+<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=5"></script>
 </body>
 </html>
