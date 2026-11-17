@@ -40,17 +40,27 @@ async function getModel(){
 function mount(){
  const host=document.getElementById('idres');if(!host||!state||!state.context.candidates.length)return;
  let panel=document.getElementById('ghazali-gemini');if(panel)panel.remove();
- const s=state,c=COPY[s.lang];panel=node('section','','gkai');panel.id='ghazali-gemini';panel.dir=s.lang==='en'?'ltr':'rtl';
- panel.append(node('h3',c[0]),node('small','Google Gemini · '+MODEL,'gkai-model'),node('p',c[5],'gkai-note'),node('p',c[6],'gkai-note'));
- const chat=node('div','','gkai-chat');chat.setAttribute('aria-live','polite');
- s.messages.forEach(m=>chat.append(node('p',m.text,'gkai-bubble '+m.role)));
- if(s.busy)chat.append(node('p',c[4],'gkai-note'));
- if(s.error){const e=node('p',s.error,'gkai-error');e.setAttribute('role','alert');chat.append(e);}
+ const s=state,c=COPY[s.lang],labels={ps:['ته','Gemini','د خبرو معلومات'],fa:['شما','Gemini','درباره گفتگو'],ur:['آپ','Gemini','گفتگو کی معلومات'],en:['You','Gemini','About this chat']}[s.lang];
+ panel=node('section','','gkai');panel.id='ghazali-gemini';panel.dir=s.lang==='en'?'ltr':'rtl';
+ const header=node('header','','gkai-header'),mark=node('span','✦','gkai-mark'),heading=node('div');
+ heading.append(node('h3',c[0]),node('small','Gemini · Flash-Lite','gkai-model'));header.append(mark,heading);panel.append(header);
+ const info=node('details','','gkai-info');info.append(node('summary',labels[2]),node('p',c[5]),node('p',c[6]),node('small',MODEL));panel.append(info);
+ const chat=node('div','','gkai-chat');chat.setAttribute('role','log');chat.setAttribute('aria-live','polite');chat.setAttribute('aria-label',c[0]);
+ s.messages.forEach(m=>{
+  const bubble=node('div','','gkai-bubble '+m.role);
+  bubble.append(node('small',m.role==='user'?labels[0]:labels[1],'gkai-role'),node('p',m.text));chat.append(bubble);
+ });
+ if(!s.messages.length&&!s.busy){
+  const explain=node('button','✦ '+c[1],'gkai-start');explain.type='button';explain.onclick=()=>ask(c[12]);chat.append(explain);
+ }
+ if(s.busy){const typing=node('div','','gkai-bubble model gkai-typing');typing.append(node('small','Gemini','gkai-role'),node('p',c[4]));chat.append(typing);}
+ if(s.error){const e=node('p',s.error,'gkai-error');e.setAttribute('role','alert');chat.append(e);const retry=node('button',c[1],'gkai-start');retry.type='button';retry.onclick=()=>ask(s.draft||c[12]);chat.append(retry);}
  panel.append(chat);
- const explain=node('button',c[1],'idb');explain.type='button';explain.disabled=s.busy;explain.onclick=()=>ask(c[12]);panel.append(explain);
- const form=node('form');const input=node('textarea');input.placeholder=c[2];input.setAttribute('aria-label',c[2]);input.maxLength=1500;input.rows=2;input.value=s.draft;input.disabled=s.busy;input.oninput=()=>s.draft=input.value;
- const send=node('button',c[3],'idb');send.type='submit';send.disabled=s.busy;
+ const form=node('form','','gkai-composer'),input=node('textarea');input.placeholder=c[2];input.setAttribute('aria-label',c[2]);input.maxLength=1500;input.rows=1;input.value=s.draft;input.disabled=s.busy;
+ input.oninput=()=>{s.draft=input.value;input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px';send.disabled=s.busy||!input.value.trim();};
+ const send=node('button',s.busy?'…':'↑','gkai-send');send.type='submit';send.title=c[3];send.setAttribute('aria-label',c[3]);send.disabled=s.busy||!s.draft.trim();
  form.append(input,send);form.onsubmit=e=>{e.preventDefault();ask(input.value);};panel.append(form);host.prepend(panel);
+ chat.scrollTop=chat.scrollHeight;
 }
 async function ask(question){
  const s=state;if(!s||s.busy||!question.trim())return;
@@ -78,6 +88,6 @@ window.addEventListener('ghazali:identification',event=>{
  mount();
 });
 window.addEventListener('ghazali:identification-reset',()=>{state=null;document.getElementById('ghazali-gemini')?.remove();});
-const style=node('style');style.textContent='.gkai{margin:16px 0;padding:16px;border:1px solid #b9cbaf;border-radius:18px;background:var(--card,#fff);color:var(--text,#183c28)}.gkai h3{margin:0 0 6px}.gkai-model{direction:ltr;display:block;color:#56705d}.gkai-note{font-size:12px;line-height:1.8;opacity:.8}.gkai-chat{max-height:420px;overflow:auto}.gkai-bubble{white-space:pre-wrap;overflow-wrap:anywhere;border-radius:14px;padding:12px;line-height:1.9;background:#eef5ee;color:#183c28}.gkai-bubble.user{background:#e8dec1;margin-inline-start:24px}.gkai-error{color:#a22;line-height:1.8}.gkai textarea{box-sizing:border-box;width:100%;font:inherit;padding:10px;border:1px solid #adbcae;border-radius:12px;resize:vertical}.gkai button:disabled{opacity:.55}';document.head.append(style);
+const style=node('style');style.textContent=".gkai{margin:16px 0;padding:16px;border:1px solid #c8d8cb;border-radius:22px;background:var(--card,#fff);color:var(--text,#183c28)}.gkai-header{display:flex;align-items:center;gap:10px}.gkai-header h3{font-size:17px;margin:0 0 3px;line-height:1.6}.gkai-mark{display:grid;place-items:center;background:#edf4e8;color:#496c24;border-radius:50%;width:38px;height:38px;font-size:24px;flex-shrink:0}.gkai-model{font-size:11px;color:#6b7b70;direction:ltr;display:block}.gkai-info{font-size:11px;line-height:1.9;color:#64786b;margin:10px 0}.gkai-info summary{cursor:pointer}.gkai-chat{max-height:55vh;min-height:84px;overflow:auto;overscroll-behavior:contain;padding:8px 0;scroll-behavior:smooth}.gkai-bubble{margin:10px 0;overflow-wrap:anywhere;line-height:1.9}.gkai-bubble p{white-space:pre-wrap;margin:3px 0}.gkai-role{font-size:10px;opacity:.65;display:block}.gkai-bubble.model{padding:8px 3px}.gkai-bubble.user{background:#edf3ea;border-radius:18px 18px 4px 18px;padding:10px 14px;margin-inline-start:34px}.gkai-error{color:#a22;font-size:13px;line-height:1.8}#ghazali-gemini .gkai-start{display:inline-block;width:auto;min-height:0;padding:9px 14px;margin:4px 0;border:1px solid #d2ddcc;background:#f5f8f2;color:#244c36;border-radius:18px;font:inherit;font-size:13px;cursor:pointer}#ghazali-gemini .gkai-composer{display:flex;align-items:flex-end;gap:8px;border:1px solid #c4d2c5;background:#f6f8f4;border-radius:24px;padding:8px;margin-top:10px}#ghazali-gemini textarea{box-sizing:border-box;width:100%;flex:1;min-width:0;min-height:40px;max-height:120px;border:0;outline:0;background:transparent;color:inherit;resize:none;font:inherit;font-size:14px;padding:8px;line-height:1.7;margin:0}#ghazali-gemini .gkai-send{display:grid;place-items:center;width:40px;height:40px;min-height:40px;flex:0 0 40px;margin:0;padding:0;border:0;border-radius:50%;background:#073d30;color:white;font-size:25px;cursor:pointer}#ghazali-gemini button:disabled{opacity:.4;cursor:default}.gkai-typing p{opacity:.7;font-size:13px}@media(max-width:380px){.gkai{padding:12px}.gkai-header h3{font-size:15px}}";document.head.append(style);
 // Covers a result already rendered before this deferred module finished loading.
 if(window.ghazaliLastIdentification)window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
