@@ -2040,6 +2040,18 @@ function renderRes(rs,box){
 function paintLast(){
  if(!lastPayload||typeof view==='undefined'||view!=='id')return;
  var box=$('idres');if(!box)return;if(!lastPayload.results||!lastPayload.results.length){box.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().noplant)+'</div>';return;}renderRes(lastPayload.results,box);
+ try {
+  var aiLanguage=appLanguage(),aiBooks=[],aiCandidates=lastPayload.results.slice(0,3).map(function(r){
+   var sp=r.species||{},scientific=sp.scientificNameWithoutAuthor||'',parts=speciesKey(scientific).split(/\s+/),matches=IDX.sp[parts[0]+' '+(parts[1]||'')]||[];
+   matches.slice(0,2).forEach(function(i){
+    var plant=H[i],record=wordDetailLayout.records[plant.taj&&plant.taj[0]],fields=record&&record.fields&&record.fields[aiLanguage];
+    if(fields)aiBooks.push({scientific:scientific,name:nameOf(i),fields:JSON.stringify(fields).slice(0,6500)});
+   });
+   return {scientific:scientific,confidence:Math.round((Number(r.score)||0)*100),family:sp.family&&sp.family.scientificNameWithoutAuthor||''};
+  });
+  window.ghazaliLastIdentification={run:identificationRun,language:aiLanguage,candidates:aiCandidates,bookExcerpts:aiBooks.slice(0,2)};
+  window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
+ } catch(aiError) {}
  var image=$('lp');if(image&&photoUrl){image.src=photoUrl;setMode('done')}
 }
 
@@ -2056,7 +2068,7 @@ function lensInit(){
  }).catch(function(){setMode('nocam')})
 }
 function runId(blobP,previewUrl){
- if(busy)return;busy=true;lastPayload=null;var request=++identificationRun,requestLang=apiLanguage(appLanguage());
+ if(busy)return;window.ghazaliLastIdentification=null;window.dispatchEvent(new CustomEvent('ghazali:identification-reset'));busy=true;lastPayload=null;var request=++identificationRun,requestLang=apiLanguage(appLanguage());
  idAbort=new AbortController();idTimer=setTimeout(function(){if(idAbort)idAbort.abort()},45000);setMode('scan');lensStop();var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>';
  blobP.then(function(blob){
   if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl=URL.createObjectURL(blob);
@@ -2086,7 +2098,7 @@ document.addEventListener('click',function(e){
   if(g){g.then(function(x){runId(Promise.resolve(x[0]),x[1])})}
   else{var f=$('f');if(f)f.click()}
  }else if(e.target.closest('#lretake')){
-  if(busy)return;lastPayload=null;if(photoUrl){URL.revokeObjectURL(photoUrl);photoUrl=''}var b=$('idres');if(b)b.innerHTML='<span class="lgrab"></span><div class="idn">'+gkLensCopy()[16]+'</div>';lensInit()
+  if(busy)return;window.ghazaliLastIdentification=null;window.dispatchEvent(new CustomEvent('ghazali:identification-reset'));lastPayload=null;if(photoUrl){URL.revokeObjectURL(photoUrl);photoUrl=''}var b=$('idres');if(b)b.innerHTML='<span class="lgrab"></span><div class="idn">'+gkLensCopy()[16]+'</div>';lensInit()
  }
 });
 window.pv=pv=function(el){
@@ -2335,5 +2347,6 @@ if(view==='set')render();
 
 </script>
 <script type="module" src="./accounts.js"></script>
+<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=1"></script>
 </body>
 </html>
