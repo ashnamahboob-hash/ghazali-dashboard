@@ -50,7 +50,7 @@ function mount(){
  const explain=node('button',c[1],'idb');explain.type='button';explain.disabled=s.busy;explain.onclick=()=>ask(c[12]);panel.append(explain);
  const form=node('form');const input=node('textarea');input.placeholder=c[2];input.setAttribute('aria-label',c[2]);input.maxLength=1500;input.rows=2;input.value=s.draft;input.disabled=s.busy;input.oninput=()=>s.draft=input.value;
  const send=node('button',c[3],'idb');send.type='submit';send.disabled=s.busy;
- form.append(input,send);form.onsubmit=e=>{e.preventDefault();ask(input.value);};panel.append(form);host.append(panel);
+ form.append(input,send);form.onsubmit=e=>{e.preventDefault();ask(input.value);};panel.append(form);host.prepend(panel);
 }
 async function ask(question){
  const s=state;if(!s||s.busy||!question.trim())return;
