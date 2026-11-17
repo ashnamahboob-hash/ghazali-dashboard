@@ -2045,7 +2045,7 @@ function renderRes(rs,box){
 }
 function paintLast(){
  if(!lastPayload||typeof view==='undefined'||view!=='id')return;
- var box=$('idres');if(!box)return;if(!lastPayload.results||!lastPayload.results.length){box.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().noplant)+'</div>';return;}renderRes(lastPayload.results,box);
+ var box=$('idres');if(!box)return;if(!lastPayload.results||!lastPayload.results.length){showPlantnetNote(box,T2().noplant,'no_match');return;}renderRes(lastPayload.results,box);
  try {
   var aiLanguage=appLanguage(),aiBooks=[],aiCandidates=lastPayload.results.slice(0,3).map(function(r){
    var sp=r.species||{},scientific=sp.scientificNameWithoutAuthor||'',parts=speciesKey(scientific).split(/\s+/),matches=IDX.sp[parts[0]+' '+(parts[1]||'')]||[];
@@ -2056,7 +2056,7 @@ function paintLast(){
    return {scientific:scientific,confidence:Math.round((Number(r.score)||0)*100),family:sp.family&&sp.family.scientificNameWithoutAuthor||''};
   });
   window.ghazaliIdentificationPhoto=photoUrl;
-  window.ghazaliLastIdentification={run:identificationRun,language:aiLanguage,candidates:aiCandidates,bookExcerpts:aiBooks.slice(0,2)};
+  window.ghazaliLastIdentification={run:identificationRun,language:aiLanguage,plantnetStatus:'ready',candidates:aiCandidates,bookExcerpts:aiBooks.slice(0,2)};
   window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
  } catch(aiError) {}
  var image=$('lp');if(image&&photoUrl){image.src=photoUrl;setMode('done')}
@@ -2074,12 +2074,26 @@ function lensInit(){
   lensStop();stream=st;var v=$('lv');v.srcObject=st;v.play&&v.play().catch(function(){});setMode('live')
  }).catch(function(){setMode('nocam')})
 }
+function showPlantnetNote(box,message,status){
+ if(!box)return;
+ var chat=document.getElementById('ghazali-gemini');
+ box.innerHTML='<details class="gkai-results"><summary>'+esc(T2().ai)+'</summary><p>'+esc(message)+'</p></details>';
+ if(chat)box.prepend(chat);
+ var context=window.ghazaliLastIdentification;
+ if(context&&context.run===identificationRun){
+  context.plantnetStatus=status;
+  window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:context}));
+ }
+}
 function runId(blobP,previewUrl){
  if(busy)return;window.ghazaliLastIdentification=null;window.dispatchEvent(new CustomEvent('ghazali:identification-reset'));busy=true;lastPayload=null;var request=++identificationRun,requestLang=apiLanguage(appLanguage());
  idAbort=new AbortController();idTimer=setTimeout(function(){if(idAbort)idAbort.abort()},45000);setMode('scan');lensStop();var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>';
  blobP.then(function(blob){
   if(photoUrl)URL.revokeObjectURL(photoUrl);photoUrl=URL.createObjectURL(blob);
   var image=$('lp');if(image)image.src=photoUrl;
+  window.ghazaliIdentificationPhoto=photoUrl;
+  window.ghazaliLastIdentification={run:request,language:appLanguage(),plantnetStatus:'pending',candidates:[],bookExcerpts:[]};
+  window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
   var data=new FormData();data.append('images',blob,'photo.jpg');data.append('organs',gkLensOrgan);var phase=$('mint-phase');if(phase)phase.textContent=gkLensCopy()[11];
   return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+encodeURIComponent(KEY)+'&nb-results=5&lang='+encodeURIComponent(requestLang)+'&include-related-images=true',{method:'POST',body:data,signal:idAbort.signal});
  }).then(function(response){
@@ -2089,9 +2103,9 @@ function runId(blobP,previewUrl){
   if(request!==identificationRun)return;
   lastPayload=payload;lastPayloadLang=requestLang;var current=$('idres');
   if(payload.results&&payload.results.length){paintLast();ensureMetadata(payload,appLanguage())}
-  else if(current&&view==='id')current.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().noplant)+'</div>';
+  else if(current&&view==='id')showPlantnetNote(current,T2().noplant,'no_match');
  }).catch(function(error){
-  var current=$('idres');if(current&&view==='id')current.innerHTML='<span class="lgrab"></span><div class="idn">'+esc(T2().err)+'</div>';
+  if(request!==identificationRun)return;var current=$('idres');if(current&&view==='id')showPlantnetNote(current,T2().err,'error');
  }).then(function(){clearTimeout(idTimer);idAbort=null;if(request===identificationRun){busy=false;if(view==='id')setMode('done')}});
 }
 function grabFrame(){
@@ -2119,7 +2133,8 @@ window.render=function(){var x=_r.apply(this,arguments);try{
  if(typeof view!=='undefined'&&view==='id'){
   if(lastPayload){paintLast();ensureMetadata(lastPayload,appLanguage())}
   else if(busy){setMode('scan');var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>'}
-  else setTimeout(lensInit,30);
+  else if(!window.ghazaliLastIdentification)setTimeout(lensInit,30);
+  if(window.ghazaliLastIdentification)window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
  }else lensStop();
  }catch(e){}return x};
 })();
@@ -2354,6 +2369,6 @@ if(view==='set')render();
 
 </script>
 <script type="module" src="./accounts.js"></script>
-<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=3"></script>
+<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=4"></script>
 </body>
 </html>
