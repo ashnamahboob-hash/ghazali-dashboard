@@ -1995,8 +1995,8 @@ function renderRes(rs,box){
   var sci=(r.species||{}).scientificNameWithoutAuthor||'',parts=speciesKey(sci).split(/\s+/);
   (IDX.sp[parts[0]+' '+(parts[1]||'')]||[]).forEach(function(i){if(bookMatches.indexOf(i)<0)bookMatches.push(i)});
  });
- if(bookMatches.length)h+=bookSpeciesDetails(bookMatches,l);
- h+='<div class="idn"><b>'+esc(t.ai)+'</b></div>';
+ h+='<details class="gkai-results"><summary>'+esc(DETAIL_TEXT[l].book)+'</summary>'+(bookMatches.length?bookSpeciesDetails(bookMatches,l):'<p>'+esc(DETAIL_TEXT[l].noBook)+'</p>')+'</details>';
+ h+='<details class="gkai-results"><summary>'+esc(t.ai)+'</summary>';
  rs.slice(0,3).forEach(function(r){
   var species=r.species||{},sci=species.scientificNameWithoutAuthor||'',w=speciesKey(sci).split(/\s+/),key=w[0]+' '+(w[1]||''),g=w[0];
   var exact=IDX.sp[key]||[],sameGenus=(IDX.ge[g]||[]).filter(function(i){return exact.indexOf(i)<0});
@@ -2041,7 +2041,7 @@ function renderRes(rs,box){
   if(links)h+='<div class="idn">'+esc(t.sourceLinks)+'</div><div>'+links+'</div>';
   h+='</div></section>';
  });
- box.innerHTML=h+'<div class="idn">'+esc(t.namesNote)+'</div><div class="idn">'+esc(t.note)+'</div>';
+ box.innerHTML=h+'<div class="idn">'+esc(t.namesNote)+'</div><div class="idn">'+esc(t.note)+'</div></details>';
 }
 function paintLast(){
  if(!lastPayload||typeof view==='undefined'||view!=='id')return;
@@ -2055,6 +2055,7 @@ function paintLast(){
    });
    return {scientific:scientific,confidence:Math.round((Number(r.score)||0)*100),family:sp.family&&sp.family.scientificNameWithoutAuthor||''};
   });
+  window.ghazaliIdentificationPhoto=photoUrl;
   window.ghazaliLastIdentification={run:identificationRun,language:aiLanguage,candidates:aiCandidates,bookExcerpts:aiBooks.slice(0,2)};
   window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
  } catch(aiError) {}
@@ -2353,6 +2354,6 @@ if(view==='set')render();
 
 </script>
 <script type="module" src="./accounts.js"></script>
-<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=2"></script>
+<script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=3"></script>
 </body>
 </html>
