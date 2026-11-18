@@ -813,7 +813,7 @@ function homePage(){
  '<div class="search-row"><form class="search" onsubmit="event.preventDefault();go(\'lib\',this.elements.hs.value)"><button class="search-go" aria-label="'+T.ph+'">'+ic("search")+'</button><input name="hs" id="hs" type="search" value="'+esc(homeQuery)+'" oninput="homeQuery=this.value" aria-label="'+T.ph+'" placeholder="'+T.ph+'"></form><button class="photo-shortcut" onclick="go(\'feedback\')" aria-label="'+feedbackLabels[lang]+'">'+ic("comment")+'<span>'+feedbackLabels[lang]+'</span></button></div></section>'+
  '<button class="id-banner" onclick="go(\'id\')"><span class="id-banner-ic">'+ic("cam")+'</span><span class="id-banner-tx"><strong>'+identBannerTitle[lang]+'</strong><span>'+(typeof gkLensCopy==="function"?gkLensCopy()[0]:"")+'</span></span><svg class="id-banner-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>'+
  '<button class="library-hero" onclick="go(\'lib\')"><span><strong>'+T.lib+'</strong><span class="library-cta">'+labels[0]+'</span></span>'+libraryCover()+'</button>'+
- '<h2 class="home-title">'+u.sections+'</h2><div class="grid">'+tiles.map(function(x){
+ '<div class="grid">'+tiles.map(function(x){
  return '<button class="tile" onclick="go(\''+x[0]+'\')">'+ic(x[1])+'<span>'+x[2]+'</span></button>';
  }).join("")+'</div>'+discoveryCards();
 }
