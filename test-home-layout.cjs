@@ -10,10 +10,10 @@ for(const lang of ['ps','fa','ur','en']){
  assert(home.includes("go('feedback')"));assert(home.includes(ctx.feedbackLabels[lang]));
  for(const key of ['regions','health','pharmacopoeia','qanun'])assert(home.includes("go('"+key+"')"));
  assert(!home.includes("go('farming')"));assert(!home.includes("go('compounds')"));
- assert(home.includes('<img class="library-cover"'));
+ assert(home.includes('<img class="library-cover library-collage"'));
  const region=ctx.regionPage('regions');assert(region.includes('cultivation-fold'));assert(region.includes(ctx.regionText[lang][1]));
  assert(region.includes('select'));ctx.selectedProvince='کندهار';assert(ctx.regionPage('regions').includes('کندهار'));ctx.selectedProvince='';
 }
-ctx.H=[];assert(ctx.libraryCover().includes('library-cover-empty'),'graceful fallback while approved photos load');
+ctx.H=[];assert(ctx.libraryCover().includes('library-collage'),'library card keeps its own herbal photo while approved plant photos load');
 assert(html.includes('view==="feedback"'));assert(html.includes('if(view==="about"||view==="feedback")'));
-console.log('Passed: four home tiles, four-language feedback labels, plant photo with loading fallback, nested cultivation and province selection.');
+console.log('Passed: four home tiles, four-language feedback labels, distinct herbal photo on the library card, nested cultivation and province selection.');
