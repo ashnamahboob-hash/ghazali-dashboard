@@ -497,6 +497,34 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 @keyframes mintSweep{from{top:15%}to{top:58%}}@media(prefers-reduced-motion:reduce){.mint-lens *{animation:none!important;transition:none!important}}@media(max-width:360px){.mint-lens{padding:10px}.mint-organs button{font-size:11px}.mint-intro h2{font-size:22px}}
 </style>
 
+
+<style id="ghazali-afghan-plants">
+/* ===== د افغانستان طبي بوټي (Modern Regions UI) ===== */
+.af-wrap{display:flex;flex-direction:column;gap:12px}
+.af-controls{display:grid;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:12px}
+.af-controls select,.af-search{width:100%;min-height:46px;padding:10px 14px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);color:var(--ink);font:inherit;font-size:15px}
+.af-controls select:focus,.af-search:focus{outline:none;border-color:var(--gold)}
+.af-cats{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.af-cats::-webkit-scrollbar{display:none}
+.af-cats button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:13.5px;cursor:pointer;white-space:nowrap}
+.af-cats button.on{background:var(--gold);color:var(--bg);font-weight:700;border-color:transparent}
+.af-count{font-size:13px;color:var(--soft);margin:0 4px}
+.af-card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:14px 16px;cursor:pointer;transition:transform .12s;display:flex;flex-direction:column;gap:6px}
+.af-card:active{transform:scale(.98)}
+.af-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.af-card b{font-size:18px;color:var(--ink);line-height:1.4}
+.af-card i{font-size:12.5px;color:var(--gold);font-style:italic;direction:ltr;display:block;text-align:start}
+.af-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.af-mz{font-size:11.5px;padding:3px 10px;border-radius:999px;font-weight:600}
+.af-mz.hot{background:rgba(224,195,106,.18);color:var(--gold);border:1px solid rgba(224,195,106,.35)}
+.af-mz.cold{background:rgba(90,180,140,.18);color:#8ce0b8;border:1px solid rgba(90,180,140,.35)}
+.af-mz.warn-tag{background:rgba(217,139,106,.18);color:#f0a98a;border:1px solid rgba(217,139,106,.4)}
+.af-sum{font-size:14px;color:var(--soft);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:2px 0 0}
+.af-loc{font-size:12.5px;color:var(--soft);opacity:.9}
+.af-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.af-links a{font-size:12.5px;color:var(--gold);background:var(--bg);border:1px solid var(--bd);padding:6px 12px;border-radius:12px;text-decoration:none}
+</style>
+
 </head>
 <body>
 <div class="app" id="app"></div>
@@ -2480,5 +2508,135 @@ if(view==='set')render();
 </script>
 <script type="module" src="./accounts.js"></script>
 <script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=6"></script>
+
+<script id="ghazali-afghan-plants-js">
+var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
+
+var AF_UI = {
+  ps: { allProv: "ټول ولایتونه", search: "د بوټي نوم یا ګټه ولټوئ...", found: "بوټي وموندل شول", allCat: "ټول", mizaj: "مزاج", ben: "طبي ګټې", loc: "د پیدا کېدو سیمې", warn: "احتیاط او خبرداری", src: "سرچینې او علمي لینکونه", backList: "بېرته لېست ته", loading: "معلومات راولول کېږي..." },
+  fa: { allProv: "همه ولایات", search: "جستجوی نام گیاه یا فایده...", found: "گیاه یافت شد", allCat: "همه", mizaj: "مزاج", ben: "فواید طبی", loc: "مناطق رویش", warn: "احتیاط و هشدار", src: "منابع و لینک‌های علمی", backList: "بازگشت به فهرست", loading: "در حال بارگذاری..." },
+  ur: { allProv: "تمام صوبے", search: "پودے کا نام یا فائدہ تلاش کریں...", found: "پودے ملے", allCat: "سب", mizaj: "مزاج", ben: "طبی فوائد", loc: "پائے جانے کے علاقے", warn: "احتیاط اور انتباہ", src: "مآخذ اور سائنسی لنکس", backList: "فہرست پر واپس", loading: "لوڈ ہو رہا ہے..." },
+  en: { allProv: "All Provinces", search: "Search plant name or benefit...", found: "plants found", allCat: "All", mizaj: "Temperament", ben: "Medicinal Benefits", loc: "Native Regions", warn: "Caution & Warning", src: "Sources & Scientific Links", backList: "Back to list", loading: "Loading..." }
+};
+
+var AF_CATS = [
+  { k: "all", ps: "ټول", fa: "همه", ur: "سب", en: "All" },
+  { k: "Digestion", ps: "هاضمه", fa: "هاضمه", ur: "ہاضمہ", en: "Digestion" },
+  { k: "Respiratory", ps: "تنفس", fa: "تنفس", ur: "تنفس", en: "Respiratory" },
+  { k: "Nerve", ps: "اعصاب", fa: "اعصاب", ur: "اعصاب", en: "Nerves" },
+  { k: "Cardiovascular", ps: "زړه", fa: "قلب", ur: "دل", en: "Heart" },
+  { k: "Liver", ps: "ځیګر", fa: "کبد", ur: "جگر", en: "Liver" },
+  { k: "Skin", ps: "پوستکی", fa: "پوست", ur: "جلد", en: "Skin" },
+  { k: "Urinary", ps: "پښتورګي", fa: "کلیه", ur: "گردے", en: "Urinary" }
+];
+
+function afLoadData() {
+  if (afPlants || afLoading) return;
+  afLoading = true;
+  fetch("ghazali_all_100_plants_final.json")
+    .then(function(r) { return r.json(); })
+    .then(function(data) { afPlants = data; afLoading = false; if (view === "regions") render(); })
+    .catch(function() { afLoading = false; afPlants = []; if (view === "regions") render(); });
+}
+
+function afField(p, base) {
+  var l = (lang === "en") ? "ps" : lang;
+  if (base === "name" && lang === "en") return p.name_en || p.name_ps;
+  return p[base + "_" + l] || p[base + "_ps"] || "";
+}
+
+function afIsCold(p) {
+  return (p.mizaj_ps || "").indexOf("سوړ") > -1 || (p.mizaj_fa || "").indexOf("سرد") > -1;
+}
+
+function afOpenPlant(id) { afSelectedId = id; render(); window.scrollTo(0, 0); }
+function afClosePlant() { afSelectedId = null; render(); window.scrollTo(0, 0); }
+function afSetProv(v) { selectedProvince = v; render(); }
+function afSetCat(c) { afCat = c; render(); }
+function afSetQuery(v) { afQuery = v; afRenderListOnly(); }
+
+function afFilterPlants() {
+  if (!afPlants) return [];
+  var qv = afQuery.trim().toLowerCase();
+  return afPlants.filter(function(p) {
+    if (selectedProvince && (p.location_ps || "").indexOf(selectedProvince) === -1 && (p.location_ps || "").indexOf("ټول هېواد") === -1) return false;
+    if (afCat !== "all" && (p.category || "").indexOf(afCat) === -1) return false;
+    if (qv) {
+      var hay = [p.name_ps, p.name_fa, p.name_ur, p.name_en, p.scientific_name, p.benefits_ps, p.benefits_fa, p.benefits_ur, p.location_ps].join(" ").toLowerCase();
+      if (hay.indexOf(qv) === -1) return false;
+    }
+    return true;
+  });
+}
+
+function afRenderCards(list) {
+  if (!list.length) return '<div class="empty">' + t().none + '</div>';
+  return list.map(function(p) {
+    var hasWarn = !!(p.warning_ps && p.warning_ps.trim());
+    var mzClass = afIsCold(p) ? "cold" : "hot";
+    return '<div class="af-card" onclick="afOpenPlant(' + p.id + ')">' +
+      '<div class="af-card-top"><div><b>' + esc(afField(p, "name")) + '</b><i>' + esc(p.scientific_name) + '</i></div>' +
+      (hasWarn ? '<span class="af-mz warn-tag">⚠</span>' : '') + '</div>' +
+      '<div class="af-badges"><span class="af-mz ' + mzClass + '">' + esc(afField(p, "mizaj")) + '</span></div>' +
+      '<p class="af-sum">' + esc(afField(p, "benefits")) + '</p>' +
+      '<div class="af-loc">📍 ' + esc(afField(p, "location")) + '</div></div>';
+  }).join("");
+}
+
+function afRenderListOnly() {
+  var list = afFilterPlants(), u = AF_UI[lang] || AF_UI.ps;
+  var cEl = document.getElementById("af-count"), lEl = document.getElementById("af-list");
+  if (cEl) cEl.textContent = list.length + " " + u.found;
+  if (lEl) lEl.innerHTML = afRenderCards(list);
+}
+
+var _origRegionPage = typeof regionPage === "function" ? regionPage : null;
+function regionPage(v) {
+  if (v !== "regions") return _origRegionPage ? _origRegionPage(v) : "";
+  var u = AF_UI[lang] || AF_UI.ps;
+  if (!afPlants) {
+    afLoadData();
+    return bar(regionText[lang][0]) + '<div class="empty">' + u.loading + '</div>';
+  }
+  if (afSelectedId !== null) {
+    var p = afPlants.find(function(x) { return x.id === afSelectedId; });
+    if (p) {
+      var warnTxt = afField(p, "warning");
+      return '<div class="bar"><button class="back" onclick="afClosePlant()" aria-label="back">' + ic("back") + '</button><h2>' + esc(afField(p, "name")) + '</h2></div>' +
+        '<div class="sec"><i class="scientific-name" dir="ltr" style="font-size:18px;color:var(--gold)">' + esc(p.scientific_name) + '</i>' +
+        '<div class="names" style="margin-top:12px;margin-bottom:0">' +
+        '<div><small>پښتو</small>' + esc(p.name_ps) + '</div><div><small>دري / فارسی</small>' + esc(p.name_fa) + '</div>' +
+        '<div><small>اردو</small>' + esc(p.name_ur) + '</div><div><small>English</small>' + esc(p.name_en) + '</div></div></div>' +
+        '<div class="glance"><span class="gchip"><i></i><small>' + u.mizaj + ':</small> ' + esc(afField(p, "mizaj")) + '</span>' +
+        '<span class="gchip"><i></i>' + esc(p.category) + '</span></div>' +
+        '<div class="sec"><h3>' + ic("heart") + u.ben + '</h3><p>' + esc(afField(p, "benefits")) + '</p></div>' +
+        '<div class="sec"><h3>' + ic("pin") + u.loc + '</h3><p>' + esc(afField(p, "location")) + '</p></div>' +
+        (warnTxt ? '<div class="sec warn"><h3>' + ic("warn") + u.warn + '</h3><p>' + esc(warnTxt) + '</p></div>' : '') +
+        '<div class="sec"><h3>' + u.src + '</h3><p style="font-size:13.5px;color:var(--soft)">' + esc(p.source) + '</p>' +
+        '<div class="af-links">' + (p.source_links || []).map(function(lk) {
+          var lbl = lk.indexOf("kew") > -1 ? "POWO (Kew)" : lk.indexOf("gbif") > -1 ? "GBIF" : lk.indexOf("fao") > -1 ? "FAO" : "مخزن الادویه";
+          return '<a href="' + esc(lk) + '" target="_blank" rel="noopener">' + lbl + ' ↗</a>';
+        }).join("") + '</div></div>' +
+        '<div class="note">' + t().disc + '</div>';
+    }
+  }
+  var provOptions = '<option value="">' + u.allProv + ' (' + afPlants.length + ')</option>' + provinces.map(function(pr) {
+    var cnt = afPlants.filter(function(x) { return (x.location_ps || "").indexOf(pr) > -1; }).length;
+    return '<option value="' + esc(pr) + '"' + (selectedProvince === pr ? ' selected' : '') + '>' + esc(pr) + ' (' + cnt + ')</option>';
+  }).join("");
+  var catsHtml = '<div class="af-cats">' + AF_CATS.map(function(c) {
+    return '<button class="' + (afCat === c.k ? 'on' : '') + '" onclick="afSetCat('' + c.k + '')">' + c[lang] + '</button>';
+  }).join("") + '</div>';
+  var list = afFilterPlants();
+  return bar(regionText[lang][0]) +
+    '<div class="af-wrap"><div class="af-controls">' +
+    '<select onchange="afSetProv(this.value)">' + provOptions + '</select>' +
+    '<input class="af-search" type="search" value="' + esc(afQuery) + '" placeholder="' + esc(u.search) + '" oninput="afSetQuery(this.value)">' +
+    '</div>' + catsHtml +
+    '<div class="af-count" id="af-count">' + list.length + ' ' + u.found + '</div>' +
+    '<div id="af-list" class="af-wrap">' + afRenderCards(list) + '</div></div>';
+}
+</script>
+
 </body>
 </html>
