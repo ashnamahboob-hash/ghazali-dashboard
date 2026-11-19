@@ -2703,23 +2703,27 @@ if(view==='set')render();
 <script type="module" src="https://ashnamahboob-hash.github.io/ghazali-dashboard/app/ghazali-gemini.js?v=6"></script>
 
 <script id="ghazali-hardware-back">
-/* Android back button / browser back: step back one page inside the app instead of closing it. */
+/* Android back button / browser back: one history entry per page step, pushed at the moment of the user's tap
+   (browsers skip entries pushed without a tap, so we never re-push inside popstate). */
 (function(){
-  var pushed = false;
-  function deep(){ return !(view === "home" && cur === null && (typeof afSelectedId === "undefined" || afSelectedId === null)); }
-  function ensure(){
-    try { if (deep() && !pushed) { history.pushState({ gk: 1 }, ""); pushed = true; } } catch (e) {}
-  }
-  var baseRender = render;
-  render = function(){ var r = baseRender.apply(this, arguments); ensure(); return r; };
+  var depth = 0, skip = false;
+  function push(){ try { history.pushState({ gk: ++depth }, ""); } catch (e) {} }
+  function sync(){ if (depth > 0) { var n = depth; depth = 0; skip = true; try { history.go(-n); } catch (e) { skip = false; } } }
+  var baseRemember = rememberPage;
+  rememberPage = function(){ var r = baseRemember.apply(this, arguments); push(); return r; };
+  var baseGo = go;
+  go = function(){ var r = baseGo.apply(this, arguments); if (view === "home" && pageTrail.length === 0) sync(); return r; };
+  window.addEventListener("load", function(){
+    if (typeof afOpenPlant === "function") { var baseOpenPlant = afOpenPlant; afOpenPlant = function(){ var r = baseOpenPlant.apply(this, arguments); push(); return r; }; }
+  });
   window.addEventListener("popstate", function(){
-    pushed = false;
+    if (skip) { skip = false; return; }
+    if (depth > 0) depth--;
     try {
-      if (view === "regions" && typeof afSelectedId !== "undefined" && afSelectedId !== null) { afClosePlant(); ensure(); return; }
-      if (goBack()) ensure();
+      if (typeof afSelectedId !== "undefined" && afSelectedId !== null) { afClosePlant(); return; }
+      goBack();
     } catch (e) {}
   });
-  ensure();
 })();
 </script>
 <script id="ghazali-afghan-plants-js">
