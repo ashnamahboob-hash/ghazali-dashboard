@@ -85,6 +85,9 @@ label{display:block;font-size:14px;color:var(--gold);margin:12px 4px 4px}label s
 #lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out}#lb img{max-width:92vw;max-height:92vh;border-radius:12px}
 .fbimg{max-width:100%;max-height:260px;border-radius:14px;cursor:zoom-in;margin:6px 0}
 #fc{max-height:90px;overflow:auto;margin-top:6px}#fc button{padding:0 9px;height:30px;font-size:13px}
+.afrow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #eef1e9}.afrow:last-child{border:0}.afrow .no{min-width:36px;font-family:Georgia,serif;font-size:17px;color:var(--gold)}.afrow img,.afrow .noimg{width:46px;height:46px;border-radius:9px;object-fit:cover;background:#edf2e9;flex:none}.afrow .nm{flex:1;min-width:0}
+.afgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}.afgrid .full{grid-column:1/-1}.afgrid input,.afgrid textarea{width:100%}
+.afph{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.afph .c{border:1px dashed #c9d5bc;border-radius:10px;padding:9px;display:grid;gap:6px;background:#f8faf5}.afph .c img{width:100%;height:140px;object-fit:cover;border-radius:7px}.afph input{width:100%;font-size:12px;min-height:34px;padding:5px 9px}
 .pv{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.pv span{background:var(--deep);border-radius:12px;padding:2px 14px}
 .hint{color:var(--soft);font-size:13px;margin:4px 4px 0}
 @media (max-width:900px){
@@ -282,7 +285,97 @@ $('#ed').addEventListener('click',async e=>{const im=e.target.closest('[data-fbi
  else if(b.dataset.fbapprove||b.dataset.fbreject){const id=b.dataset.fbapprove||b.dataset.fbreject,status=b.dataset.fbapprove?'approved':'rejected';b.disabled=true;try{await setDoc(doc(db,FBK.find(y=>y.id===id)?._collection||'feedback',id),{status,reviewedAt:serverTimestamp(),reviewedBy:auth.currentUser.uid},{merge:true});const x=FBK.find(y=>y.id===id);if(x)x.status=status;FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}catch(err){b.disabled=false;alert('بدلون خوندي نه سو. بیا هڅه وکړئ.')}}
  else if(b.dataset.fbread){await setDoc(doc(db,FBK.find(y=>y.id===b.dataset.fbread)?._collection||'feedback',b.dataset.fbread),{status:'read'},{merge:true});const x=FBK.find(y=>y.id===b.dataset.fbread);if(x)x.status='read';FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}
  else if(b.dataset.fbdel){if(confirm('دا نظر ړنګ سي؟')){await deleteDoc(doc(db,FBK.find(y=>y.id===b.dataset.fbdel)?._collection||'feedback',b.dataset.fbdel));FBK=FBK.filter(y=>y.id!==b.dataset.fbdel);FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}}});
-function secPage(){if(sec==='feedback')return fbPage();const [t,d]=SECINFO[sec];
+/* ===== د افغانستان طبي بوټي: اداره کول (Firestore: afghan_plants) ===== */
+const AFC='afghan_plants',AFMAXP=4;
+const AFF=[['name_ps','نوم (پښتو)','i'],['name_fa','نوم (دري)','i'],['name_ur','نوم (اردو)','i'],['name_en','English name','i'],['scientific_name','علمي نوم','i'],['category','کټګوري','i'],
+ ['mizaj_ps','مزاج (پښتو)','i'],['mizaj_fa','مزاج (دري)','i'],['mizaj_ur','مزاج (اردو)','i'],
+ ['benefits_ps','ګټې (پښتو)','t'],['benefits_fa','ګټې (دري)','t'],['benefits_ur','ګټې (اردو)','t'],
+ ['location_ps','د پیدا کېدو سیمې (پښتو)','t'],['location_fa','سیمې (دري)','t'],['location_ur','سیمې (اردو)','t'],
+ ['warning_ps','احتیاط (پښتو)','t'],['warning_fa','احتیاط (دري)','t'],['warning_ur','احتیاط (اردو)','t'],['source','سرچینه','i']];
+let AFP=[],AFEd=null,AFPh=[],AFPhDirty=false,AFQ='';
+let afCol;try{afCol=new Intl.Collator(['ps','fa','ar'])}catch(e){afCol={compare:(a,b)=>a<b?-1:a>b?1:0}}
+const afKey=s=>norm(s);
+const afSortList=()=>{AFP.sort((a,b)=>afCol.compare(afKey(a.name_ps),afKey(b.name_ps)))};
+async function afLoad(){const s=await getDocs(collection(db,AFC));AFP=[];s.forEach(d=>AFP.push({...d.data(),id:d.id}));afSortList()}
+/* اتومات نمبر: د پښتو نوم د الفبا له مخې ۱،۲،۳… */
+async function afRenumber(){afSortList();const ch=[];AFP.forEach((p,i)=>{if(p.no!==i+1){p.no=i+1;ch.push(p)}});
+ for(let i=0;i<ch.length;i+=400){const b=writeBatch(db);ch.slice(i,i+400).forEach(p=>b.set(doc(db,AFC,p.id),{no:p.no},{merge:true}));await b.commit()}}
+async function afPage(){
+ $('#ed').innerHTML='<div class="home"><h2>د افغانستان طبي بوټي</h2><p>لوستل کېږي…</p></div>';
+ try{await afLoad()}catch(e){$('#ed').innerHTML='<div class="home"><h2>د افغانستان طبي بوټي</h2></div><div class="box"><p>ډاټا ونه لوستل سوه ('+esc(e.code||e.message)+'). ډېر ځله دا د Firestore Rules له امله وي: باید نوي Rules (firestore.rules) Publish سي.</p></div>';return}
+ afList()}
+function afRows(){const q=norm(AFQ);
+ const a=AFP.filter(p=>!q||norm([p.name_ps,p.name_fa,p.name_ur,p.name_en,p.scientific_name].join(' ')).includes(q));
+ return a.map(p=>`<div class="afrow" data-afrow="${esc(p.id)}"><span class="no">${p.no??''}</span>${/^data:image\//.test(p.thumb||'')?`<img src="${p.thumb}" alt="">`:'<span class="noimg"></span>'}<span class="nm"><b>${esc(p.name_ps)}</b> · ${esc(p.name_en||'')}<br><i class="hint" dir="ltr">${esc(p.scientific_name||'')}</i></span><span class="hint">📷 ${p.photoCount||0}</span><button data-af="edit" data-id="${esc(p.id)}">سمول</button><button data-af="del" data-id="${esc(p.id)}">ړنګول</button></div>`).join('')||'<p class="hint">هیڅ نه دي موندل سوي.</p>'}
+function afList(){AFEd=null;
+ $('#ed').innerHTML=`<div id="afm"><div class="home"><h2>د افغانستان طبي بوټي (${AFP.length})</h2><p>دلته بوټي زیاتولای، سمولای یا ړنګولای سئ، او عکسونه (تر ${AFMAXP} پورې) اچولای سئ. نمبرونه په اتومات ډول د پښتو نوم د الفبا له مخې جوړېږي.</p></div>
+ <div class="tb"><button class="p" data-af="new">+ نوی بوټی</button><input id="afq" placeholder="لټون…" value="${esc(AFQ)}" style="min-width:220px">${AFP.length===0?'<button data-af="import">د JSON فایل څخه ۱۰۰ بوټي واردول</button>':''}</div>
+ <div class="box" id="afrows">${afRows()}</div></div>`;afBind()}
+function afBind(){const m=$('#afm');
+ m.addEventListener('click',e=>{const b=e.target.closest('[data-af]');if(!b)return;e.stopPropagation();afAct(b.dataset.af,b.dataset.id,b)});
+ m.addEventListener('input',e=>{e.stopPropagation();if(e.target.id==='afq'){AFQ=e.target.value;$('#afrows').innerHTML=afRows()}});
+ m.addEventListener('change',e=>{e.stopPropagation();const t=e.target;if(t.id==='afimgf'){afAddFiles(t.files);t.value=''}else if(t.dataset.afph){afSyncPh();AFPhDirty=true}})}
+async function afAct(a,id,btn){
+ if(a==='new')return afEdit(null);
+ if(a==='edit')return afEdit(id);
+ if(a==='del')return afDelete(id);
+ if(a==='import')return afImport(btn);
+ if(a==='cancel')return afList();
+ if(a==='save')return afSave(btn);
+ if(a==='addph')return $('#afimgf').click();
+ if(a==='rmph'){afSyncPh();AFPh.splice(Number(id),1);AFPhDirty=true;return afPhRender()}
+ if(a==='mainph'){afSyncPh();const i=Number(id);AFPh.unshift(AFPh.splice(i,1)[0]);AFPhDirty=true;return afPhRender()}}
+async function afImport(btn){
+ if(!confirm('۱۰۰ بوټي له JSON فایل څخه Firestore ته واردېږي؟'))return;btn.disabled=true;
+ try{const r=await fetch('app/ghazali_all_100_plants_final.json');if(!r.ok)throw new Error('JSON '+r.status);const list=await r.json();
+  for(let i=0;i<list.length;i+=400){const b=writeBatch(db);list.slice(i,i+400).forEach(p=>{const d={...p};const lid=d.id;delete d.id;d.legacyId=lid;d.photoCount=0;d.thumb='';d.updatedAt=serverTimestamp();b.set(doc(db,AFC,'p'+String(lid).padStart(3,'0')),d,{merge:true})});await b.commit()}
+  await afLoad();await afRenumber();toast('واردول سول: '+AFP.length);afList()}
+ catch(e){btn.disabled=false;alert('واردول ونه سول: '+(e.code||e.message))}}
+async function afEdit(id){
+ const p=id?AFP.find(x=>x.id===id):null;AFEd=p?{...p}:{id:null};AFPh=[];AFPhDirty=false;
+ if(p&&p.photoCount>0){try{const s=await getDocs(collection(db,AFC,id,'photos'));const a=[];s.forEach(d=>{const x=d.data();x._n=Number(d.id)||0;a.push(x)});a.sort((x,y)=>x._n-y._n);AFPh=a.map(x=>({data:x.data,author:x.author||'',license:x.license||'',source:x.source||''}))}catch(e){alert('عکسونه ونه لوستل سول')}}
+ const v=k=>esc(AFEd[k]??'');
+ $('#ed').innerHTML=`<div id="afm"><div class="bar"><button data-af="cancel">→ لیست</button><h2>${p?esc(p.name_ps):'نوی بوټی'}${p?` <small class="hint">(نمبر ${p.no??''})</small>`:''}</h2></div>
+ <div class="box"><div class="afgrid">${AFF.map(([k,t,ty])=>`<div class="${ty==='t'?'full':''}"><label>${t}</label>${ty==='t'?`<textarea data-f="${k}" rows="2">${v(k)}</textarea>`:`<input data-f="${k}" value="${v(k)}">`}</div>`).join('')}
+ <div class="full"><label>د سرچینو لینکونه <small>(هر لینک په جلا کرښه کې)</small></label><textarea data-f="source_links" dir="ltr" rows="3">${esc((AFEd.source_links||[]).join('\n'))}</textarea></div></div></div>
+ <div class="box"><h3>عکسونه (تر ${AFMAXP} پورې) <small class="hint">لومړی عکس اصلي دی. هر عکس په اتومات ډول کوچنی کېږي.</small></h3><div id="afph"></div>
+ <input type="file" id="afimgf" accept="image/*" multiple hidden></div>
+ <div class="tb"><button class="p" data-af="save">خوندي کول</button><button data-af="cancel">لغوه</button></div></div>`;
+ afBind();afPhRender();if(!p)document.querySelector('[data-f=name_ps]').focus()}
+function afPhRender(){$('#afph').innerHTML=`<div class="afph">${AFPh.map((x,i)=>`<div class="c"><img src="${x.data}" alt="">
+ <input data-afph="author" data-i="${i}" placeholder="لیکوال / عکاس" value="${esc(x.author)}"><input data-afph="license" data-i="${i}" placeholder="لایسنس (مثلاً CC BY-SA 4.0)" value="${esc(x.license)}"><input data-afph="source" data-i="${i}" placeholder="سرچینه / لینک" value="${esc(x.source)}">
+ <div class="tb">${i>0?`<button data-af="mainph" data-id="${i}">اصلي کړه</button>`:'<span class="b pub">اصلي</span>'}<button data-af="rmph" data-id="${i}">لرې کړه</button></div></div>`).join('')}
+ ${AFPh.length<AFMAXP?'<button data-af="addph" style="min-height:130px;border-style:dashed">+ عکس اضافه کړه</button>':''}</div>`}
+function afSyncPh(){document.querySelectorAll('[data-afph]').forEach(el=>{const x=AFPh[Number(el.dataset.i)];if(x)x[el.dataset.afph]=el.value})}
+function afBmp(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);res(i)};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('image'))};i.src=u})}
+function afScale(img,max,q){const r=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*r));c.height=Math.max(1,Math.round(img.height*r));c.getContext('2d').drawImage(img,0,0,c.width,c.height);return c.toDataURL('image/jpeg',q)}
+async function afAddFiles(files){afSyncPh();
+ for(const f of files){if(AFPh.length>=AFMAXP){toast('تر '+AFMAXP+' عکسونو پورې');break}
+  try{const img=await afBmp(f);let q=.82,d=afScale(img,800,q);while(d.length>400000&&q>.4){q-=.12;d=afScale(img,800,q)}
+   AFPh.push({data:d,author:'',license:'',source:''});AFPhDirty=true}catch(e){toast('دا فایل عکس نه دی: '+f.name)}}
+ afPhRender()}
+async function afThumbOf(data){const img=await afBmp(await (await fetch(data)).blob());return afScale(img,360,.7)}
+async function afSave(btn){afSyncPh();
+ const d={};document.querySelectorAll('#afm [data-f]').forEach(el=>{d[el.dataset.f]=el.value.trim()});
+ if(!d.name_ps)return alert('د پښتو نوم ضروري دی.');
+ d.source_links=(d.source_links||'').split('\n').map(x=>x.trim()).filter(Boolean);
+ btn.disabled=true;
+ try{const isNew=!AFEd.id,id=AFEd.id||('p'+Date.now().toString(36));
+  d.photoCount=AFPh.length;d.updatedAt=serverTimestamp();
+  if(isNew||AFPhDirty)d.thumb=AFPh[0]?await afThumbOf(AFPh[0].data):'';
+  if(isNew)d.no=9999;
+  await setDoc(doc(db,AFC,id),d,{merge:true});
+  if(isNew||AFPhDirty){for(let i=1;i<=AFMAXP;i++){const x=AFPh[i-1],r=doc(db,AFC,id,'photos',String(i));
+    if(x){if(x.data.length>900000)throw new Error('عکس ډېر لوی دی');await setDoc(r,{data:x.data,author:x.author||'',license:x.license||'',source:x.source||'',n:i})}else if(!isNew)await deleteDoc(r)}}
+  await afLoad();await afRenumber();toast('خوندي سو');afList()}
+ catch(e){btn.disabled=false;alert('خوندي نه سو: '+(e.code||e.message))}}
+async function afDelete(id){const p=AFP.find(x=>x.id===id);if(!p)return;
+ if(!confirm('«'+p.name_ps+'» او ټول عکسونه یې ړنګ سي؟'))return;
+ try{for(let i=1;i<=AFMAXP;i++)await deleteDoc(doc(db,AFC,id,'photos',String(i)));await deleteDoc(doc(db,AFC,id));
+  AFP=AFP.filter(x=>x.id!==id);await afRenumber();toast('ړنګ سو');afList()}
+ catch(e){alert('ړنګ نه سو: '+(e.code||e.message))}}
+
+function secPage(){if(sec==='feedback')return fbPage();if(sec==='regions')return afPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}

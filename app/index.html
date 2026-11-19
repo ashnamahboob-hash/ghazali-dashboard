@@ -2713,14 +2713,71 @@ var AF_UI = {
   en: { allProv: "All Provinces", search: "Search plant name or benefit...", found: "plants found", allCat: "All", mizaj: "Temperament", ben: "Medicinal Benefits", loc: "Native Regions", warn: "Caution & Warning", src: "Sources & Scientific Links", backList: "Back to list", loading: "Loading..." }
 };
 
+/* Data source: Firestore collection "afghan_plants" (managed from the dashboard). Falls back to the JSON file. */
+var afSource = "json", afFS = null, afPhotos = {}, afPhotoLoading = {};
+function afWaitDb(ms) {
+  return new Promise(function(res) {
+    if (window.gkFirebase && window.gkFirebase.db) return res(window.gkFirebase.db);
+    var t = setTimeout(function() { res(null); }, ms);
+    window.addEventListener("gk-firebase-ready", function() { clearTimeout(t); res(window.gkFirebase ? window.gkFirebase.db : null); }, { once: true });
+  });
+}
+function afLoadFirestore() {
+  return afWaitDb(6000).then(function(db) {
+    if (!db) return null;
+    return import("https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js").then(function(m) {
+      afFS = m;
+      return m.getDocs(m.collection(db, "afghan_plants")).then(function(snap) {
+        var a = []; snap.forEach(function(d) { var x = d.data(); x.id = d.id; a.push(x); }); return a;
+      });
+    });
+  });
+}
+function afLoadJson() {
+  afLoadCredits();
+  return fetch("ghazali_all_100_plants_final.json").then(function(r) { return r.json(); }).catch(function() { return AF_EMBED; });
+}
+var afCol = null;
+try { afCol = new Intl.Collator(["ps", "fa", "ar"]); } catch (e) { afCol = { compare: function(a, b) { return a < b ? -1 : a > b ? 1 : 0; } }; }
+function afSort(list) {
+  return list.slice().sort(function(a, b) {
+    if (a.no != null && b.no != null && a.no !== b.no) return a.no - b.no;
+    return afCol.compare(a.name_ps || "", b.name_ps || "");
+  });
+}
 function afLoadData() {
   if (afPlants || afLoading) return;
   afLoading = true;
-  afLoadCredits();
-  fetch("ghazali_all_100_plants_final.json")
-    .then(function(r) { return r.json(); })
-    .then(function(data) { afPlants = data; afLoading = false; if (view === "regions") render(); })
-    .catch(function() { afLoading = false; afPlants = AF_EMBED; if (view === "regions") render(); });
+  afLoadFirestore().catch(function() { return null; }).then(function(list) {
+    if (list && list.length) { afSource = "fs"; return list; }
+    return afLoadJson();
+  }).then(function(list) {
+    afPlants = afSort(list || []); afLoading = false; if (view === "regions") render();
+  }).catch(function() { afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
+}
+function afLoadPhotos(id) {
+  if (afPhotos[id] || afPhotoLoading[id] || !afFS || !window.gkFirebase) return;
+  afPhotoLoading[id] = true;
+  afFS.getDocs(afFS.collection(window.gkFirebase.db, "afghan_plants", String(id), "photos")).then(function(snap) {
+    var a = []; snap.forEach(function(d) { var x = d.data(); x._n = Number(d.id) || 0; if (/^data:image\//.test(x.data || "")) a.push(x); });
+    a.sort(function(x, y) { return x._n - y._n; });
+    afPhotos[id] = a; afPhotoLoading[id] = false;
+    if (String(afSelectedId) === String(id) && view === "regions") render();
+  }).catch(function() { afPhotos[id] = []; afPhotoLoading[id] = false; });
+}
+function afGalleryHtml(p) {
+  if (afSource === "fs") {
+    if (!(p.photoCount > 0)) return "";
+    var ph = afPhotos[p.id];
+    if (!ph) { afLoadPhotos(p.id); return ""; }
+    if (!ph.length) return "";
+    var cr = ph.map(function(x, i) {
+      var parts = [x.author, x.license, x.source].filter(function(v) { return v && String(v).trim(); });
+      return parts.length ? '<div class="af-credit">' + (i + 1) + ". " + esc(parts.join(" · ")) + "</div>" : "";
+    }).join("");
+    return '<div class="af-gallery">' + ph.map(function(x) { return '<img alt="' + esc(p.name_en || "") + '" src="' + x.data + '">'; }).join("") + "</div>" + cr;
+  }
+  return '<div class="af-gallery">' + [1, 2, 3, 4].map(function(n) { return '<img loading="lazy" alt="' + esc(p.name_en || "") + '" src="' + afImgUrl(p.id, n) + '" onerror="this.remove()">'; }).join("") + "</div>" + afCreditLine(p.id);
 }
 
 /* Photos: put files in app/afghan-plants/ named 001.jpg (main), 001-2.jpg, 001-3.jpg, 001-4.jpg.
@@ -2795,8 +2852,8 @@ function afRenderCards(list) {
   return list.map(function(p) {
     var hasWarn = !!(p.warning_ps && p.warning_ps.trim());
     var mzClass = afIsCold(p) ? "cold" : "hot";
-    return '<div class="af-card" onclick="afOpenPlant(' + p.id + ')">' +
-      '<img class="af-thumb" loading="lazy" alt="" src="' + afImgUrl(p.id, 1) + '" onerror="this.remove()">' +
+    return '<div class="af-card" onclick="afOpenPlant(\'' + p.id + '\')">' +
+      (afSource === "fs" ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" alt="" src="' + p.thumb + '">' : "") : '<img class="af-thumb" loading="lazy" alt="" src="' + afImgUrl(p.id, 1) + '" onerror="this.remove()">') +
       '<div class="af-card-top"><div><b>' + esc(afField(p, "name")) + '</b><i>' + esc(p.scientific_name) + '</i></div>' +
       (hasWarn ? '<span class="af-mz warn-tag">⚠</span>' : '') + '</div>' +
       '<div class="af-badges"><span class="af-mz ' + mzClass + '">' + esc(afField(p, "mizaj")) + '</span></div>' +
@@ -2821,11 +2878,11 @@ regionPage = function(v) {
     return bar(regionText[lang][0]) + '<div class="empty">' + u.loading + '</div>';
   }
   if (afSelectedId !== null) {
-    var p = afPlants.find(function(x) { return x.id === afSelectedId; });
+    var p = afPlants.find(function(x) { return String(x.id) === String(afSelectedId); });
     if (p) {
       var warnTxt = afField(p, "warning");
       return '<div class="bar"><button class="back" onclick="afClosePlant()" aria-label="back">' + ic("back") + '</button><h2>' + esc(afField(p, "name")) + '</h2></div>' +
-        '<div class="af-gallery">' + [1, 2, 3, 4].map(function(n) { return '<img loading="lazy" alt="' + esc(p.name_en || "") + '" src="' + afImgUrl(p.id, n) + '" onerror="this.remove()">'; }).join("") + '</div>' + afCreditLine(p.id) +
+        afGalleryHtml(p) +
         '<div class="sec"><i class="scientific-name" dir="ltr" style="font-size:18px;color:var(--gold)">' + esc(p.scientific_name) + '</i>' +
         '<div class="names" style="margin-top:12px;margin-bottom:0">' +
         '<div><small>پښتو</small>' + esc(p.name_ps) + '</div><div><small>دري / فارسی</small>' + esc(p.name_fa) + '</div>' +
