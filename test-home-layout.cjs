@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const html=fs.readFileSync(__dirname+'/app/index.html','utf8');
+const html=fs.readFileSync(__dirname+'/app/app.html','utf8');
 const between=(a,b)=>html.slice(html.indexOf(a),html.indexOf(b,html.indexOf(a)+a.length));
 const ctx={I:{},H:[{taj:['T017'],img:'data:image/jpeg;base64,test',nm:{}}],lang:'ps',selectedProvince:'',provinces:['کندهار'],homeQuery:'',window:{},ic:x=>'<svg data-icon="'+x+'"></svg>',isPublished:p=>!!p,esc:x=>String(x),herbDisplay:()=> 'Celery',t:()=>({title:'Title',tag:'Tag',ph:'Search',lib:'Library'}),appEmblem:()=>'<span>Logo</span>',discoveryCards:()=>'<section>Discovery</section>',bar:t=>'<header>'+t+'</header>'};
 vm.createContext(ctx);

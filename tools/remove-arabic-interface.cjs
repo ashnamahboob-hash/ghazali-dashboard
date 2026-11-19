@@ -20,7 +20,7 @@ function rewrite(source){
  for(const [start,end]of spans.reverse())source=source.slice(0,start)+source.slice(end);
  acorn.parse(source,{ecmaVersion:'latest',sourceType:'module'});return source;
 }
-for(const path of ['index.html','app/index.html']){
+for(const path of ['index.html','app/app.html']){
  let html=fs.readFileSync(path,'utf8');html=html.replace(/(<script\b[^>]*>)([\s\S]*?)(<\/script>)/gi,(m,a,b,c)=>a+(b.trim()?rewrite(b):b)+c);fs.writeFileSync(path,html);
 }
 fs.writeFileSync('app/accounts.js',rewrite(fs.readFileSync('app/accounts.js','utf8')));

@@ -1,6 +1,6 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v1';
-const SHELL = ['./', 'index.html', 'accounts.js', 'account-utils.mjs',
+const VERSION = 'gk-shell-v2';
+const SHELL = ['./', 'index.html', 'app.html', 'accounts.js', 'account-utils.mjs',
   'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', e => {
@@ -29,6 +29,6 @@ self.addEventListener('fetch', e => {
         caches.open(VERSION).then(c => c.put(req, copy)).catch(() => {});
       }
       return res;
-    }).catch(() => caches.match(req).then(r => r || (req.mode === 'navigate' ? caches.match('index.html') : undefined)))
+    }).catch(() => caches.match(req).then(r => r || (req.mode === 'navigate' ? caches.match('app.html') : undefined)))
   );
 });

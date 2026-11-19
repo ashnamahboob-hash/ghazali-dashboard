@@ -1,5 +1,5 @@
 const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
-const html=fs.readFileSync(__dirname+'/app/index.html','utf8');
+const html=fs.readFileSync(__dirname+'/app/app.html','utf8');
 for(const m of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi))if(!/^<script[^>]*type="module"/.test(m[0]))new vm.Script(m[1]);
 const start=html.indexOf('var DETAIL_TEXT='),end=html.indexOf('function renderRes(rs,box)',start);
 const ctx={URL,AbortController,setTimeout,clearTimeout,console,view:'home',lang:'ps',speciesKey:s=>String(s||'').trim().replace(/\s+/g,' ').toLowerCase(),esc:s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'),appLanguage:()=>ctx.lang};

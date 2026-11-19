@@ -35,7 +35,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
  const native={...context,window:{NativeAccount:{},gkFirebase:{app:{},db:{}},addEventListener(){}}};
  vm.createContext(native);vm.runInContext(source,native);
  assert.equal(native.window.WebAccount,undefined,'preserve native account adapter');
- for(const file of ['index.html','app/index.html']){
+ for(const file of ['index.html','app/app.html']){
   const html=fs.readFileSync(file,'utf8');
   for(const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){
    if(/type="module"/.test(m[1]))continue;new vm.Script(m[2]);

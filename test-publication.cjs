@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const html=fs.readFileSync(__dirname+'/app/index.html','utf8');
+const html=fs.readFileSync(__dirname+'/app/app.html','utf8');
 const helper=html.slice(html.indexOf('function publicEntryComplete('),html.indexOf('function openHerb('));
 const apply=html.slice(html.indexOf('function applyHerbs(list)'),html.indexOf('const LST45='));
 const context={H:[],wordDetailLayout:{order:['mhy','mzj','khs','use','mzr'],records:{}},tajRecords:[],LG:['ps','fa','ur','en'],norm:x=>String(x??'').replace(/\s+/g,''),blocks:x=>x?[{text:x}]:[],flat:xs=>(xs||[]).map(x=>x.text).join('\n'),parseOther:()=>[],otherFlat:()=>'',pickFt(){},build(){},render(){},console};
