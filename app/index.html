@@ -514,8 +514,8 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .af-thumb{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;background:var(--card);margin-bottom:4px}
 .af-gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .af-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;background:var(--card)}
-.af-gallery img:first-child{grid-column:1/-1;aspect-ratio:16/10}
-.af-gallery img:last-child:nth-child(even){grid-column:1/-1;aspect-ratio:16/10}
+/* 1 photo or 3 photos: first photo spans the full width. 2 or 4 photos: equal grid. */
+.af-gallery img:first-child:nth-last-child(1),.af-gallery img:first-child:nth-last-child(3){grid-column:1/-1;aspect-ratio:16/10}
 .af-credit{font-size:12px;color:var(--soft);margin:6px 4px 0;direction:ltr;text-align:start}
 .af-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 .af-card b{font-size:18px;color:var(--ink);line-height:1.4}
