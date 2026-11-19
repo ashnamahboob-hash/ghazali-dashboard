@@ -602,6 +602,7 @@ function rememberPage() {
  pageTrail.push({view,cur,position,library});
 }
 function go(v,x) {
+ v=gkGate(v);
  if(v===view&&cur===null&&x===undefined)return;
  rememberPage();
  if(v==="home") {
@@ -1482,6 +1483,23 @@ var a2Jobs={
 };
 window.gkProfile={};window.gkProfileLoaded=false;
 window.receiveProfile=function(p){window.gkProfile=p&&typeof p==='object'?p:{};window.gkProfileLoaded=true;if(view==='usr'||view==='set')render();};
+var pendingView=null,accountNotice='';
+function gkGate(v){
+ if(v==='id'&&accountReady&&!accountSignedIn){pendingView='id';accountNotice='id';accountMode='signup';return 'usr';}
+ if(v!=='usr'){pendingView=null;accountNotice='';}
+ return v;
+}
+(function(){
+ var orig=window.receiveAccountState;
+ window.receiveAccountState=function(){
+  orig.apply(this,arguments);
+  if(accountSignedIn&&pendingView){var v=pendingView;pendingView=null;accountNotice='';go(v);}
+ };
+})();
+Object.assign(authCopy.ps,{needAccountId:'د بوټو پېژندنې لپاره لومړی حساب جوړ کړئ، یا که لرئ ننوځئ.'});
+Object.assign(authCopy.fa,{needAccountId:'برای شناخت گیاه ابتدا حساب بسازید، یا اگر دارید وارد شوید.'});
+Object.assign(authCopy.ur,{needAccountId:'پودے کی پہچان کے لیے پہلے اکاؤنٹ بنائیں، یا اگر ہے تو لاگ اِن کریں۔'});
+Object.assign(authCopy.en,{needAccountId:'To identify a plant, first create an account, or sign in if you have one.'});
 function a2svg(p){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>';}
 var A2={
  mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>',
@@ -1557,6 +1575,7 @@ function accountPage(){
  const signup=accountMode==='signup',reset=accountMode==='reset',title=c[reset?'reset':signup?'signup':'login'];
  return bar(accountLabels[lang][0])+'<div class="a2">'+
   '<section class="a2-hero" '+hero+'>'+appEmblem()+'<h3>'+title+'</h3><p>'+x.tag+'</p>'+(!accountReady?'<p class="auth-error">'+c.unavailable+'</p>':'')+'</section>'+
+  (accountNotice==='id'?'<div class="a2-welcome"><span class="acct-bic">'+ic('cam')+'</span><span><b>'+c.needAccountId+'</b></span></div>':'')+
   '<section class="a2-card">'+
   (reset?'<p class="acct-help">'+c.resetHelp+'</p>':'<div class="acct-tabs" role="group"><button type="button" class="'+(!signup?'on':'')+'" aria-pressed="'+(!signup)+'" onclick="changeAccountMode(\'login\')"'+disabled+'>'+c.login+'</button><button type="button" class="'+(signup?'on':'')+'" aria-pressed="'+signup+'" onclick="changeAccountMode(\'signup\')"'+disabled+'>'+c.signup+'</button></div>')+
   '<form id="auth-form" class="a2-form" onsubmit="checkAuthForm(event)">'+
@@ -2375,6 +2394,7 @@ function showPlantnetNote(box,message,status){
  }
 }
 function runId(blobP,previewUrl){
+ if(accountReady&&!accountSignedIn){go('id');return}
  if(busy)return;window.ghazaliLastIdentification=null;window.dispatchEvent(new CustomEvent('ghazali:identification-reset'));busy=true;lastPayload=null;var request=++identificationRun,requestLang=apiLanguage(appLanguage());
  idAbort=new AbortController();idTimer=setTimeout(function(){if(idAbort)idAbort.abort()},45000);setMode('scan');lensStop();var box=$('idres');if(box)box.innerHTML='<span class="lgrab"></span><div class="idspin">'+esc(T2().run)+'</div>';
  blobP.then(function(blob){
