@@ -1507,8 +1507,17 @@ function gkGate(v){
  window.receiveAccountState=function(){
   orig.apply(this,arguments);
   if(accountSignedIn&&pendingView){var v=pendingView;pendingView=null;accountNotice='';go(v);}
+  if(arguments[7]==='profile_ok'&&!arguments[4])gkProfileDone();
  };
 })();
+function gkProfileDone(){
+ var old=document.getElementById('gk-done');if(old)old.remove();
+ var c=authText(),o=document.createElement('div');o.id='gk-done';o.setAttribute('role','status');
+ o.innerHTML='<div class="gk-card"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="gk-c" cx="26" cy="26" r="23"/><path class="gk-t" d="M15 27l8 8 15-17"/></svg><b>'+esc(c.profile_ok||'')+'</b></div>';
+ document.body.appendChild(o);
+ setTimeout(function(){o.classList.add('out');setTimeout(function(){o.remove();try{if(view==='usr'&&!goBack())go('home')}catch(e){go('home')}},260)},1500);
+}
+(function(){var st=document.createElement('style');st.textContent='#gk-done{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:rgba(20,40,30,.45);animation:gkIn .25s ease}#gk-done.out{opacity:0;transition:opacity .25s}.gk-card{background:#fff;color:#173b2d;border-radius:26px;padding:28px 34px;display:grid;justify-items:center;gap:14px;box-shadow:0 18px 50px rgba(0,0,0,.25);animation:gkPop .4s cubic-bezier(.2,1.3,.4,1)}.gk-card svg{width:84px;height:84px}.gk-card b{font-size:18px}.gk-c{fill:#e3f1e8;stroke:#2e8b57;stroke-width:3}.gk-t{fill:none;stroke:#2e8b57;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:gkDraw .5s .25s ease forwards}@keyframes gkDraw{to{stroke-dashoffset:0}}@keyframes gkIn{from{opacity:0}}@keyframes gkPop{from{transform:scale(.7);opacity:0}}@media(prefers-reduced-motion:reduce){.gk-card,.gk-t,#gk-done{animation:none}.gk-t{stroke-dashoffset:0}}';document.head.appendChild(st)})();
 Object.assign(authCopy.ps,{needAccountId:'د بوټو پېژندنې لپاره لومړی حساب جوړ کړئ، یا که لرئ ننوځئ.'});
 Object.assign(authCopy.fa,{needAccountId:'برای شناخت گیاه ابتدا حساب بسازید، یا اگر دارید وارد شوید.'});
 Object.assign(authCopy.ur,{needAccountId:'پودے کی پہچان کے لیے پہلے اکاؤنٹ بنائیں، یا اگر ہے تو لاگ اِن کریں۔'});
