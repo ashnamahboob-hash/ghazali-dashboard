@@ -508,6 +508,13 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .af-cats::-webkit-scrollbar{display:none}
 .af-cats button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:13.5px;cursor:pointer;white-space:nowrap}
 .af-cats button.on{background:var(--gold);color:var(--bg);font-weight:700;border-color:transparent}
+.af-provs{display:grid;grid-template-rows:repeat(2,auto);grid-auto-flow:column;grid-auto-columns:max-content;gap:8px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none}
+.af-provs::-webkit-scrollbar{display:none}
+.af-provs button{display:flex;align-items:center;gap:8px;border:1px solid var(--bd);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 8px 7px 14px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap}
+.af-provs button small{min-width:26px;text-align:center;font-size:12px;font-weight:700;padding:2px 7px;border-radius:999px;background:rgba(224,195,106,.18);color:var(--gold)}
+.af-provs button.on{background:var(--gold);color:var(--bg);font-weight:700;border-color:transparent}
+.af-provs button.on small{background:rgba(0,0,0,.18);color:var(--bg)}
+.af-provs button.zero{opacity:.45}
 .af-count{font-size:13px;color:var(--soft);margin:0 4px}
 .af-card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:14px 16px;cursor:pointer;transition:transform .12s;display:flex;flex-direction:column;gap:6px}
 .af-card:active{transform:scale(.98)}
@@ -2700,22 +2707,11 @@ var AF_EMBED = [{"id":1,"category":"هاضمه او پوستکی (Digestion & Sk
 var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
 
 var AF_UI = {
-  ps: { allProv: "ټول ولایتونه", search: "د بوټي نوم یا ګټه ولټوئ...", found: "بوټي وموندل شول", allCat: "ټول", mizaj: "مزاج", ben: "طبي ګټې", loc: "د پیدا کېدو سیمې", warn: "احتیاط او خبرداری", src: "سرچینې او علمي لینکونه", backList: "بېرته لېست ته", loading: "معلومات راولول کېږي..." },
+  ps: { allProv: "ټول", search: "د بوټي نوم یا ګټه ولټوئ...", found: "بوټي وموندل شول", allCat: "ټول", mizaj: "مزاج", ben: "طبي ګټې", loc: "د پیدا کېدو سیمې", warn: "احتیاط او خبرداری", src: "سرچینې او علمي لینکونه", backList: "بېرته لېست ته", loading: "معلومات راولول کېږي..." },
   fa: { allProv: "همه ولایات", search: "جستجوی نام گیاه یا فایده...", found: "گیاه یافت شد", allCat: "همه", mizaj: "مزاج", ben: "فواید طبی", loc: "مناطق رویش", warn: "احتیاط و هشدار", src: "منابع و لینک‌های علمی", backList: "بازگشت به فهرست", loading: "در حال بارگذاری..." },
   ur: { allProv: "تمام صوبے", search: "پودے کا نام یا فائدہ تلاش کریں...", found: "پودے ملے", allCat: "سب", mizaj: "مزاج", ben: "طبی فوائد", loc: "پائے جانے کے علاقے", warn: "احتیاط اور انتباہ", src: "مآخذ اور سائنسی لنکس", backList: "فہرست پر واپس", loading: "لوڈ ہو رہا ہے..." },
   en: { allProv: "All Provinces", search: "Search plant name or benefit...", found: "plants found", allCat: "All", mizaj: "Temperament", ben: "Medicinal Benefits", loc: "Native Regions", warn: "Caution & Warning", src: "Sources & Scientific Links", backList: "Back to list", loading: "Loading..." }
 };
-
-var AF_CATS = [
-  { k: "all", ps: "ټول", fa: "همه", ur: "سب", en: "All" },
-  { k: "Digestion", ps: "هاضمه", fa: "هاضمه", ur: "ہاضمہ", en: "Digestion" },
-  { k: "Respiratory", ps: "تنفس", fa: "تنفس", ur: "تنفس", en: "Respiratory" },
-  { k: "Nerve", ps: "اعصاب", fa: "اعصاب", ur: "اعصاب", en: "Nerves" },
-  { k: "Cardiovascular", ps: "زړه", fa: "قلب", ur: "دل", en: "Heart" },
-  { k: "Liver", ps: "ځیګر", fa: "کبد", ur: "جگر", en: "Liver" },
-  { k: "Skin", ps: "پوستکی", fa: "پوست", ur: "جلد", en: "Skin" },
-  { k: "Urinary", ps: "پښتورګي", fa: "کلیه", ur: "گردے", en: "Urinary" }
-];
 
 function afLoadData() {
   if (afPlants || afLoading) return;
@@ -2760,15 +2756,32 @@ function afIsCold(p) {
 function afOpenPlant(id) { afSelectedId = id; render(); window.scrollTo(0, 0); }
 function afClosePlant() { afSelectedId = null; render(); window.scrollTo(0, 0); }
 function afSetProv(v) { selectedProvince = v; render(); }
-function afSetCat(c) { afCat = c; render(); }
 function afSetQuery(v) { afQuery = v; afRenderListOnly(); }
 
+function afProvCount(pr) {
+  if (!afPlants) return 0;
+  return afPlants.filter(function(p) { var l = p.location_ps || ""; return l.indexOf(pr) > -1 || l.indexOf("ټول هېواد") > -1; }).length;
+}
+function afPickProv(i) {
+  selectedProvince = i < 0 ? "" : provinces[i];
+  var btns = document.querySelectorAll(".af-provs button");
+  for (var k = 0; k < btns.length; k++) btns[k].classList.toggle("on", Number(btns[k].getAttribute("data-i")) === i);
+  afRenderListOnly();
+}
+function afProvChips(u) {
+  var items = provinces.map(function(pr, i) { return { i: i, n: afProvCount(pr), name: pr }; })
+    .sort(function(a, b) { return b.n - a.n; });
+  var all = '<button data-i="-1" class="' + (selectedProvince === "" ? "on" : "") + '" onclick="afPickProv(-1)">' + u.allProv + '<small>' + afPlants.length + '</small></button>';
+  return '<div class="af-provs">' + all + items.map(function(x) {
+    var cls = (selectedProvince === x.name ? "on" : "") + (x.n === 0 ? " zero" : "");
+    return '<button data-i="' + x.i + '" class="' + cls.trim() + '" onclick="afPickProv(' + x.i + ')">' + esc(x.name) + '<small>' + x.n + '</small></button>';
+  }).join("") + '</div>';
+}
 function afFilterPlants() {
   if (!afPlants) return [];
   var qv = afQuery.trim().toLowerCase();
   return afPlants.filter(function(p) {
     if (selectedProvince && (p.location_ps || "").indexOf(selectedProvince) === -1 && (p.location_ps || "").indexOf("ټول هېواد") === -1) return false;
-    if (afCat !== "all" && (p.category || "").indexOf(afCat) === -1) return false;
     if (qv) {
       var hay = [p.name_ps, p.name_fa, p.name_ur, p.name_en, p.scientific_name, p.benefits_ps, p.benefits_fa, p.benefits_ur, p.location_ps].join(" ").toLowerCase();
       if (hay.indexOf(qv) === -1) return false;
@@ -2830,19 +2843,11 @@ regionPage = function(v) {
         '<div class="note">' + t().disc + '</div>';
     }
   }
-  var provOptions = '<option value="">' + u.allProv + ' (' + afPlants.length + ')</option>' + provinces.map(function(pr) {
-    var cnt = afPlants.filter(function(x) { return (x.location_ps || "").indexOf(pr) > -1; }).length;
-    return '<option value="' + esc(pr) + '"' + (selectedProvince === pr ? ' selected' : '') + '>' + esc(pr) + ' (' + cnt + ')</option>';
-  }).join("");
-  var catsHtml = '<div class="af-cats">' + AF_CATS.map(function(c) {
-    return '<button class="' + (afCat === c.k ? 'on' : '') + '" onclick="afSetCat(\'' + c.k + '\')">' + (c[lang] || c.ps) + '</button>';
-  }).join("") + '</div>';
   var list = afFilterPlants();
   return bar(regionText[lang][0]) +
     '<div class="af-wrap"><div class="af-controls">' +
-    '<select onchange="afSetProv(this.value)">' + provOptions + '</select>' +
     '<input class="af-search" type="search" value="' + esc(afQuery) + '" placeholder="' + esc(u.search) + '" oninput="afSetQuery(this.value)">' +
-    '</div>' + catsHtml +
+    '</div>' + afProvChips(u) +
     '<div class="af-count" id="af-count">' + list.length + ' ' + u.found + '</div>' +
     '<div id="af-list" class="af-wrap">' + afRenderCards(list) + '</div></div>';
 };
