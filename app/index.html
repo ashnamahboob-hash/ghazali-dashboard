@@ -511,6 +511,12 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .af-count{font-size:13px;color:var(--soft);margin:0 4px}
 .af-card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:14px 16px;cursor:pointer;transition:transform .12s;display:flex;flex-direction:column;gap:6px}
 .af-card:active{transform:scale(.98)}
+.af-thumb{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;background:var(--card);margin-bottom:4px}
+.af-gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.af-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;background:var(--card)}
+/* 1 photo or 3 photos: first photo spans the full width. 2 or 4 photos: equal grid. */
+.af-gallery img:first-child:nth-last-child(1),.af-gallery img:first-child:nth-last-child(3){grid-column:1/-1;aspect-ratio:16/10}
+.af-credit{font-size:12px;color:var(--soft);margin:6px 4px 0;direction:ltr;text-align:start}
 .af-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 .af-card b{font-size:18px;color:var(--ink);line-height:1.4}
 .af-card i{font-size:12.5px;color:var(--gold);font-style:italic;direction:ltr;display:block;text-align:start}
@@ -2714,12 +2720,33 @@ var AF_CATS = [
 function afLoadData() {
   if (afPlants || afLoading) return;
   afLoading = true;
+  afLoadCredits();
   fetch("ghazali_all_100_plants_final.json")
     .then(function(r) { return r.json(); })
     .then(function(data) { afPlants = data; afLoading = false; if (view === "regions") render(); })
     .catch(function() { afLoading = false; afPlants = AF_EMBED; if (view === "regions") render(); });
 }
 
+/* Photos: put files in app/afghan-plants/ named 001.jpg (main), 001-2.jpg, 001-3.jpg, 001-4.jpg.
+   Optional credits: app/afghan-plants/credits.json  { "1": {"author":"","license":"","source":""} } */
+var AF_IMG_DIR = "afghan-plants/", afCredits = {}, afCreditsLoaded = false;
+function afImgUrl(id, n) {
+  var s = String(id); while (s.length < 3) s = "0" + s;
+  return AF_IMG_DIR + s + (n > 1 ? "-" + n : "") + ".jpg";
+}
+function afLoadCredits() {
+  if (afCreditsLoaded) return;
+  afCreditsLoaded = true;
+  fetch(AF_IMG_DIR + "credits.json").then(function(r) { return r.ok ? r.json() : {}; })
+    .then(function(j) { afCredits = j || {}; if (afSelectedId !== null && view === "regions") render(); })
+    .catch(function() {});
+}
+function afCreditLine(id) {
+  var c = afCredits[String(id)];
+  if (!c) return "";
+  var parts = [c.author, c.license, c.source].filter(function(x) { return x && String(x).trim(); });
+  return parts.length ? '<div class="af-credit">' + esc(parts.join(" · ")) + '</div>' : "";
+}
 function afField(p, base) {
   var l = (lang === "en") ? "ps" : lang;
   if (base === "name" && lang === "en") return p.name_en || p.name_ps;
@@ -2756,6 +2783,7 @@ function afRenderCards(list) {
     var hasWarn = !!(p.warning_ps && p.warning_ps.trim());
     var mzClass = afIsCold(p) ? "cold" : "hot";
     return '<div class="af-card" onclick="afOpenPlant(' + p.id + ')">' +
+      '<img class="af-thumb" loading="lazy" alt="" src="' + afImgUrl(p.id, 1) + '" onerror="this.remove()">' +
       '<div class="af-card-top"><div><b>' + esc(afField(p, "name")) + '</b><i>' + esc(p.scientific_name) + '</i></div>' +
       (hasWarn ? '<span class="af-mz warn-tag">⚠</span>' : '') + '</div>' +
       '<div class="af-badges"><span class="af-mz ' + mzClass + '">' + esc(afField(p, "mizaj")) + '</span></div>' +
@@ -2784,6 +2812,7 @@ regionPage = function(v) {
     if (p) {
       var warnTxt = afField(p, "warning");
       return '<div class="bar"><button class="back" onclick="afClosePlant()" aria-label="back">' + ic("back") + '</button><h2>' + esc(afField(p, "name")) + '</h2></div>' +
+        '<div class="af-gallery">' + [1, 2, 3, 4].map(function(n) { return '<img loading="lazy" alt="' + esc(p.name_en || "") + '" src="' + afImgUrl(p.id, n) + '" onerror="this.remove()">'; }).join("") + '</div>' + afCreditLine(p.id) +
         '<div class="sec"><i class="scientific-name" dir="ltr" style="font-size:18px;color:var(--gold)">' + esc(p.scientific_name) + '</i>' +
         '<div class="names" style="margin-top:12px;margin-bottom:0">' +
         '<div><small>پښتو</small>' + esc(p.name_ps) + '</div><div><small>دري / فارسی</small>' + esc(p.name_fa) + '</div>' +
