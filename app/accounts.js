@@ -59,6 +59,7 @@ function start(){
    const u=requireUser(),data={displayName:String(p.displayName||'').trim().slice(0,60),occupation:String(p.occupation||''),organization:String(p.organization||'').trim().slice(0,80),province:String(p.province||'').slice(0,40),phone:String(p.phone||'').trim().slice(0,20),updatedAt:serverTimestamp()};
    await A.updateProfile(u,{displayName:data.displayName});
    await setDoc(doc(db,'users',u.uid,'private','profile'),data);
+   try{await setDoc(doc(db,'userProfiles',u.uid),{uid:u.uid,email:u.email||'',displayName:data.displayName,occupation:data.occupation,organization:data.organization,province:data.province,phone:data.phone,updatedAt:serverTimestamp()})}catch(e){}
    if(window.receiveProfile)window.receiveProfile({occupation:data.occupation,organization:data.organization,province:data.province,phone:data.phone});
   },'profile_ok')},
   resetPassword(email){return action(async()=>{try{await A.sendPasswordResetEmail(auth,email)}catch(e){if(e.code!=='auth/user-not-found')throw e}},'reset_sent')},

@@ -193,7 +193,7 @@ const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ ب�
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
-const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
+const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['users','کاروونکي'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
 const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
 const SECINFO={
  regions:['د افغانستان طبي بوټي','د ایپ په دې برخه کې کارونکی ولایت غوره کوي. د دې ولایت مستند ریکارډونه لا نه دي داخل سوي.'],
@@ -282,7 +282,18 @@ $('#ed').addEventListener('click',async e=>{const im=e.target.closest('[data-fbi
  else if(b.dataset.fbapprove||b.dataset.fbreject){const id=b.dataset.fbapprove||b.dataset.fbreject,status=b.dataset.fbapprove?'approved':'rejected';b.disabled=true;try{await setDoc(doc(db,FBK.find(y=>y.id===id)?._collection||'feedback',id),{status,reviewedAt:serverTimestamp(),reviewedBy:auth.currentUser.uid},{merge:true});const x=FBK.find(y=>y.id===id);if(x)x.status=status;FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}catch(err){b.disabled=false;alert('بدلون خوندي نه سو. بیا هڅه وکړئ.')}}
  else if(b.dataset.fbread){await setDoc(doc(db,FBK.find(y=>y.id===b.dataset.fbread)?._collection||'feedback',b.dataset.fbread),{status:'read'},{merge:true});const x=FBK.find(y=>y.id===b.dataset.fbread);if(x)x.status='read';FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}
  else if(b.dataset.fbdel){if(confirm('دا نظر ړنګ سي؟')){await deleteDoc(doc(db,FBK.find(y=>y.id===b.dataset.fbdel)?._collection||'feedback',b.dataset.fbdel));FBK=FBK.filter(y=>y.id!==b.dataset.fbdel);FBN=FBK.filter(y=>y.status==='new').length;secBar();fbRender()}}});
-function secPage(){if(sec==='feedback')return fbPage();const [t,d]=SECINFO[sec];
+const OCC={student:'محصل',doctor:'ډاکټر',pharmacist:'درملتون/فارماسیست',herbalist:'عطار/د بوټو متخصص',researcher:'څیړونکی',teacher:'استاد',farmer:'بزګر',other:'نور'};
+let UQ=[],UF={q:'',o:'all'};
+async function usersPage(){$('#ed').innerHTML='<div class="home"><h2>کاروونکي</h2><p>لوستل کېږي…</p></div>';try{const s=await getDocs(collection(db,'userProfiles'));UQ=s.docs.map(d=>({...d.data(),id:d.id}));usersRender()}catch(e){$('#ed').innerHTML='<div class="home"><h2>کاروونکي</h2><p>لوستل ونه سول. ډاډ ترلاسه کړئ چې Firestore قاعدې خپرې سوې دي.</p></div>'}}
+function usersRender(){const q=norm(UF.q),L=UQ.filter(x=>(UF.o==='all'||x.occupation===UF.o)&&(!q||norm([x.displayName,x.email,x.province,x.organization,x.phone].join(' ')).includes(q)));
+ $('#ed').innerHTML=`<div class="home"><h2>کاروونکي (${UQ.length})</h2><p>هغه کاروونکي چې خپل پروفایل ډک کړی. نظرونه به وروسته د هر کاروونکي له پروفایل سره یو ځای سي.</p></div>
+ <div class="tb"><input id="uq" placeholder="لټون: نوم، برېښنالیک، ولایت…" value="${esc(UF.q)}"><select id="uo"><option value="all">ټولې دندې</option>${Object.entries(OCC).map(([k,t])=>`<option value="${k}" ${UF.o===k?'selected':''}>${t}</option>`).join('')}</select><button id="ure">تازه کول</button></div>
+ <div class="box"><p class="hint">یادښت: «پروفایل لرې کړه» یوازې د کاروونکي پروفایل ډاټا ړنګوي. پخپله حساب (برېښنالیک/پټنوم) لرې کولو لپاره: Firebase Console ← Authentication ← Users ← د کاروونکي ښي خوا مینو ← Delete account.</p></div>
+ ${L.map(x=>`<div class="box"><b>${esc(x.displayName||'—')}</b> · ${esc(OCC[x.occupation]||x.occupation||'')}<br><span dir="ltr">${esc(x.email||'')}</span><br>${esc(x.organization||'')} ${x.province?'· '+esc(x.province):''} ${x.phone?'· <span dir="ltr">'+esc(x.phone)+'</span>':''}<div class="tb"><button data-udel="${esc(x.id)}">پروفایل لرې کړه</button></div></div>`).join('')||'<div class="box"><p>هېڅ کاروونکی ونه موندل سو.</p></div>'}`;
+ const i=$('#uq');if(i){i.oninput=()=>{UF.q=i.value;const p=i.selectionStart;usersRender();const n=$('#uq');n.focus();n.setSelectionRange(p,p)}}
+ $('#uo').onchange=e=>{UF.o=e.target.value;usersRender()};$('#ure').onclick=usersPage;
+ $('#ed').querySelectorAll('[data-udel]').forEach(b=>b.onclick=async()=>{const id=b.dataset.udel;if(!confirm('د دې کاروونکي پروفایل ړنګ سي؟ (حساب پاتې کېږي)'))return;try{await deleteDoc(doc(db,'userProfiles',id));try{await deleteDoc(doc(db,'users',id,'private','profile'))}catch(e){}UQ=UQ.filter(y=>y.id!==id);usersRender()}catch(e){alert('ړنګول ونه سول: '+(e.code||e.message))}})}
+function secPage(){if(sec==='feedback')return fbPage();if(sec==='users')return usersPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
