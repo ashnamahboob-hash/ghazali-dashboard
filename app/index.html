@@ -188,11 +188,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 
   <section class="chart" id="chartSection" aria-labelledby="h-chart">
     <div class="wrap">
-      <h2 id="h-chart">بوټي د اغېز له مخې</h2>
-      <p class="cap">د افغانستان <span class="js-count"></span> طبي بوټي، د هغه سیستم له مخې چې په لومړي ځای کې ورته ګټور ګڼل کېږي.</p>
+      <h2 id="h-chart">بوټي د ولایتونو له مخې</h2>
+      <p class="cap">د افغانستان <span class="js-count"></span> طبي بوټي، هغه ولایتونه چې په ډېرو بوټو کې یادېږي. یو بوټی کېدای سي په څو ولایتونو کې وي، نو د ولایتونو شمېرې سره جمع د بوټو شمېرې سره نه برابرېږي. <span id="noProv"></span></p>
       <div class="donut-box">
         <div class="donut" id="donut">
-          <svg viewBox="0 0 200 200" id="donutSvg" role="img" aria-label="د بوټو ویش"></svg>
+          <svg viewBox="0 0 200 200" id="donutSvg" role="img" aria-label="د بوټو ویش د ولایتونو له مخې"></svg>
           <div class="donut-mid"><b id="dNum"></b><span id="dLbl">ټول بوټي</span></div>
         </div>
         <ul class="legend" id="legend"></ul>
@@ -294,19 +294,26 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   window.GK_PLANTS=fetch('ghazali_all_100_plants_final.json').then(function(r){if(!r.ok)throw 0;return r.json()});
   GK_PLANTS.then(build).catch(function(){section.hidden=true});
 
-  function systemOf(p){
-    var s=String(p.category||'').split('(')[0].split(' \u0627\u0648 ')[0].trim();
-    return s==='\u062A\u0646\u0641\u0633\u064A \u0633\u06CC\u0633\u062A\u0645'?'\u062A\u0646\u0641\u0633':s;
+  var PROV=['کابل','کندهار','هرات','بلخ','ننګرهار','کندز|کندوز','بدخشان','بامیان','غور','بادغیس','پکتیا','پکتیکا','خوست','لغمان',
+    'کنړ','نورستان','تخار','بغلان','سمنګان','پروان','کاپیسا','پنجشېر','میدان وردګ','لوګر','غزني','زابل','ارزګان','هلمند','نیمروز',
+    'فراه','فاریاب','جوزجان','سرپل','دایکندي'];
+  function provincesOf(p){
+    var t=String(p.location_ps||'');
+    return PROV.filter(function(n){return n.split('|').some(function(v){return t.indexOf(v)>-1})}).map(function(n){return n.split('|')[0]});
   }
 
   function build(plants){
     if(!Array.isArray(plants)||!plants.length){section.hidden=true;return}
     var total=plants.length;
     [].forEach.call(document.querySelectorAll('.js-count'),function(el){el.textContent=fa(total)});
-    var map={};plants.forEach(function(p){var k=systemOf(p)||'\u0646\u0648\u0631';map[k]=(map[k]||0)+1});
+    var map={};plants.forEach(function(p){provincesOf(p).forEach(function(k){map[k]=(map[k]||0)+1})});
     var rows=Object.keys(map).map(function(k){return [k,map[k]]}).sort(function(a,b){return b[1]-a[1]});
+    if(!rows.length){section.hidden=true;return}
+    var none=plants.filter(function(p){return !provincesOf(p).length}).length;
+    if(none)document.getElementById('noProv').textContent='ځینې بوټي ('+fa(none)+') ټاکلی ولایت نه لري (لکه «غرنۍ سیمې»)، نو دلته نه شمېرل کېږي.';
     var data=rows.slice(0,MAX),rest=rows.slice(MAX).reduce(function(a,r){return a+r[1]},0);
-    if(rest)data.push(['\u0646\u0648\u0631',rest]);
+    if(rest)data.push(['نور ولایتونه',rest]);
+    var sum=data.reduce(function(a,d){return a+d[1]},0);
     data.forEach(function(d,i){d[2]=COLORS[i%COLORS.length]});
 
     var svg=document.getElementById('donutSvg'),box=document.getElementById('donut'),
@@ -314,13 +321,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     num.textContent=fa(total);
     var R=80,C=2*Math.PI*R,acc=0,segs=[],btns=[],NS='http://www.w3.org/2000/svg';
     data.forEach(function(d,i){
-      var len=C*d[1]/total,c=document.createElementNS(NS,'circle');
+      var len=C*d[1]/sum,c=document.createElementNS(NS,'circle');
       c.setAttribute('cx',100);c.setAttribute('cy',100);c.setAttribute('r',R);
       c.setAttribute('class','seg');c.setAttribute('stroke',d[2]);
       c.setAttribute('stroke-dasharray','0 '+C);
       c.style.transitionProperty='stroke-dasharray,opacity,stroke-width';c.style.transitionDuration='.9s,.2s,.2s';
       c.style.transitionDelay=(i*0.08)+'s,0s,0s';
-      c.setAttribute('transform','rotate('+(acc/total*360)+' 100 100)');
+      c.setAttribute('transform','rotate('+(acc/sum*360)+' 100 100)');
       c.dataset.len=Math.max(len-1.5,0.5);
       svg.appendChild(c);segs.push(c);acc+=d[1];
       var li=document.createElement('li'),b=document.createElement('button');
@@ -332,7 +339,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       function on(){segs.forEach(function(s,k){s.classList.toggle('on',k===i);btns[k].classList.toggle('on',k===i)});
         box.classList.add('dim');num.textContent=fa(d[1]);lbl.textContent=d[0]}
       function off(){segs.forEach(function(s,k){s.classList.remove('on');btns[k].classList.remove('on')});
-        box.classList.remove('dim');num.textContent=fa(total);lbl.textContent='\u067C\u0648\u0644 \u0628\u0648\u067C\u064A'}
+        box.classList.remove('dim');num.textContent=fa(total);lbl.textContent='ټول بوټي'}
       [c,b].forEach(function(el){el.addEventListener('mouseenter',on);el.addEventListener('mouseleave',off)});
       b.addEventListener('focus',on);b.addEventListener('blur',off);
       c.addEventListener('click',on);
