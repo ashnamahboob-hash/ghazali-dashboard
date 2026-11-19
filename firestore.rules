@@ -35,6 +35,12 @@ service cloud.firestore {
       match /images/{img} { allow read: if true; allow write: if isAdmin(); }
       match /history/{h}  { allow read, write: if isAdmin(); }
     }
+    // د افغانستان طبي بوټي (ډیشبورډ یې اداره کوي): ټول لولي، یوازې ادمین لیکي
+    match /afghan_plants/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+      match /photos/{n} { allow read: if true; allow write: if isAdmin(); }
+    }
     // د ایپ کارکوونکو نظرونه: هر څوک کولی شي نوی نظر ولېږي (محدود اندازه)، یوازې ادمین لولي او اداره کوي
     match /suggestions/{id} {
       allow create: if request.auth != null
