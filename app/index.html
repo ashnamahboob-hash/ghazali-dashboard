@@ -83,6 +83,29 @@ h2{font-size:clamp(28px,4.4vw,38px);line-height:1.6;margin:0 0 24px;font-weight:
 .legend em{font-style:normal;margin-inline-start:auto;color:var(--stone);font-variant-numeric:tabular-nums}
 .chart .cap{color:var(--stone);margin:-12px 0 28px;max-width:36em}
 @media (max-width:760px){.donut-box{grid-template-columns:1fr}.legend{grid-template-columns:1fr}}
+
+/* library */
+.lib{background:var(--paper)}
+.lib[hidden]{display:none}
+.lib-tools{display:flex;gap:12px;margin:0 0 20px}
+.lib-tools input{font:inherit;flex:1;min-height:52px;border:2px solid var(--line);border-radius:14px;padding:0 16px;background:#fff;color:var(--ink)}
+.lib-tools input:focus-visible{border-color:var(--leaf)}
+.plist{list-style:none;margin:0;padding:0;border-top:2px solid var(--line)}
+.plist details{border-bottom:2px solid var(--line)}
+.plist summary{list-style:none;display:flex;align-items:center;gap:14px;padding:14px 4px;cursor:pointer}
+.plist summary::-webkit-details-marker{display:none}
+.plist summary:hover{background:var(--mint)}
+.plist .th{width:52px;height:52px;border-radius:12px;background:var(--mint);flex:none;object-fit:cover}
+.plist .nm{font-weight:700;font-size:20px;line-height:1.6;display:block}
+.plist .sub{font-size:15px;color:var(--stone);line-height:1.6;display:block}
+.plist .tag{margin-inline-start:auto;font-size:14px;color:var(--leaf);white-space:nowrap}
+.plist .body{padding:4px 4px 20px;color:var(--stone)}
+.plist .body p{margin:0 0 8px;max-width:38em}
+.plist .body b{color:var(--ink)}
+.plist .warn{color:#8a3b12}
+.lib-more{margin-top:20px;display:flex;justify-content:center}
+.lib-more .btn{background:var(--ink);color:#f3f8f3;width:auto}
+.lib-empty{color:var(--stone);padding:16px 4px}
 .install{background:var(--ink);color:#f3f8f3}
 .install h2{color:#fff}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:40px}
@@ -177,6 +200,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     </div>
   </section>
 
+  <section class="lib" id="libSection" aria-labelledby="h-lib" hidden>
+    <div class="wrap">
+      <h2 id="h-lib">د بوټو کتابتون</h2>
+      <div class="lib-tools"><input type="search" id="libQ" placeholder="د بوټي نوم ولټوئ" aria-label="د بوټي نوم ولټوئ" autocomplete="off"></div>
+      <ul class="plist" id="plist"></ul>
+      <p class="lib-empty" id="libEmpty" hidden>داسې بوټی ونه موندل سو.</p>
+      <div class="lib-more"><button class="btn" id="libMore" type="button" hidden>نور بوټي وښایاست</button></div>
+    </div>
+  </section>
+
   <section class="install" id="install" aria-labelledby="h-install">
     <div class="wrap">
       <h2 id="h-install">څنګه یې نصب کړم</h2>
@@ -258,7 +291,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   var section=document.getElementById('chartSection');
 
   // The same file the app reads: add or remove plants there and this page follows.
-  fetch('ghazali_all_100_plants_final.json').then(function(r){if(!r.ok)throw 0;return r.json()}).then(build).catch(function(){section.hidden=true});
+  window.GK_PLANTS=fetch('ghazali_all_100_plants_final.json').then(function(r){if(!r.ok)throw 0;return r.json()});
+  GK_PLANTS.then(build).catch(function(){section.hidden=true});
 
   function systemOf(p){
     var s=String(p.category||'').split('(')[0].split(' \u0627\u0648 ')[0].trim();
@@ -309,6 +343,47 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){draw();io.disconnect()}},{threshold:.35});io.observe(box);
     } else draw();
   }
+})();
+
+(function(){
+  var sec=document.getElementById('libSection'),ul=document.getElementById('plist'),q=document.getElementById('libQ'),
+      more=document.getElementById('libMore'),empty=document.getElementById('libEmpty'),STEP=12,shown=STEP,all=[],hits=[];
+  if(!window.GK_PLANTS)return;
+  GK_PLANTS.then(function(d){if(!Array.isArray(d)||!d.length)throw 0;all=d;sec.hidden=false;apply()}).catch(function(){sec.hidden=true});
+
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  function line(label,val,cls){if(!val)return null;var p=el('p',cls||'');if(label)p.appendChild(el('b','',label+': '));p.appendChild(document.createTextNode(val));return p}
+  function pad(id){var n=String(id).replace(/\D/g,'');return ('000'+n).slice(-3)}
+
+  function item(p){
+    var li=document.createElement('li'),d=document.createElement('details'),s=document.createElement('summary');
+    var img=new Image();img.className='th';img.alt='';img.loading='lazy';img.width=52;img.height=52;
+    img.onerror=function(){img.remove()};img.src='afghan-plants/'+pad(p.id)+'.jpg';
+    s.appendChild(img);
+    var box=el('span');box.appendChild(el('span','nm',p.name_ps||p.name_en||''));
+    var sub=[p.scientific_name,p.name_en].filter(Boolean).join(' · ');
+    if(sub){var e=el('span','sub',sub);e.dir='ltr';e.style.textAlign='right';box.appendChild(e)}
+    s.appendChild(box);
+    var cat=String(p.category||'').split('(')[0].trim();
+    if(cat)s.appendChild(el('span','tag',cat));
+    d.appendChild(s);
+    var b=el('div','body');
+    [line('مزاج',p.mizaj_ps),line('ګټې',p.benefits_ps),line('کوم ځای کې وي',p.location_ps),line('',p.warning_ps,'warn')].forEach(function(x){if(x)b.appendChild(x)});
+    d.appendChild(b);li.appendChild(d);return li;
+  }
+
+  function apply(){
+    var t=(q.value||'').trim().toLowerCase();
+    hits=!t?all:all.filter(function(p){
+      return [p.name_ps,p.name_fa,p.name_ur,p.name_en,p.scientific_name].some(function(v){return v&&String(v).toLowerCase().indexOf(t)>-1});
+    });
+    ul.textContent='';
+    hits.slice(0,shown).forEach(function(p){ul.appendChild(item(p))});
+    more.hidden=hits.length<=shown;
+    empty.hidden=hits.length>0;
+  }
+  q.addEventListener('input',function(){shown=STEP;apply()});
+  more.addEventListener('click',function(){shown+=STEP;apply()});
 })();
 </script>
 </body>
