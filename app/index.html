@@ -1,407 +1,1280 @@
 <!DOCTYPE html>
-<html lang="ps" dir="rtl">
+<html lang="ps" dir="rtl" class="scroll-smooth">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>غزالي خزانه – د طبي بوټو ایپ</title>
-<meta name="description" content="د تاج المفردات پر بنسټ د طبي بوټو ایپ. په عکس بوټی وپېژنئ، د افغانستان طبي بوټي ولولئ، په څلورو ژبو، او پرته له انټرنېټه.">
-<meta name="theme-color" content="#12372a">
-<meta property="og:type" content="website">
-<meta property="og:title" content="غزالي خزانه">
-<meta property="og:description" content="د طبي بوټو ایپ: په عکس بوټی وپېژنئ، د افغانستان طبي بوټي ولولئ.">
-<meta property="og:site_name" content="غزالي خزانه">
-<meta property="og:url" content="https://ghazali-herbs.ghazalikhazana.workers.dev/">
-<meta property="og:locale" content="ps_AF">
-<meta property="og:image" content="https://ghazali-herbs.ghazalikhazana.workers.dev/icon-512.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="512">
-<meta property="og:image:height" content="512">
-<meta property="og:image:alt" content="د غزالي خزانه آیکن">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="غزالي خزانه">
-<meta name="twitter:image" content="https://ghazali-herbs.ghazalikhazana.workers.dev/icon-512.png">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#12372a; --leaf:#2f7d5b; --mint:#eef4ee; --paper:#fbfdfa;
-  --saffron:#d99a1c; --stone:#4f6258; --line:#cfdcd2;
-}
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);
-  font-family:"Noto Naskh Arabic","Droid Arabic Naskh","Segoe UI",Tahoma,sans-serif;
-  font-size:18px;line-height:2;}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>غزالي خزانه — د طبي بوټو علمي مرکز</title>
+  <meta name="description" content="د دودیز او عصري طب د معتبرو سرچینو پر بنسټ جوړ شوی ایپ. د هر بوټي عکس واخلئ، نوم یې وپېژنئ او د افغانستان د طبي بوټو کره علمي معلومات په پښتو ولولئ." />
 
-/* hero */
-.hero{background:var(--ink);color:#f3f8f3;overflow:hidden}
-.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:center;min-height:min(86vh,640px);padding-top:40px;padding-bottom:40px}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.brand img{width:48px;height:48px;border-radius:12px}
-.brand span{font-weight:700;font-size:20px}
-h1{font-size:clamp(38px,7vw,68px);line-height:1.5;margin:0 0 8px;font-weight:700}
-.lead{font-size:clamp(18px,2.4vw,22px);max-width:30em;margin:0 0 28px;color:#d4e4d8}
-.actions{display:flex;flex-wrap:wrap;gap:12px}
-.btn{font:inherit;font-weight:700;border:0;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
-  min-height:52px;padding:0 26px;border-radius:14px;line-height:1.2}
-.btn-main{background:var(--saffron);color:#2a1d00}
-.btn-main:hover{background:#e8ab2e}
-.btn-ghost{background:transparent;color:#f3f8f3;box-shadow:inset 0 0 0 2px #5f8a77}
-.btn-ghost:hover{background:#1c4a38}
-.note{margin:14px 0 0;font-size:15px;color:#a9c4b4;line-height:1.8}
-.sprig{width:100%;max-width:380px;justify-self:center;height:auto}
-.sprig .stem{stroke:#8fc3a5;stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.6s ease-out .2s forwards}
-.sprig use{fill:#2f7d5b;stroke:#8fc3a5;stroke-width:1.6;opacity:0;animation:leaf .6s ease-out forwards}
-.sprig use.fruit{fill:var(--saffron);stroke:none}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes leaf{to{opacity:1}}
+  <meta name="theme-color" content="#1B4332" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="غزالي خزانه">
+  <meta property="og:description" content="د طبي بوټو ایپ: په عکس بوټی وپېژنئ، د افغانستان طبي بوټي ولولئ.">
+  <meta property="og:site_name" content="غزالي خزانه">
+  <meta property="og:url" content="https://ghazali-herbs.ghazalikhazana.workers.dev/">
+  <meta property="og:locale" content="ps_AF">
+  <meta property="og:image" content="https://ghazali-herbs.ghazalikhazana.workers.dev/icon-512.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="د غزالي خزانه آیکن">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="غزالي خزانه">
+  <meta name="twitter:image" content="https://ghazali-herbs.ghazalikhazana.workers.dev/icon-512.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <script>
+    /* Opened from the home screen: go straight to the app. */
+    if ((window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true) { location.replace('app.html'); }
+  </script>
 
-/* sections */
-section{padding:64px 0}
-h2{font-size:clamp(28px,4.4vw,38px);line-height:1.6;margin:0 0 24px;font-weight:700}
-.features{background:var(--mint)}
-.feat-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:0 48px}
-.feat-list li{padding:20px 0;border-top:2px solid var(--line)}
-.feat-list b{display:block;font-size:21px;line-height:1.7}
-.feat-list span{color:var(--stone)}
-.about p{max-width:36em;margin:0 0 16px;color:var(--stone)}
+  <!-- Google Fonts: Vazirmatn for crisp, legible Pashto/Arabic typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-/* donut */
-.chart{background:var(--mint)}
-.chart[hidden]{display:none}
-.donut-box{display:grid;grid-template-columns:minmax(240px,340px) 1fr;gap:40px;align-items:center}
-.donut{position:relative;width:100%;max-width:340px;aspect-ratio:1;justify-self:center}
-.donut svg{width:100%;height:100%;display:block;transform:rotate(-90deg)}
-.donut circle{fill:none;stroke-width:26;transition:opacity .2s,stroke-width .2s}
-.donut .seg{stroke-dashoffset:0;cursor:pointer}
-.donut.dim .seg{opacity:.35}
-.donut.dim .seg.on{opacity:1;stroke-width:31}
-.donut-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
-.donut-mid b{font-size:clamp(40px,8vw,56px);line-height:1.2}
-.donut-mid span{font-size:16px;color:var(--stone);max-width:8em;line-height:1.5}
-.legend{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}
-.legend button{font:inherit;width:100%;display:flex;align-items:center;gap:10px;background:none;border:0;border-radius:10px;padding:6px 8px;cursor:pointer;color:var(--ink);text-align:start}
-.legend button:hover,.legend button.on{background:#dfeadf}
-.legend i{width:14px;height:14px;border-radius:50%;flex:none}
-.legend em{font-style:normal;margin-inline-start:auto;color:var(--stone);font-variant-numeric:tabular-nums}
-.chart .cap{color:var(--stone);margin:-12px 0 28px;max-width:36em}
-@media (max-width:760px){.donut-box{grid-template-columns:1fr}.legend{grid-template-columns:1fr}}
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            forest: {
+              900: '#1B4332',
+              800: '#23533E',
+              700: '#2D6A4F',
+              600: '#3B8261',
+              100: '#E8F3EC',
+              50: '#F4F7F4',
+            },
+            parchment: '#FBFBF8',
+            gold: {
+              500: '#C89B3C',
+              400: '#D9B15B',
+              100: '#FBF5E6',
+            },
+            whatsapp: '#25D366',
+          },
+          boxShadow: {
+            soft: '0 10px 30px -10px rgba(27, 67, 50, 0.08)',
+            card: '0 4px 20px -2px rgba(27, 67, 50, 0.06)',
+            phone: '0 25px 50px -12px rgba(27, 67, 50, 0.25)',
+          }
+        }
+      }
+    };
+  </script>
 
-/* library */
-.lib{background:var(--paper)}
-.lib[hidden]{display:none}
-.lib-tools{display:flex;gap:12px;margin:0 0 20px}
-.lib-tools input{font:inherit;flex:1;min-height:52px;border:2px solid var(--line);border-radius:14px;padding:0 16px;background:#fff;color:var(--ink)}
-.lib-tools input:focus-visible{border-color:var(--leaf)}
-.plist{list-style:none;margin:0;padding:0;border-top:2px solid var(--line)}
-.plist details{border-bottom:2px solid var(--line)}
-.plist summary{list-style:none;display:flex;align-items:center;gap:14px;padding:14px 4px;cursor:pointer}
-.plist summary::-webkit-details-marker{display:none}
-.plist summary:hover{background:var(--mint)}
-.plist .th{width:52px;height:52px;border-radius:12px;background:var(--mint);flex:none;object-fit:cover}
-.plist .nm{font-weight:700;font-size:20px;line-height:1.6;display:block}
-.plist .sub{font-size:15px;color:var(--stone);line-height:1.6;display:block}
-.plist .tag{margin-inline-start:auto;font-size:14px;color:var(--leaf);white-space:nowrap}
-.plist .body{padding:4px 4px 20px;color:var(--stone)}
-.plist .body p{margin:0 0 8px;max-width:38em}
-.plist .body b{color:var(--ink)}
-.plist .warn{color:#8a3b12}
-.lib-more{margin-top:20px;display:flex;justify-content:center}
-.lib-more .btn{background:var(--ink);color:#f3f8f3;width:auto}
-.lib-empty{color:var(--stone);padding:16px 4px}
-.install{background:var(--ink);color:#f3f8f3}
-.install h2{color:#fff}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.cols h3{margin:0 0 8px;font-size:22px;color:var(--saffron)}
-.cols ol{margin:0;padding-inline-start:24px;color:#d4e4d8}
-.cols li{margin-bottom:6px}
-.hl{outline:3px solid var(--saffron);outline-offset:14px;border-radius:4px}
-footer{padding:36px 0 48px;color:var(--stone);font-size:16px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
-
-@media (max-width:760px){
-  .hero .wrap{grid-template-columns:1fr;min-height:0}
-  .sprig{max-width:230px;order:-1}
-  .feat-list,.cols{grid-template-columns:1fr}
-  .btn{width:100%}
-  section{padding:48px 0}
-}
-@media (prefers-reduced-motion:reduce){
-  .sprig .stem{animation:none;stroke-dashoffset:0}
-  .sprig use{animation:none;opacity:1}
-}
-</style>
-</head>
-<body>
-
-<header class="hero">
-  <div class="wrap">
-    <div>
-      <div class="brand"><img src="icon-192.png" alt="" width="48" height="48"><span>غزالي خزانه</span></div>
-      <h1>د طبي بوټو کتابتون په خپل تلیفون کې</h1>
-      <p class="lead">د تاج المفردات پر بنسټ جوړ سوی ایپ. بوټی په عکس وپېژنئ، او د افغانستان د طبي بوټو معلومات په پښتو ولولئ.</p>
-      <div class="actions">
-        <button class="btn btn-main" id="installBtn" type="button">ایپ نصب کړئ</button>
-        <a class="btn btn-ghost" href="app.html">په براوزر کې یې خلاص کړئ</a>
-      </div>
-      <p class="note" id="installNote" role="status" aria-live="polite"></p>
-    </div>
-
-    <svg class="sprig" viewBox="0 0 240 360" role="img" aria-label="د بوټي څانګه">
-      <defs>
-        <path id="leaf" d="M0 0 C16 -16 46 -16 64 0 C46 16 16 16 0 0Z"/>
-        <circle id="berry" r="9"/>
-      </defs>
-      <path class="stem" d="M120 345 C116 270 126 200 118 130 C113 85 122 50 126 22"/>
-      <use href="#leaf" transform="translate(119 290) rotate(-28)" style="animation-delay:.7s"/>
-      <use href="#leaf" transform="translate(119 290) rotate(208) scale(1,-1)" style="animation-delay:.8s"/>
-      <use href="#leaf" transform="translate(121 235) rotate(-32) scale(.9)" style="animation-delay:.95s"/>
-      <use href="#leaf" transform="translate(121 235) rotate(212) scale(.9,-.9)" style="animation-delay:1.05s"/>
-      <use href="#leaf" transform="translate(121 180) rotate(-36) scale(.8)" style="animation-delay:1.2s"/>
-      <use href="#leaf" transform="translate(121 180) rotate(216) scale(.8,-.8)" style="animation-delay:1.3s"/>
-      <use href="#leaf" transform="translate(118 125) rotate(-40) scale(.68)" style="animation-delay:1.45s"/>
-      <use href="#leaf" transform="translate(118 125) rotate(220) scale(.68,-.68)" style="animation-delay:1.55s"/>
-      <use href="#berry" class="fruit" transform="translate(112 70)" style="animation-delay:1.8s"/>
-      <use href="#berry" class="fruit" transform="translate(132 52)" style="animation-delay:1.9s"/>
-    </svg>
-  </div>
-</header>
-
-<main>
-  <section class="features" aria-labelledby="h-feat">
-    <div class="wrap">
-      <h2 id="h-feat">ایپ څه کوي</h2>
-      <ul class="feat-list">
-        <li><b>په عکس بوټی پېژني</b><span>د بوټي پاڼه، ګل یا مېوه عکس کړئ، او ایپ د مصنوعي ځیرکتیا په مرسته نوم وړاندیز کوي.</span></li>
-        <li><b>د افغانستان طبي بوټي (<span class="js-count"></span>)</b><span>د هر ولایت په لټه کې بوټي وګورئ، چې د ولایت نوم او د بوټو شمېر ښیي.</span></li>
-        <li><b>د تاج المفردات معلومات</b><span>د حکیم نصیر احمد طارق د کتاب مفردات، چې په پښتو کې وړاندې کېږي.</span></li>
-        <li><b>په څلورو ژبو</b><span>پښتو، دري، اردو او انګلیسي. ژبه هر وخت له ایپ کې بدلېدای سي.</span></li>
-        <li><b>پرته له انټرنېټه</b><span>یو ځل چې ایپ پرانیستل سي، خوندي سوي معلومات د انټرنېټ پرته هم کارېږي.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="about" aria-labelledby="h-about">
-    <div class="wrap">
-      <h2 id="h-about">د ایپ په اړه</h2>
-      <p>«غزالي خزانه» د دودیزو طبي بوټو یو علمي کتابتون دی. هدف دا دی چې د بوټو پېژندنه، نومونه او کارونې په اسانه ډول په پښتو کې ولوستل سي.</p>
-      <p>په ایپ کې ځینې معلومات لا بشپړېږي، او نوي بوټي او عکسونه په پرله‌پسې ډول ورزیاتېږي.</p>
-    </div>
-  </section>
-
-  <section class="chart" id="chartSection" aria-labelledby="h-chart">
-    <div class="wrap">
-      <h2 id="h-chart">بوټي د ولایتونو له مخې</h2>
-      <p class="cap">د افغانستان <span class="js-count"></span> طبي بوټي، هغه ولایتونه چې په ډېرو بوټو کې یادېږي. یو بوټی کېدای سي په څو ولایتونو کې وي، نو د ولایتونو شمېرې سره جمع د بوټو شمېرې سره نه برابرېږي. <span id="noProv"></span></p>
-      <div class="donut-box">
-        <div class="donut" id="donut">
-          <svg viewBox="0 0 200 200" id="donutSvg" role="img" aria-label="د بوټو ویش د ولایتونو له مخې"></svg>
-          <div class="donut-mid"><b id="dNum"></b><span id="dLbl">ټول بوټي</span></div>
-        </div>
-        <ul class="legend" id="legend"></ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="lib" id="libSection" aria-labelledby="h-lib" hidden>
-    <div class="wrap">
-      <h2 id="h-lib">د بوټو کتابتون</h2>
-      <div class="lib-tools"><input type="search" id="libQ" placeholder="د بوټي نوم ولټوئ" aria-label="د بوټي نوم ولټوئ" autocomplete="off"></div>
-      <ul class="plist" id="plist"></ul>
-      <p class="lib-empty" id="libEmpty" hidden>داسې بوټی ونه موندل سو.</p>
-      <div class="lib-more"><button class="btn" id="libMore" type="button" hidden>نور بوټي وښایاست</button></div>
-    </div>
-  </section>
-
-  <section class="install" id="install" aria-labelledby="h-install">
-    <div class="wrap">
-      <h2 id="h-install">څنګه یې نصب کړم</h2>
-      <div class="cols">
-        <div id="stepsAndroid">
-          <h3>اندروید</h3>
-          <ol>
-            <li>پورته «ایپ نصب کړئ» تڼۍ ووهئ.</li>
-            <li>په پیغام کې «Install» ووهئ.</li>
-            <li>آیکن به ستاسو د تلیفون په کور پاڼه کې راسي.</li>
-          </ol>
-        </div>
-        <div id="stepsIos">
-          <h3>آیفون</h3>
-          <ol>
-            <li>دا پاڼه په Safari کې پرانیزئ.</li>
-            <li>د «Share» تڼۍ ووهئ (څلور‌کنج چې غشی پکې دی).</li>
-            <li>«Add to Home Screen» وټاکئ، بیا «Add» ووهئ.</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>غزالي خزانه</span>
-    <a href="https://wa.me/93704689338">نظر یا ستونزه په واټس‌اپ ولیکئ</a>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
-  // Opened from the home screen: go straight to the app.
-  if (standalone) { location.replace('app.html'); return; }
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
-  }
-
-  var btn = document.getElementById('installBtn');
-  var note = document.getElementById('installNote');
-  var deferred = null;
-  var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
-  window.addEventListener('appinstalled', function(){
-    deferred = null;
-    btn.hidden = true;
-    note.textContent = 'ایپ نصب سو. د تلیفون په کور پاڼه کې یې ومومئ.';
-  });
-
-  function showSteps(id, text){
-    note.textContent = text;
-    var el = document.getElementById(id);
-    el.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'center'});
-    el.classList.add('hl');
-    setTimeout(function(){ el.classList.remove('hl'); }, 2500);
-  }
-
-  btn.addEventListener('click', function(){
-    if (deferred) {
-      deferred.prompt();
-      deferred.userChoice.finally(function(){ deferred = null; });
-    } else if (isIos) {
-      showSteps('stepsIos', 'په آیفون کې لاندې درې ګامونه وکاروئ.');
-    } else {
-      showSteps('stepsAndroid', 'که پیغام رانغی، د براوزر مینو (⋮) کې «Install app» یا «Add to Home screen» وټاکئ.');
+  <style>
+    body {
+      font-family: 'Vazirmatn', system-ui, sans-serif;
+      background-color: #FBFBF8;
+      color: #1A2420;
     }
-  });
-})();
 
-(function(){
-  var COLORS=['#2f7d5b','#d99a1c','#6fb08a','#12372a','#b8741a','#9bc4ad','#8a9c3f','#5b7a6a','#c9d6c4'];
-  var MAX=8; // biggest groups shown separately, the rest become "نور"
-  var fa=function(n){return String(n).replace(/\d/g,function(d){return '\u06F0\u06F1\u06F2\u06F3\u06F4\u06F5\u06F6\u06F7\u06F8\u06F9'[d]})};
-  var section=document.getElementById('chartSection');
+    /* Subtle animated AI scan line */
+    @keyframes scanMove {
+      0%, 100% {
+        top: 12%;
+        opacity: 0.35;
+      }
+      50% {
+        top: 84%;
+        opacity: 1;
+      }
+    }
 
-  // The same file the app reads: add or remove plants there and this page follows.
-  window.GK_PLANTS=fetch('ghazali_all_100_plants_final.json').then(function(r){if(!r.ok)throw 0;return r.json()});
-  GK_PLANTS.then(build).catch(function(){section.hidden=true});
+    .scan-line {
+      animation: scanMove 2.8s ease-in-out infinite;
+    }
 
-  var PROV=['کابل','کندهار','هرات','بلخ','ننګرهار','کندز|کندوز','بدخشان','بامیان','غور','بادغیس','پکتیا','پکتیکا','خوست','لغمان',
-    'کنړ','نورستان','تخار','بغلان','سمنګان','پروان','کاپیسا','پنجشېر','میدان وردګ','لوګر','غزني','زابل','ارزګان','هلمند','نیمروز',
-    'فراه','فاریاب','جوزجان','سرپل','دایکندي'];
-  function provincesOf(p){
-    var t=String(p.location_ps||'');
-    return PROV.filter(function(n){return n.split('|').some(function(v){return t.indexOf(v)>-1})}).map(function(n){return n.split('|')[0]});
-  }
+    /* Quick pulse when switching herbs in AI demo */
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  function build(plants){
-    if(!Array.isArray(plants)||!plants.length){section.hidden=true;return}
-    var total=plants.length;
-    [].forEach.call(document.querySelectorAll('.js-count'),function(el){el.textContent=fa(total)});
-    var map={};plants.forEach(function(p){provincesOf(p).forEach(function(k){map[k]=(map[k]||0)+1})});
-    var rows=Object.keys(map).map(function(k){return [k,map[k]]}).sort(function(a,b){return b[1]-a[1]});
-    if(!rows.length){section.hidden=true;return}
-    var none=plants.filter(function(p){return !provincesOf(p).length}).length;
-    if(none)document.getElementById('noProv').textContent='ځینې بوټي ('+fa(none)+') ټاکلی ولایت نه لري (لکه «غرنۍ سیمې»)، نو دلته نه شمېرل کېږي.';
-    var data=rows.slice(0,MAX),rest=rows.slice(MAX).reduce(function(a,r){return a+r[1]},0);
-    if(rest)data.push(['نور ولایتونه',rest]);
-    var sum=data.reduce(function(a,d){return a+d[1]},0);
-    data.forEach(function(d,i){d[2]=COLORS[i%COLORS.length]});
+    .hl { box-shadow: 0 0 0 3px #D9B15B, 0 10px 30px -10px rgba(27, 67, 50, 0.25); }
 
-    var svg=document.getElementById('donutSvg'),box=document.getElementById('donut'),
-        num=document.getElementById('dNum'),lbl=document.getElementById('dLbl'),list=document.getElementById('legend');
-    num.textContent=fa(total);
-    var R=80,C=2*Math.PI*R,acc=0,segs=[],btns=[],NS='http://www.w3.org/2000/svg';
-    data.forEach(function(d,i){
-      var len=C*d[1]/sum,c=document.createElementNS(NS,'circle');
-      c.setAttribute('cx',100);c.setAttribute('cy',100);c.setAttribute('r',R);
-      c.setAttribute('class','seg');c.setAttribute('stroke',d[2]);
-      c.setAttribute('stroke-dasharray','0 '+C);
-      c.style.transitionProperty='stroke-dasharray,opacity,stroke-width';c.style.transitionDuration='.9s,.2s,.2s';
-      c.style.transitionDelay=(i*0.08)+'s,0s,0s';
-      c.setAttribute('transform','rotate('+(acc/sum*360)+' 100 100)');
-      c.dataset.len=Math.max(len-1.5,0.5);
-      svg.appendChild(c);segs.push(c);acc+=d[1];
-      var li=document.createElement('li'),b=document.createElement('button');
-      b.type='button';
-      var dot=document.createElement('i');dot.style.background=d[2];
-      var em=document.createElement('em');em.textContent=fa(d[1]);
-      b.appendChild(dot);b.appendChild(document.createTextNode(d[0]));b.appendChild(em);
-      li.appendChild(b);list.appendChild(li);btns.push(b);
-      function on(){segs.forEach(function(s,k){s.classList.toggle('on',k===i);btns[k].classList.toggle('on',k===i)});
-        box.classList.add('dim');num.textContent=fa(d[1]);lbl.textContent=d[0]}
-      function off(){segs.forEach(function(s,k){s.classList.remove('on');btns[k].classList.remove('on')});
-        box.classList.remove('dim');num.textContent=fa(total);lbl.textContent='ټول بوټي'}
-      [c,b].forEach(function(el){el.addEventListener('mouseenter',on);el.addEventListener('mouseleave',off)});
-      b.addEventListener('focus',on);b.addEventListener('blur',off);
-      c.addEventListener('click',on);
+    .fade-in-up {
+      animation: fadeSlideIn 0.35s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-parchment text-[#1A2420] antialiased selection:bg-forest-100 selection:text-forest-900 overflow-x-hidden">
+
+  <!-- =========================================================
+       1. NAVIGATION BAR (Sticky, minimal, responsive)
+       ========================================================= -->
+  <header class="sticky top-0 z-40 bg-parchment/90 backdrop-blur-md border-b border-forest-900/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-2.5 group">
+          <img src="icon-192.png" alt="" width="40" height="40" class="w-10 h-10 rounded-xl shadow-sm object-cover" />
+          <span class="text-lg sm:text-xl font-extrabold text-forest-900 tracking-tight">غزالي خزانه</span>
+        </a>
+
+        <!-- Desktop Anchor Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-forest-900/80" aria-label="اصلي مینو">
+          <a href="#features" class="hover:text-forest-900 transition-colors">ځانګړتیاوې</a>
+          <a href="#samples" class="hover:text-forest-900 transition-colors">نمونې</a>
+          <a href="#provinces" class="hover:text-forest-900 transition-colors">ولایتونه</a>
+          <a href="#install" class="hover:text-forest-900 transition-colors">نصبول</a>
+        </nav>
+
+        <!-- Action CTA + Mobile Menu Toggle -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a
+            href="app.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-forest-900 text-white text-sm font-semibold hover:bg-forest-700 transition-all shadow-sm"
+          >
+            ایپ پرانیزئ
+          </a>
+          <button
+            id="mobileMenuBtn"
+            type="button"
+            class="md:hidden p-2.5 rounded-xl text-forest-900 hover:bg-forest-100 transition-colors"
+            aria-label="مینو پرانیستل"
+            aria-expanded="false"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-forest-900/10">
+        <nav class="flex flex-col gap-1 text-sm font-medium text-forest-900">
+          <a href="#features" class="mobile-nav-link px-3 py-2.5 rounded-xl hover:bg-forest-100 transition-colors">ځانګړتیاوې</a>
+          <a href="#samples" class="mobile-nav-link px-3 py-2.5 rounded-xl hover:bg-forest-100 transition-colors">نمونې</a>
+          <a href="#provinces" class="mobile-nav-link px-3 py-2.5 rounded-xl hover:bg-forest-100 transition-colors">ولایتونه</a>
+          <a href="#install" class="mobile-nav-link px-3 py-2.5 rounded-xl hover:bg-forest-100 transition-colors">نصبول</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================================
+         2. HERO SECTION (2-col on desktop: text right, phone left)
+         ========================================================= -->
+    <section class="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
+      <!-- Subtle decorative background glow -->
+      <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-forest-100/70 blur-3xl"></div>
+      <div class="pointer-events-none absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gold-100/60 blur-3xl"></div>
+
+      <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+
+          <!-- Right Column (RTL Start): Text & CTAs -->
+          <div class="lg:col-span-7 text-center lg:text-right">
+            <!-- Brand Eyebrow Pill -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-forest-100 border border-forest-700/15 text-forest-900 text-xs sm:text-sm font-semibold mb-6">
+              <span class="w-2 h-2 rounded-full bg-gold-500"></span>
+              <span>د دودیز او عصري طب پر بنسټ</span>
+            </div>
+
+            <!-- Main H1 -->
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-forest-900 leading-[1.35] tracking-tight mb-5">
+              د طبي بوټو علمي مرکز ستاسو په موبایل کې
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-base sm:text-lg text-[#3E4E46] leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
+              د دودیز او عصري طب د معتبرو سرچینو پر بنسټ جوړ شوی ایپ. د هر بوټي عکس واخلئ، نوم یې وپېژنئ او د افغانستان د طبي بوټو کره علمي معلومات په پښتو ولولئ.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 mb-7">
+              <a
+                id="installBtn"
+                href="#install"
+                class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-forest-900 text-white font-bold text-base hover:bg-forest-700 transition-all shadow-soft hover:-translate-y-0.5"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 10l5 5 5-5M12 15V3" />
+                </svg>
+                <span>ایپ نصب کړئ</span>
+              </a>
+              <a
+                href="app.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-white text-forest-900 font-bold text-base border border-forest-900/20 hover:border-forest-700 hover:bg-forest-50 transition-all"
+              >
+                <span>په براوزر کې یې پرانیزئ</span>
+                <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+
+            <p id="installNote" role="status" aria-live="polite" class="empty:hidden text-sm font-medium text-forest-800 mb-5"></p>
+
+            <!-- Quick Badges Row -->
+            <div class="inline-flex flex-wrap items-center justify-center lg:justify-start gap-x-3 gap-y-2 text-xs sm:text-sm font-medium text-forest-800 bg-white/80 border border-forest-900/10 rounded-2xl px-4 py-2.5 shadow-sm">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-forest-700"></span>
+                ۱۰۰٪ وړیا
+              </span>
+              <span class="text-gold-500">•</span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-forest-700"></span>
+                پرته له انټرنېټه
+              </span>
+              <span class="text-gold-500">•</span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-forest-700"></span>
+                ۴ ژبې
+              </span>
+            </div>
+          </div>
+
+          <!-- Left Column (RTL End): Realistic CSS Phone Mockup -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-[300px] sm:max-w-[320px]">
+              <!-- Outer Phone Frame -->
+              <div class="rounded-[2.75rem] bg-[#13221B] p-3 shadow-phone border-[3px] border-[#263C31]">
+                <!-- Notch -->
+                <div class="w-28 h-5 bg-[#13221B] rounded-b-2xl mx-auto absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center justify-center">
+                  <span class="w-10 h-1 rounded-full bg-white/15"></span>
+                </div>
+
+                <!-- Inner App Screen -->
+                <div class="bg-parchment rounded-[2.1rem] overflow-hidden pt-7 pb-3 px-4 border border-white/10">
+                  <!-- Mini App Header -->
+                  <div class="flex items-center justify-between mb-3.5">
+                    <div class="flex items-center gap-2">
+                      <img src="icon-192.png" alt="" width="28" height="28" class="w-7 h-7 rounded-lg shadow-sm object-cover" />
+                      <span class="text-xs font-extrabold text-forest-900">غزالي خزانه</span>
+                    </div>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gold-100 text-forest-900 border border-gold-500/30">دودیز او عصري طب</span>
+                  </div>
+
+                  <!-- Language Pills -->
+                  <div class="flex items-center gap-1.5 mb-3 text-[10px] font-semibold">
+                    <span class="px-2.5 py-1 rounded-lg bg-forest-900 text-white">پښتو</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-forest-50 text-forest-900/70 border border-forest-900/10">دري</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-forest-50 text-forest-900/70 border border-forest-900/10">اردو</span>
+                    <span class="px-2 py-1 rounded-lg bg-forest-50 text-forest-900/70 border border-forest-900/10">EN</span>
+                  </div>
+
+                  <!-- Green AI Camera Scan Button -->
+                  <a
+                    href="#ai-demo"
+                    class="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-gradient-to-l from-forest-900 to-forest-700 text-white text-xs font-bold shadow-sm mb-3.5 hover:opacity-95 transition-opacity"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 0 1 2-2h2l1.5-2h7L17 7h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
+                      <circle cx="12" cy="13" r="3" />
+                    </svg>
+                    <span>په عکس بوټی وپېژنئ</span>
+                  </a>
+
+                  <!-- Scanned Herb Card Inside Phone -->
+                  <div class="bg-white rounded-2xl p-3.5 border border-forest-900/10 shadow-card">
+                    <div class="flex items-start gap-2.5">
+                      <div class="w-11 h-11 rounded-xl bg-forest-100 flex items-center justify-center shrink-0 text-forest-700">
+                        <!-- Mint Leaf Illustration -->
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 22v-9" />
+                          <path d="M12 13C7 13 4 9.5 4 5c4.5 0 8 3 8 8Z" />
+                          <path d="M12 13c5 0 8-3.5 8-8-4.5 0-8 3-8 8Z" />
+                        </svg>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-1">
+                          <h3 class="text-xs font-extrabold text-forest-900 truncate">نعنا / پودینه</h3>
+                          <span class="text-[9px] px-1.5 py-0.5 rounded-md bg-gold-100 text-forest-900 font-semibold shrink-0">ګرم او وچ</span>
+                        </div>
+                        <p class="text-[10px] text-[#5B6B63] italic mb-1.5" dir="ltr" style="text-align: right;">Mentha piperita</p>
+                        <p class="text-[10px] text-forest-800 font-semibold">مزاج: ګرم او وچ</p>
+                      </div>
+                    </div>
+
+                    <!-- Traditional & Modern Medicine Summary Tags -->
+                    <div class="mt-3 space-y-1.5 pt-2.5 border-t border-forest-900/10 text-[10px]">
+                      <div class="flex items-center gap-1.5">
+                        <span class="px-1.5 py-0.5 rounded bg-forest-100 text-forest-900 font-bold shrink-0">دودیز طب</span>
+                        <span class="text-[#4C5C54] truncate">د معدې او هاضمې پیاوړتیا</span>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="px-1.5 py-0.5 rounded bg-gold-100 text-forest-900 font-bold shrink-0">عصري طب</span>
+                        <span class="text-[#4C5C54] truncate">مېنتول؛ د ګېډې آراموونکی</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom App Navigation Icons -->
+                  <div class="mt-3.5 pt-2.5 border-t border-forest-900/10 flex items-center justify-around text-forest-900/50">
+                    <span class="flex flex-col items-center gap-0.5 text-forest-900">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3 10 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+                      <span class="text-[8px] font-bold">اصلي</span>
+                    </span>
+                    <span class="flex flex-col items-center gap-0.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 0 1 2-2h2l1.5-2h7L17 7h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><circle cx="12" cy="13" r="2.5"/></svg>
+                      <span class="text-[8px] font-medium">سکین</span>
+                    </span>
+                    <span class="flex flex-col items-center gap-0.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+                      <span class="text-[8px] font-medium">ولایتونه</span>
+                    </span>
+                    <span class="flex flex-col items-center gap-0.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>
+                      <span class="text-[8px] font-medium">ژبې</span>
+                    </span>
+                  </div>
+
+                  <!-- Bottom Indicator -->
+                  <div class="mt-2.5 flex justify-center">
+                    <span class="w-20 h-1 rounded-full bg-forest-900/20"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         3. INTERACTIVE AI FEATURE VISUAL CARD
+         ========================================================= -->
+    <section id="ai-demo" class="py-14 sm:py-20 bg-forest-50/80 border-y border-forest-900/5">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Heading -->
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+          <span class="inline-block text-xs font-bold text-gold-500 bg-gold-100 px-3 py-1 rounded-full mb-3">
+            مصنوعي ځیرکتیا (AI)
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-3">
+            یوازې عکس واخلئ، پاتې کار ایپ کوي
+          </h2>
+          <p class="text-sm sm:text-base text-[#46574F]">
+            د مصنوعي ځیرکتیا (AI) له لارې د بوټو پېژندنه وازمویئ — لاندې یو بوټی وټاکئ:
+          </p>
+        </div>
+
+        <!-- Interactive Herb Switcher Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5 mb-7" role="tablist" aria-label="د بېلګې بوټي">
+          <button
+            type="button"
+            data-herb="mint"
+            class="ai-switcher-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-forest-900 text-white shadow-sm"
+          >
+            نعنا (پودینه)
+          </button>
+          <button
+            type="button"
+            data-herb="chamomile"
+            class="ai-switcher-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-forest-900 border border-forest-900/15 hover:bg-forest-100"
+          >
+            بابونه
+          </button>
+          <button
+            type="button"
+            data-herb="harmala"
+            class="ai-switcher-btn px-5 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-forest-900 border border-forest-900/15 hover:bg-forest-100"
+          >
+            سپېلني
+          </button>
+        </div>
+
+        <!-- Split Interactive Card -->
+        <div class="bg-white rounded-3xl border border-forest-900/10 shadow-soft overflow-hidden">
+          <div class="grid grid-cols-1 md:grid-cols-2">
+
+            <!-- Right Side (RTL Start): Stylized Camera Viewfinder -->
+            <div class="relative bg-forest-900 text-white p-6 sm:p-8 flex flex-col items-center justify-center min-h-[290px] overflow-hidden">
+              <!-- AI Badge -->
+              <div class="absolute top-4 right-4 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 text-xs font-semibold text-gold-100">
+                <span class="w-2 h-2 rounded-full bg-whatsapp animate-pulse"></span>
+                <span>مصنوعي ځیرکتیا (AI)</span>
+              </div>
+
+              <!-- Viewfinder Frame -->
+              <div class="relative w-44 h-44 sm:w-52 sm:h-52 flex items-center justify-center">
+                <!-- Corner Brackets -->
+                <span class="absolute top-0 right-0 w-7 h-7 border-t-[3px] border-r-[3px] border-gold-400 rounded-tr-xl"></span>
+                <span class="absolute top-0 left-0 w-7 h-7 border-t-[3px] border-l-[3px] border-gold-400 rounded-tl-xl"></span>
+                <span class="absolute bottom-0 right-0 w-7 h-7 border-b-[3px] border-r-[3px] border-gold-400 rounded-br-xl"></span>
+                <span class="absolute bottom-0 left-0 w-7 h-7 border-b-[3px] border-l-[3px] border-gold-400 rounded-bl-xl"></span>
+
+                <!-- Animated Scan Line -->
+                <div class="scan-line absolute left-2 right-2 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent shadow-[0_0_12px_#D9B15B] z-10"></div>
+
+                <!-- Dynamic Botanical SVG Illustration -->
+                <div id="aiHerbSvg" class="w-28 h-28 sm:w-32 sm:h-32 text-forest-100 flex items-center justify-center transition-all duration-300">
+                  <!-- Populated by JS -->
+                </div>
+              </div>
+
+              <div class="mt-5 flex flex-col items-center gap-2.5">
+                <p id="aiScanStatus" class="text-xs text-forest-100/80 font-medium">
+                  بوټی په بریالیتوب سره وپېژندل شو
+                </p>
+                <button
+                  id="rescanBtn"
+                  type="button"
+                  class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 transition-all"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6" />
+                  </svg>
+                  <span>بیا سکین کړئ</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Left Side (RTL End): Instant AI Result Card -->
+            <div class="p-6 sm:p-8 flex flex-col justify-center bg-white">
+              <div id="aiResultContent" class="space-y-4 fade-in-up">
+                <div class="flex items-center justify-between gap-2 pb-3 border-b border-forest-900/10">
+                  <span class="text-xs font-bold text-forest-700 bg-forest-100 px-3 py-1 rounded-full">د پېژندنې پایله</span>
+                  <span class="text-xs font-bold text-forest-900 flex items-center gap-1.5">
+                    <span class="text-[#56665E] font-medium">د پېژندنې دقت:</span>
+                    <span id="aiAccuracy" class="px-2 py-0.5 rounded-lg bg-gold-100 text-forest-900 font-extrabold">۹۸٪</span>
+                  </span>
+                </div>
+
+                <!-- Herb Name & Scientific Name -->
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                  <div>
+                    <span class="block text-xs font-semibold text-[#5B6B63] mb-1">نوم</span>
+                    <h3 id="aiHerbName" class="text-xl sm:text-2xl font-extrabold text-forest-900">
+                      نعنا (پودینه)
+                    </h3>
+                  </div>
+                  <div class="text-left">
+                    <span class="block text-[11px] font-semibold text-[#5B6B63] mb-0.5 text-right sm:text-left">علمي نوم</span>
+                    <span id="aiHerbScientific" class="text-sm font-semibold italic text-forest-700" dir="ltr">
+                      Mentha piperita
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Temperament (Traditional Medicine) -->
+                <div class="flex items-center justify-between gap-3 bg-forest-50 rounded-2xl px-4 py-3 border border-forest-900/5">
+                  <span class="text-xs font-bold text-forest-800">مزاج (دودیز طب):</span>
+                  <span id="aiHerbTemp" class="text-sm font-extrabold text-forest-900">ګرم او وچ</span>
+                </div>
+
+                <!-- Scientific Benefit (Modern Medicine) -->
+                <div class="bg-gold-100/50 rounded-2xl px-4 py-3.5 border border-gold-500/20">
+                  <span class="block text-xs font-bold text-forest-900 mb-1">علمي ګټه (عصري طب):</span>
+                  <p id="aiHerbBenefit" class="text-sm sm:text-base text-[#2D3D35] leading-relaxed font-medium">
+                    د مېنتول درلودو له امله د هاضمې سیسټم آراموي او د معدې انقباض کموي.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         4. FEATURES SECTION (5-card responsive grid)
+         ========================================================= -->
+    <section id="features" class="py-16 sm:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-3">
+            د ایپ ځانګړتیاوې
+          </h2>
+          <p class="text-sm sm:text-base text-[#4A5B53]">
+            ټول هغه څه چې د طبي بوټو د سمې پېژندنې او علمي مطالعې لپاره ورته اړتیا لرئ
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Feature 1 -->
+          <article class="bg-white rounded-3xl p-6 sm:p-7 border border-forest-900/10 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-forest-100 text-forest-900 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 0 1 2-2h2l1.5-2h7L17 7h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
+                <circle cx="12" cy="13" r="3" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-forest-900 mb-2.5">په عکس سره د بوټو پېژندنه</h3>
+            <p class="text-sm text-[#4A5B53] leading-relaxed">
+              د بوټي د پاڼې، ګل یا مېوې عکس واخلئ؛ ایپ د مصنوعي ځیرکتیا په مرسته سملاسي د بوټي نوم درته وړاندیز کوي.
+            </p>
+          </article>
+
+          <!-- Feature 2 -->
+          <article class="bg-white rounded-3xl p-6 sm:p-7 border border-forest-900/10 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-forest-100 text-forest-900 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10Z" />
+                <circle cx="12" cy="11" r="2.2" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-forest-900 mb-2.5">د افغانستان طبي بوټي</h3>
+            <p class="text-sm text-[#4A5B53] leading-relaxed">
+              بوټي د ولایتونو له مخې وګورئ؛ د هر ولایت نوم او هلته موندل کېدونکو بوټو شمېر په اسانۍ وڅارئ.
+            </p>
+          </article>
+
+          <!-- Feature 3 -->
+          <article class="bg-white rounded-3xl p-6 sm:p-7 border border-forest-900/10 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-gold-100 text-forest-900 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-forest-900 mb-2.5">د دودیز او عصري طب کره معلومات</h3>
+            <p class="text-sm text-[#4A5B53] leading-relaxed">
+              د بوټو پېژندنه، مزاج، علمي ځانګړتیاوې او طبي کارونې د دودیز او عصري طب د معتبرو سرچینو له مخې په روانه پښتو ژبه.
+            </p>
+          </article>
+
+          <!-- Feature 4 -->
+          <article class="bg-white rounded-3xl p-6 sm:p-7 border border-forest-900/10 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-forest-100 text-forest-900 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-forest-900 mb-2.5">په څلورو ژبو کې</h3>
+            <p class="text-sm text-[#4A5B53] leading-relaxed">
+              پښتو، دري، اردو او انګلیسي. تاسو کولای شئ هر وخت په ایپ کې دننه ژبه بدله کړئ.
+            </p>
+          </article>
+
+          <!-- Feature 5 -->
+          <article class="bg-white rounded-3xl p-6 sm:p-7 border border-forest-900/10 shadow-card hover:shadow-soft hover:-translate-y-1 transition-all md:col-span-2 lg:col-span-2">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+              <div class="w-12 h-12 rounded-2xl bg-forest-100 text-forest-900 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2 8.82a15 15 0 0 1 20 0M5 12.86a10 10 0 0 1 14 0M8.5 16.43a5 5 0 0 1 7 0M12 20h.01" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-forest-900 mb-2">پرته له انټرنېټه کار کوي</h3>
+                <p class="text-sm text-[#4A5B53] leading-relaxed">
+                  یو ځل چې ایپ پرانیستل شي، خوندي شوي معلومات پرته له انټرنېټه هم هر ځای کارول کېږي.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         5. SAMPLE HERBS PREVIEW (3 Interactive Cards + Modal)
+         ========================================================= -->
+    <section id="samples" class="py-14 sm:py-20 bg-forest-50/70 border-y border-forest-900/5">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-3">
+            د مشهورو بوټو نمونې
+          </h2>
+          <p class="text-sm sm:text-base text-[#4A5B53]">
+            مخکې له نصبولو د دودیز او عصري طب د معلوماتو بڼه وګورئ — پر هر کارت کلیک وکړئ
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Sample Herb 1: Mint -->
+          <button
+            type="button"
+            data-modal-herb="mint"
+            class="sample-herb-card text-right bg-white rounded-3xl p-6 border border-forest-900/10 shadow-card hover:shadow-soft hover:border-forest-700/40 hover:-translate-y-1 transition-all flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="w-11 h-11 rounded-2xl bg-forest-100 text-forest-700 flex items-center justify-center">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22v-9" />
+                    <path d="M12 13C7 13 4 9.5 4 5c4.5 0 8 3 8 8Z" />
+                    <path d="M12 13c5 0 8-3.5 8-8-4.5 0-8 3-8 8Z" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-gold-100 text-forest-900">ګرم او وچ</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-forest-900 mb-1">نعنا (پودینه)</h3>
+              <p class="text-xs italic text-[#5B6B63] mb-2.5" dir="ltr" style="text-align: right;">Mentha piperita</p>
+              <p class="text-sm text-[#4A5B53] leading-relaxed">
+                د معدې د پیاوړتیا، هاضمې او د تنفسي لارو د آرامولو لپاره یو له مشهورو طبي بوټو څخه.
+              </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-forest-900/10 flex items-center justify-between text-xs font-bold text-forest-700">
+              <span>بشپړ معلومات وګورئ</span>
+              <span>←</span>
+            </div>
+          </button>
+
+          <!-- Sample Herb 2: Chamomile -->
+          <button
+            type="button"
+            data-modal-herb="chamomile"
+            class="sample-herb-card text-right bg-white rounded-3xl p-6 border border-forest-900/10 shadow-card hover:shadow-soft hover:border-forest-700/40 hover:-translate-y-1 transition-all flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="w-11 h-11 rounded-2xl bg-gold-100 text-gold-500 flex items-center justify-center">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-gold-100 text-forest-900">ګرم او وچ</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-forest-900 mb-1">بابونه</h3>
+              <p class="text-xs italic text-[#5B6B63] mb-2.5" dir="ltr" style="text-align: right;">Matricaria chamomilla</p>
+              <p class="text-sm text-[#4A5B53] leading-relaxed">
+                د اعصابو د آرامولو، ښه خوب او التهاب کمولو لپاره په دودیز او عصري طب کې پراخ شهرت لري.
+              </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-forest-900/10 flex items-center justify-between text-xs font-bold text-forest-700">
+              <span>بشپړ معلومات وګورئ</span>
+              <span>←</span>
+            </div>
+          </button>
+
+          <!-- Sample Herb 3: Cumin -->
+          <button
+            type="button"
+            data-modal-herb="cumin"
+            class="sample-herb-card text-right bg-white rounded-3xl p-6 border border-forest-900/10 shadow-card hover:shadow-soft hover:border-forest-700/40 hover:-translate-y-1 transition-all flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22v-9" />
+                    <path d="M12 13c-3-1-5-4-5-7 3 0 5 2.5 5 7Z" />
+                    <path d="M12 13c3-1 5-4 5-7-3 0-5 2.5-5 7Z" />
+                    <circle cx="12" cy="5" r="2" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold px-3 py-1 rounded-full bg-gold-100 text-forest-900">ګرم او وچ</span>
+              </div>
+              <h3 class="text-lg font-extrabold text-forest-900 mb-1">ځیره (زیره)</h3>
+              <p class="text-xs italic text-[#5B6B63] mb-2.5" dir="ltr" style="text-align: right;">Cuminum cyminum</p>
+              <p class="text-sm text-[#4A5B53] leading-relaxed">
+                د افغانستان له غوره طبي بوټو څخه؛ د هاضمې پیاوړتیا، د نس باد لرې کولو او انټي‌اکسیډنټ ځانګړتیاوو لپاره مشهوره ده.
+              </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-forest-900/10 flex items-center justify-between text-xs font-bold text-forest-700">
+              <span>بشپړ معلومات وګورئ</span>
+              <span>←</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         6. ABOUT SECTION (Editorial Box)
+         ========================================================= -->
+    <section class="py-16 sm:py-24">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl p-7 sm:p-12 border border-forest-900/10 shadow-soft relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-2 h-full bg-gradient-to-b from-forest-900 via-forest-700 to-gold-500"></div>
+
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-5">
+            د ایپ په اړه
+          </h2>
+
+          <div class="space-y-4 text-base sm:text-lg text-[#37473F] leading-loose">
+            <p>
+              «غزالي خزانه» د دودیز او عصري طب پر بنسټ د طبي بوټو د پېژندنې یو منظم او علمي مرکز دی. موخه مو دا ده چې د بوټو پېژندنه، سیمه‌ییز نومونه او علمي کارونې په اسانه او معیاري بڼه په پښتو ژبه وړاندې شي.
+            </p>
+            <p>
+              د ایپ علمي ذخیره په پرله‌پسې ډول پراخېږي، او نوي بوټي، انځورونه او کره معلومات وخت پر وخت ورزیاتېږي.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         7. PROVINCES SECTION (Summary Counter + Visual Bars)
+         ========================================================= -->
+    <section id="provinces" hidden class="py-16 sm:py-24 bg-forest-50/80 border-y border-forest-900/5">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+
+          <!-- Right Column: Heading, Description, Total Counter Card -->
+          <div class="lg:col-span-5 space-y-6">
+            <div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-4">
+                بوټي د ولایتونو له مخې
+              </h2>
+              <p class="text-sm sm:text-base text-[#42534B] leading-relaxed">
+                د افغانستان <span class="js-count">۲۴۰+</span> طبي بوټي او هغه ولایتونه چې ډېر بوټي پکې موندل کېږي. دا چې یو بوټی کېدای شي په څو ولایتونو کې شتون ولري، نو د ولایتونو د بوټو مجموعه د اصلي بوټو له ټولیز شمېر سره یو شان نه وي.
+              </p>
+              <p id="noProv" class="empty:hidden mt-3 text-xs sm:text-sm text-[#5B6B63] leading-relaxed"></p>
+            </div>
+
+            <!-- Highlighted Summary Counter Card -->
+            <div class="bg-forest-900 text-white rounded-3xl p-7 shadow-soft flex items-center justify-between">
+              <div>
+                <span class="block text-sm text-forest-100/80 font-medium mb-1">ټول بوټي</span>
+                <span class="js-count text-4xl sm:text-5xl font-extrabold tracking-tight text-white">۲۴۰+</span>
+              </div>
+              <div class="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-gold-400">
+                <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Left Column: Top Provinces Bar List -->
+          <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-forest-900/10 shadow-card">
+            <h3 class="text-base font-bold text-forest-900 mb-6 flex items-center justify-between">
+              <span>مخکښ ولایتونه</span>
+              <span class="text-xs font-medium text-[#5B6B63]">د بوټو شمېر</span>
+            </h3>
+
+            <div class="space-y-4" id="provBars"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         8. INSTALLATION GUIDE (Android & iPhone Side-by-Side)
+         ========================================================= -->
+    <section id="install" class="py-16 sm:py-24">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-forest-900 mb-3">
+            د نصبولو لارښود
+          </h2>
+          <p class="text-sm sm:text-base text-[#4A5B53]">
+            پرته له پلي‌سټور یا اپ‌سټور څخه یوازې په څو ثانیو کې ایپ پر خپل موبایل نصب کړئ
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Android Card -->
+          <div id="stepsAndroid" class="transition-shadow bg-white rounded-3xl p-7 border border-forest-900/10 shadow-card">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-11 h-11 rounded-2xl bg-forest-100 text-forest-900 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <rect x="6" y="3" width="12" height="18" rx="2.5" />
+                  <path d="M11 18h2" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h3 class="text-xl font-extrabold text-forest-900">انډرایډ (Android)</h3>
+            </div>
+
+            <ol class="space-y-4 text-sm sm:text-base text-[#36473F]">
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۱</span>
+                <span>پورته پر «ایپ نصب کړئ» تڼۍ کېکاږئ.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۲</span>
+                <span>په راښکاره شوي پیغام کې پر «Install» کېکاږئ.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-900 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۳</span>
+                <span>د ایپ نښه (آیکن) به ستاسو د موبایل پر اصلي صفحه راڅرګنده شي.</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- iPhone Card -->
+          <div id="stepsIos" class="transition-shadow bg-white rounded-3xl p-7 border border-forest-900/10 shadow-card">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-11 h-11 rounded-2xl bg-gold-100 text-forest-900 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <rect x="6" y="2.5" width="12" height="19" rx="3" />
+                  <path d="M10 5h4" stroke-linecap="round" />
+                </svg>
+              </span>
+              <h3 class="text-xl font-extrabold text-forest-900">آیفون (iPhone)</h3>
+            </div>
+
+            <ol class="space-y-4 text-sm sm:text-base text-[#36473F]">
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-700 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۱</span>
+                <span>دا پاڼه په Safari براوزر کې پرانیزئ.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-700 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۲</span>
+                <span>لاندې پر «Share» تڼۍ (مربع چې غشی پکې دی) کېکاږئ.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-7 h-7 rounded-full bg-forest-700 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">۳</span>
+                <span>«Add to Home Screen» وټاکئ او بیا پر «Add» کېکاږئ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         9. WHATSAPP SHARE CTA BANNER
+         ========================================================= -->
+    <section class="pb-16 sm:pb-24">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-l from-forest-900 to-forest-800 rounded-3xl p-7 sm:p-10 text-white shadow-soft flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-right">
+          <div class="max-w-xl">
+            <h2 class="text-xl sm:text-2xl font-extrabold mb-2">
+              دا ګټوره علمي خزانه له نورو سره شریکه کړئ
+            </h2>
+            <p class="text-sm sm:text-base text-forest-100/85">
+              که ایپ مو خوښ شوی وي، پر واټس‌اپ یې له خپلو ملګرو او کورنۍ سره شریک کړئ.
+            </p>
+          </div>
+
+          <a
+            id="whatsappShareBtn"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-whatsapp text-[#0D2617] font-extrabold text-sm sm:text-base hover:brightness-105 transition-all shadow-lg shrink-0"
+          >
+            <!-- WhatsApp Icon SVG -->
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.52 3.48A11.82 11.82 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.6 5.95L0 24l6.33-1.66a11.86 11.86 0 0 0 5.73 1.46h.01c6.55 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42ZM12.07 21.8h-.01a9.87 9.87 0 0 1-5.04-1.38l-.36-.21-3.76.99 1-3.66-.24-.38a9.84 9.84 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.89-9.87 9.89Zm5.42-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.88 1.21 3.08.15.2 2.09 3.19 5.06 4.47.71.3 1.26.49 1.69.62.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z" />
+            </svg>
+            <span>دا ایپ له ملګرو سره پر واټس‌اپ شریک کړئ</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       10. FOOTER
+       ========================================================= -->
+  <footer class="bg-white border-t border-forest-900/10 py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-forest-900/10">
+        <!-- Brand -->
+        <div class="flex items-center gap-2.5">
+          <img src="icon-192.png" alt="" width="36" height="36" class="w-9 h-9 rounded-xl shadow-sm object-cover" />
+          <span class="text-lg font-extrabold text-forest-900">غزالي خزانه</span>
+        </div>
+
+        <!-- WhatsApp Feedback Link -->
+        <a
+          href="https://wa.me/93704689338"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-sm font-bold text-forest-700 hover:text-forest-900 transition-colors"
+        >
+          <span class="w-2.5 h-2.5 rounded-full bg-whatsapp"></span>
+          <span>خپل نظر یا ستونزه پر واټس‌اپ راته ولیکئ</span>
+        </a>
+      </div>
+
+      <!-- Medical/Scientific Disclaimer -->
+      <p class="mt-6 text-xs sm:text-sm text-[#617169] leading-relaxed max-w-3xl mx-auto">
+        یادونه: په دې ایپ کې موجود معلومات یوازې د علمي او ښوونیزې موخې لپاره دي؛ د درملنې لپاره تل له متخصص ډاکټر یا حکیم سره مشوره وکړئ.
+      </p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       SAMPLE HERB DETAILS MODAL
+       ========================================================= -->
+  <div
+    id="herbModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-forest-900/50 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-forest-900/10 fade-in-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-4 pb-4 border-b border-forest-900/10">
+        <div>
+          <span class="inline-block text-xs font-bold text-forest-700 bg-forest-100 px-3 py-1 rounded-full mb-2">
+            د دودیز او عصري طب بېلګه
+          </span>
+          <h3 id="modalTitle" class="text-2xl font-extrabold text-forest-900"></h3>
+          <p id="modalScientific" class="text-xs italic text-[#5B6B63] mt-0.5" dir="ltr" style="text-align: right;"></p>
+        </div>
+        <button
+          id="closeModalBtn"
+          type="button"
+          class="p-2 rounded-xl text-[#5B6B63] hover:bg-forest-100 hover:text-forest-900 transition-colors"
+          aria-label="بندول"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="py-5 space-y-4 text-sm sm:text-base">
+        <div>
+          <span class="block text-xs font-bold text-[#5B6B63] mb-1">سیمه‌ییز او نړیوال نومونه</span>
+          <p id="modalNames" class="font-semibold text-forest-900 text-sm"></p>
+        </div>
+
+        <div class="bg-forest-50 rounded-2xl px-4 py-3.5 border border-forest-900/10">
+          <div class="flex items-center justify-between gap-2 mb-1.5">
+            <span class="text-xs font-extrabold text-forest-900">د دودیز طب له مخې</span>
+            <span id="modalTemp" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-white text-forest-900 border border-forest-900/10"></span>
+          </div>
+          <p id="modalTraditional" class="text-sm text-[#37473F] leading-relaxed"></p>
+        </div>
+
+        <div class="bg-gold-100/50 rounded-2xl px-4 py-3.5 border border-gold-500/20">
+          <span class="block text-xs font-extrabold text-forest-900 mb-1.5">د عصري طب له مخې</span>
+          <p id="modalModern" class="text-sm text-[#37473F] leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-forest-900/10 flex flex-col sm:flex-row gap-3">
+        <a
+          href="app.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex-1 inline-flex items-center justify-center px-5 py-3 rounded-xl bg-forest-900 text-white text-sm font-bold hover:bg-forest-700 transition-colors"
+        >
+          په ایپ کې بشپړ معلومات وګورئ
+        </a>
+        <button
+          id="closeModalSecondaryBtn"
+          type="button"
+          class="px-5 py-3 rounded-xl bg-forest-50 text-forest-900 text-sm font-bold hover:bg-forest-100 transition-colors"
+        >
+          بندول
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       JAVASCRIPT: Interactivity (Mobile Menu, AI Demo, Modal, Share)
+       ========================================================= -->
+  <script>
+    (function () {
+      try {
+        // 1. Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', String(!isHidden));
+          });
+
+          mobileNavLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+              mobileMenu.classList.add('hidden');
+              mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+          });
+        }
+
+        // 2. Interactive AI Feature Visual Card Data & Logic
+        const aiHerbs = {
+          mint: {
+            name: 'نعنا (پودینه)',
+            scientific: 'Mentha piperita',
+            temp: 'ګرم او وچ',
+            benefit: 'د مېنتول درلودو له امله د هاضمې سیسټم آراموي او د معدې انقباض کموي.',
+            accuracy: '۹۸٪',
+            svg: `
+              <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M32 56V26" />
+                <path d="M32 34C18 34 10 24 10 12c12 0 22 8 22 22Z" fill="rgba(255,255,255,0.08)" />
+                <path d="M32 34c14 0 22-10 22-22-12 0-22 8-22 22Z" fill="rgba(255,255,255,0.08)" />
+                <path d="M32 22c-6-4-10-9-11-14 7 1 11 6 11 14Z" />
+                <path d="M32 22c6-4 10-9 11-14-7 1-11 6-11 14Z" />
+              </svg>`
+          },
+          chamomile: {
+            name: 'بابونه',
+            scientific: 'Matricaria chamomilla',
+            temp: 'ګرم او وچ',
+            benefit: 'د اپیجینین (Apigenin) په لرلو سره د اضطراب کمولو، ښه خوب او التهاب ضد اغېز لري.',
+            accuracy: '۹۷٪',
+            svg: `
+              <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="32" cy="30" r="7" fill="#D9B15B" stroke="#FBF5E6" />
+                <path d="M32 10v10M32 40v14M12 30h10M42 30h10M18 16l7 7M39 37l7 7M46 16l-7 7M25 37l-7 7" />
+              </svg>`
+          },
+          harmala: {
+            name: 'سپېلني',
+            scientific: 'Peganum harmala',
+            temp: 'ګرم او وچ',
+            benefit: 'د طبیعي الکالویدونو درلودو له امله د میکروب ضد ځانګړتیاوې لري (کارونه یې احتیاط غواړي).',
+            accuracy: '۹۶٪',
+            svg: `
+              <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M32 54V28" />
+                <circle cx="32" cy="22" r="9" fill="rgba(255,255,255,0.08)" />
+                <path d="M23 22h18M32 13v18" />
+                <path d="M32 42c-8 0-14-4-16-10M32 42c8 0 14-4 16-10" />
+              </svg>`
+          }
+        };
+
+        const aiButtons = document.querySelectorAll('.ai-switcher-btn');
+        const aiHerbSvg = document.getElementById('aiHerbSvg');
+        const aiHerbName = document.getElementById('aiHerbName');
+        const aiHerbScientific = document.getElementById('aiHerbScientific');
+        const aiHerbTemp = document.getElementById('aiHerbTemp');
+        const aiHerbBenefit = document.getElementById('aiHerbBenefit');
+        const aiAccuracy = document.getElementById('aiAccuracy');
+        const aiResultContent = document.getElementById('aiResultContent');
+        const aiScanStatus = document.getElementById('aiScanStatus');
+        const rescanBtn = document.getElementById('rescanBtn');
+
+        let activeAiKey = 'mint';
+        let scanTimer = null;
+
+        function renderAiHerb(key, withScanDelay = false) {
+          const herb = aiHerbs[key];
+          if (!herb) return;
+          activeAiKey = key;
+
+          aiHerbSvg.innerHTML = herb.svg;
+
+          // Update active button styles
+          aiButtons.forEach((btn) => {
+            const isActive = btn.dataset.herb === key;
+            btn.classList.toggle('bg-forest-900', isActive);
+            btn.classList.toggle('text-white', isActive);
+            btn.classList.toggle('shadow-sm', isActive);
+            btn.classList.toggle('bg-white', !isActive);
+            btn.classList.toggle('text-forest-900', !isActive);
+            btn.classList.toggle('border', !isActive);
+            btn.classList.toggle('border-forest-900/15', !isActive);
+          });
+
+          const applyResult = () => {
+            aiHerbName.textContent = herb.name;
+            aiHerbScientific.textContent = herb.scientific;
+            aiHerbTemp.textContent = herb.temp;
+            aiHerbBenefit.textContent = herb.benefit;
+            aiAccuracy.textContent = herb.accuracy;
+            aiScanStatus.textContent = 'بوټی په بریالیتوب سره وپېژندل شو';
+
+            aiResultContent.style.opacity = '1';
+            aiResultContent.classList.remove('fade-in-up');
+            void aiResultContent.offsetWidth;
+            aiResultContent.classList.add('fade-in-up');
+          };
+
+          if (scanTimer) clearTimeout(scanTimer);
+
+          if (withScanDelay) {
+            aiScanStatus.textContent = 'د بوټي عکس سکین کېږي...';
+            aiResultContent.style.opacity = '0.45';
+            scanTimer = setTimeout(applyResult, 650);
+          } else {
+            applyResult();
+          }
+        }
+
+        aiButtons.forEach((btn) => {
+          btn.addEventListener('click', () => renderAiHerb(btn.dataset.herb, true));
+        });
+
+        if (rescanBtn) {
+          rescanBtn.addEventListener('click', () => renderAiHerb(activeAiKey, true));
+        }
+
+        // Initial render
+        renderAiHerb('mint', false);
+
+        // 3. Sample Herbs Modal Data & Logic
+        const sampleHerbsData = {
+          mint: {
+            title: 'نعنا (پودینه)',
+            scientific: 'Mentha piperita',
+            names: 'پښتو: نعنا / پودینه • دري: نعناع • اردو: پودینہ • انګلیسي: Peppermint',
+            temp: 'مزاج: ګرم او وچ',
+            traditional: 'د معدې پیاوړتیا کوي، هاضمه سموي، د نس باد لرې کوي او د خولې بوی تازه ساتي.',
+            modern: 'د مېنتول (Menthol) او انټي‌اکسیډنټ موادو په لرلو سره د کولمو عضلات آراموي، د بدهاضمې نښې کموي او د تنفسي لارو په خلاصولو کې مرسته کوي.'
+          },
+          chamomile: {
+            title: 'بابونه',
+            scientific: 'Matricaria chamomilla',
+            names: 'پښتو: بابونه • دري: گل بابونه • اردو: گل بابونہ • انګلیسي: Chamomile',
+            temp: 'مزاج: ګرم او وچ',
+            traditional: 'اعصاب آراموي، د ستړیا او سر درد په کمولو کې مرسته کوي او د معدې د آرامۍ لپاره کارول کېږي.',
+            modern: 'د اپیجینین (Apigenin) په نوم فعال مرکب لري چې د خوب کیفیت ښه کوي، رواني فشار کموي او د التهاب ضد اغېز لري.'
+          },
+          cumin: {
+            title: 'ځیره (زیره)',
+            scientific: 'Cuminum cyminum',
+            names: 'پښتو: ځیره • دري: زیره • اردو: زیرہ • انګلیسي: Cumin',
+            temp: 'مزاج: ګرم او وچ',
+            traditional: 'د هاضمې لپاره خورا ګټوره ده، د معدې باد او درد کموي او اشتها زیاتوي.',
+            modern: 'د هاضمې انزایمونه فعالوي، د اوسپنې او انټي‌اکسیډنټ ښه سرچینه ده او د وینې د شکر په توازن کې مرسته کوي.'
+          }
+        };
+
+        const modal = document.getElementById('herbModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalScientific = document.getElementById('modalScientific');
+        const modalNames = document.getElementById('modalNames');
+        const modalTemp = document.getElementById('modalTemp');
+        const modalTraditional = document.getElementById('modalTraditional');
+        const modalModern = document.getElementById('modalModern');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeModalSecondaryBtn = document.getElementById('closeModalSecondaryBtn');
+
+        function openHerbModal(key) {
+          const item = sampleHerbsData[key];
+          if (!item || !modal) return;
+
+          modalTitle.textContent = item.title;
+          modalScientific.textContent = item.scientific;
+          modalNames.textContent = item.names;
+          modalTemp.textContent = item.temp;
+          modalTraditional.textContent = item.traditional;
+          modalModern.textContent = item.modern;
+
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeHerbModal() {
+          if (!modal) return;
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.sample-herb-card').forEach((card) => {
+          card.addEventListener('click', () => openHerbModal(card.dataset.modalHerb));
+        });
+
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeHerbModal);
+        if (closeModalSecondaryBtn) closeModalSecondaryBtn.addEventListener('click', closeHerbModal);
+
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeHerbModal();
+          });
+        }
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+            closeHerbModal();
+          }
+        });
+
+        // 4. WhatsApp Share Button Properly URI-Encoded Link
+        const whatsappShareBtn = document.getElementById('whatsappShareBtn');
+        if (whatsappShareBtn) {
+          const shareMessage = 'غزالي خزانه — د دودیز او عصري طب پر بنسټ د طبي بوټو د پېژندنې وړیا پښتو ایپ دلته وګورئ: ' + new URL('./', location.href).href;
+          whatsappShareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareMessage);
+        }
+      } catch (err) {
+        console.error('Initialization error:', err);
+      }
+    })();
+  </script>
+
+  <script>
+  (function(){
+    /* ---- PWA: service worker + install button (same logic as before) ---- */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+    }
+    var btn = document.getElementById('installBtn');
+    var note = document.getElementById('installNote');
+    var deferred = null;
+    var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
+    window.addEventListener('appinstalled', function(){
+      deferred = null;
+      if (btn) btn.hidden = true;
+      if (note) note.textContent = 'ایپ نصب سو. د تلیفون په کور پاڼه کې یې ومومئ.';
     });
-    function draw(){segs.forEach(function(c){c.setAttribute('stroke-dasharray',c.dataset.len+' '+C)})}
-    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){segs.forEach(function(c){c.style.transition='none'});draw();}
-    else if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){draw();io.disconnect()}},{threshold:.35});io.observe(box);
-    } else draw();
-  }
-})();
-
-(function(){
-  var sec=document.getElementById('libSection'),ul=document.getElementById('plist'),q=document.getElementById('libQ'),
-      more=document.getElementById('libMore'),empty=document.getElementById('libEmpty'),STEP=12,shown=STEP,all=[],hits=[];
-  if(!window.GK_PLANTS)return;
-  GK_PLANTS.then(function(d){if(!Array.isArray(d)||!d.length)throw 0;all=d;sec.hidden=false;apply()}).catch(function(){sec.hidden=true});
-
-  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-  function line(label,val,cls){if(!val)return null;var p=el('p',cls||'');if(label)p.appendChild(el('b','',label+': '));p.appendChild(document.createTextNode(val));return p}
-  function pad(id){var n=String(id).replace(/\D/g,'');return ('000'+n).slice(-3)}
-
-  function item(p){
-    var li=document.createElement('li'),d=document.createElement('details'),s=document.createElement('summary');
-    var img=new Image();img.className='th';img.alt='';img.loading='lazy';img.width=52;img.height=52;
-    img.onerror=function(){img.remove()};img.src='afghan-plants/'+pad(p.id)+'.jpg';
-    s.appendChild(img);
-    var box=el('span');box.appendChild(el('span','nm',p.name_ps||p.name_en||''));
-    var sub=[p.scientific_name,p.name_en].filter(Boolean).join(' · ');
-    if(sub){var e=el('span','sub',sub);e.dir='ltr';e.style.textAlign='right';box.appendChild(e)}
-    s.appendChild(box);
-    var cat=String(p.category||'').split('(')[0].trim();
-    if(cat)s.appendChild(el('span','tag',cat));
-    d.appendChild(s);
-    var b=el('div','body');
-    [line('مزاج',p.mizaj_ps),line('ګټې',p.benefits_ps),line('کوم ځای کې وي',p.location_ps),line('',p.warning_ps,'warn')].forEach(function(x){if(x)b.appendChild(x)});
-    d.appendChild(b);li.appendChild(d);return li;
-  }
-
-  function apply(){
-    var t=(q.value||'').trim().toLowerCase();
-    hits=!t?all:all.filter(function(p){
-      return [p.name_ps,p.name_fa,p.name_ur,p.name_en,p.scientific_name].some(function(v){return v&&String(v).toLowerCase().indexOf(t)>-1});
+    function showSteps(id, text){
+      if (note) note.textContent = text;
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
+      el.classList.add('hl');
+      setTimeout(function(){ el.classList.remove('hl'); }, 2500);
+    }
+    if (btn) btn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (deferred) {
+        deferred.prompt();
+        deferred.userChoice.finally(function(){ deferred = null; });
+      } else if (isIos) {
+        showSteps('stepsIos', 'په آیفون کې لاندې درې ګامونه وکاروئ.');
+      } else {
+        showSteps('stepsAndroid', 'که پیغام رانغی، د براوزر مینو (⋮) کې «Install app» یا «Add to Home screen» وټاکئ.');
+      }
     });
-    ul.textContent='';
-    hits.slice(0,shown).forEach(function(p){ul.appendChild(item(p))});
-    more.hidden=hits.length<=shown;
-    empty.hidden=hits.length>0;
-  }
-  q.addEventListener('input',function(){shown=STEP;apply()});
-  more.addEventListener('click',function(){shown+=STEP;apply()});
-})();
-</script>
+  })();
+
+  (function(){
+    /* ---- Provinces: counted from the same plants file the app reads ---- */
+    var BARS = ['bg-forest-900','bg-forest-700','bg-forest-700','bg-forest-600','bg-forest-600','bg-gold-500'];
+    var fa = function(n){ return String(n).replace(/\d/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[d]; }); };
+    var section = document.getElementById('provinces');
+    var PROV = ['کابل','کندهار','هرات','بلخ','ننګرهار','کندز|کندوز','بدخشان','بامیان','غور','بادغیس','پکتیا','پکتیکا','خوست','لغمان',
+      'کنړ','نورستان','تخار','بغلان','سمنګان','پروان','کاپیسا','پنجشېر','میدان وردګ','لوګر','غزني','زابل','ارزګان','هلمند','نیمروز',
+      'فراه','فاریاب','جوزجان','سرپل','دایکندي'];
+    function provincesOf(p){
+      var t = String(p.location_ps || '');
+      return PROV.filter(function(n){ return n.split('|').some(function(v){ return t.indexOf(v) > -1; }); }).map(function(n){ return n.split('|')[0]; });
+    }
+    fetch('ghazali_all_100_plants_final.json').then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(plants){
+      if (!Array.isArray(plants) || !plants.length) throw 0;
+      var total = plants.length, map = {};
+      plants.forEach(function(p){ provincesOf(p).forEach(function(k){ map[k] = (map[k] || 0) + 1; }); });
+      var rows = Object.keys(map).map(function(k){ return [k, map[k]]; }).sort(function(a, b){ return b[1] - a[1]; }).slice(0, BARS.length);
+      if (!rows.length) throw 0;
+      [].forEach.call(document.querySelectorAll('.js-count'), function(el){ el.textContent = fa(total); });
+      var none = plants.filter(function(p){ return !provincesOf(p).length; }).length;
+      if (none) document.getElementById('noProv').textContent = 'ځینې بوټي (' + fa(none) + ') ټاکلی ولایت نه لري (لکه «غرنۍ سیمې»)، نو دلته نه شمېرل کېږي.';
+      var max = rows[0][1], box = document.getElementById('provBars');
+      rows.forEach(function(r, i){
+        var wrap = document.createElement('div');
+        var head = document.createElement('div'); head.className = 'flex justify-between text-sm font-bold text-forest-900 mb-1.5';
+        var a = document.createElement('span'); a.textContent = r[0];
+        var b = document.createElement('span'); b.textContent = fa(r[1]);
+        head.appendChild(a); head.appendChild(b);
+        var track = document.createElement('div'); track.className = 'w-full h-2.5 bg-forest-100 rounded-full overflow-hidden';
+        var bar = document.createElement('div'); bar.className = 'h-full rounded-full ' + BARS[i];
+        bar.style.width = Math.max(4, Math.round(r[1] / max * 100)) + '%';
+        track.appendChild(bar); wrap.appendChild(head); wrap.appendChild(track); box.appendChild(wrap);
+      });
+      section.hidden = false;
+    }).catch(function(){
+      /* no data -> hide the section and its menu links instead of showing made-up numbers */
+      [].forEach.call(document.querySelectorAll('a[href="#provinces"]'), function(a){ a.hidden = true; });
+    });
+  })();
+  </script>
 </body>
 </html>
