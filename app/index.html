@@ -1432,6 +1432,7 @@ render();
 html[dir=rtl] .a2-in select{background-position:20px 50%,14px 50%}
 .a2-in input:focus,.a2-in select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,170,70,.28);outline:0}
 .a2-in.pw input{padding-right:52px}
+.a2-in.pw>svg{inset-inline-start:auto;left:14px;right:auto}
 .a2-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:12px;background:transparent;color:var(--soft);cursor:pointer}
 .a2-eye svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .a2-eye[aria-pressed=true]{color:var(--gold)}
@@ -1494,7 +1495,7 @@ var A2={
  eyeOff:'<path d="M3 3l18 18M10.6 6.2A9.8 9.8 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-3.2 3.9M6.1 7.6A16.6 16.6 0 0 0 2 12s3.6 7 10 7a9.6 9.6 0 0 0 4-.9M9.9 9.9a3 3 0 0 0 4.2 4.2"/>'
 };
 function authStatus(){const c=authText();if(accountBusy)return c.busy;const m=typeof c[accountMessage]==='string'?c[accountMessage]:accountFailed?c.failed:'';return m;}
-function a2status(){const t=authStatus(),code=accountFailed&&window.gkAuthCode?'<code>'+esc(window.gkAuthCode)+'</code>':'';return '<p id="auth-status" role="status" aria-live="polite" class="a2-status'+(accountFailed?' auth-error':'')+'">'+(t?esc(t)+code:'')+'</p>';}
+function a2status(){const t=authStatus(),code=accountFailed&&window.gkAuthCode?'<code>'+esc(window.gkAuthCode)+(window.gkAuthCode==='auth/unauthorized-domain'?' · '+esc(location.hostname||location.protocol):'')+'</code>':'';return '<p id="auth-status" role="status" aria-live="polite" class="a2-status'+(accountFailed?' auth-error':'')+'">'+(t?esc(t)+code:'')+'</p>';}
 function authFormError(code){accountFailed=true;accountMessage=code;window.gkAuthCode='';const s=document.getElementById('auth-status');if(s){s.textContent=authStatus();s.classList.add('auth-error');}}
 function toggleAuthPassword(id,button){
  const input=document.getElementById(id);if(!input)return;
