@@ -2409,10 +2409,11 @@ function lensInit(){
   lensStop();stream=st;var v=$('lv');v.srcObject=st;v.play&&v.play().catch(function(){});setMode('live')
  }).catch(function(){setMode('nocam')})
 }
-function showPlantnetNote(box,message,status){
+function showPlantnetNote(box,message,status,detail){
  if(!box)return;
  var chat=document.getElementById('ghazali-gemini');
- box.innerHTML='<details class="gkai-results"><summary>'+esc(T2().ai)+'</summary><p>'+esc(message)+'</p></details>';
+ var tech=detail?' <code dir="ltr">'+esc((detail.name&&detail.name!=='Error'?detail.name+': ':'')+(detail.message||String(detail)))+'</code>':'';
+ box.innerHTML='<details class="gkai-results"><summary>'+esc(T2().ai)+'</summary><p>'+esc(message)+tech+'</p></details>';
  if(chat)box.prepend(chat);
  var context=window.ghazaliLastIdentification;
  if(context&&context.run===identificationRun){
@@ -2441,7 +2442,7 @@ function runId(blobP,previewUrl){
   if(payload.results&&payload.results.length){paintLast();ensureMetadata(payload,appLanguage())}
   else if(current&&view==='id')showPlantnetNote(current,T2().noplant,'no_match');
  }).catch(function(error){
-  if(request!==identificationRun)return;var current=$('idres');if(current&&view==='id')showPlantnetNote(current,T2().err,'error');
+  if(request!==identificationRun)return;var current=$('idres');if(current&&view==='id')showPlantnetNote(current,T2().err,'error',error);
  }).then(function(){clearTimeout(idTimer);idAbort=null;if(request===identificationRun){busy=false;if(view==='id')setMode('done')}});
 }
 function grabFrame(){
