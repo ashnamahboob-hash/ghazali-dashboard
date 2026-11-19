@@ -186,7 +186,7 @@ label{color:#56704a;font-size:13px;margin:15px 2px 7px}label small{color:#9aa28e
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import {getFirestore,collection,doc,getDoc,getDocs,setDoc,deleteDoc,addDoc,query,orderBy,limit,serverTimestamp,writeBatch,deleteField} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import {getFirestore,collection,collectionGroup,doc,getDoc,getDocs,setDoc,deleteDoc,addDoc,query,orderBy,limit,serverTimestamp,writeBatch,deleteField} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 const CFG={apiKey:"AIzaSyAhBekjZhte7rhP2Tbu7h4cEcIsCk5nigY",authDomain:"ghazali-herbs.firebaseapp.com",projectId:"ghazali-herbs"};
 const $=s=>document.querySelector(s),L=['ps','fa','ur','en'],LN={ps:'پښتو',fa:'فارسی',ur:'اردو',en:'English',ar:'العربية'};
 /* د ایپ په څېر ترتیب او لیبلونه (wordDetailLayout) */
@@ -196,7 +196,7 @@ const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ ب�
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
-const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
+const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['users','کارونکي'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
 const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
 const SECINFO={
  regions:['د افغانستان طبي بوټي','د ایپ په دې برخه کې کارونکی ولایت غوره کوي. د دې ولایت مستند ریکارډونه لا نه دي داخل سوي.'],
@@ -275,8 +275,8 @@ async function fbLoadAll(){try{const results=await Promise.allSettled(['feedback
 function fbRender(){const list=FBK.filter(x=>FBV==='all'||x.status==='new');
  $('#ed').innerHTML=`<div class="home"><h2>نظرونه</h2><p>هغه نظرونه چې د ایپ کارکوونکو ولېږل. دا یوازې تاسو ته ښکاري.</p></div>
  <div class="tb"><span class="seg"><button data-fbv="new" class="${FBV==='new'?'on':''}">نوي (${FBN})</button><button data-fbv="all" class="${FBV==='all'?'on':''}">ټول (${FBK.length})</button></span><button id="fbre">تازه کول</button></div>
- ${list.map(x=>{const h=DB[x.herbId],dt=x.createdAt?.toDate?x.createdAt.toDate():new Date(x.ts||0);return `<div class="box" style="${x.status==='new'?'border:1px solid var(--gold)':''}"><div class="hrow" style="border:0"><b>${esc(x.herbId||'عمومي')}</b><span>${h?esc(nm(h)):'عمومي نظر'} · ${esc(x.type||'')} · ${esc(x.lang||'')} · ${dt.toLocaleString()}</span>${x.status==='new'?'<span class="b r">نوی</span>':''}</div><p style="white-space:pre-wrap;margin:6px 0">${esc(x.text)}</p>${x.photo&&/^data:image\//.test(x.photo)?`<img class="fbimg" src="${x.photo}" alt="" data-fbimg="${x.id}"><div><a href="${x.photo}" download="${esc(x.herbId||'feedback')}-${x.id}.jpg" class="hint">⬇ عکس ډاونلوډ</a></div>`:''}${x.name?`<div class="hint">— ${esc(x.name)}</div>`:''}<div class="tb">${h?`<button data-fbopen="${esc(x.herbId)}">بوټی خلاص کړه</button>`:''}${x.status==='new'?`<button data-fbread="${x.id}">لوستل سو ✓</button>`:''}<span class="hint">${esc(({approved:"منظور سوی",rejected:"رد سوی",read:"لوستل سوی",new:"نوی"})[x.status]||x.status)}</span><button data-fbapprove="${x.id}">منظورول</button><button data-fbreject="${x.id}">ردول</button><button data-fbdel="${x.id}">ړنګول</button></div></div>`}).join('')||'<div class="box"><p class="hint">هیڅ نظر نشته.</p></div>'}`}
-async function fbPage(){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2><p>لوستل کېږي…</p></div>';const r=await fbLoadAll();secBar();if(r!==true){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2></div><div class="box"><p>نظرونه ونه لوستل سول ('+esc(r)+'). ډېر ځله دا د Firestore Rules له امله وي، چې باید نوي Rules Publish سي.</p></div>';return}fbRender()}
+ ${list.map(x=>{const h=DB[x.herbId],dt=x.createdAt?.toDate?x.createdAt.toDate():new Date(x.ts||0);return `<div class="box" style="${x.status==='new'?'border:1px solid var(--gold)':''}"><div class="hrow" style="border:0"><b>${esc(x.herbId||'عمومي')}</b><span>${h?esc(nm(h)):'عمومي نظر'} · ${esc(x.type||'')} · ${esc(x.lang||'')} · ${dt.toLocaleString()}${usTag(x)}</span>${x.status==='new'?'<span class="b r">نوی</span>':''}</div><p style="white-space:pre-wrap;margin:6px 0">${esc(x.text)}</p>${x.photo&&/^data:image\//.test(x.photo)?`<img class="fbimg" src="${x.photo}" alt="" data-fbimg="${x.id}"><div><a href="${x.photo}" download="${esc(x.herbId||'feedback')}-${x.id}.jpg" class="hint">⬇ عکس ډاونلوډ</a></div>`:''}${x.name?`<div class="hint">— ${esc(x.name)}</div>`:''}<div class="tb">${h?`<button data-fbopen="${esc(x.herbId)}">بوټی خلاص کړه</button>`:''}${x.status==='new'?`<button data-fbread="${x.id}">لوستل سو ✓</button>`:''}<span class="hint">${esc(({approved:"منظور سوی",rejected:"رد سوی",read:"لوستل سوی",new:"نوی"})[x.status]||x.status)}</span><button data-fbapprove="${x.id}">منظورول</button><button data-fbreject="${x.id}">ردول</button><button data-fbdel="${x.id}">ړنګول</button></div></div>`}).join('')||'<div class="box"><p class="hint">هیڅ نظر نشته.</p></div>'}`}
+async function fbPage(){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2><p>لوستل کېږي…</p></div>';const r=await fbLoadAll();await usLoad();secBar();if(r!==true){$('#ed').innerHTML='<div class="home"><h2>نظرونه</h2></div><div class="box"><p>نظرونه ونه لوستل سول ('+esc(r)+'). ډېر ځله دا د Firestore Rules له امله وي، چې باید نوي Rules Publish سي.</p></div>';return}fbRender()}
 $('#lb').onclick=()=>{$('#lb').style.display='none'};
 $('#ed').addEventListener('click',async e=>{const im=e.target.closest('[data-fbimg]');if(im&&sec==='feedback'){$('#lb img').src=im.src;$('#lb').style.display='flex';return}const b=e.target.closest('button');if(!b||sec!=='feedback')return;
  if(b.dataset.fbv){FBV=b.dataset.fbv;fbRender()}
@@ -375,7 +375,27 @@ async function afDelete(id){const p=AFP.find(x=>x.id===id);if(!p)return;
   AFP=AFP.filter(x=>x.id!==id);await afRenumber();toast('ړنګ سو');afList()}
  catch(e){alert('ړنګ نه سو: '+(e.code||e.message))}}
 
-function secPage(){if(sec==='feedback')return fbPage();if(sec==='regions')return afPage();const [t,d]=SECINFO[sec];
+/* ===== کارونکي: د ایپ د کارونکو پروفایلونه (users/{uid}/private/profile) ===== */
+const OCC={student:'زده کوونکی',doctor:'ډاکټر',pharmacist:'درملتون / فارماسیست',herbalist:'عطار / هربالیست',researcher:'څېړونکی',teacher:'ښوونکی',farmer:'کروندګر',other:'نور'};
+let USR={},USRL=[],USF='all',USQ='';
+async function usLoad(){try{const s=await getDocs(collectionGroup(db,'private'));USR={};s.forEach(d=>{if(d.id==='profile'){const uid=d.ref.path.split('/')[1];USR[uid]={...d.data(),uid}}});USRL=Object.values(USR).sort((a,b)=>(b.updatedAt?.toMillis?.()||b.updatedAt||0)-(a.updatedAt?.toMillis?.()||a.updatedAt||0));return true}catch(e){USR={};USRL=[];return e.code||String(e)}}
+const usTag=x=>{const u=x&&x.uid&&USR[x.uid];if(!u)return '';const t=[OCC[u.occupation]||u.occupation,u.province].filter(Boolean).join(' · ');return t?` · <b>👤 ${esc(t)}</b>`:''};
+async function usPage(){$('#ed').innerHTML='<div class="home"><h2>کارونکي</h2><p>لوستل کېږي…</p></div>';const r=await usLoad();secBar();
+ if(r!==true){$('#ed').innerHTML='<div class="home"><h2>کارونکي</h2></div><div class="box"><p>پروفایلونه ونه لوستل سول ('+esc(r)+'). ډېر ځله دا د Firestore Rules له امله وي: باید نوي Rules (firestore.rules) Publish سي.</p></div>';return}
+ usRender()}
+function usRows(){const q=norm(USQ);return USRL.filter(u=>(USF==='all'||u.occupation===USF)&&(!q||norm([u.displayName,u.organization,u.province].join(' ')).includes(q)))}
+function usRender(){const cnt={},pv={};USRL.forEach(u=>{cnt[u.occupation]=(cnt[u.occupation]||0)+1;if(u.province)pv[u.province]=(pv[u.province]||0)+1});
+ const topP=Object.entries(pv).sort((a,b)=>b[1]-a[1]).slice(0,8);
+ $('#ed').innerHTML=`<div id="usm"><div class="home"><h2>کارونکي (${USRL.length})</h2><p>هغه کارونکي چې په ایپ کې یې خپل پروفایل ډک کړی. د ټیلیفون شمېره دلته نه ښکاري.</p></div>
+ <div class="stats">${Object.entries(OCC).map(([k,t])=>`<div class="stat"><b>${cnt[k]||0}</b><span>${t}</span></div>`).join('')}</div>
+ <div class="box"><h3>ډېر کارونکي لرونکي ولایتونه</h3><div class="pv">${topP.length?topP.map(([p,n])=>`<span>${esc(p)} · ${n}</span>`).join(''):'<span>لا معلومات نشته</span>'}</div></div>
+ <div class="tb"><span class="seg"><button data-usf="all" class="${USF==='all'?'on':''}">ټول</button>${Object.entries(OCC).map(([k,t])=>`<button data-usf="${k}" class="${USF===k?'on':''}">${t}</button>`).join('')}</span><input id="usq" placeholder="لټون…" value="${esc(USQ)}"><button id="usre">تازه کول</button></div>
+ <div class="box" id="usrows">${usRowsHtml()}</div></div>`;
+ const m=$('#usm');m.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();if(b.dataset.usf){USF=b.dataset.usf;usRender()}else if(b.id==='usre')await usPage()});
+ m.addEventListener('input',e=>{e.stopPropagation();if(e.target.id==='usq'){USQ=e.target.value;$('#usrows').innerHTML=usRowsHtml()}})}
+function usRowsHtml(){const a=usRows();return a.map(u=>{const dt=u.updatedAt?.toDate?u.updatedAt.toDate().toLocaleDateString():'';return `<div class="afrow"><span class="nm"><b>${esc(u.displayName||'—')}</b> · ${esc(OCC[u.occupation]||u.occupation||'')}<br><i class="hint">${esc([u.organization,u.province].filter(Boolean).join(' · '))}</i></span><span class="hint">${dt}</span></div>`}).join('')||'<p class="hint">هیڅ نه دي موندل سوي.</p>'}
+
+function secPage(){if(sec==='feedback')return fbPage();if(sec==='users')return usPage();if(sec==='regions')return afPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
