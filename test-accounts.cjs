@@ -10,8 +10,8 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
  const auth={currentUser:null},data=new Map([['gk_fav','[0]'],['gk_fav:user:alice','[1]']]);
  const context={...U,console,Set,Promise,H,fav:[0],recentHerbs:[],lang:'en',render(){},toast(){},
  localStorage:{getItem:k=>data.get(k),setItem:(k,v)=>data.set(k,v)},
- A:{getAuth:()=>auth,onAuthStateChanged:(a,cb)=>listener=cb},
- doc:(db,...p)=>p.join('/'),getDoc:path=>new Promise(resolve=>pending.push({path,resolve})),
+ A:{getAuth:()=>auth,onAuthStateChanged:(a,cb)=>listener=cb,getRedirectResult:()=>Promise.resolve(null)},
+ doc:(db,...p)=>p.join('/'),getDoc:path=>path.endsWith('/profile')?Promise.resolve({exists:()=>false}):new Promise(resolve=>pending.push({path,resolve})),
  setDoc:async(path,value)=>writes.push({path,value}),serverTimestamp:()=>123};
  context.window={gkFirebase:{app:{},db:{}},receiveAccountState(){},addEventListener(){}};
  vm.createContext(context);
