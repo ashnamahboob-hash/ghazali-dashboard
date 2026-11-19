@@ -475,6 +475,7 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .about-link{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;border:1px solid var(--bd);background:var(--card);color:var(--ink);font:inherit;font-size:16px;border-radius:16px;padding:0 16px;cursor:pointer}
 .about-link svg{width:22px;height:22px;color:var(--gold)}
 .about-top .prog{margin:14px 0 4px}
+.about-text h3{margin:0 0 8px;font-size:18px}.about-text p{margin:0 0 10px;line-height:1.9;color:var(--soft)}
 .prog-t{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:var(--soft)}
 .prog-t b{color:var(--gold)}
 .prog-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
@@ -2046,6 +2047,10 @@ window.ABOUT={
  ur:{title:"ایپ کے بارے میں",link:"ایپ کے بارے میں، رائے اور شیئر",prog:"اندراج کی پیش رفت",share:"ایپ شیئر کریں",fbT:"رائے اور تجویز",fbH:"ایپ یا کسی بوٹی کے بارے میں رائے، اصلاح، نئی معلومات یا تصویر لکھیں۔ اگر کسی خاص بوٹی کے بارے میں ہے تو نیچے منتخب کریں۔",pick:"کس بوٹی کے بارے میں؟ (اختیاری)",pph:"بوٹی یا کوڈ تلاش کریں…",gen:"عمومی رائے",src:"ماخذ اور انتباہ",ver:"ورژن",shareTxt:"غزالی خزانہ — طبی جڑی بوٹیوں کی علمی لائبریری"},
  en:{title:"About",link:"About, feedback & share",prog:"Entries completed",share:"Share the app",fbT:"Feedback & suggestions",fbH:"Write feedback, a correction, new information or a photo about the app or a herb. If it is about a specific herb, pick it below.",pick:"About which herb? (optional)",pph:"Search herb name or code…",gen:"General feedback",src:"Source & notice",ver:"Version",shareTxt:"Ghazali's Treasury — a scientific library of medicinal herbs"}
 };
+Object.assign(ABOUT.ps,{abT:"د ایپ په اړه",abP1:"«غزالي خزانه» د دودیز او عصري طب پر بنسټ د طبي بوټو د پېژندنې یو منظم او علمي مرکز دی. موخه مو دا ده چې د بوټو پېژندنه، سیمه‌ییز نومونه او علمي کارونې په اسانه او معیاري بڼه په پښتو ژبه وړاندې شي.",abP2:"د ایپ علمي ذخیره په پرله‌پسې ډول پراخېږي، او نوي بوټي، انځورونه او کره معلومات وخت پر وخت ورزیاتېږي."});
+Object.assign(ABOUT.fa,{abT:"درباره برنامه",abP1:"«گنجینه غزالی» یک مرکز منظم و علمی برای شناخت گیاهان طبی بر پایه طب سنتی و مدرن است. هدف ما این است که شناخت گیاهان، نام‌های محلی و کاربردهای علمی آن‌ها به شکل ساده و معیاری ارائه شود.",abP2:"ذخیره علمی برنامه به‌طور پیوسته گسترش می‌یابد و گیاهان، تصاویر و اطلاعات دقیق جدید هر از چندی افزوده می‌شود."});
+Object.assign(ABOUT.ur,{abT:"ایپ کے بارے میں",abP1:"«غزالی خزانہ» روایتی اور جدید طب کی بنیاد پر طبی جڑی بوٹیوں کی پہچان کا ایک منظم اور علمی مرکز ہے۔ ہمارا مقصد یہ ہے کہ جڑی بوٹیوں کی پہچان، مقامی نام اور علمی استعمال آسان اور معیاری انداز میں پیش کیے جائیں۔",abP2:"ایپ کا علمی ذخیرہ مسلسل وسیع ہو رہا ہے، اور نئی جڑی بوٹیاں، تصاویر اور مستند معلومات وقتاً فوقتاً شامل کی جاتی ہیں۔"});
+Object.assign(ABOUT.en,{abT:"About the app",abP1:"“Ghazali’s Treasury” is an organised scientific centre for identifying medicinal plants, based on traditional and modern medicine. Our aim is to present plant identification, local names and scientific uses in a simple and standard way.",abP2:"The app’s scientific collection keeps growing, and new plants, images and verified information are added from time to time."});
 I.info='<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>';
 function shareApp(){
  var A=ABOUT[lang]||ABOUT.en,url=/^https?:$/.test(location.protocol)?location.href.split("#")[0]:"";
@@ -2059,7 +2064,7 @@ function aboutPage(){
   '<section class="sec about-top"><div class="about about-brand">'+appEmblem()+'<strong>'+T.title+'</strong><p>'+T.tag+'</p><p>'+A.ver+' <b dir="ltr">2.1</b></p></div>'+
   '<div class="prog"><div class="prog-t"><span>'+A.prog+'</span><b dir="ltr">'+real+' / '+total+'</b></div><div class="prog-bar"><i style="width:'+(real/total*100).toFixed(1)+'%"></i></div></div>'+
   '<button class="share-app" onclick="shareApp()">'+ic("share")+'<span>'+A.share+'</span></button></section>'+
-  '<div id="about-fb"></div>'+
+  '<section class="sec about-text"><h3>'+A.abT+'</h3><p>'+A.abP1+'</p><p>'+A.abP2+'</p></section>'+
   '<section class="sec"><p class="fb-hint"><b>'+u.offline+'</b> '+u.privacy+'</p></section>';
 }
 function buildGeneralFeedback(){
