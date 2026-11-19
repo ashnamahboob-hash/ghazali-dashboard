@@ -19,7 +19,7 @@ service cloud.firestore {
     // Signed-in user's own profile (occupation etc.); owner only.
     match /users/{uid}/private/profile {
       allow read: if (request.auth != null && request.auth.uid == uid) || isAdmin();
-      allow delete: if request.auth != null && request.auth.uid == uid;
+      allow delete: if (request.auth != null && request.auth.uid == uid) || isAdmin();
       allow create, update: if request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['displayName','occupation','organization','province','phone','updatedAt'])
         && request.resource.data.displayName is string && request.resource.data.displayName.size() <= 60
