@@ -160,6 +160,12 @@ label{color:#56704a;font-size:13px;margin:15px 2px 7px}label small{color:#9aa28e
  #top .tools{order:1;flex:0 0 100%;width:100%;min-width:0;flex-wrap:wrap}
  #top .tools button{white-space:nowrap}
 }
+/* language tabs + compare select live inside the sticky top bar */
+.bar{row-gap:8px;padding-block:10px}
+.bar .tabs{flex:1 1 100%;margin:0;padding:0;border:0;gap:6px}
+.bar .tabs button{height:34px;padding:0 14px}
+.bar .tabs select{width:160px;height:34px;margin-inline-start:auto}
+@media(max-width:900px){.bar .tabs select{width:100%;margin:0}}
 </style>
 </head>
 <body>
@@ -462,11 +468,11 @@ function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index
  const right=ref?`<div><label>${LAB[ref][k]}</label><textarea readonly dir="${dirOf(ref)}">${esc(h.fields[ref]?.[k])}</textarea></div>`:'';
  return `<div class="${ref?'cmp':''}"><div><label>${lab}</label><textarea dir="${dirOf(lang)}" class="${cl}" data-p="fields.${lang}.${k}">${esc(v)}</textarea></div>${right}</div>`}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="${LST[h.code]?'د لیست مدخل پاتې کیږي؛ یوازې زیات سوي معلومات پاکیږي':'مدخل په بشپړ ډول ړنګول'}" style="color:var(--red);border-color:var(--red)">${LST[h.code]?'🧹 زیات معلومات پاک کړه':'🗑 ړنګول'}</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button></div>
+ $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="${LST[h.code]?'د لیست مدخل پاتې کیږي؛ یوازې زیات سوي معلومات پاکیږي':'مدخل په بشپړ ډول ړنګول'}" style="color:var(--red);border-color:var(--red)">${LST[h.code]?'🧹 زیات معلومات پاک کړه':'🗑 ړنګول'}</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button><div class="tabs">${L.map(l=>`<button class="${l===lang?'on':''}" data-l="${l}">${LN[l]}${h.status!=='index'&&Q(h).per[l]?` <span class="chip bad">${Q(h).per[l]}</span>`:''}</button>`).join('')}<select id="ref"><option value="">پرتله: هیڅ</option>${L.filter(l=>l!==lang).map(l=>`<option value="${l}" ${ref===l?'selected':''}>پرتله: ${LN[l]}</option>`).join('')}</select></div></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>د تایید لینک (لیست)</label><input dir="ltr" data-p="link" value="${esc(h.link)}">
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
- <details class="box"><summary>عربي نوم — د کتاب له مخې</summary><label>عربي نوم</label><input dir="rtl" data-p="names.ar" value="${esc(h.names.ar)}"></details><div class="tabs">${L.map(l=>`<button class="${l===lang?'on':''}" data-l="${l}">${LN[l]}${h.status!=='index'&&Q(h).per[l]?` <span class="chip bad">${Q(h).per[l]}</span>`:''}</button>`).join('')}<select id="ref"><option value="">پرتله: هیڅ</option>${L.filter(l=>l!==lang).map(l=>`<option value="${l}" ${ref===l?'selected':''}>پرتله: ${LN[l]}</option>`).join('')}</select></div>
+ <details class="box"><summary>عربي نوم — د کتاب له مخې</summary><label>عربي نوم</label><input dir="rtl" data-p="names.ar" value="${esc(h.names.ar)}"></details>
  <div class="box"><div class="${ref?'cmp':''}"><div><label>نوم (${LN[lang]})</label><input dir="${dirOf(lang)}" data-p="names.${lang}" value="${esc(h.names[lang])}"></div>${ref?`<div><label>نوم (${LN[ref]})</label><input readonly dir="${dirOf(ref)}" value="${esc(h.names[ref])}"></div>`:''}</div>
  <div class="${ref?'cmp':''}"><div><label>نور نومونه (هر کرښه: ژبه: نوم)</label><textarea style="min-height:60px" dir="${dirOf(lang)}" data-p="otherNames.${lang}">${esc(h.otherNames[lang])}</textarea></div>${ref?`<div><label>&nbsp;</label><textarea readonly style="min-height:60px" dir="${dirOf(ref)}">${esc(h.otherNames[ref])}</textarea></div>`:''}</div></div>
  <div class="tb"><span class="seg"><button id="fsm" title="کوچنی">A−</button><button id="fsp" title="غټ">A+</button></span><button id="hide" class="${HIDE?'p':''}">${HIDE?'✓ ':''}یوازې ډک ځایونه</button><button id="colall">ټولې برخې پټې</button><button id="expall">ټولې برخې خلاصې</button><span class="sp"></span><span class="hint">د هر ځای ښکته ښي کونج په ایستلو سره یې لوی/کوچنی کولای سئ</span></div>
