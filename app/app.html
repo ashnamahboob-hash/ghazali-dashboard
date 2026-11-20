@@ -2435,7 +2435,7 @@ function runId(blobP,previewUrl){
   return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+encodeURIComponent(KEY)+'&nb-results=5&lang='+encodeURIComponent(requestLang)+'&include-related-images=true',{method:'POST',body:data,signal:idAbort.signal});
  }).then(function(response){
   if(response.status===404)return {results:[]};
-  if(!response.ok)throw new Error(String(response.status));return response.json();
+  if(!response.ok)return response.text().then(function(t){var m='';try{m=(JSON.parse(t).message||JSON.parse(t).error||'')}catch(e){m=String(t||'').slice(0,80)}throw new Error(response.status+(m?' '+String(m).slice(0,80):'')+' @'+location.host)});return response.json();
  }).then(function(payload){
   if(request!==identificationRun)return;
   lastPayload=payload;lastPayloadLang=requestLang;var current=$('idres');
