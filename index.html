@@ -309,17 +309,18 @@ function afRows(){const q=norm(AFQ);
  return a.map(p=>`<div class="afrow" data-afrow="${esc(p.id)}"><span class="no">${p.no??''}</span>${/^data:image\//.test(p.thumb||'')?`<img src="${p.thumb}" alt="">`:'<span class="noimg"></span>'}<span class="nm"><b>${esc(p.name_ps)}</b> · ${esc(p.name_en||'')}<br><i class="hint" dir="ltr">${esc(p.scientific_name||'')}</i></span><span class="hint">📷 ${p.photoCount||0}</span><button data-af="edit" data-id="${esc(p.id)}">سمول</button><button data-af="del" data-id="${esc(p.id)}">ړنګول</button></div>`).join('')||'<p class="hint">هیڅ نه دي موندل سوي.</p>'}
 function afList(){AFEd=null;
  $('#ed').innerHTML=`<div id="afm"><div class="home"><h2>د افغانستان طبي بوټي (${AFP.length})</h2><p>دلته بوټي زیاتولای، سمولای یا ړنګولای سئ، او عکسونه (تر ${AFMAXP} پورې) اچولای سئ. نمبرونه په اتومات ډول د پښتو نوم د الفبا له مخې جوړېږي.</p></div>
- <div class="tb"><button class="p" data-af="new">+ نوی بوټی</button><input id="afq" placeholder="لټون…" value="${esc(AFQ)}" style="min-width:220px"><button data-af="import">نوي بوټي له JSON څخه واردول</button></div>
+ <div class="tb"><button class="p" data-af="new">+ نوی بوټی</button><input id="afq" placeholder="لټون…" value="${esc(AFQ)}" style="min-width:220px"><button data-af="import">نوي بوټي له JSON څخه واردول</button><button data-af="importfile">فایل له کمپیوټر څخه واردول</button><input type="file" id="afjsonf" accept=".json,application/json" style="display:none"></div>
  <div class="box" id="afrows">${afRows()}</div></div>`;afBind()}
 function afBind(){const m=$('#afm');
  m.addEventListener('click',e=>{const b=e.target.closest('[data-af]');if(!b)return;e.stopPropagation();afAct(b.dataset.af,b.dataset.id,b)});
  m.addEventListener('input',e=>{e.stopPropagation();if(e.target.id==='afq'){AFQ=e.target.value;$('#afrows').innerHTML=afRows()}});
- m.addEventListener('change',e=>{e.stopPropagation();const t=e.target;if(t.id==='afimgf'){afAddFiles(t.files);t.value=''}else if(t.dataset.afph){afSyncPh();AFPhDirty=true}})}
+ m.addEventListener('change',e=>{e.stopPropagation();const t=e.target;if(t.id==='afimgf'){afAddFiles(t.files);t.value=''}else if(t.id==='afjsonf'){afImportFile(t.files[0]);t.value=''}else if(t.dataset.afph){afSyncPh();AFPhDirty=true}})}
 async function afAct(a,id,btn){
  if(a==='new')return afEdit(null);
  if(a==='edit')return afEdit(id);
  if(a==='del')return afDelete(id);
  if(a==='import')return afImport(btn);
+ if(a==='importfile')return $('#afjsonf').click();
  if(a==='cancel')return afList();
  if(a==='save')return afSave(btn);
  if(a==='addph')return $('#afimgf').click();
@@ -334,6 +335,38 @@ async function afImport(btn){
   for(let i=0;i<list.length;i+=400){const b=writeBatch(db);list.slice(i,i+400).forEach(p=>{const d={...p};const lid=d.id;delete d.id;d.legacyId=lid;d.photoCount=0;d.thumb='';d.updatedAt=serverTimestamp();b.set(doc(db,AFC,'p'+String(lid).padStart(3,'0')),d)});await b.commit()}
   await afLoad();await afRenumber();toast('واردول سول: '+list.length+' نوي (ټول: '+AFP.length+')');afList()}
  catch(e){btn.disabled=false;alert('واردول ونه سول: '+(e.code||e.message))}}
+/* فایل له کمپیوټر څخه واردول: د بوټو لیست (JSON array) د همدې ساحو سره لکه د ایپ JSON. موجود بوټي او عکسونه نه بدلېږي. */
+async function afImportFile(file){
+ if(!file)return;
+ if(file.size>5*1024*1024)return alert('فایل ډېر لوی دی (تر ۵ MB پورې).');
+ let raw;try{raw=JSON.parse(await file.text())}catch(e){return alert('فایل ونه لوستل سو، یا JSON نه دی: '+e.message)}
+ const arr=Array.isArray(raw)?raw:(raw&&Array.isArray(raw.plants)?raw.plants:(raw&&typeof raw==='object'?[raw]:null));
+ if(!arr||!arr.length)return alert('په فایل کې بوټي نشته. فایل باید د بوټو لیست (JSON) وي.');
+ const keys=AFF.map(f=>f[0]),have=new Set(AFP.map(p=>p.id)),sci=new Set(AFP.map(p=>norm(p.scientific_name)).filter(Boolean));
+ const add=[],skip=[],bad=[],seen=new Set(),seenSci=new Set();
+ arr.forEach((x,i)=>{
+  if(!x||typeof x!=='object'||Array.isArray(x))return bad.push('#'+(i+1));
+  const name=String(x.name_ps??'').trim();
+  if(!name)return bad.push('#'+(i+1)+' (د پښتو نوم نشته)');
+  const n=Number(x.id),hasId=Number.isInteger(n)&&n>0;
+  const id=hasId?'p'+String(n).padStart(3,'0'):'p'+Date.now().toString(36)+i;
+  const sc=norm(x.scientific_name);
+  if(have.has(id)||seen.has(id))return skip.push(name+' (ID موجود)');
+  if(sc&&(sci.has(sc)||seenSci.has(sc)))return skip.push(name+' (علمي نوم موجود)');
+  const d={};keys.forEach(k=>{d[k]=String(x[k]??'').trim()});
+  d.source_links=(Array.isArray(x.source_links)?x.source_links:[]).map(u=>String(u).trim()).filter(u=>/^https?:\/\//i.test(u));
+  if(hasId)d.legacyId=n;
+  seen.add(id);if(sc)seenSci.add(sc);add.push({id,d,name});
+ });
+ const more=(a,k)=>a.slice(0,k).join('، ')+(a.length>k?' …':'');
+ if(!add.length)return alert('نوی بوټی نشته.'+(skip.length?'\nپرېښودل سوي ('+skip.length+'): '+more(skip,8):'')+(bad.length?'\nناسم ('+bad.length+'): '+more(bad,8):''));
+ const msg=add.length+' نوي بوټي واردېږي:\n'+add.slice(0,6).map(a=>'• '+a.name).join('\n')+(add.length>6?'\n… او نور':'')
+  +(skip.length?'\n\nپرېښودل سوي ('+skip.length+'): '+more(skip,6):'')+(bad.length?'\n\nناسم، نه واردېږي ('+bad.length+'): '+more(bad,6):'')
+  +'\n\nموجود بوټي او عکسونه نه بدلېږي. دوام؟';
+ if(!confirm(msg))return;
+ try{for(let i=0;i<add.length;i+=400){const b=writeBatch(db);add.slice(i,i+400).forEach(a=>b.set(doc(db,AFC,a.id),{...a.d,photoCount:0,thumb:'',no:9999,updatedAt:serverTimestamp()}));await b.commit()}
+  await afLoad();await afRenumber();toast('واردول سول: '+add.length+' نوي (ټول: '+AFP.length+')');afList()}
+ catch(e){alert('واردول ونه سول: '+(e.code||e.message))}}
 async function afEdit(id){
  const p=id?AFP.find(x=>x.id===id):null;AFEd=p?{...p}:{id:null};AFPh=[];AFPhDirty=false;
  if(p&&p.photoCount>0){try{const s=await getDocs(collection(db,AFC,id,'photos'));const a=[];s.forEach(d=>{const x=d.data();x._n=Number(d.id)||0;a.push(x)});a.sort((x,y)=>x._n-y._n);AFPh=a.map(x=>({data:x.data,author:x.author||'',license:x.license||'',source:x.source||''}))}catch(e){alert('عکسونه ونه لوستل سول')}}
