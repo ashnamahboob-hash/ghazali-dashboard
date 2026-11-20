@@ -353,11 +353,6 @@ html[dir=rtl] .other-names dd{text-align:right}
 #lightbox img{max-width:100%;max-height:78vh;border-radius:14px}
 #lightbox p{color:#fff;margin:0;font-size:15px}
 #lightbox button{position:absolute;top:14px;inset-inline-end:14px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:22px;cursor:pointer}
-.mz-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0 8px}
-.mz-row>span{font-size:13px;color:var(--soft);margin-inline-end:2px}
-.mz-row button{border:1px solid var(--bd);background:var(--card);color:var(--ink);font:inherit;font-size:14px;border-radius:999px;min-height:40px;padding:0 16px;cursor:pointer}
-.mz-row button.on{background:var(--gold);color:var(--bg);font-weight:700;border-color:transparent}
-.mz-note{font-size:12px;color:var(--soft);margin:0 4px 8px}
 
 .sec.acc{padding:0}
 .acc-t{display:inline-flex;align-items:center;gap:10px}
@@ -983,17 +978,16 @@ function libraryPage(T) {
  app.innerHTML = bar(T.lib)+'<div class="search">'+ic("search")+
   '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div>'+
   '<div class="chips" id="library-letters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+
-  letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+mzRow()+
+  letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+
   '<div id="featured">'+featuredHerbs(T)+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
  const update = function () {
   const query = librarySearchKey(q);
-  const matches = entries.filter(({plant,initial}) => (!letter || (letter==="*done" ? isRich(plant) : initial===letter)) && mzOK(plant) && libraryMatches(plant,query));
-  document.getElementById("featured").hidden=Boolean(query||letter||mzActive());
+  const matches = entries.filter(({plant,initial}) => (!letter || (letter==="*done" ? isRich(plant) : initial===letter)) && libraryMatches(plant,query));
+  document.getElementById("featured").hidden=Boolean(query||letter);
   document.getElementById("library-count").textContent=matches.length+" "+libraryLabels[lang][2];
   document.getElementById("list").innerHTML=matches.map(({plant})=>card(plant)).join("")||'<div class="empty">'+T.none+'</div>';
  };
  document.getElementById("ls").oninput=function(){q=this.value;update()};
- var mzr=document.getElementById("mz-row");if(mzr)mzr.onclick=function(event){var b=event.target.closest("button[data-mz]");if(!b)return;var k=b.dataset.mz;mzSel[k]=!mzSel[k];var pos=pagePosition();libraryPage(T);restorePosition(pos)};
  document.getElementById("library-letters").onclick=function(event){
   const button=event.target.closest("button[data-letter]");
   if(button){
@@ -1778,8 +1772,7 @@ stagePhotoSlots=function(all){
 var MZL={ps:["ګرم","سوړ","وچ","لوند"],fa:["گرم","سرد","خشک","مرطوب"],ur:["گرم","سرد","خشک","تر"],en:["Hot","Cold","Dry","Moist"]};
 var MZT={ps:"مزاج",fa:"مزاج",ur:"مزاج",en:"Temperament"};
 var MZN={ps:"د کتاب لومړی یاد سوی مزاج؛ بشپړو بوټو ته.",fa:"نخستین مزاج ذکرشده در کتاب؛ برای گیاهان کامل.",ur:"کتاب میں پہلے مذکور مزاج؛ مکمل اندراجات کے لیے۔",en:"First temperament stated in the book; detailed herbs only."};
-var mzSel={hot:false,cold:false,dry:false,wet:false},_mzc={};
-function mzActive(){return mzSel.hot||mzSel.cold||mzSel.dry||mzSel.wet}
+var _mzc={};
 function mzOf(p){
  var id=p.taj&&p.taj[0];if(!id||!inStage(p))return null;
  if(_mzc[id]!==undefined)return _mzc[id];
@@ -1794,16 +1787,6 @@ function mzOf(p){
    r.moist=mm==="وچ"?"dry":(mm==="لوند"?"wet":null);
   }}catch(e){r=null}
  lang=sv;return _mzc[id]=r;
-}
-function mzOK(p){
- if(!mzActive())return true;var r=mzOf(p);if(!r)return false;
- if(mzSel.hot&&r.heat!=="hot")return false;if(mzSel.cold&&r.heat!=="cold")return false;
- if(mzSel.dry&&r.moist!=="dry")return false;if(mzSel.wet&&r.moist!=="wet")return false;return true;
-}
-function mzRow(){
- var l=MZL[lang]||MZL.en,ks=["hot","cold","dry","wet"];
- return '<div class="mz-row" id="mz-row" role="group" aria-label="'+(MZT[lang]||MZT.en)+'"><span>'+(MZT[lang]||MZT.en)+'</span>'+
-  ks.map(function(k,i){return '<button data-mz="'+k+'" aria-pressed="'+mzSel[k]+'" class="'+(mzSel[k]?'on':'')+'">'+l[i]+'</button>'}).join("")+'</div>'+(mzActive()?'<p class="mz-note">'+(MZN[lang]||MZN.en)+'</p>':'');
 }
 /* ===== v2.2: offline ===== */
 try{if(/^https?:$/.test(location.protocol)&&"serviceWorker" in navigator){window.addEventListener("load",function(){try{navigator.serviceWorker.register("sw.js").catch(function(){})}catch(e){}})}}catch(e){}
