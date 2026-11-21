@@ -1,6 +1,6 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v2';
-const SHELL = ['./', 'index.html', 'app.html', 'accounts.js', 'account-utils.mjs',
+const VERSION = 'gk-shell-v3';
+const SHELL = ['./', 'index.html', 'app.html', 'accounts.js', 'account-utils.mjs', 'ghazali-gemini.js?v=6',
   'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', e => {
