@@ -37,7 +37,7 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 ## Next steps (in order)
 - [x] Obtain a complete file tree and inspect all HTML script/link references.
 - [x] Inspect `tools/app-source.cjs`; Node execution remains pending because the repository cannot be run in this connector session.
-- [ ] Review every module's imports/exports and global dependencies.
+- [ ] Review every module's imports/exports and global dependencies; data chunk counts and insertion markers currently match.
 - [ ] Reconcile branch ancestry with the three main commits; their key Gemini/offline changes have been reapplied, but the commits are not yet merged/cherry-picked.
 - [x] Refresh service-worker cache version and precache the split app's runtime assets; install now fails visibly if a required shell asset cannot be cached.
 - [ ] Run Node tests and syntax checks; record exact pass/fail output.
@@ -57,3 +57,10 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - No Node tests or browser/offline tests have been executed. GitHub Actions reports no workflow runs for this branch, and this environment could not clone the repository for local execution.
 - Remaining high-priority review: validate classic-script top-level declaration collisions and script dependency order; execute all Node tests and browser smoke tests before any merge.
 - No merge has been performed.
+
+### Additional checkpoint — automated validation setup
+- Added `.github/workflows/validate-app.yml` on the active refactor branch. It runs Node syntax checks and the six existing regression tests (including the four-language JSDOM production test).
+- The workflow file is present, but GitHub currently reports zero workflow runs/check-runs for its commit; therefore no tests are claimed as passing.
+- Static check: every local script/style path referenced by `app/app.html` exists in the branch tree (the `./accounts.js` path resolves to `accounts.js`).
+- Static check: all eight moved data files have matching reconstruction markers/chunk counts in their destination JS files; the emblem image chunk is intentionally handled separately by `app-source.cjs`.
+- Latest branch comparison at this checkpoint: 6 commits ahead and 3 commits behind `main`. The branch still needs a careful ancestry integration step; no merge has been performed.
