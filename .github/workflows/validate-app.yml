@@ -23,7 +23,7 @@ jobs:
         run: npm install --no-save --no-package-lock acorn acorn-walk jsdom
       - name: Check JavaScript syntax
         run: |
-          for file in app/js/*.js; do node --check "$file"; done
+          for file in app/js/*.js app/data/*.js; do node --check "$file"; done
           node --check app/account-utils.mjs
           node --input-type=module --check < app/accounts.js
           node --input-type=module --check < app/ghazali-gemini.js
@@ -34,4 +34,5 @@ jobs:
           node test-publication.cjs
           node test-accounts.cjs
           node test-import-file.cjs
+          node test-pwa-shell.cjs
           node tools/test-four-language-production.cjs
