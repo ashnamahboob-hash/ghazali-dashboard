@@ -4,7 +4,7 @@ Last checked: 2026-11-21
 
 ## Active work branch
 - Branch: `refactor/split-app-html`
-- Checked branch HEAD: `a5bfdc990166d95b88e4d164ab573d5406a84100`
+- Checked branch HEAD before this progress-log update: `ae87d345030c31e316cab1239e25451780947f39`
 - Main HEAD at checkpoint: `7497e32a778657e656e357556b3e1fb1df0b1eff`
 - Do not merge this branch until the integration and runtime checks below are complete.
 - Do not overwrite the user's split files or redesign the existing interface without an explicit need.
@@ -79,3 +79,14 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Separately checked every entry in the 34-item service-worker shell against the Git tree: zero missing files (excluding the intentional directory entry `./`).
 - Confirmed the branch diff against `main` still contains the intended split files and the two app-shell integration files; no unrelated files were introduced by this work.
 - The three commits on `main` remain absent from branch ancestry. Their relevant Gemini/offline changes are present in the branch's current file contents, but a merge commit has deliberately not been created without approval.
+
+
+### Additional checkpoint — split-script scope and CI review (2026-11-21)
+- Rechecked live branch refs: split branch was at `ae87d345030c31e316cab1239e25451780947f39`; `main` remains at `7497e32a778657e656e357556b3e1fb1df0b1eff`.
+- Current comparison reports the split branch is 12 commits ahead and 3 commits behind `main` (diverged). The 3 main-side commits remain unintegrated in branch ancestry. No merge or PR was created.
+- Reviewed the validation workflow and PWA shell regression test from the live branch. The workflow checks classic JS/data syntax, checks the two ES modules separately, and runs the existing regression suite plus `test-pwa-shell.cjs`.
+- The workflow-run lookup returned no associated pull-request workflow runs for the current commit. This lookup does not prove a push-triggered run is absent; CI execution remains unverified. No test pass is claimed.
+- Rechecked script tag order: split data scripts load before `core.js`; feature scripts follow it; Firebase, account, and Gemini are loaded as ES modules where applicable.
+- Static top-level declaration scan found no duplicate top-level `const`/`let`/`class` names across the classic split scripts and data scripts inspected. `settings-modern.js` is wrapped in an IIFE, and `firebase-dashboard.js` is a module with its own scope. This is a source-level scan, not a browser runtime test.
+- The progress file's previous HEAD value was stale and has been corrected in this checkpoint.
+- Remaining blockers are unchanged: execute the Node/CI tests, perform browser and offline smoke tests, and reconcile the three main-side commits safely before proposing integration. Do not merge without the user's explicit approval.
