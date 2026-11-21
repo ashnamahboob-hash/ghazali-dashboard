@@ -35,19 +35,25 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 8. Preserve the existing UI and all data. Do not delete or replace large embedded data until parity is demonstrated.
 
 ## Next steps (in order)
-- [ ] Obtain a complete file tree and inspect all HTML script/link references.
-- [ ] Inspect `tools/app-source.cjs` and test commands; determine exact supported build/test workflow.
+- [x] Obtain a complete file tree and inspect all HTML script/link references.
+- [x] Inspect `tools/app-source.cjs`; Node execution remains pending because the repository cannot be run in this connector session.
 - [ ] Review every module's imports/exports and global dependencies.
-- [ ] Compare split branch with main and integrate the three main commits safely.
-- [ ] Fix service-worker precache coverage and cache version.
+- [ ] Reconcile branch ancestry with the three main commits; their key Gemini/offline changes have been reapplied, but the commits are not yet merged/cherry-picked.
+- [x] Refresh service-worker cache version and precache the split app's runtime assets; install now fails visibly if a required shell asset cannot be cached.
 - [ ] Run Node tests and syntax checks; record exact pass/fail output.
 - [ ] Perform browser and offline smoke tests.
-- [ ] Update this file after each meaningful checkpoint.
+- [x] Update this file after each meaningful checkpoint.
 - [ ] Only then prepare a PR/merge recommendation; do not merge without user approval.
 
 ## Work log
 ### 2026-11-21
 - Located and inspected `refactor/split-app-html` rather than the older PR #19 branch.
-- Confirmed split structure and current branch/main SHAs above.
-- Identified the three-commit mainline gap and stale Gemini/service-worker integration.
-- No application source files have been changed in this checkpoint. This file is the continuity record.
+- Confirmed the complete app file tree and checked every local script/style reference in `app/app.html`; all references resolve after normalizing `./accounts.js`.
+- Inspected `tools/app-source.cjs`: it reconstructs the former monolithic HTML by inserting moved data chunks at explicit markers in the JavaScript files.
+- Reapplied the current-main Gemini URL fix: `app/app.html` now loads `./ghazali-gemini.js?v=6`.
+- Reworked `app/sw.js`: bumped cache to `gk-shell-v6`, added the current local Gemini module and plant JSON to the shell, listed the split runtime CSS/JS files, and removed the silent catch around precache installation by using `cache.addAll`.
+- Verified both edits are present at the branch head. The latest app source commit is `b2f7e9d85acf05d51a2aee47ef8a6c0d8d10d2e8`; latest service-worker commit / branch HEAD is `43999b1cb44de89aa85a4646c5e8faa6eaeda4ab`.
+- Branch comparison now reports 4 commits ahead and 3 behind `main`; the three behind commits are not yet part of this branch's ancestry even though the important Gemini/offline code changes have been reapplied.
+- No Node tests or browser/offline tests have been executed. GitHub Actions reports no workflow runs for this branch, and this environment could not clone the repository for local execution.
+- Remaining high-priority review: validate classic-script top-level declaration collisions and script dependency order; execute all Node tests and browser smoke tests before any merge.
+- No merge has been performed.
