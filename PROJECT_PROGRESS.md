@@ -116,3 +116,17 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Current branch HEAD before this progress update: `9838ff27ddb0f87cf6583f1f525a1b68b0a3e1fc`.
 - Current comparison against `main`: 17 commits ahead and 3 commits behind; branch remains diverged. No merge or PR was created.
 - GitHub's commit workflow-run lookup returned no runs for the corrected test commit; actual execution remains outstanding.
+
+
+### Additional checkpoint — first green full GitHub Actions run (2026-11-21)
+- Retrieved the actual GitHub Actions logs for failed runs instead of relying on the earlier PR-only workflow lookup.
+- The first concrete failure was in `test-import-file.cjs`: it treated the current 100-record `app/ghazali_all_100_plants_final.json` as if it contained 140 records (120 existing + 20 new). This was a stale test fixture assumption; the import implementation was not the cause.
+- Updated the test to model 80 existing records and 20 new records, adjusted the expected first new ID/legacy ID to `p081` / `81`, and corrected the object-wrapper test range to records 79–85.
+- Verified the latest GitHub Actions run:
+  - Run: `44880096377`
+  - Commit: `cf63ad00ed8a5ee151a180c7b015d30e2f95cf5b`
+  - Result: **success**
+  - JavaScript syntax checks: passed
+  - All application regression tests, including PWA shell and four-language production tests: passed
+- This is a green automated CI result. It is not a substitute for manual browser/device smoke tests, production deployment verification, or a merge review.
+- Current branch comparison at this checkpoint: 20 commits ahead, 3 behind `main`; no merge/rebase performed.
