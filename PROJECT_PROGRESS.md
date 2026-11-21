@@ -100,3 +100,11 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Confirmed the split branch's current `app/app.html` and `app/sw.js` already contain the equivalent changes, plus the split branch's newer cache version and full split-asset list. Thus the main-side functional edits are already present in the branch's file contents.
 - The commit ancestry remains diverged (12 ahead / 3 behind). Because both sides edited `app/app.html` and `app/sw.js`, ancestry integration still needs a careful merge/rebase conflict check; do not assume it will be conflict-free just because the resulting code changes overlap.
 - No merge, rebase, or pull request was performed.
+
+
+### Additional checkpoint — corrected split-app language test harness (2026-11-21)
+- Found that `tools/test-four-language-production.cjs` still opened the raw, now-split `app/app.html` in JSDOM. JSDOM does not load external local scripts by default, so the test's references to globals such as `lang` and `L` could not exercise the app's split JavaScript.
+- Updated the test to use `tools/app-source.cjs` to reconstruct the monolithic source before JSDOM execution, matching the existing regression-test strategy. Added a guard that reconstructed source contains Arabic-name data.
+- Commit: `9fa5824425b0fce852b62b3644a97158f5e78c7b`.
+- Checked the workflow-run lookup for this commit; it returned no runs. The test fix is committed but remains unexecuted. No runtime/CI pass is claimed.
+- Next: inspect the test harness for any further assumptions about the old monolithic layout, then get an actual Actions run before integration.
