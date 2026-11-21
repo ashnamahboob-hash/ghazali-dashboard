@@ -108,3 +108,11 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Commit: `9fa5824425b0fce852b62b3644a97158f5e78c7b`.
 - Checked the workflow-run lookup for this commit; it returned no runs. The test fix is committed but remains unexecuted. No runtime/CI pass is claimed.
 - Next: inspect the test harness for any further assumptions about the old monolithic layout, then get an actual Actions run before integration.
+
+
+### Follow-up — test harness cleanup and branch status
+- Removed unused imports from the corrected language test after switching it to the reconstructed split source.
+- The language test now uses the same reconstruction helper as the existing unit tests; this is a source-level correction only until it runs in CI.
+- Current branch HEAD before this progress update: `9838ff27ddb0f87cf6583f1f525a1b68b0a3e1fc`.
+- Current comparison against `main`: 17 commits ahead and 3 commits behind; branch remains diverged. No merge or PR was created.
+- GitHub's commit workflow-run lookup returned no runs for the corrected test commit; actual execution remains outstanding.
