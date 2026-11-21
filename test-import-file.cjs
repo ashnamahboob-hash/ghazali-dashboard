@@ -43,7 +43,7 @@ function run(fileText,existing,confirmAns=true){
   assert(/پرېښودل سوي \(2\)/.test(l.confirms[0]),'2 skipped (existing sci + same sci in file)');assert(/ناسم/.test(l.confirms[0]));
   // 5) user cancels -> nothing written
   l=await run(JSON.stringify(plants),have,false);assert.strictEqual(l.written.length,0);
-  // 6) object with plants key
-  l=await run(JSON.stringify({plants:plants.slice(118,125)}),have);assert.strictEqual(l.written.length,5);
+  // 6) object with plants key (five plants after the first 80 existing records)
+  l=await run(JSON.stringify({plants:plants.slice(78,85)}),have);assert.strictEqual(l.written.length,5);
   console.log('test-import-file: all passed');
 })().catch(e=>{console.error('FAIL',e.message);process.exit(1)});
