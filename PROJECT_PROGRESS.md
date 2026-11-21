@@ -64,3 +64,11 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Static check: every local script/style path referenced by `app/app.html` exists in the branch tree (the `./accounts.js` path resolves to `accounts.js`).
 - Static check: all eight moved data files have matching reconstruction markers/chunk counts in their destination JS files; the emblem image chunk is intentionally handled separately by `app-source.cjs`.
 - Latest branch comparison at this checkpoint: 6 commits ahead and 3 commits behind `main`. The branch still needs a careful ancestry integration step; no merge has been performed.
+
+### Additional checkpoint — offline shell regression coverage
+- Found a real offline-startup gap: the first revised service-worker shell cached the split CSS/JS files but omitted the eight data scripts referenced by `app/app.html`. Those data scripts contain the plant and reference content needed by the app.
+- Added all eight data scripts to `app/sw.js` and kept the `gk-shell-v6` version. The install uses `cache.addAll(SHELL)`, so missing required assets fail the install rather than being silently ignored.
+- Added `test-pwa-shell.cjs`, which checks that every local `src`/`href` referenced by `app/app.html` is present in the service-worker shell and explicitly checks all eight split data files.
+- Updated `.github/workflows/validate-app.yml` to syntax-check both `app/js/*.js` and `app/data/*.js`, and to run the new offline-shell test with the existing regression suite.
+- Independent static comparison of the actual branch files: 27 unique local HTML asset references, zero missing from the 34-entry service-worker cache list.
+- The test suite has not yet been executed by Node/GitHub Actions in this session; do not mark tests as passing until a real run is available.
