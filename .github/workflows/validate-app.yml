@@ -1,0 +1,37 @@
+name: Validate Ghazali Dashboard
+
+on:
+  push:
+    branches:
+      - main
+      - refactor/split-app-html
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  app-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install test-only parser and DOM dependencies
+        run: npm install --no-save --no-package-lock acorn acorn-walk jsdom
+      - name: Check JavaScript syntax
+        run: |
+          for file in app/js/*.js; do node --check "$file"; done
+          node --check app/account-utils.mjs
+          node --input-type=module --check < app/accounts.js
+          node --input-type=module --check < app/ghazali-gemini.js
+      - name: Run application regression tests
+        run: |
+          node test-home-layout.cjs
+          node test-identification-details.cjs
+          node test-publication.cjs
+          node test-accounts.cjs
+          node test-import-file.cjs
+          node tools/test-four-language-production.cjs
