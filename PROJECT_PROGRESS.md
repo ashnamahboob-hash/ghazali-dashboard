@@ -72,3 +72,10 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Updated `.github/workflows/validate-app.yml` to syntax-check both `app/js/*.js` and `app/data/*.js`, and to run the new offline-shell test with the existing regression suite.
 - Independent static comparison of the actual branch files: 27 unique local HTML asset references, zero missing from the 34-entry service-worker cache list.
 - The test suite has not yet been executed by Node/GitHub Actions in this session; do not mark tests as passing until a real run is available.
+
+### Additional checkpoint — dependency and cache audit
+- Reviewed the ordered script/style tags in `app/app.html`: the page loads the split data files before the core and feature scripts; Firebase/account/Gemini module scripts are marked as modules and execute after parsing.
+- Confirmed the static local asset audit has no missing `src`/`href` references.
+- Separately checked every entry in the 34-item service-worker shell against the Git tree: zero missing files (excluding the intentional directory entry `./`).
+- Confirmed the branch diff against `main` still contains the intended split files and the two app-shell integration files; no unrelated files were introduced by this work.
+- The three commits on `main` remain absent from branch ancestry. Their relevant Gemini/offline changes are present in the branch's current file contents, but a merge commit has deliberately not been created without approval.
