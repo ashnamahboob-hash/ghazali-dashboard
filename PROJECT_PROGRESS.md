@@ -90,3 +90,13 @@ Split the previously very large `app/app.html` into maintainable HTML, CSS, Java
 - Static top-level declaration scan found no duplicate top-level `const`/`let`/`class` names across the classic split scripts and data scripts inspected. `settings-modern.js` is wrapped in an IIFE, and `firebase-dashboard.js` is a module with its own scope. This is a source-level scan, not a browser runtime test.
 - The progress file's previous HEAD value was stale and has been corrected in this checkpoint.
 - Remaining blockers are unchanged: execute the Node/CI tests, perform browser and offline smoke tests, and reconcile the three main-side commits safely before proposing integration. Do not merge without the user's explicit approval.
+
+
+### Additional checkpoint — main-side commit review
+- Inspected all 3 commits on `main` after the shared merge base:
+  - `13b3f28`: changed the Gemini module URL to the app-local path.
+  - `075cb8b`: added the local Gemini module to the service-worker shell.
+  - `7497e32`: versioned the cached Gemini URL.
+- Confirmed the split branch's current `app/app.html` and `app/sw.js` already contain the equivalent changes, plus the split branch's newer cache version and full split-asset list. Thus the main-side functional edits are already present in the branch's file contents.
+- The commit ancestry remains diverged (12 ahead / 3 behind). Because both sides edited `app/app.html` and `app/sw.js`, ancestry integration still needs a careful merge/rebase conflict check; do not assume it will be conflict-free just because the resulting code changes overlap.
+- No merge, rebase, or pull request was performed.
