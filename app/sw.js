@@ -12,7 +12,15 @@ const SHELL = [
   'icon-192.png',
   'icon-512.png',
   'icon-maskable-512.png',
-  // Split app shell: styles and JavaScript modules.
+  // Split app shell: styles, data chunks, and JavaScript modules.
+  'data/images.js',
+  'data/taj-records.js',
+  'data/fig-text.js',
+  'data/word-detail-layout.js',
+  'data/pomegranate.js',
+  'data/reviewed-records.js',
+  'data/lst45.js',
+  'data/afghan-embed.js',
   'css/base.css',
   'css/mint-lens.css',
   'css/afghan-plants.css',
