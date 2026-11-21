@@ -19,13 +19,13 @@ function run(fileText,existing,confirmAns=true){
   return factory(file,existing,log,confirmAns).then(()=>log);
 }
 (async()=>{
-  const have=plants.slice(0,120).map(p=>({id:'p'+String(p.id).padStart(3,'0'),scientific_name:p.scientific_name}));
-  // 1) full file: only the 20 new ones are written
+  const have=plants.slice(0,80).map(p=>({id:'p'+String(p.id).padStart(3,'0'),scientific_name:p.scientific_name}));
+  // 1) full 100-plant file: the first 80 already exist, so only 20 are written
   let l=await run(JSON.stringify(plants),have);
   assert.strictEqual(l.written.length,20,'writes only new plants');
-  assert.deepStrictEqual(l.written.map(w=>w[0])[0],'p121');
+  assert.deepStrictEqual(l.written.map(w=>w[0])[0],'p081');
   const d=l.written[0][1];
-  assert.strictEqual(d.photoCount,0);assert.strictEqual(d.legacyId,121);assert(Array.isArray(d.source_links)&&d.source_links.length>0);
+  assert.strictEqual(d.photoCount,0);assert.strictEqual(d.legacyId,81);assert(Array.isArray(d.source_links)&&d.source_links.length>0);
   assert(!('id' in d),'id not stored in doc');
   // 2) nothing new
   l=await run(JSON.stringify(plants.slice(0,5)),have);
