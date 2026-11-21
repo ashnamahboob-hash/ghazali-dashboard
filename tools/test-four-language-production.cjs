@@ -1,4 +1,4 @@
-const fs=require('fs'),assert=require('node:assert/strict'),cp=require('child_process');
+const assert=require('node:assert/strict');
 const {JSDOM,VirtualConsole}=require('jsdom');
 const appSource=require('../tools/app-source.cjs');
 const acorn=require('acorn'),walk=require('acorn-walk');
