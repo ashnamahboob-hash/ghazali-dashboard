@@ -143,3 +143,12 @@
 .bk-ct{font-size:12px;font-weight:700;color:var(--bk-green)}
 .bk-cs{font-size:11px;color:var(--bk-muted);font-family:system-ui,sans-serif;flex:none}
 .bk-cbox .bk-cd{font-size:12px;line-height:1.9;color:var(--bk-muted)}
+
+/* Compact vertical spacing on plant detail pages; typography and imagery unchanged. */
+.bk-main{padding-top:20px}
+.bk-title{padding-bottom:17px}
+.bk-names{margin-top:20px}
+.bk-div{margin:23px 0}
+.bk-sec{gap:12px}
+.bk-card{gap:10px}
+.bk-refs{margin-top:27px;padding-top:17px}
