@@ -206,7 +206,7 @@ function glanceRow(p){
  if(mz&&mz.heat){var w=mz.heat==="hot"?L[0]:mz.heat==="cold"?L[1]:(HEATL.neutral[lang]||HEATL.neutral.en);
   g.insertAdjacentHTML("beforeend",'<span class="gchip"><i style="--c:'+HEATC[mz.heat]+'"></i>'+(MZT[lang]||MZT.en)+': <b>'+w+'</b> <small>('+({ps:"د کتاب لومړی یاد سوی",fa:"نخستین ذکرشده",ur:"پہلے مذکور",en:"first stated"}[lang])+')</small></span>');n++}
  if(/محصول|مه ورسره/.test(note)){g.insertAdjacentHTML("beforeend",'<span class="gchip"><i style="--c:#d9b873"></i>'+(PRD[lang]||PRD.en)+'</span>');n++}
- if(/تایید|انتظار/.test(note)){g.insertAdjacentHTML("beforeend",'<span class="gchip warnc">'+ic("warn")+(UNV[lang]||UNV.en)+'</span>');n++}
+ // Verification is managed by the dashboard; do not show an unverified-identity chip on plant pages.
  return n?g:null;
 }
 function clampIt(p){
