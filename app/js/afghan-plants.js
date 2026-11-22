@@ -13,8 +13,16 @@ var afSource = "json", afFS = null, afPhotos = {}, afPhotoLoading = {};
 function afWaitDb(ms) {
   return new Promise(function(res) {
     if (window.gkFirebase && window.gkFirebase.db) return res(window.gkFirebase.db);
-    var t = setTimeout(function() { res(null); }, ms);
-    window.addEventListener("gk-firebase-ready", function() { clearTimeout(t); res(window.gkFirebase ? window.gkFirebase.db : null); }, { once: true });
+    function ready() {
+      clearTimeout(t);
+      window.removeEventListener("gk-firebase-ready", ready);
+      res(window.gkFirebase ? window.gkFirebase.db : null);
+    }
+    var t = setTimeout(function() {
+      window.removeEventListener("gk-firebase-ready", ready);
+      res(null);
+    }, ms);
+    window.addEventListener("gk-firebase-ready", ready);
   });
 }
 function afLoadFirestore() {
@@ -45,6 +53,24 @@ function afSort(list) {
     return afCol.compare(a.name_ps || "", b.name_ps || "");
   });
 }
+var afRefreshLoading = false;
+function afRefreshLiveData() {
+  if (afSource === "fs" || afLoading || afRefreshLoading || !afPlants ||
+      !window.gkFirebase || !window.gkFirebase.db) return;
+  afRefreshLoading = true;
+  afLoadFirestore().then(function(list) {
+    if (!Array.isArray(list) || !list.length) return;
+    afPlants = afSort(list);
+    afSource = "fs";
+    afPhotos = {};
+    afPhotoLoading = {};
+    if (view === "regions") render();
+  }).catch(function() {
+    // Keep the existing offline list until live data becomes available.
+  }).then(function() { afRefreshLoading = false; });
+}
+window.addEventListener("gk-firebase-ready", afRefreshLiveData);
+window.addEventListener("online", afRefreshLiveData);
 function afLoadData() {
   if (afPlants || afLoading) return;
   afLoading = true;
@@ -54,6 +80,7 @@ function afLoadData() {
     return afLoadJson();
   }).then(function(list) {
     afPlants = afSort(Array.isArray(list) ? list : []); afLoading = false; if (view === "regions") render();
+    if (afSource !== "fs") afRefreshLiveData();
   }).catch(function() { afSource = "json"; afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
 }
 function afLoadPhotos(id) {
