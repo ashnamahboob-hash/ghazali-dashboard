@@ -30,7 +30,12 @@ function afLoadFirestore() {
 }
 function afLoadJson() {
   afLoadCredits();
-  return fetch("ghazali_all_100_plants_final.json").then(function(r) { return r.json(); }).catch(function() { return AF_EMBED; });
+  return fetch("ghazali_all_100_plants_final.json").then(function(r) {
+    if (!r.ok) throw new Error("Afghan plant backup unavailable: " + r.status);
+    return r.json();
+  }).then(function(list) {
+    return Array.isArray(list) ? list : AF_EMBED;
+  }).catch(function() { return AF_EMBED; });
 }
 var afCol = null;
 try { afCol = new Intl.Collator(["ps", "fa", "ar"]); } catch (e) { afCol = { compare: function(a, b) { return a < b ? -1 : a > b ? 1 : 0; } }; }
@@ -47,7 +52,7 @@ function afLoadData() {
     if (list && list.length) { afSource = "fs"; return list; }
     return afLoadJson();
   }).then(function(list) {
-    afPlants = afSort(list || []); afLoading = false; if (view === "regions") render();
+    afPlants = afSort(Array.isArray(list) ? list : []); afLoading = false; if (view === "regions") render();
   }).catch(function() { afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
 }
 function afLoadPhotos(id) {
