@@ -547,7 +547,7 @@ function fieldBlock(k){const h=cur,v=h.fields[lang][k]||'',idx=h.status==='index
 function thumbs(){return `<button data-qa="add" title="عکس زیات کړئ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 5h6M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/><circle cx="9" cy="9" r="2"/></svg><span>عکس</span></button>`+imgs.map((i,n)=>`<span class="th"><img src="${i.data}" data-th="${i.id}" title="${n+1}. ${esc(i.label||'')}" alt=""><button class="x" data-del="${i.id}" title="ړنګول">×</button></span>`).join('')}
 function gnav(){const h=cur;return GROUPS.map(([t,ks],i)=>{const f=ks.filter(k=>ok(h.fields[lang][k])).length;return `<button data-nav="${i}" class="${f===ks.length?'full':''}">${t.split(' · ')[0].split(' (')[0]} <span class="chip">${f}/${ks.length}</span></button>`}).join('')}
 function render(){const h=cur;if(!h){home();return}
- $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><button id="tp" title="پورتنۍ مینو ښکاره/پټ">☰</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="del" title="${LST[h.code]?'د لیست مدخل پاتې کیږي؛ یوازې زیات سوي معلومات پاکیږي':'مدخل په بشپړ ډول ړنګول'}" style="color:var(--red);border-color:var(--red)">${LST[h.code]?'🧹 زیات معلومات پاک کړه':'🗑 ړنګول'}</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button><div class="tabs">${L.map(l=>`<button class="${l===lang?'on':''}" data-l="${l}">${LN[l]}${h.status!=='index'&&Q(h).per[l]?` <span class="chip bad">${Q(h).per[l]}</span>`:''}</button>`).join('')}<span class="thumbs">${thumbs()}</span></div><div class="gline"><div class="gnav">${gnav()}</div><select id="ref"><option value="">پرتله: هیڅ</option>${L.filter(l=>l!==lang).map(l=>`<option value="${l}" ${ref===l?'selected':''}>پرتله: ${LN[l]}</option>`).join('')}</select></div></div>
+ $('#ed').innerHTML=`<div class="bar"><button class="mb" id="back">→ لیست</button><button id="tp" title="پورتنۍ مینو ښکاره/پټ">☰</button><h2>${esc(h.code)} · ${esc(nm(h))}</h2><span id="chips">${chips()}</span><span class="seg" id="stseg">${Object.entries(ST).map(([s,t])=>`<button data-st="${s}" class="${h.status===s?'on':''}">${t}</button>`).join('')}</span><button id="hist">تاریخچه</button><button id="dl1" title="یوازې دا مدخل د JSON فایل په توګه ډاونلوډ کړه">⬇ ډاونلوډ</button><button id="del" title="${LST[h.code]?'د لیست مدخل پاتې کیږي؛ یوازې زیات سوي معلومات پاکیږي':'مدخل په بشپړ ډول ړنګول'}" style="color:var(--red);border-color:var(--red)">${LST[h.code]?'🧹 زیات معلومات پاک کړه':'🗑 ړنګول'}</button><button id="disc" ${dirty?'':'hidden'}>بدلونونه لغوه کړه</button><button class="p" id="save" ${dirty?'':'disabled'}>ذخیره</button><div class="tabs">${L.map(l=>`<button class="${l===lang?'on':''}" data-l="${l}">${LN[l]}${h.status!=='index'&&Q(h).per[l]?` <span class="chip bad">${Q(h).per[l]}</span>`:''}</button>`).join('')}<span class="thumbs">${thumbs()}</span></div><div class="gline"><div class="gnav">${gnav()}</div><select id="ref"><option value="">پرتله: هیڅ</option>${L.filter(l=>l!==lang).map(l=>`<option value="${l}" ${ref===l?'selected':''}>پرتله: ${LN[l]}</option>`).join('')}</select></div></div>
  <div class="grid"><div><label>علمي نوم</label><input dir="ltr" data-p="scientific" value="${esc(h.scientific)}"></div><div><label>کورنۍ</label><input dir="ltr" data-p="family" value="${esc(h.family)}"></div><div><label>د کتاب مخونه</label><input dir="ltr" data-p="pages" class="${h.pages||h.status==='index'?'':'bad'}" value="${esc(h.pages)}"></div></div>
  <label>د تایید لینک (لیست)</label><input dir="ltr" data-p="link" value="${esc(h.link)}">
  <label>یادونه / کار (ادمین)</label><textarea style="min-height:50px" data-p="note">${esc(h.note)}</textarea>
@@ -584,7 +584,8 @@ $('#ed').addEventListener('click',async e=>{const t=e.target.closest('[data-l],[
  else if(t.dataset.lic)openDlg('up',t.dataset.lic);
  else if(t.id==='addimg')openDlg('inat');
  else if(t.dataset.del){if(confirm('عکس ړنګ سي؟')){await deleteDoc(doc(db,'herbs',cur.code,'images',t.dataset.del));imgs=imgs.filter(i=>i.id!==t.dataset.del);render()}}
- else if(t.id==='hist')await hist()
+ else if(t.id==='dl1'){const x=cleanContentLanguages(structuredClone(cur)),u=URL.createObjectURL(new Blob([JSON.stringify({exportedFrom:'ghazali-entry',entries:[x]},null,1)],{type:'application/json'})),l=document.createElement('a');l.href=u;l.download='ghazali-'+cur.code+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
+  else if(t.id==='hist')await hist()
  else if(t.id==='del')await delHerb()
  else if(t.dataset.restore!==undefined){cur=structuredClone(HS[+t.dataset.restore].data);dirty=true;render();toast('بیرته راوړل سو. ذخیره کېکاږئ.')}});
 $('#ed').addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g){d.open?CL.delete(d.dataset.g):CL.add(d.dataset.g);if(d.open)grows()}},true);
@@ -905,12 +906,12 @@ $('#imp').onclick=()=>$('#seedf').click();
 $('#rcb').onclick=openRecent;
 $('#seedf').onchange=async e=>{
  let arr;try{arr=JSON.parse(await e.target.files[0].text())}catch(er){e.target.value='';return alert('JSON فایل سم نه دی: '+er.message)}
- if(!Array.isArray(arr))arr=arr.entries||arr.herbs||[arr];
+ const rep=!Array.isArray(arr)&&!!arr&&arr.exportedFrom==='ghazali-entry';if(!Array.isArray(arr))arr=arr.entries||arr.herbs||[arr];
  const LG=['ps','fa','ur','en'],ok=h=>h&&/^[TMA]\d{3}$/.test(h.code||'');
- const nw=[],mg=[],sk=[],bad=[];
- for(const h of arr){if(!ok(h)){bad.push(h&&h.code||'؟');continue}const o=DB[h.code];if(!o)nw.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
- if(!nw.length&&!mg.length){e.target.value='';return alert('هیڅ نوی یا د ډکولو وړ مدخل ونه موندل سو.'+(sk.length?'\nبیاکتل/تایید سوي مدخلونه نه بدلیږي: '+sk.slice(0,10).join(', '):'')+(bad.length?'\nناسم کوډونه: '+bad.slice(0,10).join(', '):''))}
- if(!confirm('نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (یوازې که د کتاب متن ولري «مسوده» کیږي، نه نو «یوازې فهرست» پاتې کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
+ const nw=[],mg=[],sk=[],bad=[],rp=[];
+ for(const h of arr){if(!ok(h)){bad.push(h&&h.code||'؟');continue}const o=DB[h.code];if(!o)nw.push(h);else if(rep)rp.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
+ if(!nw.length&&!mg.length&&!rp.length){e.target.value='';return alert('هیڅ نوی یا د ډکولو وړ مدخل ونه موندل سو.'+(sk.length?'\nبیاکتل/تایید سوي مدخلونه نه بدلیږي: '+sk.slice(0,10).join(', '):'')+(bad.length?'\nناسم کوډونه: '+bad.slice(0,10).join(', '):''))}
+ if(!confirm((rp.length?'اصلاح سوي مدخلونه چې پخواني ځای کې ځای پر ځای کیږي: '+rp.map(h=>h.code).join(', ')+'\n\n':'')+'نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (یوازې که د کتاب متن ولري «مسوده» کیږي، نه نو «یوازې فهرست» پاتې کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
  const PH='په کتاب کې نه دی لیکل شوی',s=v=>typeof v==='string'&&v.trim()&&v.trim()!==PH?v.trim():'',sf=(v,old)=>typeof v==='string'&&v.trim()&&(v.trim()!==PH||!old||!String(old).trim())?v.trim():'';let k=0;
  for(const h of nw){const st0=h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft';const x={...h,added:true,status:st0==='draft'&&!hasBody(h)?'index':st0,version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};if(!x.type)x.type=h.code[0];if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),cleanContentLanguages(JSON.parse(JSON.stringify(x))));DB[h.code]=cleanContentLanguages(x);k++}
  let m=0;
@@ -923,7 +924,10 @@ $('#seedf').onchange=async e=>{
   cleanContentLanguages(x);await setDoc(doc(db,'herbs',h.code),x);
   await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د JSON واردات له لارې ډک سو',data:x});
   DB[h.code]=x;m++}
- e.target.value='';renderList();toast(k+' نوي، '+m+' ډک سو'+(sk.length?'، '+sk.length+' پرېښودل سول':''))};
+ let r=0;
+ for(const h of rp){const o=DB[h.code];const x={...o,...JSON.parse(JSON.stringify(h)),code:o.code,order:o.order,type:o.type,status:o.status};if(!x.names)x.names=o.names;if(!x.fields)x.fields=o.fields;x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;cleanContentLanguages(x);await setDoc(doc(db,'herbs',h.code),x);await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د اصلاح سوي فایل په واردولو سره ځای پر ځای سو',data:x});DB[h.code]=x;r++}
+ if(cur&&rp.some(h=>h.code===cur.code)){dirty=false;openHerb(cur.code)}
+ e.target.value='';renderList();toast((r?r+' مدخل ځای پر ځای سو، ':'')+k+' نوي، '+m+' ډک سو'+(sk.length?'، '+sk.length+' پرېښودل سول':''))};
 /* خالي مسودې (د کتاب هیڅ متن نه لري) بیرته «یوازې فهرست» ته. بیاکتل/تایید سوي هیڅکله نه لمس کېږي. */
 $('#fixd').onclick=async()=>{
  const em=Object.entries(DB).filter(([c,h])=>h.status==='draft'&&!hasBody(h));
