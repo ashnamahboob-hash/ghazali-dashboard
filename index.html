@@ -279,7 +279,7 @@ const CORE=['mzj','mhy','khs','use','mzr'],SOFT=['msl','bdl'],IMG=['بشپړ ب�
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
 const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
-const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['users','کارونکي'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء']];
+const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['users','کارونکي'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء'],['api','API تنظیمات']];
 const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
 const SECINFO={
  regions:['د افغانستان طبي بوټي','د ایپ په دې برخه کې کارونکی ولایت غوره کوي. د دې ولایت مستند ریکارډونه لا نه دي داخل سوي.'],
@@ -515,7 +515,13 @@ function usRender(){const cnt={},pv={};USRL.forEach(u=>{cnt[u.occupation]=(cnt[u
 function usFb(uid){const a=FBK.filter(x=>x.uid===uid);if(!a.length)return '';return `<details class="usfb" style="flex-basis:100%;width:100%"><summary>نظرونه (${a.length})</summary>${a.map(x=>{const h=DB[x.herbId],dt=x.createdAt?.toDate?x.createdAt.toDate().toLocaleDateString():'';return `<div style="border-top:1px solid #e1e7dc;padding:6px 0"><span class="hint">${h?esc(nm(h)):'عمومي'} · ${dt}${x.status==='new'?' · نوی':''}</span><p style="white-space:pre-wrap;margin:2px 0">${esc(x.text)}</p></div>`}).join('')}</details>`}
 function usRowsHtml(){const a=usRows();return a.map(u=>{const dt=u.updatedAt?.toDate?u.updatedAt.toDate().toLocaleDateString():'';return `<div class="afrow"><span class="nm"><b>${esc(u.displayName||'—')}</b> · ${esc(OCC[u.occupation]||u.occupation||'')}<br><i class="hint">${esc([u.organization,u.province].filter(Boolean).join(' · '))}</i></span><span class="hint">${dt}</span><button data-udel="${esc(u.uid)}">پروفایل لرې کړه</button>${usFb(u.uid)}</div>`}).join('')||'<p class="hint">هیڅ نه دي موندل سوي.</p>'}
 
-function secPage(){if(sec==='feedback')return fbPage();if(sec==='users')return usPage();if(sec==='regions')return afPage();const [t,d]=SECINFO[sec];
+function apiSettingsPage(){
+ $('#ed').innerHTML=`<div class="home"><h2>🔐 د API تنظیمات</h2><p>د Pl@ntNet او Google Gemini کیلي باید په خوندي سرور کې ثبت سي، نه په دې عامه GitHub Pages ډیشبورډ کې.</p></div>
+ <div class="box"><h3>🌿 Pl@ntNet</h3><p>اوسنی اتصال: Cloudflare Worker (د عکس پېژندنه فعاله ده). د موجودې کیلي بدلول تر هغه مه کوئ چي خوندي مدیریتي اتصال چمتو سوی نه وي.</p><p>د کیلي خوندي ځای: Cloudflare Worker Secret.</p></div>
+ <div class="box"><h3>✦ Google Gemini — Google AI Studio</h3><p>اوسنی اتصال: Firebase AI Logic. د Google AI Studio شخصي کیلي لپاره جلا خوندي Worker endpoint ته اړتیا ده.</p><p>د کیلي خوندي ځای: Cloudflare Worker Secret. د Gemini ماډل او د API غوښتنو تنظیمات به د سرور له لارې اداره کېږي.</p></div>
+ <div class="box"><h3>د خوندي اتصال حالت</h3><p>⏳ د API کیلي د ثبتولو فورمه لا فعاله نه ده. تر هغه چي د سرور تصدیق او د Secret ثبتولو endpoint چمتو نه سي، دلته کیلي مه لیکئ او په GitHub کې یې مه ثبتوئ.</p><p>د اړتیا وړ امنیت: د مدیر تایید، د سرور له خوا د کیلي ثبت، د کیلي نه ښکاره کول، او د اتصال جلا ازموینه.</p></div>`;
+}
+function secPage(){if(sec==='api')return apiSettingsPage();if(sec==='feedback')return fbPage();if(sec==='users')return usPage();if(sec==='regions')return afPage();const [t,d]=SECINFO[sec];
  $('#ed').innerHTML=`<div class="home"><h2>${t}</h2><p>${d}</p></div>
  ${sec==='regions'?`<div class="box"><h3>ولایتونه (${PROV.length}) · هماغه لیست چې په ایپ کې دی</h3><div class="pv">${PROV.map(p=>`<span>${p}</span>`).join('')}</div></div>`:''}
  <div class="box"><h3>د دې برخې حالت</h3><p>په ایپ کې دا برخه لا تایید سوی ډاټا نه لري، او دلته هم د دې لپاره لا ریکارډونه نشته. د ډاټا جوړښت (کوم ډګرونه) پکار دي چې لومړی له تاسو سره وټاکو، بیا به یې ایډیټ کولو لپاره فورمه جوړه سي.</p></div>`}
