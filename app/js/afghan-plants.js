@@ -49,11 +49,12 @@ function afLoadData() {
   if (afPlants || afLoading) return;
   afLoading = true;
   afLoadFirestore().catch(function() { return null; }).then(function(list) {
-    if (list && list.length) { afSource = "fs"; return list; }
+    if (Array.isArray(list) && list.length) { afSource = "fs"; return list; }
+    afSource = "json";
     return afLoadJson();
   }).then(function(list) {
     afPlants = afSort(Array.isArray(list) ? list : []); afLoading = false; if (view === "regions") render();
-  }).catch(function() { afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
+  }).catch(function() { afSource = "json"; afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
 }
 function afLoadPhotos(id) {
   if (afPhotos[id] || afPhotoLoading[id] || !afFS || !window.gkFirebase || !window.gkFirebase.db) return;
