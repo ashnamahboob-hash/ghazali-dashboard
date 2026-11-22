@@ -139,7 +139,7 @@ function afProvChips(u) {
     .sort(function(a, b) { return b.n - a.n; });
   var all = '<button data-i="-1" class="' + (selectedProvince === "" ? "on" : "") + '" onclick="afPickProv(-1)">' + u.allProv + '<small>' + afPlants.length + '</small></button>';
   return '<div class="af-provs">' + all + items.map(function(x) {
-    var cls = (selectedProvince === x.name ? "on" : "") + (x.n === 0 ? " zero" : "");
+    var cls = (selectedProvince === provinces[x.i] ? "on" : "") + (x.n === 0 ? " zero" : "");
     return '<button data-i="' + x.i + '" class="' + cls.trim() + '" onclick="afPickProv(' + x.i + ')">' + esc(x.name) + '<small>' + x.n + '</small></button>';
   }).join("") + '</div>';
 }
