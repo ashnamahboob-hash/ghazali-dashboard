@@ -96,9 +96,13 @@ function afCreditLine(id) {
   return parts.length ? '<div class="af-credit">' + esc(parts.join(" · ")) + '</div>' : "";
 }
 function afField(p, base) {
-  var l = (lang === "en") ? "ps" : lang;
-  if (base === "name" && lang === "en") return p.name_en || p.name_ps;
-  return p[base + "_" + l] || p[base + "_ps"] || "";
+  var preferred = p[base + "_" + lang];
+  if (typeof preferred === "string" && preferred.trim()) return preferred;
+  if (lang === "en") {
+    // Do not mislabel Pashto medical text as English; translations require review.
+    return base === "name" ? (p.name_en || p.name_ps || "") : "English translation pending";
+  }
+  return p[base + "_ps"] || "";
 }
 
 function afIsCold(p) {
