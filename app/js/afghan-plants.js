@@ -124,8 +124,18 @@ function afPickProv(i) {
   for (var k = 0; k < btns.length; k++) btns[k].classList.toggle("on", Number(btns[k].getAttribute("data-i")) === i);
   afRenderListOnly();
 }
+/* Province display names are localized; canonical Pashto keys remain unchanged for filtering. */
+var AF_PROV_NAMES = {
+ en:["Badakhshan","Badghis","Baghlan","Balkh","Bamyan","Daykundi","Farah","Faryab","Ghazni","Ghor","Helmand","Herat","Jowzjan","Kabul","Kandahar","Kapisa","Khost","Kunar","Kunduz","Laghman","Logar","Nangarhar","Nimroz","Nuristan","Paktia","Paktika","Panjshir","Parwan","Samangan","Sar-e Pol","Takhar","Uruzgan","Maidan Wardak","Zabul"],
+ fa:["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندی","فراه","فاریاب","غزنی","غور","هلمند","هرات","جوزجان","کابل","قندهار","کاپیسا","خوست","کنر","کندز","لغمان","لوگر","ننگرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشیر","پروان","سمنگان","سرپل","تخار","ارزگان","میدان وردک","زابل"],
+ ur:["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندی","فراہ","فاریاب","غزنی","غور","ہلمند","ہرات","جوزجان","کابل","قندھار","کاپیسا","خوست","کنڑ","قندوز","لغمان","لوگر","ننگرہار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشیر","پروان","سمنگان","سرپل","تخار","ارزگان","میدان وردک","زابل"]
+};
+function afProvName(pr) {
+ var i = provinces.indexOf(pr), names = AF_PROV_NAMES[lang];
+ return i < 0 || !names || !names[i] ? pr : names[i];
+}
 function afProvChips(u) {
-  var items = provinces.map(function(pr, i) { return { i: i, n: afProvCount(pr), name: pr }; })
+  var items = provinces.map(function(pr, i) { return { i: i, n: afProvCount(pr), name: afProvName(pr) }; })
     .sort(function(a, b) { return b.n - a.n; });
   var all = '<button data-i="-1" class="' + (selectedProvince === "" ? "on" : "") + '" onclick="afPickProv(-1)">' + u.allProv + '<small>' + afPlants.length + '</small></button>';
   return '<div class="af-provs">' + all + items.map(function(x) {
