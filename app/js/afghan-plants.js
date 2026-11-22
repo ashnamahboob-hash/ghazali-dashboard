@@ -114,9 +114,20 @@ function afClosePlant() { afSelectedId = null; render(); window.scrollTo(0, 0); 
 function afSetProv(v) { selectedProvince = v; render(); }
 function afSetQuery(v) { afQuery = v; afRenderListOnly(); }
 
+/* Use one consistent location matcher for province counts and filtered results.
+   General regional descriptions are not evidence of presence in every province. */
+function afProvinceMatches(p, pr) {
+  if (!pr) return true;
+  var location = String(p.location_ps || "");
+  var normalized = function(v) {
+    return String(v).replace(/[يىې]/g, "ی").replace(/ك/g, "ک").replace(/\s+/g, " ").trim();
+  };
+  var text = normalized(location), name = normalized(pr);
+  return text.indexOf(name) !== -1 || /(?:په )?ټول هېواد|ټول افغانستان|په ټول افغانستان/.test(text);
+}
 function afProvCount(pr) {
   if (!afPlants) return 0;
-  return afPlants.filter(function(p) { var l = p.location_ps || ""; return l.indexOf(pr) > -1 || l.indexOf("ټول هېواد") > -1; }).length;
+  return afPlants.filter(function(p) { return afProvinceMatches(p, pr); }).length;
 }
 function afPickProv(i) {
   selectedProvince = i < 0 ? "" : provinces[i];
@@ -147,7 +158,7 @@ function afFilterPlants() {
   if (!afPlants) return [];
   var qv = afQuery.trim().toLowerCase();
   return afPlants.filter(function(p) {
-    if (selectedProvince && (p.location_ps || "").indexOf(selectedProvince) === -1 && (p.location_ps || "").indexOf("ټول هېواد") === -1) return false;
+    if (!afProvinceMatches(p, selectedProvince)) return false;
     if (qv) {
       var hay = [p.name_ps, p.name_fa, p.name_ur, p.name_en, p.scientific_name, p.benefits_ps, p.benefits_fa, p.benefits_ur, p.location_ps].join(" ").toLowerCase();
       if (hay.indexOf(qv) === -1) return false;
