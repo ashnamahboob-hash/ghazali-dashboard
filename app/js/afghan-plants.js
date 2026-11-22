@@ -56,7 +56,7 @@ function afLoadData() {
   }).catch(function() { afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
 }
 function afLoadPhotos(id) {
-  if (afPhotos[id] || afPhotoLoading[id] || !afFS || !window.gkFirebase) return;
+  if (afPhotos[id] || afPhotoLoading[id] || !afFS || !window.gkFirebase || !window.gkFirebase.db) return;
   afPhotoLoading[id] = true;
   afFS.getDocs(afFS.collection(window.gkFirebase.db, "afghan_plants", String(id), "photos")).then(function(snap) {
     var a = []; snap.forEach(function(d) { var x = d.data(); x._n = Number(d.id) || 0; if (/^data:image\//.test(x.data || "")) a.push(x); });
