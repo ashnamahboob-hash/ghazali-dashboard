@@ -64,6 +64,9 @@ function afRefreshLiveData() {
     afSource = "fs";
     afPhotos = {};
     afPhotoLoading = {};
+    if (afSelectedId !== null && !afPlants.some(function(p) { return String(p.id) === String(afSelectedId); })) {
+      afSelectedId = null;
+    }
     if (view === "regions") render();
   }).catch(function() {
     // Keep the existing offline list until live data becomes available.
@@ -91,7 +94,10 @@ function afLoadPhotos(id) {
     a.sort(function(x, y) { return x._n - y._n; });
     afPhotos[id] = a; afPhotoLoading[id] = false;
     if (String(afSelectedId) === String(id) && view === "regions") render();
-  }).catch(function() { afPhotos[id] = []; afPhotoLoading[id] = false; });
+  }).catch(function() {
+    // A failed request is not an empty gallery: allow another attempt after reconnect.
+    afPhotoLoading[id] = false;
+  });
 }
 function afGalleryHtml(p) {
   if (afSource === "fs") {
