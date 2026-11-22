@@ -7,12 +7,13 @@ const shell = fs.readFileSync(path.join(appDir, 'sw.js'), 'utf8');
 const appHtml = fs.readFileSync(path.join(appDir, 'app.html'), 'utf8');
 const manifest = JSON.parse(fs.readFileSync(path.join(appDir, 'manifest.webmanifest'), 'utf8'));
 
-assert.match(shell, /const VERSION = 'gk-shell-v5';/);
+assert.match(shell, /const VERSION = 'gk-shell-v7';/);
 const precache = shell.match(/const SHELL = \[([\s\S]*?)\];/);
 assert.ok(precache, 'service-worker shell list exists');
 for (const asset of [
   'index.html', 'app.html', 'accounts.js', 'account-utils.mjs',
   'ghazali-gemini.js?v=6', 'ghazali_all_100_plants_final.json',
+  'js/afghan-plants.js', 'data/afghan-embed.js', 'css/afghan-plants.css',
   'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'
 ]) {
   assert.ok(precache[1].includes(asset), 'precache includes ' + asset);
