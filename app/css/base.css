@@ -446,3 +446,12 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 .pick-res small{color:var(--soft);direction:ltr;flex:none}
 .pick-sel{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;padding:7px 8px 7px 14px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;font-size:14px}
 .pick-sel button{border:0;background:rgba(255,255,255,.12);color:inherit;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:15px;line-height:1}
+
+/* Library mobile layout corrections (2026-11-22) */
+/* Keep the first and last alphabet chips fully visible in RTL/LTR. */
+#library-letters{box-sizing:border-box;max-width:100%;min-width:0;direction:inherit;scroll-padding-inline:16px;padding-inline:16px;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+#library-letters .chip{flex:0 0 auto;white-space:nowrap}
+/* Allow long featured herb names to wrap rather than truncate. */
+#featured .fc b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.45;min-height:2.9em}
+/* Leave room to scroll the final library card clear of the fixed bottom menu. */
+.app:has(#library-letters){padding-bottom:calc(164px + env(safe-area-inset-bottom,0px))}
