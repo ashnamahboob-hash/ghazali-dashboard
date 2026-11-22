@@ -106,6 +106,8 @@ function afField(p, base) {
   if (typeof preferred === "string" && preferred.trim()) return preferred;
   if (lang === "en") {
     // Do not mislabel Pashto medical text as English; translations require review.
+    // Missing warning must stay absent; never fabricate a caution section.
+    if (base === "warning") return "";
     return base === "name" ? (p.name_en || p.name_ps || "") : "English translation pending";
   }
   return p[base + "_ps"] || "";
