@@ -164,11 +164,19 @@ function afProvChips(u) {
 }
 function afFilterPlants() {
   if (!afPlants) return [];
-  var qv = afQuery.trim().toLowerCase();
+  // Normalize common Arabic/Persian letter variants in searches across all four languages.
+  var normalizeSearch = function(v) {
+    return String(v == null ? "" : v).toLowerCase()
+      .replace(/[يىې]/g, "ی").replace(/ك/g, "ک")
+      .replace(/[\u064B-\u065F\u0670]/g, "").trim();
+  };
+  var qv = normalizeSearch(afQuery);
   return afPlants.filter(function(p) {
     if (!afProvinceMatches(p, selectedProvince)) return false;
     if (qv) {
-      var hay = [p.name_ps, p.name_fa, p.name_ur, p.name_en, p.scientific_name, p.benefits_ps, p.benefits_fa, p.benefits_ur, p.location_ps].join(" ").toLowerCase();
+      var hay = normalizeSearch([p.name_ps, p.name_fa, p.name_ur, p.name_en, p.scientific_name,
+        p.benefits_ps, p.benefits_fa, p.benefits_ur, p.location_ps, p.location_fa, p.location_ur,
+        p.category].join(" "));
       if (hay.indexOf(qv) === -1) return false;
     }
     return true;
