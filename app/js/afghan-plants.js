@@ -218,7 +218,7 @@ regionPage = function(v) {
         '<div class="sec"><h3>' + ic("pin") + u.loc + '</h3><p>' + esc(afField(p, "location")) + '</p></div>' +
         (warnTxt ? '<div class="sec warn"><h3>' + ic("warn") + u.warn + '</h3><p>' + esc(warnTxt) + '</p></div>' : '') +
         '<div class="sec"><h3>' + u.src + '</h3><p style="font-size:13.5px;color:var(--soft)">' + esc(p.source) + '</p>' +
-        '<div class="af-links">' + (p.source_links || []).map(function(lk) {
+        '<div class="af-links">' + (Array.isArray(p.source_links) ? p.source_links : []).filter(function(lk) { return typeof lk === "string" && /^https:\/\//i.test(lk); }).map(function(lk) {
           var lbl = lk.indexOf("kew") > -1 ? "POWO (Kew)" : lk.indexOf("gbif") > -1 ? "GBIF" : lk.indexOf("fao") > -1 ? "FAO" : "مخزن الادویه";
           return '<a href="' + esc(lk) + '" target="_blank" rel="noopener">' + lbl + ' ↗</a>';
         }).join("") + '</div></div>' +
