@@ -1216,10 +1216,10 @@
       if (note) note.textContent = 'ایپ نصب سو. د تلیفون په کور پاڼه کې یې ومومئ.';
     });
     function showSteps(id, text){
-      if (note) note.textContent = text;
+      if (note) { note.textContent = text; note.hidden = false; note.style.display = 'block'; }
       var el = document.getElementById(id);
       if (!el) return;
-      el.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center'});
+      // Keep the visitor at the install button; do not jump down the page.
       el.classList.add('hl');
       setTimeout(function(){ el.classList.remove('hl'); }, 2500);
     }
