@@ -247,7 +247,7 @@ textarea[dir=ltr],input[dir=ltr]{font-family:"Segoe UI",Inter,Arial,sans-serif;l
 </head>
 <body>
 <div id="small">دا ډیشبورډ یوازې په کمپیوټر کې خلاصېږي.</div>
-<div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
+<div id="login"><svg class="lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><h2>غزالي د طبیعت خزانه</h2><p class="tg">ایډمین ننوتنه</p><input id="em" type="email" placeholder="Email" dir="ltr"><input id="pw" type="password" placeholder="Password" dir="ltr"><button class="p" id="go" style="width:100%;margin-top:8px">ننوتل</button><div style="text-align:center;margin:12px 0;color:var(--muted,#667)">یا</div><button id="google-go" type="button" style="width:100%;padding:12px;border:1px solid #b8c6bd;border-radius:9px;background:white;color:#174a38;font-weight:700;cursor:pointer">🌐 د Google حساب له لارې ننوتل</button><p id="lerr" style="color:var(--warn)"></p></div>
 <div id="app">
 <header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="language-migration">د عربي متن پاکول</button><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="rcb" title="هغه مدخلونه چې نوي اضافه سوي (لکه د JSON واردات)">نوي مدخلونه</button><button id="imp" title="Seed JSON">Import</button><button id="fixd" title="هغه مسودې چې د کتاب هیڅ متن نه لري بیرته «یوازې فهرست» کوي">خالي مسودې → فهرست</button><button id="exp" title="بیک اپ">Export</button><button id="out">وتل</button></div></header>
 <aside>
@@ -268,7 +268,7 @@ textarea[dir=ltr],input[dir=ltr]{font-family:"Segoe UI",Inter,Arial,sans-serif;l
 <div id="toast"></div>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {getAuth,signInWithEmailAndPassword,signInWithPopup,signInWithRedirect,getRedirectResult,GoogleAuthProvider,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import {getFirestore,collection,collectionGroup,doc,getDoc,getDocs,setDoc,deleteDoc,addDoc,query,orderBy,limit,serverTimestamp,writeBatch,deleteField} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 const CFG={apiKey:"AIzaSyAhBekjZhte7rhP2Tbu7h4cEcIsCk5nigY",authDomain:"ghazali-herbs.firebaseapp.com",projectId:"ghazali-herbs"};
 const $=s=>document.querySelector(s),L=['ps','fa','ur','en'],LN={ps:'پښتو',fa:'فارسی',ur:'اردو',en:'English',ar:'العربية'};
@@ -304,6 +304,19 @@ let FSZ=16,HIDE=false,CL=new Set();try{FSZ=+localStorage.getItem('gk_fs')||16;HI
 document.documentElement.style.setProperty('--fs',FSZ+'px');
 let FBK=[],FBN=0,FBV='new',sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
 $('#go').onclick=async()=>{const b=$('#go'),err=$('#lerr');err.textContent='د ننوتلو غوښتنه روانه ده…';b.disabled=true;try{await signInWithEmailAndPassword(auth,$('#em').value.trim(),$('#pw').value);err.textContent='هویت تایید سو؛ ډیشبورډ پرانیستل کېږي…';}catch(e){err.textContent='ننوتنه ونه سوه: '+(e?.code||e?.message||'نامعلومه تېروتنه');}finally{b.disabled=false}};
+const googleProvider=new GoogleAuthProvider();
+googleProvider.setCustomParameters({prompt:'select_account'});
+$('#google-go').onclick=async()=>{
+ const button=$('#google-go'),err=$('#lerr');button.disabled=true;err.textContent='د Google ننوتلو غوښتنه روانه ده…';
+ try{await signInWithPopup(auth,googleProvider);err.textContent='Google هویت تایید سو؛ ډیشبورډ پرانیستل کېږي…'}
+ catch(e){
+  if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment'].includes(e?.code)){
+   try{await signInWithRedirect(auth,googleProvider);return}catch(re){e=re}
+  }
+  err.textContent='د Google ننوتنه ونه سوه: '+(e?.code||e?.message||'نامعلومه تېروتنه');
+ }finally{button.disabled=false}
+};
+getRedirectResult(auth).catch(e=>{$('#lerr').textContent='د Google د بېرته ننوتلو تېروتنه: '+(e?.code||e?.message||'نامعلومه')});
 $('#out').onclick=()=>signOut(auth);
 onAuthStateChanged(auth,async u=>{$('#login').style.display=u?'none':'block';$('#app').style.display=u?'grid':'none';if(u){try{await load()}catch(e){$('#app').style.display='none';$('#login').style.display='block';$('#lerr').textContent='حساب ته ننوتل بریالي سول، خو د ډیشبورډ معلومات نه خلاصیږي: '+(e?.code||e?.message||'نامعلومه تېروتنه');console.error('Dashboard load failed',e)}}},e=>{$('#lerr').textContent='Firebase د هویت تېروتنه: '+(e?.code||e?.message||'نامعلومه');});
 async function load(){const s=await getDocs(collection(db,'herbs'));DB={};s.forEach(d=>DB[d.id]=d.data());renderList();fbLoadAll().then(()=>secBar())}
