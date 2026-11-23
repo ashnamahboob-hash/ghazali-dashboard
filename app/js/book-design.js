@@ -184,7 +184,7 @@ function build(plant){
   var h="",rows=parseChart(F.chart);
   if(!rows.length&&SEED[plant.taj[0]]&&SEED[plant.taj[0]][lang])rows=parseChart([{text:SEED[plant.taj[0]][lang]}]);
   if(rows.length)h+=chartHtml(rows,x);
-  if(chem)h+='<div class="bk-card"><div class="bk-card-head"><h3>'+esc(LB.chem)+'</h3><p>'+esc(x.chemSub)+'</p></div><div class="bk-ed">'+chem+'</div></div>';
+  /* The legacy chem text remains in stored records, but the chart is the sole visible chemistry card. */
   var comp=lead(LB.compounds,paras(F.compounds,dir));
   if(comp)h+='<ul class="bk-list bk-ed">'+comp+'</ul>';
   if(h)chapters.push({id:"bk-c4",t:x.c4,html:h});
