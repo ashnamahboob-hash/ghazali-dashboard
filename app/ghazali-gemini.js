@@ -169,12 +169,13 @@ async function ask(question,automatic=false){
  let timer,expired=false;
  try{
   const answer=await Promise.race([(async()=>{
-   // Safe staged rollout: enable with ?ghazali_worker=1, disable with ?ghazali_worker=0.
-   // Existing Gemini and Pl@ntNet remain the default until the new service is verified.
+   // Default to the authenticated Ghazali API for signed-in users.
+   // Explicit ?ghazali_worker=0 keeps the original Firebase Gemini available.
+   // Signed-out visitors retain the existing Firebase flow.
    const workerChoice=new URLSearchParams(location.search).get('ghazali_worker');
-   if(workerChoice==='1')sessionStorage.setItem('ghazali_worker_optin','1');
-   if(workerChoice==='0')sessionStorage.removeItem('ghazali_worker_optin');
-   if(sessionStorage.getItem('ghazali_worker_optin')==='1'){
+   if(workerChoice==='1'||workerChoice==='0')sessionStorage.setItem('ghazali_worker_mode',workerChoice);
+   const workerMode=sessionStorage.getItem('ghazali_worker_mode');
+   if(workerMode!=='0'&&typeof window.gkGeminiAuthToken==='function'&&window.gkWebUser&&!window.gkWebUser.isAnonymous){
     const result=await ghazaliWorkerRequest(question,s.lang,s.imageSrc,s.messages);
     if(state!==s||expired)throw new Error('obsolete');
     return result.answer.replace(/غازالي|غازالی|غزالی/g,'غزالي');
