@@ -105,7 +105,7 @@ async function ghazaliWorkerRequest(question,language='ps',photoSource='',histor
   history:(Array.isArray(history)?history:[]).slice(-6).map(m=>({role:m.role==='model'?'model':'user',text:String(m.text||'').slice(0,1200)}))};
  if(photoSource){
   const image=await readPhoto(photoSource);
-  if(image.inlineData.data.length>1100000)throw new Error('photo-too-large-for-worker');
+  if(image.inlineData.data.length>2796204)throw new Error('photo-too-large-for-worker');
   body.image=image.inlineData;
  }
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),28000);
