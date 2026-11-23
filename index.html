@@ -303,9 +303,9 @@ const app=initializeApp(CFG),auth=getAuth(app),db=getFirestore(app);
 let FSZ=16,HIDE=false,CL=new Set();try{FSZ=+localStorage.getItem('gk_fs')||16;HIDE=localStorage.getItem('gk_hide')==='1'}catch(e){}
 document.documentElement.style.setProperty('--fs',FSZ+'px');
 let FBK=[],FBN=0,FBV='new',sec='lib',DB={},cur=null,lang='ps',ref='',dirty=false,imgs=[],HS=[],baseAt=0,flt={st:'all',ty:'all',ch:''};
-$('#go').onclick=()=>signInWithEmailAndPassword(auth,$('#em').value,$('#pw').value).catch(e=>$('#lerr').textContent='ننوتنه ونه شوه: '+e.code);
+$('#go').onclick=async()=>{const b=$('#go'),err=$('#lerr');err.textContent='د ننوتلو غوښتنه روانه ده…';b.disabled=true;try{await signInWithEmailAndPassword(auth,$('#em').value.trim(),$('#pw').value);err.textContent='هویت تایید سو؛ ډیشبورډ پرانیستل کېږي…';}catch(e){err.textContent='ننوتنه ونه سوه: '+(e?.code||e?.message||'نامعلومه تېروتنه');}finally{b.disabled=false}};
 $('#out').onclick=()=>signOut(auth);
-onAuthStateChanged(auth,async u=>{$('#login').style.display=u?'none':'block';$('#app').style.display=u?'grid':'none';if(u)await load()});
+onAuthStateChanged(auth,async u=>{$('#login').style.display=u?'none':'block';$('#app').style.display=u?'grid':'none';if(u){try{await load()}catch(e){$('#app').style.display='none';$('#login').style.display='block';$('#lerr').textContent='حساب ته ننوتل بریالي سول، خو د ډیشبورډ معلومات نه خلاصیږي: '+(e?.code||e?.message||'نامعلومه تېروتنه');console.error('Dashboard load failed',e)}}},e=>{$('#lerr').textContent='Firebase د هویت تېروتنه: '+(e?.code||e?.message||'نامعلومه');});
 async function load(){const s=await getDocs(collection(db,'herbs'));DB={};s.forEach(d=>DB[d.id]=d.data());renderList();fbLoadAll().then(()=>secBar())}
 function cleanContentLanguages(h){if(h.fields)delete h.fields.ar;return h;}
 
