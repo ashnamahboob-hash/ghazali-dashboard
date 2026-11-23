@@ -1,6 +1,8 @@
 /* ===== photo identification (Pl@ntNet) ===== */
 (function(){
-var KEY='2b10rJ77CjQx8afvTeVFBUvIsO';
+var PLANTNET_PROXY='https://ghazali-plantnet.ghazalikhazana.workers.dev';
+function plantnetToken(){if(typeof window.gkGeminiAuthToken!=='function')return Promise.reject(new Error('sign_in_required'));return window.gkGeminiAuthToken()}
+function plantnetFetch(url,options){return plantnetToken().then(function(token){var o=Object.assign({},options||{});o.headers=Object.assign({},o.headers||{},{Authorization:'Bearer '+token});return fetch(url,o)})}
 var TX={
  ps:{more:'نور معلومات (د Pl@ntNet له خوا، د کتاب برخه نه ده)',cn:'عام نومونه:',fam:'کورنۍ:',ph:'د Pl@ntNet نمونه عکسونه:',run:'پیژندنه روانه ده…',ai:'احتمالي پایله (Pl@ntNet)',inbook:'په کتاب کې:',genus:'د همدې جنس مدخلونه په کتاب کې:',none:'په کتاب کې نه دی لیکل شوی',open:'مدخل کتل',err:'پیژندنه ونه شوه. انټرنټ وګورئ او بیا هڅه وکړئ.',noplant:'په عکس کې بوټی ونه موندل شو.',note:'پایله یوازې احتمالي ده. بوټی د کتاب له مدخل سره یوازې د علمي نوم له مخې پرتله کېږي.',idt:'د بوټي عکس واخله یا وټاکه. ایپ به یې احتمالي نوم ولټوي او د کتاب مدخل ورسره پرتله کړي.'},
  fa:{more:'اطلاعات بیشتر (از Pl@ntNet، بخشی از کتاب نیست)',cn:'نام‌های رایج:',fam:'خانواده:',ph:'عکس‌های نمونه Pl@ntNet:',run:'در حال شناسایی…',ai:'نتیجه احتمالی (Pl@ntNet)',inbook:'در کتاب:',genus:'مدخل‌های هم‌جنس در کتاب:',none:'در کتاب نوشته نشده است',open:'دیدن مدخل',err:'شناسایی انجام نشد. اینترنت را بررسی کنید و دوباره تلاش کنید.',noplant:'گیاهی در عکس پیدا نشد.',note:'نتیجه فقط احتمالی است. تطبیق با کتاب فقط بر اساس نام علمی انجام می‌شود.',idt:'عکس گیاه را بگیرید یا انتخاب کنید. برنامه نام احتمالی را جستجو و با مدخل‌های کتاب تطبیق می‌دهد.'},
@@ -52,8 +54,8 @@ function fetchMeta(sci,l){
  if(metadataFailures[k]&&Date.now()-metadataFailures[k]<60000)return Promise.resolve(null);
  var controller=typeof AbortController==='function'?new AbortController():null;
  var timeout=controller?setTimeout(function(){controller.abort()},12000):null;
- var url='https://my-api.plantnet.org/v2/species?api-key='+encodeURIComponent(KEY)+'&prefix='+encodeURIComponent(sci)+'&page=1&pageSize=20&lang='+encodeURIComponent(apiLanguage(l));
- metadataPending[k]=fetch(url,controller?{signal:controller.signal}:{}).then(function(response){if(!response.ok)throw new Error('metadata');return response.json()}).then(function(rows){
+ var url=PLANTNET_PROXY+'/species?prefix='+encodeURIComponent(sci)+'&lang='+encodeURIComponent(apiLanguage(l));
+ metadataPending[k]=plantnetFetch(url,controller?{signal:controller.signal}:{}).then(function(response){if(!response.ok)throw new Error('metadata');return response.json()}).then(function(rows){
   // A prefix match can be a different species: accept the exact scientific name only.
   var record=Array.isArray(rows)?rows.find(function(x){return speciesKey(x.scientificNameWithoutAuthor)===speciesKey(sci)}):null;
   if(record){metadataCache[k]=record;return record;}
@@ -335,7 +337,7 @@ function runId(blobP,previewUrl){
   window.ghazaliLastIdentification={run:request,language:appLanguage(),plantnetStatus:'pending',candidates:[],bookExcerpts:[]};
   window.dispatchEvent(new CustomEvent('ghazali:identification',{detail:window.ghazaliLastIdentification}));
   var data=new FormData();data.append('images',blob,'photo.jpg');data.append('organs',gkLensOrgan);var phase=$('mint-phase');if(phase)phase.textContent=gkLensCopy()[11];
-  return fetch('https://my-api.plantnet.org/v2/identify/all?api-key='+encodeURIComponent(KEY)+'&nb-results=5&lang='+encodeURIComponent(requestLang)+'&include-related-images=true',{method:'POST',body:data,signal:idAbort.signal});
+  return plantnetFetch(PLANTNET_PROXY+'/identify?lang='+encodeURIComponent(requestLang),{method:'POST',body:data,signal:idAbort.signal});
  }).then(function(response){
   if(response.status===404)return {results:[]};
   if(!response.ok)return response.text().then(function(t){var m='';try{m=(JSON.parse(t).message||JSON.parse(t).error||'')}catch(e){m=String(t||'').slice(0,80)}throw new Error(response.status+(m?' '+String(m).slice(0,80):'')+' @'+location.host)});return response.json();
