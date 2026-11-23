@@ -204,7 +204,7 @@
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3.5 mb-7">
               <a
                 id="installBtn"
-                href="#install"
+                href="app.html"
                 class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl bg-forest-900 text-white font-bold text-base hover:bg-forest-700 transition-all shadow-soft hover:-translate-y-0.5"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1209,29 +1209,42 @@
     var note = document.getElementById('installNote');
     var deferred = null;
     var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; });
-    window.addEventListener('appinstalled', function(){
-      deferred = null;
-      if (btn) btn.hidden = true;
-      if (note) note.textContent = 'ایپ نصب سو. د تلیفون په کور پاڼه کې یې ومومئ.';
-    });
-    function showSteps(id, text){
-      if (note) { note.textContent = text; note.hidden = false; note.style.display = 'block'; }
-      var el = document.getElementById(id);
-      if (!el) return;
-      // Keep the visitor at the install button; do not jump down the page.
-      el.classList.add('hl');
-      setTimeout(function(){ el.classList.remove('hl'); }, 2500);
+    var installed = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    function message(text) {
+      if (!note) return;
+      note.textContent = text;
+      note.hidden = false;
     }
-    if (btn) btn.addEventListener('click', function(e){
+    window.addEventListener('beforeinstallprompt', function(e) {
       e.preventDefault();
+      deferred = e;
+      if (note && !installed) note.textContent = '';
+    });
+    window.addEventListener('appinstalled', function() {
+      installed = true;
+      deferred = null;
+      message('ایپ نصب سو. د تلیفون په کور پاڼه کي یې ومومئ.');
+      if (btn) btn.querySelector('span').textContent = 'ایپ پرانیزئ';
+    });
+    if (btn) btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (installed) {
+        window.location.href = 'app.html';
+        return;
+      }
       if (deferred) {
-        deferred.prompt();
-        deferred.userChoice.finally(function(){ deferred = null; });
-      } else if (isIos) {
-        showSteps('stepsIos', 'په آیفون کې لاندې درې ګامونه وکاروئ.');
+        var promptEvent = deferred;
+        deferred = null;
+        promptEvent.prompt();
+        promptEvent.userChoice.then(function(choice) {
+          if (choice && choice.outcome === 'dismissed') message('نصب لغوه سو. د بیا نصب لپاره د براوزر له مینو څخه Install وټاکئ.');
+        }).catch(function() {});
+        return;
+      }
+      if (isIos) {
+        message('په Safari کي د Share تڼۍ ووهئ او Add to Home Screen انتخاب کړئ.');
       } else {
-        showSteps('stepsAndroid', 'که پیغام رانغی، د براوزر مینو (⋮) کې «Install app» یا «Add to Home screen» وټاکئ.');
+        message('Chrome لا د مستقیم نصب اجازه نه ده ورکړې. د براوزر له مینو (⋮) څخه «Install and create shortcut» وټاکئ، بیا Install ووهئ.');
       }
     });
   })();
