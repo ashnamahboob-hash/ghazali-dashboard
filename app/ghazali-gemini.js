@@ -95,6 +95,30 @@ async function getModel(){
  })().catch(error=>{modelPromise=null;throw error;});
  return modelPromise;
 }
+// Staged Worker adapter: callable for signed-in testing, never replaces the existing photo flow automatically.
+const GHAZALI_API='https://ghazali-api.ghazalikhazana.workers.dev/chat';
+async function ghazaliWorkerRequest(question,language='ps',photoSource='',history=[]){
+ const tokenProvider=window.gkGeminiAuthToken;
+ if(typeof tokenProvider!=='function')throw new Error('sign_in_required');
+ const token=await tokenProvider();
+ const body={question:String(question||'').trim().slice(0,3000),language:COPY[language]?language:'ps',
+  history:(Array.isArray(history)?history:[]).slice(-6).map(m=>({role:m.role==='model'?'model':'user',text:String(m.text||'').slice(0,1200)}))};
+ if(photoSource){
+  const image=await readPhoto(photoSource);
+  if(image.inlineData.data.length>1100000)throw new Error('photo-too-large-for-worker');
+  body.image=image.inlineData;
+ }
+ const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),28000);
+ try{
+  const response=await fetch(GHAZALI_API,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body),signal:controller.signal});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error('worker-'+response.status+': '+String(result.error||'request-failed'));
+  if(typeof result.answer!=='string'||!result.answer.trim())throw new Error('worker-empty-answer');
+  return result;
+ }finally{clearTimeout(timeout)}
+}
+// Manual integration check only; avoids unexpectedly consuming API quota.
+window.ghazaliTestGeminiWorker=ghazaliWorkerRequest;
 function mount(){
  const host=document.getElementById('idres');if(!host||!state)return;
  const previousTop=state.chatNode?.scrollTop||0;stopChatScroll(state);
