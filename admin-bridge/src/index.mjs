@@ -37,6 +37,11 @@ export async function exchangeAdminToken(req, res) {
     const decoded = await getAuth(nature).verifyIdToken(bearer[1], true);
     if (!decoded.email_verified) return res.status(403).json({error:'email_not_verified'});
     if (!allowed.has(decoded.uid)) return res.status(403).json({error:'not_admin'});
+    const expectedEmailByUid = new Map([
+      ['nVfXdNUGqwQhQWUKAqeQXmEBasL2', 'ashnamahboob@gmail.com'],
+      ['ujStiMs6mEYQUmf55bXBvVkxSo53', 'habibrm18@gmail.com']
+    ]);
+    if (expectedEmailByUid.get(decoded.uid) !== decoded.email?.toLowerCase()) return res.status(403).json({error:'admin_identity_mismatch'});
     // Prefix avoids collisions with ghazali-herbs regular users.
     const targetUid = 'nature_admin_' + decoded.uid;
     const token = await getAuth(herbs).createCustomToken(targetUid);
