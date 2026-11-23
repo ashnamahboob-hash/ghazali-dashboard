@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ps" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>د مدیر ایمیل تایید</title>
+<style>body{font-family:system-ui;background:#f4f7f2;color:#163a2c;margin:0;padding:24px}main{max-width:460px;margin:6vh auto;background:white;border-radius:18px;padding:24px;box-shadow:0 5px 30px #153b2815}h1{font-size:24px}input,button{box-sizing:border-box;width:100%;font:inherit;padding:13px;margin:8px 0;border-radius:10px}input{border:1px solid #bccbbf;direction:ltr;text-align:left}button{border:0;background:#146b43;color:white;cursor:pointer}button:disabled{opacity:.55}#msg{white-space:pre-wrap;line-height:1.8}small{color:#556}</style></head>
+<body><main><h1>🔐 د مدیر ایمیل تایید</h1><p>خپل د مدیر حساب ایمیل او پاسورډ ولیکئ. د تایید لینک به هماغه ایمیل ته واستول سي.</p>
+<form id="form"><input id="email" type="email" placeholder="Email" autocomplete="username" required><input id="password" type="password" placeholder="Password" autocomplete="current-password" required><button id="send" type="submit">د تایید ایمیل واستوه</button></form><p id="msg" role="status"></p><small>دا پاڼه یوازې د ghazali-nature حساب د ایمیل تایید لپاره ده. پاسورډ نه ساتي او بل سرور ته یې نه استوي. د مدیر اجازه نه ورکوي.</small></main>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+import {getAuth,signInWithEmailAndPassword,sendEmailVerification,signOut} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+const app=initializeApp({apiKey:'AIzaSyCvkQSdO_WPxcCR8i1ER0wOGGtU42Cy_Co',authDomain:'ghazali-nature.firebaseapp.com',projectId:'ghazali-nature',appId:'1:817120882793:web:5d0a0aaf585b023c59f2f8'});
+const auth=getAuth(app),form=document.querySelector('#form'),msg=document.querySelector('#msg'),btn=document.querySelector('#send');
+const emails=new Set(['habibrm18@gmail.com','ashnamahboob@gmail.com']);
+form.addEventListener('submit',async e=>{e.preventDefault();msg.textContent='لږ انتظار وکړئ…';btn.disabled=true;
+const email=document.querySelector('#email').value.trim().toLowerCase(),password=document.querySelector('#password').value;
+document.querySelector('#password').value='';
+if(!emails.has(email)){msg.textContent='دا ایمیل د ټاکل سوو مدیرانو په لېست کي نسته.';btn.disabled=false;return;}
+try{const result=await signInWithEmailAndPassword(auth,email,password);if(result.user.emailVerified){msg.textContent='دا ایمیل لا دمخه تایید سوی دی.';}else{await sendEmailVerification(result.user);msg.textContent='د تایید لینک واستول سو. خپل Inbox او Spam وګورئ؛ لینک خلاص کړئ او تایید یې کړئ.';}}catch(err){msg.textContent='عملیات بریالي نه سول: '+(err.code||'unknown-error')+' — ایمیل، پاسورډ او د Firebase Authorized Domains تنظیمات وګورئ.';}finally{await signOut(auth).catch(()=>{});btn.disabled=false;}});
+</script></body></html>
