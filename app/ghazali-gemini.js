@@ -169,6 +169,16 @@ async function ask(question,automatic=false){
  let timer,expired=false;
  try{
   const answer=await Promise.race([(async()=>{
+   // Safe staged rollout: enable with ?ghazali_worker=1, disable with ?ghazali_worker=0.
+   // Existing Gemini and Pl@ntNet remain the default until the new service is verified.
+   const workerChoice=new URLSearchParams(location.search).get('ghazali_worker');
+   if(workerChoice==='1')sessionStorage.setItem('ghazali_worker_optin','1');
+   if(workerChoice==='0')sessionStorage.removeItem('ghazali_worker_optin');
+   if(sessionStorage.getItem('ghazali_worker_optin')==='1'){
+    const result=await ghazaliWorkerRequest(question,s.lang,s.imageSrc,s.messages);
+    if(state!==s||expired)throw new Error('obsolete');
+    return result.answer.replace(/غازالي|غازالی|غزالی/g,'غزالي');
+   }
    if(!s.imagePromise)s.imagePromise=readPhoto(s.imageSrc).catch(error=>{s.imagePromise=null;throw error;});
    const [imagePart,model]=await Promise.all([s.imagePromise,getModel()]);
    if(state!==s||expired)throw new Error('obsolete');
