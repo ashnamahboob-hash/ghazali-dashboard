@@ -11,7 +11,7 @@
  * then mint a ghazali-herbs custom token. The production Firestore rules must
  * be updated to recognize the new target-project UID only after testing.
  */
-import { initializeApp, cert, applicationDefault, getApps } from 'firebase-admin/app';
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 
 const nature = initializeApp({ credential: applicationDefault(), projectId: 'ghazali-nature' }, 'nature');
@@ -35,6 +35,7 @@ export async function exchangeAdminToken(req, res) {
   if (!allowed.size) return res.status(503).json({error:'admin_not_configured'});
   try {
     const decoded = await getAuth(nature).verifyIdToken(bearer[1], true);
+    if (!decoded.email_verified) return res.status(403).json({error:'email_not_verified'});
     if (!allowed.has(decoded.uid)) return res.status(403).json({error:'not_admin'});
     // Prefix avoids collisions with ghazali-herbs regular users.
     const targetUid = 'nature_admin_' + decoded.uid;
