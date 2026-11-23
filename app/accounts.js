@@ -43,6 +43,9 @@ function requireUser(){if(!auth.currentUser)throw {code:'auth/requires-recent-lo
 function start(){
  if(auth||window.NativeAccount||!window.gkFirebase)return;
  db=window.gkFirebase.db;auth=A.getAuth(window.gkFirebase.app);
+ // Authenticated token bridge for the separate Ghazali API. No token is persisted.
+ window.gkGeminiAuthToken=async()=>{const current=auth?.currentUser;if(!current||current.isAnonymous)throw new Error('sign_in_required');return current.getIdToken()};
+ window.gkGeminiAccountRole=()=>auth?.currentUser?'signed_in':'signed_out';
  window.WebAccount={
   emailPassword(signup,email,password,name){return action(async()=>{
    if(!signup){await A.signInWithEmailAndPassword(auth,email,password);return}
