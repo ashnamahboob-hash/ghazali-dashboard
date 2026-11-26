@@ -188,3 +188,9 @@
 .bk.md-monograph .md-track i{position:absolute;height:100%;background:var(--bk-green);border-radius:8px}
 .bk.md-monograph .md-scale{display:flex;justify-content:space-between;font:11px system-ui;color:var(--bk-muted)}
 .bk.md-monograph .bk-refs{margin-top:0;background:var(--bk-card);border:1px solid var(--bk-border);border-radius:12px;padding:12px;overflow-wrap:anywhere}
+
+/* Modern-only semantic, offline SVG section icons. */
+.bk.md-monograph .md-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:30px;border-radius:8px;background:var(--bk-green-soft);color:var(--bk-green)}
+.bk.md-monograph .md-field h3,.bk.md-monograph .bk-sec-head h2,.bk.md-monograph .bk-names-head h3,.bk.md-monograph .bk-refs h3{display:flex;align-items:center;gap:8px}
+.bk.md-monograph .md-field h3 span:last-child{min-width:0}
+.bk.md-monograph .md-formula{overflow-wrap:anywhere;max-width:100%}
