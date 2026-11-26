@@ -128,33 +128,76 @@ function chartHtml(rows,x){
 }
 
 var SEED={"T036": {"ps": "ګوند | 20 | د کتاب چاپي سلنه\nرال | 70 | د کتاب چاپي سلنه\nفرار غوړي | 4 | د کتاب چاپي سلنه\nنور مواد | 6 | د کتاب چاپي سلنه", "fa": "صمغ | 20 | درصد چاپ‌شده در کتاب\nرزین | 70 | درصد چاپ‌شده در کتاب\nروغن‌های فرار | 4 | درصد چاپ‌شده در کتاب\nسایر مواد | 6 | درصد چاپ‌شده در کتاب", "ur": "گوند | 20 | کتاب میں چھپا ہوا فیصد\nرال | 70 | کتاب میں چھپا ہوا فیصد\nفرار تیل | 4 | کتاب میں چھپا ہوا فیصد\nدیگر مواد | 6 | کتاب میں چھپا ہوا فیصد", "en": "Gum | 20 | Percentage printed in the book\nResin | 70 | Percentage printed in the book\nVolatile oil | 4 | Percentage printed in the book\nOther material | 6 | Percentage printed in the book"}, "T039": {"ps": "فرار غوړي (Absinthol) | 1.5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.\nتریخ جوهر (Absinthin) | 0.5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.\nرال | 5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.", "fa": "روغن فرار (Absinthol) | 1.5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.\nجوهر تلخ (Absinthin) | 0.5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.\nرزین | 5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.", "ur": "فرار تیل (Absinthol) | 1.5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔\nتلخ جوہر (Absinthin) | 0.5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔\nرال | 5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔", "en": "Volatile oil (Absinthol) | 1.5 | Figure printed in the book; not a fixed composition of every sample.\nBitter principle (Absinthin) | 0.5 | Figure printed in the book; not a fixed composition of every sample.\nResin | 5 | Figure printed in the book; not a fixed composition of every sample."}, "T024": {"ps": "ټېنین | 15 | د کتاب چاپي سلنه\nکلسیم کاربونېټ | 3 | د کتاب چاپي سلنه", "fa": "تانن | 15 | درصد چاپ‌شده در کتاب\nکربنات کلسیم | 3 | درصد چاپ‌شده در کتاب", "ur": "ٹینن | 15 | کتاب میں چھپا ہوا فیصد\nکیلشیم کاربونیٹ | 3 | کتاب میں چھپا ہوا فیصد", "en": "Tannin | 15 | Percentage printed in the book\nCalcium carbonate | 3 | Percentage printed in the book"}, "T005": {"ps": "کاربوهایډرېټ | 12 | د ۱۰۰ ګرامو لپاره د کتاب چاپي سلنه.\nپروټین | 5 | د ۱۰۰ ګرامو لپاره د کتاب چاپي سلنه.", "fa": "کربوهیدرات | 12 | درصد چاپ‌شده در کتاب برای ۱۰۰ گرم.\nپروتئین | 5 | درصد چاپ‌شده در کتاب برای ۱۰۰ گرم.", "ur": "کاربوہائیڈریٹ | 12 | ۱۰۰ گرام کے لیے کتاب میں چھپا فیصد۔\nپروٹین | 5 | ۱۰۰ گرام کے لیے کتاب میں چھپا فیصد۔", "en": "Carbohydrate | 12 | Percentage printed in the book, per 100 g.\nProtein | 5 | Percentage printed in the book, per 100 g."}};
-const MODERN_FIELDS={"chem_profile":["مالیکولي فورمولونه او سلنې","فرمول‌های مولکولی و درصدها","سالماتی فارمولے اور فیصد","Molecular formulae and composition"],"chem_reactions":["کیمیاوي تعاملات","واکنش‌های کیمیایی","کیمیائی تعاملات","Chemical reactions"],"mhy":["نباتي پېژندنه","شناخت گیاه‌شناسی","نباتاتی شناخت","Botanical description"],"origin":["جغرافیایي خپرېدنه","پراکندگی جغرافیایی","جغرافیائی پھیلاؤ","Geographical distribution"],"part":["کارېدونکې برخه","بخش مورد استفاده","مستعمل حصہ","Medicinal part"],"macro":["ظاهري ځانګړتیاوي","ویژگی‌های ظاهری","ظاہری خصوصیات","Macroscopic characteristics"],"micro":["مایکروسکوپي ځانګړتیاوي","ویژگی‌های میکروسکوپی","خوردبینی خصوصیات","Microscopic characteristics"],"chem":["کیمیاوي اجزا","اجزای کیمیایی","کیمیائی اجزا","Chemical constituents"],"pharmacology":["فارماکولوژیکي اغېزې","اثرات فارماکولوژیک","فارماکولوجیکل اثرات","Pharmacological effects"],"clinical":["کلینیکي شواهد","شواهد بالینی","طبی تحقیقی شواہد","Clinical evidence"],"use":["طبي استعمالونه","کاربردهای درمانی","طبی استعمالات","Medicinal indications"],"dose":["د خوراک مقدار او طریقه","مقدار و روش مصرف","مقدار اور طریقۂ استعمال","Dosage and administration"],"mzr":["جانبي عوارض","عوارض جانبی","ضمنی اثرات","Adverse effects"],"contraindications":["د استعمال ممانعتونه","موارد منع مصرف","ممانعتِ استعمال","Contraindications"],"interactions":["له درملو سره تعاملات","تداخلات دارویی","دواؤں کے ساتھ تعاملات","Drug interactions"],"safety":["احتیاطي تدابیر","احتیاط‌ها","احتیاطی تدابیر","Precautions"],"quality":["کیفیت او خالصوالی","کیفیت و خلوص","معیار اور خالص پن","Quality and purity"],"storage":["ساتنه","نگهداری","ذخیرہ کرنے کا طریقہ","Storage"],"refs":["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"]},MODERN_GROUPS=[[["نباتي پېژندنه او تشخیص","شناخت و تشخیص گیاه","نباتاتی شناخت و تشخیص","Botanical identification"],["mhy","origin","part","macro","micro"]],[["کیمیا او فارماکولوژي","کیمیا و فارماکولوژی","کیمیا اور فارماکولوجی","Chemistry and pharmacology"],["chem","chem_profile","chem_reactions","pharmacology","clinical"]],[["طبي استعمال او خوراک","کاربرد و مقدار مصرف","طبی استعمال اور خوراک","Indications and dosage"],["use","dose"]],[["خوندیتوب","ایمنی","حفاظت","Safety"],["mzr","contraindications","interactions","safety"]],[["کیفیت او ساتنه","کیفیت و نگهداری","معیار اور ذخیرہ","Quality and storage"],["quality","storage"]],[["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"],["refs"]]],MODERN_CORE=["mhy","part","use","mzr","refs"],MODERN_SOFT=["origin","macro","micro","chem","chem_profile","chem_reactions","pharmacology","clinical","dose","contraindications","interactions","safety","quality","storage"];
+const MODERN_FIELDS={"chem_profile":["د کیمیاوي اجزاوو چارټ","نمودار اجزای کیمیایی","کیمیائی اجزا کا چارٹ","Chemical constituents chart"],"molecular_formula":["مالیکولي فورمولونه","فرمول‌های مولکولی","سالماتی فارمولے","Molecular formulae"],"chem_reactions":["کیمیاوي تعاملات","واکنش‌های کیمیایی","کیمیائی تعاملات","Chemical reactions"],"mhy":["نباتي پېژندنه","شناخت گیاه‌شناسی","نباتاتی شناخت","Botanical description"],"origin":["جغرافیایي خپرېدنه","پراکندگی جغرافیایی","جغرافیائی پھیلاؤ","Geographical distribution"],"part":["کارېدونکې برخه","بخش مورد استفاده","مستعمل حصہ","Medicinal part"],"macro":["ظاهري ځانګړتیاوي","ویژگی‌های ظاهری","ظاہری خصوصیات","Macroscopic characteristics"],"micro":["مایکروسکوپي ځانګړتیاوي","ویژگی‌های میکروسکوپی","خوردبینی خصوصیات","Microscopic characteristics"],"chem":["کیمیاوي اجزا","اجزای کیمیایی","کیمیائی اجزا","Chemical constituents"],"pharmacology":["فارماکولوژیکي اغېزې","اثرات فارماکولوژیک","فارماکولوجیکل اثرات","Pharmacological effects"],"clinical":["کلینیکي شواهد","شواهد بالینی","طبی تحقیقی شواہد","Clinical evidence"],"use":["طبي استعمالونه","کاربردهای درمانی","طبی استعمالات","Medicinal indications"],"dose":["د خوراک مقدار او طریقه","مقدار و روش مصرف","مقدار اور طریقۂ استعمال","Dosage and administration"],"mzr":["جانبي عوارض","عوارض جانبی","ضمنی اثرات","Adverse effects"],"contraindications":["د استعمال ممانعتونه","موارد منع مصرف","ممانعتِ استعمال","Contraindications"],"interactions":["له درملو سره تعاملات","تداخلات دارویی","دواؤں کے ساتھ تعاملات","Drug interactions"],"safety":["احتیاطي تدابیر","احتیاط‌ها","احتیاطی تدابیر","Precautions"],"quality":["کیفیت او خالصوالی","کیفیت و خلوص","معیار اور خالص پن","Quality and purity"],"storage":["ساتنه","نگهداری","ذخیرہ کرنے کا طریقہ","Storage"],"refs":["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"]},MODERN_GROUPS=[[["نباتي پېژندنه او تشخیص","شناخت و تشخیص گیاه","نباتاتی شناخت و تشخیص","Botanical identification"],["mhy","origin","part","macro","micro"]],[["کیمیا او فارماکولوژي","کیمیا و فارماکولوژی","کیمیا اور فارماکولوجی","Chemistry and pharmacology"],["chem","chem_profile","molecular_formula","chem_reactions","pharmacology","clinical"]],[["طبي استعمال او خوراک","کاربرد و مقدار مصرف","طبی استعمال اور خوراک","Indications and dosage"],["use","dose"]],[["خوندیتوب","ایمنی","حفاظت","Safety"],["mzr","contraindications","interactions","safety"]],[["کیفیت او ساتنه","کیفیت و نگهداری","معیار اور ذخیرہ","Quality and storage"],["quality","storage"]],[["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"],["refs"]]],MODERN_CORE=["mhy","part","use","mzr","refs"],MODERN_SOFT=["origin","macro","micro","chem","chem_profile","molecular_formula","chem_reactions","pharmacology","clinical","dose","contraindications","interactions","safety","quality","storage"];
 
-/* Modern-only composition profile; ranges are not pie-chart shares. */
+/* Modern-only composition chart and independent formula register.
+   Four-column chart format; read existing five-column records without migration. */
+function modernLines(items){
+ return (items||[]).flatMap(function(block){return String(block.text||'').split(/\n/)}).map(function(line){return line.split('|').map(function(x){return x.trim()})}).filter(function(p){return p[0]});
+}
 function modernChemRows(items){
- return (items||[]).flatMap(function(block){return String(block.text||'').split(/\n/)}).map(function(line){
-  var p=line.split('|').map(function(x){return x.trim()});
-  if(p.length<2||!p[0]||!p[1])return null;
-  var amount=(p[2]||'').replace(/%/g,'').replace(/[–—]/g,'-').trim();
+ return modernLines(items).map(function(p){
+  if(p.length<2)return null;
+  var legacy=p.length>=5||p.length<=3;
+  var formula=legacy?p[1]:'',amount=(p[legacy?2:1]||'').replace(/%/g,'').replace(/[–—]/g,'-').trim();
+  var scope=p[legacy?3:2]||'',source=p[legacy?4:3]||'';
   var m=/^(\d+(?:\.\d+)?)(?:\s*-\s*(\d+(?:\.\d+)?))?$/.exec(amount);
   var lo=m?+m[1]:null,hi=m?+(m[2]||m[1]):null;
-  if(!p[3]||!p[4]||lo===null||lo<0||hi>100||hi<lo){lo=null;hi=null;}
-  return {name:p[0],formula:p[1],lo:lo,hi:hi,scope:p[3]||'',source:p[4]||''};
- }).filter(Boolean).slice(0,40);
+  if(!scope||!source||lo===null||lo<0||hi>100||hi<lo){lo=null;hi=null;}
+  return {name:p[0],formula:formula,lo:lo,hi:hi,scope:scope,source:source};
+ }).filter(Boolean);
 }
 function modernFormula(v){return esc(v).replace(/\d+/g,function(n){return '<sub>'+n+'</sub>'});}
+function modernSource(v,ml){
+ var label=['سرچینه','منبع','ماخذ','Source'][ml];
+ return /^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(v)?'<a href="'+esc(v)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':esc(v);
+}
 function modernChemHtml(items,ml){
  var rows=modernChemRows(items);if(!rows.length)return '';
- var labels=[['د ترکیب مستند حدود؛ د ټول بوټي سلنې نه دي.','حدود مستند ترکیب؛ درصد کل گیاه نیست.','ترکیب کی مستند حدود؛ پورے پودے کا فیصد نہیں۔','Documented composition ranges, not whole-plant percentages.'],['سرچینه','منبع','ماخذ','Source']];
+ var note=['سلنې د یادې نمونې لپاره دي؛ د ټول بوټي ثابت ترکیب نه دئ.','درصدها مربوط به نمونهٔ ذکرشده‌اند؛ ترکیب ثابت کل گیاه نیست.','فیصد درج شدہ نمونے کے ہیں؛ پورے پودے کی مستقل ترکیب نہیں۔','Percentages apply to the stated sample, not a fixed whole-plant composition.'][ml];
+ var missing=['مستند مقدار نه دئ ثبت سوی','مقدار مستند ثبت نشده است','مقدار مستند درج نہیں','Documented amount not recorded'][ml];
  return '<div class="md-chem-grid">'+rows.map(function(r){
   var valid=r.lo!==null,range=valid?(r.lo===r.hi?r.lo+'%':r.lo+'–'+r.hi+'%'):'';
-  var source=/^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(r.source)?'<a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">'+esc(labels[1][ml])+'</a>':esc(r.source);
-  return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong><span class="md-formula" dir="ltr">'+modernFormula(r.formula)+'</span></div>'+
+  var point=r.lo===r.hi,style=point?'left:clamp(0%, '+r.lo+'%, calc(100% - 3px));width:3px':'left:'+r.lo+'%;width:'+(r.hi-r.lo)+'%';
+  return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong></div>'+
    (r.scope?'<p class="md-scope">'+esc(r.scope)+'</p>':'')+
-   (valid?'<div class="md-range" dir="ltr"><b>'+range+'</b><div class="md-track" role="img" aria-label="'+range+'"><i style="left:'+r.lo+'%;width:'+Math.max(r.hi-r.lo,0.5)+'%"></i></div><div class="md-scale"><span>0%</span><span>100%</span></div></div>':'')+
-   (source?'<p class="md-source">'+source+'</p>':'')+'</article>';
- }).join('')+'</div><p class="md-note">'+esc(labels[0][ml])+'</p>';
+   (valid?'<div class="md-range" dir="ltr"><b>'+range+'</b><div class="md-track" role="img" aria-label="'+range+'"><i style="'+style+'"></i></div><div class="md-scale"><span>0%</span><span>100%</span></div></div>':'<p class="md-note">'+esc(missing)+'</p>')+
+   (r.source?'<p class="md-source">'+modernSource(r.source,ml)+'</p>':'')+'</article>';
+ }).join('')+'</div>'+(rows.some(function(r){return r.lo!==null})?'<p class="md-note">'+esc(note)+'</p>':'');
 }
+function modernFormulaHtml(items,legacy,ml){
+ var rows=modernLines(items).filter(function(p){return p[1]}).map(function(p){return {name:p[0],formula:p[1],source:p[2]||''}});
+ var seen=new Set(rows.map(function(r){return r.name.trim().toLowerCase()}));
+ modernChemRows(legacy).forEach(function(r){var key=r.name.trim().toLowerCase();if(r.formula&&!seen.has(key)){rows.push(r);seen.add(key)}});
+ if(!rows.length)return '';
+ return '<div class="md-chem-grid">'+rows.map(function(r){
+  return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong><span class="md-formula" dir="ltr">'+modernFormula(r.formula)+'</span></div>'+(r.source?'<p class="md-source">'+modernSource(r.source,ml)+'</p>':'')+'</article>';
+ }).join('')+'</div>';
+}
+var MD_ICONS={
+ mhy:'<path d="M20 4c-9 0-15 5-15 12 7 0 15-5 15-12ZM4 20l10-10"/>',
+ origin:'<circle cx="12" cy="10" r="3"/><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/>',
+ part:'<path d="M12 21V4m0 9C7 13 3 9 3 5c5 0 9 3 9 8Zm0 4c5 0 9-4 9-8-5 0-9 3-9 8Z"/>',
+ macro:'<circle cx="10" cy="10" r="6"/><path d="m14.5 14.5 5 5"/>',
+ micro:'<path d="m9 3 5 5-3 3-5-5Zm2 8 3 3m-9 6h15m-10-2a7 7 0 0 0 6-10M5 15h7"/>',
+ chem:'<path d="M9 3h6m-5 0v7l-5 9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l-5-9V3M8 15h8"/>',
+ chem_profile:'<path d="M4 4v16h16M8 16v-4m4 4V7m4 9v-6m4 6V5"/>',
+ molecular_formula:'<circle cx="5" cy="12" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><path d="m8 11 8-5m-8 7 8 5"/>',
+ chem_reactions:'<path d="M4 8h16l-4-4M20 16H4l4 4M20 8l-4 4M4 16l4-4"/>',
+ pharmacology:'<path d="M4 12h4l3-7 3 14 3-7h3"/>',
+ clinical:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2m-6 9 2 2 4-4"/>',
+ use:'<path d="M7 3h10v5l3 4v8H4v-8l3-4Zm-3 9h16m-8 2v4m-2-2h4"/>',
+ dose:'<path d="M5 19 19 5M8 16l-3-3 8-8 6 6-8 8-3-3m7-9 2-2m-1 8 3 3"/>',
+ mzr:'<path d="m12 3 10 18H2L12 3Zm0 6v5m0 3h.01"/>',
+ contraindications:'<circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/>',
+ interactions:'<path d="M3 8h18l-4-4m4 4-4 4M21 16H3l4-4m-4 4 4 4"/>',
+ safety:'<path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Zm-4 9 3 3 5-6"/>',
+ quality:'<circle cx="12" cy="9" r="6"/><path d="m8 14-2 7 6-3 6 3-2-7m-7-5 2 2 4-4"/>',
+ storage:'<rect x="4" y="7" width="16" height="14" rx="2"/><path d="M3 3h18v4H3Zm6 9h6"/>',
+ refs:'<path d="M12 5c-3-3-7-3-10-2v16c3-1 7-1 10 2 3-3 7-3 10-2V3c-3-1-7-1-10 2Zm0 0v16"/>',
+ names:'<path d="M3 5h18v14H3Zm4 5h4m-4 4h8"/>'
+};
+function mdIcon(k){return '<span class="md-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(MD_ICONS[k]||MD_ICONS.mhy)+'</svg></span>';}
 
 function build(plant){
  var rec=wordDetailLayout.records[plant.taj[0]],F=rec.fields[lang]||rec.fields.ps||{},dir=lang==="en"?"ltr":"rtl",
@@ -176,12 +219,12 @@ function build(plant){
  if(modern){
   MODERN_GROUPS.forEach(function(g,i){
    var cards=g[1].map(function(k){
-    var content=k==='chem_profile'?modernChemHtml(F[k],ml):paras(F[k],dir);
+    var content=k==='chem_profile'?modernChemHtml(F[k],ml):k==='molecular_formula'?modernFormulaHtml(F[k],F.chem_profile,ml):paras(F[k],dir);
     if(!content)return '';
-    return '<article class="md-field md-field-'+k+'" data-field="'+k+'"><h3>'+esc(MODERN_FIELDS[k][ml])+'</h3><div class="md-field-body">'+content+'</div></article>';
+    return '<article class="md-field md-field-'+k+'" data-field="'+k+'"><h3>'+mdIcon(k)+'<span>'+esc(MODERN_FIELDS[k][ml])+'</span></h3><div class="md-field-body">'+content+'</div></article>';
    }).join('');
-   if(i===3){cards+='<article class="md-field md-warning"><h3>'+esc(x.pro)+'</h3><p>'+esc(t().disc)+'</p></article>';}
-   if(cards)chapters.push({id:'bk-c'+(i+1),t:[g[0][ml],g[0][ml]],html:'<div class="md-fields">'+cards+'</div>'});
+   if(i===3){cards+='<article class="md-field md-warning"><h3>'+mdIcon('safety')+'<span>'+esc(x.pro)+'</span></h3><p>'+esc(t().disc)+'</p></article>';}
+   if(cards)chapters.push({id:'bk-c'+(i+1),t:[g[0][ml],g[0][ml]],icon:g[1][0],number:i+1,html:'<div class="md-fields">'+cards+'</div>'});
   });
  }else{
  /* chapter 1: identity / origin */
@@ -240,7 +283,7 @@ function build(plant){
 
  }
  /* names + photos */
- var names='<section id="bk-names" class="bk-names" data-bk-sec="1"><div class="bk-names-head"><h3 class="bk-serif">'+esc(x.other)+'</h3><span>'+esc(x.otherSub)+'</span></div>'+
+ var names='<section id="bk-names" class="bk-names" data-bk-sec="1"><div class="bk-names-head"><h3 class="bk-serif">'+(modern?mdIcon('names'):'')+esc(x.other)+'</h3><span>'+esc(x.otherSub)+'</span></div>'+
   (nameRows.length?'<div class="bk-grid">'+nameRows.map(function(r){return '<div class="bk-cell"><small>'+esc(r[0])+'</small><strong dir="auto">'+esc(r[1])+'</strong></div>'}).join("")+'</div>'
    :'<p class="bk-note">'+esc(MT.absent)+'</p>')+
   (rec.name_notes&&rec.name_notes[lang]?'<p class="bk-note">'+esc(rec.name_notes[lang])+'</p>':"")+'</section>';
@@ -253,7 +296,7 @@ function build(plant){
  /* references */
  var refs="";try{refs=librarySource(plant).replace(/<h3>.*?<\/h3>/,"")}catch(e){}
  try{if(plant.link)refs+='<p><a href="'+esc(plant.link)+'" target="_blank" rel="noopener noreferrer">'+esc((typeof GK_ENTRY_VERIFY_LABEL!=="undefined"&&GK_ENTRY_VERIFY_LABEL[lang])||plant.link)+'</a></p>'}catch(e){}
- var refsHtml='<footer id="bk-refs" class="bk-refs" data-bk-sec="1"><h3 class="bk-serif">'+esc(x.refs[1])+'</h3>'+refs+'</footer>';
+ var refsHtml='<footer id="bk-refs" class="bk-refs" data-bk-sec="1"><h3 class="bk-serif">'+(modern?mdIcon('refs'):'')+esc(x.refs[1])+'</h3>'+refs+'</footer>';
 
  /* nav chips */
  var chips='<button type="button" class="bk-chip on" data-t="bk-names" onclick="bkJump(\'bk-names\')">'+esc(x.other)+'</button>';
@@ -261,7 +304,7 @@ function build(plant){
  chips+='<button type="button" class="bk-chip" data-t="bk-refs" onclick="bkJump(\'bk-refs\')">'+esc(x.refs[0])+'</button>';
 
  var secs=chapters.map(function(c,i){
-  return '<section id="'+c.id+'" class="bk-sec" data-bk-sec="1"><div class="bk-sec-head"><small>'+esc(modern?String(i+1).padStart(2,'0'):x.ords[i]||"")+'</small><h2 class="bk-serif">'+esc(c.t[1])+'</h2></div>'+c.html+'</section>';
+  return '<section id="'+c.id+'" class="bk-sec" data-bk-sec="1"><div class="bk-sec-head"><small>'+esc(modern?String(c.number).padStart(2,'0'):x.ords[i]||"")+'</small><h2 class="bk-serif">'+(modern?mdIcon(c.icon):'')+esc(c.t[1])+'</h2></div>'+c.html+'</section>';
  }).join(modern?'':divider());
 
  var paper=ls("gk_bkpaper")||(typeof th!=="undefined"&&th==="night"?"night":"day");
