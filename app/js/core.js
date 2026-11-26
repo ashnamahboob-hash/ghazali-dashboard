@@ -64,7 +64,7 @@ function chooseLibraryBook(key){
  rememberPage();libraryBook=key;letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);
 }
 function librarySourceMenu(T){
- const available=H.filter(isPublished);
+ const available=H.filter(isPublished).filter(p=>!q||libraryMatches(p,librarySearchKey(q)));
  app.innerHTML=bar(T.lib)+'<div class="sec"><h3>'+esc(libraryChooseLabels[lang])+'</h3>'+Object.entries(libraryBooks).map(([k,n])=>'<button type="button" data-library-book="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:18px 12px;margin:10px 0;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:start"><strong>'+esc(n[lang])+'</strong><span>'+available.filter(p=>libraryBookOf(p)===k).length+'</span></button>').join("")+'</div>';
  app.querySelectorAll("[data-library-book]").forEach(b=>b.onclick=()=>chooseLibraryBook(b.dataset.libraryBook));
 }
@@ -268,7 +268,7 @@ var homeLabels={
  ur:["پودے دیکھیں","تصویر منتخب کریں"], en:["Browse herbs","Choose a photo"]
 };
 function featuredHerbs(T){
- if(!FT.length)return "";
+ if(!FT.some(i=>isPublished(H[i])&&(!libraryBook||view!=="lib"||libraryBookOf(H[i])===libraryBook)))return "";
  return '<h3 class="home-title featured">'+T.feat+'</h3><div class="fg library-featured">'+FT.filter(function(i){return isPublished(H[i])&&(!libraryBook||view!=="lib"||libraryBookOf(H[i])===libraryBook)}).map(function(i){
    var p=H[i];
    return '<button class="fc" onclick="openHerb('+i+')"><span class="fph" style="'+bg(p)+'"></span><b>'+herbDisplay(p)+'</b></button>';
@@ -433,7 +433,7 @@ function libraryInitial(name) {
 function libraryMatches(p, query) {
  const names = Object.values(p.nm).concat(p.s, (p.otherNames || []).map(entry => entry.name));
  if (p.taj) names.push(...p.taj.slice(0,3));
- return names.some(name => librarySearchKey(name).includes(query));
+ return names.some(name => librarySearchKey(String(name??"")).includes(query));
 }
 function libraryPage(T) {
  if(!libraryBook)return librarySourceMenu(T);
@@ -486,7 +486,7 @@ function librarySource(p) {
  const sourceTitle=sourceBook==="taj"?TM[lang]:sourceBook==="ibn"?"الجامع لمفردات الأدوية والأغذية — ابن البیطار":libraryBooks.modern[lang];
  const reference=entry
   ? '<p>'+esc(sourceTitle)+'</p><p>'+labels[1]+' '+esc(reviewedSimpleRecords[entry[0]]?.pages||({T001:'1–5',T002:'5–8',T003:'8–15'})[entry[0]]||wordDetailLayout.records[entry[0]]?.pages||entry[3])+
-    ' · <b dir="ltr">'+esc(entry[0])+'</b></p><p dir="rtl" lang="ur">'+esc(entry[1])+'</p>'
+    ' · <b dir="ltr">'+esc(entry[0])+'</b></p>'+ (sourceBook==="ibn"?(p.nm?.ar?'<p dir="rtl" lang="ar">'+esc(p.nm.ar)+'</p>':""):sourceBook==="taj"?'<p dir="rtl" lang="ur">'+esc(entry[1])+'</p>':"")
   : '<p>'+unmatchedSource[lang]+'</p>';
  return '<div class="sec"><h3>'+labels[0]+'</h3>'+reference+((["T001","T002","T003"].includes(entry?.[0])||Boolean(reviewedSimpleRecords[entry?.[0]]?.taxonomy_source))?'<p><a href="'+(reviewedSimpleRecords[entry[0]]?reviewedSimpleRecords[entry[0]].taxonomy_source:entry[0]==="T003"?"https://powo.science.kew.org/taxon/554129-1":entry[0]==="T001"?"https://powo.science.kew.org/taxon/852556-1":"https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:544772-1")+'" target="_blank" rel="noopener">Kew · Plants of the World Online</a></p>':'')+currentSafetySource(reviewedSimpleRecords[entry?.[0]])+'</div>';
 }
