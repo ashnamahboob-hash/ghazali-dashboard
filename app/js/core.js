@@ -65,7 +65,7 @@ function chooseLibraryBook(key){
 }
 function librarySourceMenu(T){
  const available=H.filter(isPublished).filter(p=>!q||libraryMatches(p,librarySearchKey(q)));
- app.innerHTML=bar(T.lib)+'<div class="sec"><h3>'+esc(libraryChooseLabels[lang])+'</h3>'+Object.entries(libraryBooks).map(([k,n])=>'<button type="button" data-library-book="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:18px 12px;margin:10px 0;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:start"><strong>'+esc(n[lang])+'</strong><span>'+available.filter(p=>libraryBookOf(p)===k).length+'</span></button>').join("")+'</div>';
+ app.innerHTML=bar(T.lib)+'<div class="sec"><h3>'+esc(libraryChooseLabels[lang])+'</h3>'+Object.entries(libraryBooks).map(([k,n])=>'<button type="button" data-library-book="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:18px 12px;margin:10px 0;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:start"><strong style="flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.65">'+esc(n[lang])+'</strong><span>'+available.filter(p=>libraryBookOf(p)===k).length+'</span></button>').join("")+'</div>';
  app.querySelectorAll("[data-library-book]").forEach(b=>b.onclick=()=>chooseLibraryBook(b.dataset.libraryBook));
 }
 const pageTrail = [];
