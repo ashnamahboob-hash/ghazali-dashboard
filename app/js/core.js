@@ -54,7 +54,7 @@ let libraryPosition = {top:0, letters:0};
 let libraryBook = "";
 const libraryBooks = {
  taj:{ps:"تاج المفردات",fa:"تاج المفردات",ur:"تاج المفردات",en:"Taj al-Mufradat"},
- ibn:{ps:"الجامع — ابن البیطار",fa:"الجامع — ابن بیطار",ur:"الجامع — ابن البیطار",en:"Al-Jami — Ibn al-Baytar"},
+ ibn:{ps:"الجامع لمفردات الأدوية والأغذية — ابن البیطار",fa:"الجامع لمفردات الأدوية والأغذية — ابن بیطار",ur:"الجامع لمفردات الأدوية والأغذية — ابن البیطار",en:"Al-Jami li-Mufradat al-Adwiya wa-l-Aghdhiya — Ibn al-Baytar"},
  modern:{ps:"عصري طبي بوټي",fa:"گیاهان دارویی معاصر",ur:"جدید طبی پودے",en:"Modern medicinal plants"}
 };
 const libraryBookOf=p=>/^IB\d{4,}$/.test(p?.taj?.[0]||"")?"ibn":/^MD\d{4,}$/.test(p?.taj?.[0]||"")?"modern":"taj";
