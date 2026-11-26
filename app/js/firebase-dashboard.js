@@ -21,6 +21,8 @@ function applyHerbs(list){
       H.push(p);changed=true;
     }
     p.publicationApproved=true;
+    if(p.taj)p.taj[3]=String(h.pages||"");
+    if(rec)rec.pages=String(h.pages||"");
     if(nm.ar){p.nm.ar=nm.ar;if(rec)rec.name.ar=nm.ar;}
     if(typeof h.link==='string'&&p.link!==h.link){p.link=h.link;changed=true;}
     if(h.status==='index'||!h.fields)continue;
