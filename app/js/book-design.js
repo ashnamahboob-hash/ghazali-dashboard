@@ -171,6 +171,24 @@ function modernChemHtml(items,ml,molecules){
  }).join('')+'</div><p class="md-note">'+esc(labels[0][ml])+'</p>';
 }
 
+/* Independent molecule cards. A molecular formula alone never identifies a structure. */
+function moleculeCid(source){
+ var s=String(source||'').trim(),m=/^https:\/\/pubchem\.ncbi\.nlm\.nih\.gov\/compounds?\/(\d{1,10})(?:[/?#][^\s]*)?$/i.exec(s);
+ if(!m)m=/\bPubChem\s+CID\s*[:#]?\s*(\d{1,10})\b/i.exec(s);
+ return m?m[1]:'';
+}
+function moleculeMass(f){
+ if(f.length>120||! /^(?:[A-Z][a-z]?\d*)+$/.test(f))return '';
+ var weights={C:12.011,H:1.008,O:15.999,N:14.007,S:32.06,P:30.974,F:18.998,Cl:35.45,Br:79.904,I:126.904,Na:22.990,K:39.098,Ca:40.078,Mg:24.305,Fe:55.845,Zn:65.38,Si:28.085,B:10.81};
+ var mass=0,m,re=/([A-Z][a-z]?)(\d*)/g;
+ while((m=re.exec(f))){var n=m[2]?Number(m[2]):1;if(!Object.prototype.hasOwnProperty.call(weights,m[1])||n<1||n>10000)return '';mass+=weights[m[1]]*n;}
+ return mass?mass.toFixed(2):'';
+}
+function moleculeLocal(cid,f){
+ var a=(cid==='1254'||cid==='16666')&&f==='C10H20O',b=cid==='26447'&&f==='C10H18O';
+ if(!a&&!b)return '';
+ return '<svg viewBox="0 0 190 150" role="img" aria-label="'+(a?'Menthol':'Menthone')+' — 2D connectivity" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M81 41 L113 59 L113 96 L81 114 L49 96 L49 59 Z M113 59 L145 41 L145 10 M145 41 L177 59 M49 96 L17 114"/>'+(a?'<path d="M81 41 V22"/>':'<path d="M78 40 V22 M84 40 V22"/>')+'</g><text x="81" y="16" text-anchor="middle" fill="#bc4545" font-family="system-ui,sans-serif" font-weight="700" font-size="14">'+(a?'OH':'O')+'</text></svg>';
+}
 function modernMolecules(items,legacy,ml){
  var rows=(items||[]).flatMap(function(b){return String(b.text||'').split(/\n/)}).map(function(line){
   var p=line.split('|').map(function(s){return s.trim()});
@@ -178,8 +196,16 @@ function modernMolecules(items,legacy,ml){
  }).filter(Boolean);
  modernChemRows(legacy).forEach(function(r){if(r.formula&&!rows.some(function(x){return x.name.toLowerCase()===r.name.toLowerCase()&&x.formula===r.formula}))rows.push(r)});
  if(!rows.length)return paras(items,ml===3?'ltr':'rtl');
- return '<div class="md-chem-grid">'+rows.map(function(r){
-  return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong><span class="md-formula" dir="ltr">'+modernFormula(r.formula)+'</span></div>'+(r.source?'<p class="md-source">'+esc(r.source)+'</p>':'')+'</article>';
+ var L={mass:['مالیکولي وزن','وزن مولکولی','سالماتی وزن','Molecular weight'],class:['کیمیاوي ډله','گروه کیمیایی','کیمیائی گروہ','Chemical class'],details:['علمي تفصیل','جزئیات علمی','علمی تفصیل','Scientific details'],missing:['مالیکولي شکل نه دئ ثبت سوی','ساختار مولکولی ثبت نشده','سالماتی ساخت درج نہیں','Structure unavailable'],offline:['شکل اوس نه ښکاري','تصویر فعلاً در دسترس نیست','تصویر فی الحال دستیاب نہیں','Structure currently unavailable'],simple:['ساده ۲D شکل؛ فضایي جهتونه نه دي ښودل سوي','شکل سادهٔ دوبعدی؛ آرایش فضایی نمایش داده نشده','سادہ دو بعدی شکل؛ فضائی ترتیب نہیں دکھائی گئی','2D connectivity; stereochemistry omitted'],alcohol:['الکول','الکل','الکحل','Alcohol'],ketone:['کیټون','کتون','کیٹون','Ketone']};
+ return '<div class="md-chem-grid md-molecule-grid">'+rows.map(function(r){
+  var f=String(r.formula).trim().replace(/[₀₁₂₃₄₅₆₇₈₉]/g,function(n){return '₀₁₂₃₄₅₆₇₈₉'.indexOf(n)}),cid=moleculeCid(r.source),mass=moleculeMass(f),local=moleculeLocal(cid,f);
+  var group=local?(cid==='26447'?L.ketone[ml]:L.alcohol[ml]):'';
+  var url=cid?'https://pubchem.ncbi.nlm.nih.gov/compound/'+cid:/^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(r.source)?r.source:'';
+  var visual=local||(cid?'<img loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(r.name)+'" src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'+cid+'/PNG?record_type=2d&amp;image_size=300x300" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="md-molecule-placeholder" hidden>'+esc(L.offline[ml])+'</span>':'<span class="md-molecule-placeholder">'+esc(L.missing[ml])+'</span>');
+  return '<article class="md-compound md-molecule-card"><strong class="md-molecule-name" dir="auto">'+esc(r.name)+'</strong><div class="md-molecule-visual" dir="ltr">'+visual+'</div>'+(local?'<small class="md-molecule-caption">'+esc(L.simple[ml])+'</small>':'')+'<span class="md-formula" dir="ltr">'+modernFormula(f)+'</span>'+
+   (mass?'<div class="md-molecule-meta"><small>'+esc(L.mass[ml])+'</small><b dir="ltr">≈ '+mass+' g/mol</b></div>':'')+
+   (group?'<div class="md-molecule-meta"><small>'+esc(L.class[ml])+'</small><b>'+esc(group)+'</b></div>':'')+
+   (url?'<a class="md-molecule-link" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(L.details[ml])+' ↗</a>':r.source?'<p class="md-source">'+esc(r.source)+'</p>':'')+'</article>';
  }).join('')+'</div>';
 }
 function modernInteractions(items,ml){
