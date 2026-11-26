@@ -1,12 +1,12 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v9';
+const VERSION = 'gk-shell-v10';
 const SHELL = [
   './',
   'index.html',
   'app.html',
   'accounts.js',
   'account-utils.mjs',
-  'ghazali-gemini.js?v=6',
+  'ghazali-gemini.js?v=7',
   'ghazali_all_100_plants_final.json',
   'manifest.webmanifest',
   'icon-192.png',
