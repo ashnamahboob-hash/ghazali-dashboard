@@ -17,3 +17,15 @@
 .gk-chem-description{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
 .gk-chem-share{color:#496b59;font-size:13px}
 @media(max-width:350px){.bk:not(.md-monograph) .bk-chart .bk-bars{gap:6px}.bk:not(.md-monograph) .bk-chart .bk-crow{padding:9px}}
+
+/* Refined Taj heritage-science cards and compact centered detail dialog. */
+.bk:not(.md-monograph) .bk-chart .bk-crow{position:relative;padding:12px 12px 12px;transition:border-color .15s,box-shadow .15s}
+.bk:not(.md-monograph) .bk-chart .bk-crow::before{content:"⚛";display:grid;place-items:center;width:31px;height:31px;margin-bottom:8px;border-radius:9px;background:#e8f1e9;color:#17523d;font-size:20px;line-height:1}
+.bk:not(.md-monograph) .bk-chart .bk-crow:nth-child(3n+2)::before{content:"⬡";background:#f7efd9;color:#916c25}
+.bk:not(.md-monograph) .bk-chart .bk-crow:nth-child(3n)::before{content:"⚗";background:#e8f1e9;color:#17523d}
+.gk-chem-overlay{align-items:center;padding:20px}
+.gk-chem-backdrop{background:#102b2066}
+.gk-chem-panel{width:min(100%,430px);max-height:min(68dvh,540px);border-radius:18px;padding:16px 18px;box-shadow:0 16px 55px #0004;border:1px solid #d9c99e}
+.gk-chem-handle{display:none}
+.gk-chem-body{padding:10px 0 4px}
+@media(max-height:540px){.gk-chem-panel{max-height:82dvh}}
