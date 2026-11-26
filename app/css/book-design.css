@@ -188,3 +188,9 @@
 .bk.md-monograph .md-track i{position:absolute;height:100%;background:var(--bk-green);border-radius:8px}
 .bk.md-monograph .md-scale{display:flex;justify-content:space-between;font:11px system-ui;color:var(--bk-muted)}
 .bk.md-monograph .bk-refs{margin-top:0;background:var(--bk-card);border:1px solid var(--bk-border);border-radius:12px;padding:12px;overflow-wrap:anywhere}
+
+/* Modern section icons and independent molecular formula cards. */
+.bk.md-monograph .md-icon{width:19px;height:19px;flex:0 0 19px;vertical-align:middle;color:var(--bk-green)}
+.bk.md-monograph .md-field h3,.bk.md-monograph .bk-sec-head h2{display:flex;align-items:center;gap:8px}
+.bk.md-monograph .bk-sec-head h2 .md-icon{width:22px;height:22px;flex-basis:22px}
+.bk.md-monograph .md-formula{max-width:100%;overflow-wrap:anywhere}

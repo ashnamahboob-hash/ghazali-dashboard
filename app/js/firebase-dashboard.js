@@ -13,7 +13,7 @@ function applyHerbs(list){
   const legacyKeys=wordDetailLayout.order;
   for(const h of list){
     const code=h&&h.code;if(!code||!publicEntryComplete(h))continue;
-    const KEYS=/^MD\d{4,}$/.test(code)?[...new Set([...legacyKeys,...["mhy","origin","part","macro","micro","chem","chem_profile","chem_reactions","pharmacology","clinical","use","dose","mzr","contraindications","interactions","safety","quality","storage","refs"]])]:legacyKeys;
+    const KEYS=/^MD\d{4,}$/.test(code)?[...new Set([...legacyKeys,...["mhy","origin","part","macro","micro","chem","chem_profile","molecular_formulas","chem_reactions","pharmacology","clinical","use","dose","mzr","contraindications","interactions","safety","quality","storage","refs"]])]:legacyKeys;
     const nm=h.names;if(h.fields)delete h.fields.ar;
     let p=H.find(x=>x.taj&&x.taj[0]===code),rec=wordDetailLayout.records[code];
     if(!p){
