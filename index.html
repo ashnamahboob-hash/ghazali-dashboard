@@ -302,7 +302,7 @@ textarea[dir=ltr],input[dir=ltr]{font-family:"Segoe UI",Inter,Arial,sans-serif;l
 <header id="top"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C10 4 4 9 4 16c0 1.5.4 2.8 1 4 1.2-4.5 4-7.5 8-9.5-3 2.5-5 5.5-6 9.5 1.2.6 2.5 1 4 1 7 0 9-7 9-17z"/></svg><div><b>غزالي د طبیعت خزانه</b><span>ایډمین ډیشبورډ</span></div></div><div id="sec"></div><div id="gsw"><input id="gs" type="search" placeholder="🔍 لټون: نوم (هره ژبه) یا کوډ" autocomplete="off"><div id="gsr"></div></div><div class="tools"><button id="language-migration">د عربي متن پاکول</button><button id="syn" title="د لیست سره د نومونو برابرول">لیست سره برابرول</button><button id="rcb" title="هغه مدخلونه چې نوي اضافه سوي (لکه د JSON واردات)">نوي مدخلونه</button><button id="imp" title="Seed JSON">Import</button><button id="fixd" title="هغه مسودې چې د کتاب هیڅ متن نه لري بیرته «یوازې فهرست» کوي">خالي مسودې → فهرست</button><button id="exp" title="بیک اپ">Export</button><div id="admin-profile"><button type="button" id="admin-profile-toggle" aria-expanded="false" aria-controls="admin-profile-menu" title="د مدیر پروفایل"><span aria-hidden="true">👤</span><span id="admin-email-short" dir="ltr">مدیر</span><span aria-hidden="true">⌄</span></button><div id="admin-profile-menu" hidden><div class="admin-menu-title">د مدیر حساب</div><div class="admin-menu-label">ایمیل</div><div id="admin-email" dir="ltr" class="admin-menu-value"></div><div class="admin-menu-label">نوم</div><div id="admin-name" class="admin-menu-value"></div><div class="admin-menu-label">د ننوتلو طریقه</div><div id="admin-provider" class="admin-menu-value"></div><div class="admin-menu-label">Firebase UID</div><div id="admin-profile-uid" dir="ltr" class="admin-menu-uid"></div><button type="button" id="admin-profile-logout">له حسابه وتل</button></div></div></div></header>
 <aside>
 <div class="t">
-<label for="book-select">د کتابتون سرچینه</label><select id="book-select"><option value="">کتاب وټاکئ</option><option value="taj">تاج المفردات</option><option value="ibn">الجامع — ابن البیطار</option><option value="modern">عصري طبي بوټي</option></select>
+<label for="book-select">د کتابتون سرچینه</label><select id="book-select"><option value="">کتاب وټاکئ</option><option value="taj">تاج المفردات</option><option value="ibn">الجامع لمفردات الأدوية والأغذية — ابن البیطار</option><option value="modern">عصري طبي بوټي</option></select>
 <div class="fl" id="fs"></div>
 <div class="fl" id="ft"></div>
 <details class="fl2"><summary>د لومړي توري له مخې</summary><div class="fl" id="fc"></div></details>
@@ -409,7 +409,7 @@ function Q(h){let red=h.pages?0:1,yel=0;const per={};L.forEach(l=>{const f=h.fie
 /* مدخل د کتاب متن لري؟ (د لیست معلومات: نوم، علمي نوم، کورنۍ، مخ، لینک، یادونه — متن نه شمېرل کېږي) */
 const hasBody=h=>{const f=h.fields||{},o=h.otherNames||{};return L.some(l=>Object.values(f[l]||{}).some(ok)||ok(sv(o[l])))};
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
-const BOOKS={taj:'تاج المفردات',ibn:'الجامع — ابن البیطار',modern:'عصري طبي بوټي'};
+const BOOKS={taj:'تاج المفردات',ibn:'الجامع لمفردات الأدوية والأغذية — ابن البیطار',modern:'عصري طبي بوټي'};
 let libraryBook='';
 const codeBook=c=>/^IB\d{4,}$/.test(c)?'ibn':/^MD\d{4,}$/.test(c)?'modern':/^[TMA]\d{3,}$/.test(c)?'taj':'';
 const entryBook=(c,h)=>codeBook(c);
