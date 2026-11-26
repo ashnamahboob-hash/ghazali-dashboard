@@ -173,9 +173,28 @@ function modernChemHtml(items,ml,molecules){
 
 /* Independent molecule cards. A molecular formula alone never identifies a structure. */
 function moleculeCid(source){
- var s=String(source||'').trim(),m=/^https:\/\/pubchem\.ncbi\.nlm\.nih\.gov\/compounds?\/(\d{1,10})(?:[/?#][^\s]*)?$/i.exec(s);
- if(!m)m=/\bPubChem\s+CID\s*[:#]?\s*(\d{1,10})\b/i.exec(s);
+ var s=String(source||'').trim(),m=/https:\/\/pubchem\.ncbi\.nlm\.nih\.gov\/compounds?\/(\d{1,10})(?=[/?#\s,;.)\]]|$)/i.exec(s);
+ if(!m)m=/\bPubChem\s*(?:CID\s*)?[:#]?\s*(\d{1,10})\b/i.exec(s);
+ if(!m)m=/\bCID\s*[:#]?\s*(\d{1,10})\b/i.exec(s);
  return m?m[1]:'';
+}
+function moleculeReference(name,f){
+ var aliases={
+ 'menthol':'1254','l-menthol':'16666','(-)-menthol':'16666','(-)menthol':'16666','منتول':'1254','مینتھول':'1254','منتھول':'1254',
+ 'menthone':'26447','l-menthone':'26447','(-)-menthone':'26447','منتون':'26447','منتھون':'26447','مینتھون':'26447',
+ 'isomenthone':'70962','(+)-isomenthone':'70962','ایزومنتون':'70962','ايزومنتون':'70962','آئسومینتھون':'70962','آئیسومینتھون':'70962',
+ 'menthyl acetate':'27867','l-menthyl acetate':'220674','(-)-menthyl acetate':'220674','منتایل اسیتات':'27867','منتيل اسيتات':'27867','منتیل استات':'27867','منتھائل ایسیٹیٹ':'27867',
+ '1,8-cineole':'2758','1,8 cineole':'2758','1,8-cineol':'2758','eucalyptol':'2758','۱،۸ سینئول':'2758','1,8 سینئول':'2758','سینئول':'2758','یوکالیپتول':'2758',
+ 'limonene':'22311','لیمونین':'22311','لیمونینے':'22311',
+ 'menthofuran':'329983','منتوفوران':'329983','منتوفوران':'329983','مینتھوفیوران':'329983',
+ 'pulegone':'442495','(+)-pulegone':'442495','پولیګون':'442495','پولگون':'442495','پولے گون':'442495',
+ 'carvone':'7439','کاروون':'7439','کارون':'7439','کاروین':'7439',
+ 'isopulegol':'170833','(-)-isopulegol':'170833','ایزوپولیګول':'170833','ایزوپولگول':'170833','آئیسوپولیگول':'170833'};
+ var n=String(name||'').normalize('NFKC').toLowerCase().trim().replace(/−/g,'-').replace(/\s+/g,' ');
+ var candidate=aliases[n]||'';
+ if(!candidate){var p=/\(([a-z][a-z0-9 ,\-]+)\)$/i.exec(n);if(p)candidate=aliases[p[1].trim()]||'';}
+ var record=(window.GHAZALI_MOLECULES||{})[candidate];
+ return record&&record.formula===f?candidate:'';
 }
 function moleculeMass(f){
  if(f.length>120||! /^(?:[A-Z][a-z]?\d*)+$/.test(f))return '';
@@ -185,24 +204,32 @@ function moleculeMass(f){
  return mass?mass.toFixed(2):'';
 }
 function moleculeLocal(cid,f){
- var a=(cid==='1254'||cid==='16666')&&f==='C10H20O',b=cid==='26447'&&f==='C10H18O';
- if(!a&&!b)return '';
- return '<svg viewBox="0 0 190 150" role="img" aria-label="'+(a?'Menthol':'Menthone')+' — 2D connectivity" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M81 41 L113 59 L113 96 L81 114 L49 96 L49 59 Z M113 59 L145 41 L145 10 M145 41 L177 59 M49 96 L17 114"/>'+(a?'<path d="M81 41 V22"/>':'<path d="M78 40 V22 M84 40 V22"/>')+'</g><text x="81" y="16" text-anchor="middle" fill="#bc4545" font-family="system-ui,sans-serif" font-weight="700" font-size="14">'+(a?'OH':'O')+'</text></svg>';
+ var rec=(window.GHAZALI_MOLECULES||{})[cid];
+ if(!rec||rec.formula!==f)return '';
+ var paths=Object.keys(rec.paths).map(function(k){
+  var color=k[1]==='r'?'#bc4545':'currentColor';
+  return '<path d="'+rec.paths[k]+'" fill="'+(k[0]==='f'?color:'none')+'" stroke="'+color+'" stroke-width="'+(k[2]==='1'?'1':'2')+'" stroke-linecap="round" stroke-linejoin="round"/>';
+ }).join('');
+ var labels=rec.labels.map(function(v){return '<text x="'+v[0]+'" y="'+v[1]+'" fill="#bc4545" font-family="system-ui,sans-serif" font-size="15">'+v[2]+'</text>';}).join('');
+ return '<svg viewBox="0 0 190 150" role="img" aria-label="PubChem CID '+cid+' — 2D reference" xmlns="http://www.w3.org/2000/svg">'+paths+labels+'</svg>';
 }
 function modernMolecules(items,legacy,ml){
  var rows=(items||[]).flatMap(function(b){return String(b.text||'').split(/\n/)}).map(function(line){
   var p=line.split('|').map(function(s){return s.trim()});
-  return p[0]&&p[1]?{name:p[0],formula:p[1],source:p[2]||''}:null;
+  return p[0]&&p[1]?{name:p[0],formula:p[1],source:p.slice(2).filter(Boolean).join(' | ')}:null;
  }).filter(Boolean);
  modernChemRows(legacy).forEach(function(r){if(r.formula&&!rows.some(function(x){return x.name.toLowerCase()===r.name.toLowerCase()&&x.formula===r.formula}))rows.push(r)});
  if(!rows.length)return paras(items,ml===3?'ltr':'rtl');
  var L={mass:['مالیکولي وزن','وزن مولکولی','سالماتی وزن','Molecular weight'],class:['کیمیاوي ډله','گروه کیمیایی','کیمیائی گروہ','Chemical class'],details:['علمي تفصیل','جزئیات علمی','علمی تفصیل','Scientific details'],missing:['مالیکولي شکل نه دئ ثبت سوی','ساختار مولکولی ثبت نشده','سالماتی ساخت درج نہیں','Structure unavailable'],offline:['شکل اوس نه ښکاري','تصویر فعلاً در دسترس نیست','تصویر فی الحال دستیاب نہیں','Structure currently unavailable'],simple:['ساده ۲D شکل؛ فضایي جهتونه نه دي ښودل سوي','شکل سادهٔ دوبعدی؛ آرایش فضایی نمایش داده نشده','سادہ دو بعدی شکل؛ فضائی ترتیب نہیں دکھائی گئی','2D connectivity; stereochemistry omitted'],alcohol:['الکول','الکل','الکحل','Alcohol'],ketone:['کیټون','کتون','کیٹون','Ketone']};
  return '<div class="md-chem-grid md-molecule-grid">'+rows.map(function(r){
-  var f=String(r.formula).trim().replace(/[₀₁₂₃₄₅₆₇₈₉]/g,function(n){return '₀₁₂₃₄₅₆₇₈₉'.indexOf(n)}),cid=moleculeCid(r.source),mass=moleculeMass(f),local=moleculeLocal(cid,f);
-  var group=local?(cid==='26447'?L.ketone[ml]:L.alcohol[ml]):'';
+  var f=String(r.formula).trim().replace(/[₀₁₂₃₄₅₆₇₈₉]/g,function(n){return '₀₁₂₃₄₅₆₇₈₉'.indexOf(n)}),explicitCid=moleculeCid(r.source),cid=explicitCid||moleculeReference(r.name,f),mass=moleculeMass(f),rec=(window.GHAZALI_MOLECULES||{})[cid],local=moleculeLocal(cid,f);
+  var groups={alcohol:L.alcohol,ketone:L.ketone,ester:['اسټر','استر','ایسٹر','Ester'],ether:['ایتر','اتر','ایتھر','Ether'],hydrocarbon:['هایدروکاربن','هیدروکربن','ہائیڈروکاربن','Hydrocarbon'],furan:['فوران','فوران','فیوران','Furan']};
+  var group=local&&rec&&groups[rec.group]?groups[rec.group][ml]:'';
+  if(rec&&rec.formula!==f)cid='';
+  var note=['د PubChem مرجع شکل؛ د نمونې فضایي جوړښت نه ثابتوي','ساختار مرجع PubChem؛ آرایش فضایی نمونه را اثبات نمی‌کند','PubChem کا حوالہ جاتی ساخت؛ نمونے کی فضائی ترتیب ثابت نہیں کرتا','PubChem reference structure; not proof of sample stereochemistry'][ml];
   var url=cid?'https://pubchem.ncbi.nlm.nih.gov/compound/'+cid:/^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(r.source)?r.source:'';
   var visual=local||(cid?'<img loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="'+esc(r.name)+'" src="https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/'+cid+'/PNG?record_type=2d&amp;image_size=300x300" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="md-molecule-placeholder" hidden>'+esc(L.offline[ml])+'</span>':'<span class="md-molecule-placeholder">'+esc(L.missing[ml])+'</span>');
-  return '<article class="md-compound md-molecule-card"><strong class="md-molecule-name" dir="auto">'+esc(r.name)+'</strong><div class="md-molecule-visual" dir="ltr">'+visual+'</div>'+(local?'<small class="md-molecule-caption">'+esc(L.simple[ml])+'</small>':'')+'<span class="md-formula" dir="ltr">'+modernFormula(f)+'</span>'+
+  return '<article class="md-compound md-molecule-card"><strong class="md-molecule-name" dir="auto">'+esc(r.name)+'</strong><div class="md-molecule-visual" dir="ltr">'+visual+'</div>'+(local?'<small class="md-molecule-caption">'+esc(note+' · CID '+cid)+'</small>':'')+'<span class="md-formula" dir="ltr">'+modernFormula(f)+'</span>'+
    (mass?'<div class="md-molecule-meta"><small>'+esc(L.mass[ml])+'</small><b dir="ltr">≈ '+mass+' g/mol</b></div>':'')+
    (group?'<div class="md-molecule-meta"><small>'+esc(L.class[ml])+'</small><b>'+esc(group)+'</b></div>':'')+
    (url?'<a class="md-molecule-link" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(L.details[ml])+' ↗</a>':r.source?'<p class="md-source">'+esc(r.source)+'</p>':'')+'</article>';

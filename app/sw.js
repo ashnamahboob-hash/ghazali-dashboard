@@ -1,5 +1,5 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v21';
+const VERSION = 'gk-shell-v22';
 const SHELL = [
   './',
   'index.html',
@@ -37,7 +37,8 @@ const SHELL = [
   'js/settings-modern.js',
   'js/hardware-back.js',
   'js/afghan-plants.js',
-  'js/book-design.js?v=21'
+  'data/molecules.js?v=1',
+  'js/book-design.js?v=22'
 ];
 
 self.addEventListener('install', event => {
