@@ -152,3 +152,39 @@
 .bk-sec{gap:12px}
 .bk-card{gap:10px}
 .bk-refs{margin-top:27px;padding-top:17px}
+
+/* Independent modern pharmacognosy layout. */
+.bk.md-monograph{--bk-paper:#f3f7fa;--bk-paper-a:rgba(243,247,250,.97);--bk-card:#fff;--bk-border:#d9e3ea;--bk-text:#142e3b;--bk-muted:#496475;--bk-green:#075c78;--bk-green-soft:#e0f1f5;--bk-gold:#087f84;--bk-track:#d8e8ee;--bk-on:#fff;--bk-lh:1.8}
+.bk.md-monograph[data-paper="night"]{--bk-paper:#10232e;--bk-paper-a:rgba(16,35,46,.97);--bk-card:#172f3d;--bk-border:#325060;--bk-text:#e9f4f7;--bk-muted:#b0c8d1;--bk-green:#8bdbe6;--bk-green-soft:#214654;--bk-gold:#84d7c9;--bk-track:#2b4956;--bk-on:#112c35}
+.bk.md-monograph .bk-main{padding:16px 13px 10px;display:grid;gap:14px}
+.bk.md-monograph .bk-serif,.bk.md-monograph .bk-ed{font-family:inherit;text-align:start}
+.bk.md-monograph .bk-title{border:1px solid var(--bk-border);border-radius:18px;background:var(--bk-card);padding:20px 16px;text-align:start;justify-items:start;gap:6px}
+.bk.md-monograph .bk-title h2{font-size:clamp(23px,6vw,31px);line-height:1.45}
+.bk.md-monograph .bk-sci{font-size:14px;max-width:100%;overflow-wrap:anywhere}
+.bk.md-monograph .bk-badge{border-radius:7px;font-size:11px}
+.bk.md-monograph .bk-names{margin:0;background:var(--bk-card)}
+.bk.md-monograph .bk-plate,.bk.md-monograph .bk-photos{border-radius:14px}
+.bk.md-monograph .bk-div{display:none}
+.bk.md-monograph .bk-sec{gap:9px;scroll-margin-top:125px}
+.bk.md-monograph .bk-sec-head{display:flex;align-items:center;gap:9px;padding:10px 3px 5px;border:0}
+.bk.md-monograph .bk-sec-head small{font:700 13px system-ui;color:var(--bk-green);background:var(--bk-green-soft);padding:5px 8px;border-radius:6px}
+.bk.md-monograph .bk-sec-head h2{font-size:19px;margin:0;line-height:1.45}
+.bk.md-monograph .md-fields{display:grid;gap:9px}
+.bk.md-monograph .md-field{padding:14px;border-radius:12px;background:var(--bk-card);border:1px solid var(--bk-border);overflow-wrap:anywhere}
+.bk.md-monograph .md-field h3{color:var(--bk-green);font-size:14px;font-weight:750;margin-bottom:7px}
+.bk.md-monograph .md-field-body,.bk.md-monograph .md-warning p{font-size:var(--bk-fs);line-height:1.75}
+.bk.md-monograph .md-field-body p+p{margin-top:8px}
+.bk.md-monograph .md-warning{border-inline-start:4px solid var(--bk-amber)}
+.bk.md-monograph .md-chem-grid{display:grid;gap:10px}
+.bk.md-monograph .md-compound{border:1px solid var(--bk-border);border-radius:10px;background:var(--bk-paper);padding:12px;min-width:0}
+.bk.md-monograph .md-compound-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.bk.md-monograph .md-compound-head strong{font-size:15px}
+.bk.md-monograph .md-formula{font:600 18px system-ui;color:var(--bk-green);background:var(--bk-green-soft);padding:4px 9px;border-radius:7px}
+.bk.md-monograph .md-formula sub{font-size:.65em}
+.bk.md-monograph .md-scope,.bk.md-monograph .md-note,.bk.md-monograph .md-source{font-size:12px;color:var(--bk-muted);line-height:1.6;margin-top:8px}
+.bk.md-monograph .md-range{display:grid;gap:4px;margin-top:9px}
+.bk.md-monograph .md-range b{font:700 16px system-ui;color:var(--bk-green)}
+.bk.md-monograph .md-track{position:relative;height:9px;background:var(--bk-track);border-radius:8px;overflow:hidden}
+.bk.md-monograph .md-track i{position:absolute;height:100%;background:var(--bk-green);border-radius:8px}
+.bk.md-monograph .md-scale{display:flex;justify-content:space-between;font:11px system-ui;color:var(--bk-muted)}
+.bk.md-monograph .bk-refs{margin-top:0;background:var(--bk-card);border:1px solid var(--bk-border);border-radius:12px;padding:12px;overflow-wrap:anywhere}
