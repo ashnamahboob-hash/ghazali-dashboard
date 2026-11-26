@@ -7,7 +7,7 @@ var BK={
  ps:{chartT:"د کیمیاوي اجزاوو چارټ",chartS:"د مهمو فعالو مرکباتو اټکلي سلنه",chartH:"پر هر جز کلیک وکړئ",role:"فارماکولوژيکي رول",share:"٪ برخه",booklet:"د بوټي کتابچه",badge:"طبي مفردات",code:"کوډ",other:"نور نومونه",otherSub:"په بېلابېلو ژبو",
   ords:["لومړی فصل","دویم فصل","درېیم فصل","څلورم فصل","پنځم فصل"],
   c1:["پېژندنه","پېژندنه، ماهیت او د پیدا کېدو ځایونه"],c2:["مزاج او مقدار","طبي مزاج، مصلح، بدل او د خوراک مقدار"],
-  c3:["دودیز استعمال","دودیز او تاریخي استعمال"],c4:["کیمیاوي اجزا","کیمیاوي اجزا او مرکبات"],c5:["احتیاط","احتیاطي تدابیر او خبرداری"],
+  c3:["دودیز استعمال","دودیز استعمال"],c4:["کیمیاوي اجزا","کیمیاوي اجزا او مرکبات"],c5:["احتیاط","احتیاطي تدابیر او خبرداری"],
   refs:["سرچینې","پاورقي او علمي سرچینې"],intro2:"د دودیز طب (حکمت) د اصولو پر بنسټ د بوټي طبیعي ځانګړنې او د کارونې کچه په لاندې جدول کې ترتیب شوې ده:",
   chemSub:"د کتاب له مخې ثبت شوي اجزا",warn:"مهم طبي خبرداری او منع استعمال",pro:"مسلکي مشوره",
   fm:"الف-",fp:"الف+",size:"د متن اندازه: ",min:"دا تر ټولو کوچنۍ اندازه ده",max:"دا تر ټولو لویه اندازه ده",
@@ -16,7 +16,7 @@ var BK={
  fa:{chartT:"نمودار اجزای کیمیایی",chartS:"درصد تقریبی ترکیبات فعال مهم",chartH:"روی هر جزء بزنید",role:"نقش دارویی",share:"٪ سهم",booklet:"کتابچهٔ گیاه",badge:"مفردات طبی",code:"کد",other:"نام‌های دیگر",otherSub:"به زبان‌های مختلف",
   ords:["فصل اول","فصل دوم","فصل سوم","فصل چهارم","فصل پنجم"],
   c1:["شناخت","شناخت، ماهیت و محل پیدایش"],c2:["مزاج و مقدار","مزاج طبی، مصلح، بدل و مقدار مصرف"],
-  c3:["کاربرد سنتی","کاربرد سنتی و تاریخی"],c4:["اجزای کیمیایی","اجزای کیمیایی و ترکیبات"],c5:["احتیاط","تدابیر احتیاطی و هشدار"],
+  c3:["کاربرد سنتی","کاربرد سنتی"],c4:["اجزای کیمیایی","اجزای کیمیایی و ترکیبات"],c5:["احتیاط","تدابیر احتیاطی و هشدار"],
   refs:["منابع","پاورقی و منابع علمی"],intro2:"بر پایهٔ اصول طب سنتی (حکمت)، ویژگی‌های طبیعی و مقدار مصرف در جدول زیر آمده است:",
   chemSub:"اجزای ثبت‌شده در کتاب",warn:"هشدار مهم پزشکی و منع مصرف",pro:"مشورت تخصصی",
   fm:"الف-",fp:"الف+",size:"اندازهٔ متن: ",min:"این کوچک‌ترین اندازه است",max:"این بزرگ‌ترین اندازه است",
@@ -25,7 +25,7 @@ var BK={
  ur:{chartT:"کیمیائی اجزا کا چارٹ",chartS:"اہم فعال مرکبات کا تخمینی فیصد",chartH:"کسی بھی جز پر کلک کریں",role:"دوائی کردار",share:"٪ حصہ",booklet:"پودے کا کتابچہ",badge:"طبی مفردات",code:"کوڈ",other:"دیگر نام",otherSub:"مختلف زبانوں میں",
   ords:["پہلا باب","دوسرا باب","تیسرا باب","چوتھا باب","پانچواں باب"],
   c1:["تعارف","تعارف، ماہیت اور مقام پیدائش"],c2:["مزاج اور مقدار","طبی مزاج، مصلح، بدل اور مقدار خوراک"],
-  c3:["روایتی استعمال","روایتی اور تاریخی استعمال"],c4:["کیمیائی اجزا","کیمیائی اجزا اور مرکبات"],c5:["احتیاط","احتیاطی تدابیر اور انتباہ"],
+  c3:["روایتی استعمال","روایتی استعمال"],c4:["کیمیائی اجزا","کیمیائی اجزا اور مرکبات"],c5:["احتیاط","احتیاطی تدابیر اور انتباہ"],
   refs:["ماخذ","حواشی اور علمی ماخذ"],intro2:"روایتی طب (حکمت) کے اصولوں کے مطابق قدرتی خصوصیات اور مقدارِ استعمال نیچے دی گئی ہیں:",
   chemSub:"کتاب میں درج اجزا",warn:"اہم طبی انتباہ اور ممانعت",pro:"ماہرانہ مشورہ",
   fm:"الف-",fp:"الف+",size:"متن کا سائز: ",min:"یہ سب سے چھوٹا سائز ہے",max:"یہ سب سے بڑا سائز ہے",
@@ -34,7 +34,7 @@ var BK={
  en:{chartT:"Constituents chart",chartS:"Approximate share of key active compounds",chartH:"Tap a constituent",role:"Pharmacological role",share:"% share",booklet:"Plant booklet",badge:"Medicinal simples",code:"Code",other:"Other names",otherSub:"In different languages",
   ords:["Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5"],
   c1:["Overview","Identity, nature and where it grows"],c2:["Temperament & dose","Temperament, corrective, substitute and dose"],
-  c3:["Traditional use","Traditional and historical use"],c4:["Constituents","Chemical constituents and preparations"],c5:["Cautions","Precautions and warnings"],
+  c3:["Traditional use","Traditional use"],c4:["Constituents","Chemical constituents and preparations"],c5:["Cautions","Precautions and warnings"],
   refs:["Sources","Footnotes and sources"],intro2:"Following the principles of traditional medicine (hikmat), the natural properties and dose are set out below:",
   chemSub:"As recorded in the source book",warn:"Important medical warning",pro:"Professional advice",
   fm:"A-",fp:"A+",size:"Text size: ",min:"This is the smallest size",max:"This is the largest size",
@@ -354,7 +354,7 @@ function build(plant,previewRecord){
  }
  /* names + photos */
  var names='<section id="bk-names" class="bk-names" data-bk-sec="1"><div class="bk-names-head"><h3 class="bk-serif">'+esc(x.other)+'</h3><span>'+esc(x.otherSub)+'</span></div>'+
-  (nameRows.length?'<div class="bk-grid">'+nameRows.map(function(r){return '<div class="bk-cell"><small>'+esc(r[0])+'</small><strong dir="auto">'+esc(r[1])+'</strong></div>'}).join("")+'</div>'
+  (nameRows.length?'<div class="bk-grid">'+nameRows.map(function(r,i){return '<div class="bk-cell"'+(!modern&&i>=4?' hidden style="display:none" data-bk-extra="1"':'')+'><small>'+esc(r[0])+'</small><strong dir="auto">'+esc(r[1])+'</strong></div>'}).join("")+'</div>'+(!modern&&nameRows.length>4?'<button type="button" class="bk-chip" style="display:block;margin:12px auto 0" aria-expanded="false" onclick="var b=this,e=b.getAttribute(\'aria-expanded\')!==\'true\';b.parentElement.querySelectorAll(\'[data-bk-extra]\').forEach(function(n){n.hidden=!e;n.style.display=e?\'\':\'none\'});b.setAttribute(\'aria-expanded\',String(e));b.textContent=e?b.dataset.less:b.dataset.more" data-more="'+esc(({ps:"نور وښیه",fa:"بیشتر نشان بده",ur:"مزید دکھائیں",en:"Show more"})[lang]||"Show more")+'" data-less="'+esc(({ps:"لږ وښیه",fa:"کمتر نشان بده",ur:"کم دکھائیں",en:"Show less"})[lang]||"Show less")+'">'+esc(({ps:"نور وښیه",fa:"بیشتر نشان بده",ur:"مزید دکھائیں",en:"Show more"})[lang]||"Show more")+'</button>':'')
    :'<p class="bk-note">'+esc(MT.absent)+'</p>')+
   (rec.name_notes&&rec.name_notes[lang]?'<p class="bk-note">'+esc(rec.name_notes[lang])+'</p>':"")+'</section>';
 
