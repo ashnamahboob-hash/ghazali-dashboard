@@ -144,16 +144,30 @@ function modernChemRows(items){
  }).filter(Boolean).slice(0,40);
 }
 function modernFormula(v){return esc(v).replace(/\d+/g,function(n){return '<sub>'+n+'</sub>'});}
-function modernChemHtml(items,ml){
+function modernChemHtml(items,ml,molecules){
  var rows=modernChemRows(items);if(!rows.length)return '';
- var labels=[['مستندي سلنې یوازې د ښودل سوې نمونې لپاره دي.','درصدهای مستند فقط مربوط به نمونه مشخص‌شده‌اند.','مستند فیصد صرف درج کردہ نمونے کے لیے ہیں۔','Documented composition values refer only to the specified sample.'],['سرچینه','منبع','ماخذ','Source']];
- return '<div class="md-chem-grid">'+rows.map(function(r){
+ var labels=[['مستندي سلنې یوازې د ښودل سوې نمونې لپاره دي.','درصدهای مستند فقط مربوط به نمونه مشخص‌شده‌اند.','مستند فیصد صرف درج کردہ نمونے کے لیے ہیں۔','Documented composition values refer only to the specified sample.'],['سرچینه','منبع','ماخذ','Source'],['مستنده سلنه نسته','درصد مستند موجود نیست','مستند فیصد دستیاب نہیں','Documented percentage unavailable'],['فورمول نه دئ ثبت سوی','فرمول ثبت نشده','فارمولا درج نہیں','Formula unavailable'],['تفصیل او سرچینه','جزئیات و منبع','تفصیل اور ماخذ','Details and source']];
+ var formulas=new Map();
+ (molecules||[]).flatMap(function(b){return String(b.text||'').split(/\n/)}).forEach(function(line){
+  var p=line.split('|').map(function(v){return v.trim()});if(!p[0]||!p[1])return;
+  var key=p[0].normalize('NFKC').toLowerCase();if(!formulas.has(key))formulas.set(key,p[1]);else if(formulas.get(key)!==p[1])formulas.set(key,'');
+ });
+ var palette=['#168575','#397eb4','#997128','#8762b6','#b55c70','#337f91'];
+ return '<div class="md-chem-grid md-gauge-grid">'+rows.map(function(r,i){
   var valid=r.lo!==null,range=valid?(r.lo===r.hi?r.lo+'%':r.lo+'–'+r.hi+'%'):'';
+  var formula=r.formula||formulas.get(r.name.normalize('NFKC').toLowerCase())||'';
   var source=/^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(r.source)?'<a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">'+esc(labels[1][ml])+'</a>':esc(r.source);
-  return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong></div>'+
-   (r.scope?'<p class="md-scope">'+esc(r.scope)+'</p>':'')+
-   (valid?'<div class="md-range" dir="ltr"><b>'+range+'</b><div class="md-track" role="img" aria-label="'+range+'"><i style="left:'+r.lo+'%;width:'+Math.max(r.hi-r.lo,0.5)+'%"></i></div><div class="md-scale"><span>0%</span><span>100%</span></div></div>':'')+
-   (!valid?'<p class="md-note">'+esc(['مستنده سلنه نسته','درصد مستند موجود نیست','مستند فیصد دستیاب نہیں','Documented percentage unavailable'][ml])+'</p>':'')+(source?'<p class="md-source">'+source+'</p>':'')+'</article>';
+  var arc='';
+  if(valid){
+   if(r.lo===r.hi){var angle=Math.PI*(1-r.lo/100);arc='<circle cx="'+(70+56*Math.cos(angle)).toFixed(3)+'" cy="'+(67-56*Math.sin(angle)).toFixed(3)+'" r="4" fill="currentColor"/>';}
+   else{arc='<path d="M14 67 A56 56 0 0 1 126 67" pathLength="100" stroke="currentColor" stroke-width="9" stroke-dasharray="0 '+r.lo+' '+(r.hi-r.lo)+' '+(100-r.hi)+'"/>';}
+  }
+  return '<article class="md-compound md-gauge-card" style="--md-gauge-color:'+palette[i%palette.length]+'"><div class="md-gauge" dir="ltr">'+
+   '<svg viewBox="0 0 140 88" aria-hidden="true" focusable="false" fill="none"><path d="M14 67 A56 56 0 0 1 126 67" stroke="var(--bk-track)" stroke-width="9" stroke-linecap="round"/>'+arc+'</svg>'+
+   '<div class="md-gauge-center"><b>'+(valid?esc(range):'—')+'</b><span class="md-gauge-formula" dir="ltr">'+(formula?modernFormula(formula):'—')+'</span></div><div class="md-gauge-scale"><span>0%</span><span>100%</span></div></div>'+
+   '<strong class="md-gauge-name" dir="auto">'+esc(r.name)+'</strong>'+
+   (!valid?'<p class="md-note">'+esc(labels[2][ml])+'</p>':'')+(!formula?'<p class="md-note">'+esc(labels[3][ml])+'</p>':'')+
+   (r.scope||source?'<details class="md-gauge-details"><summary>'+esc(labels[4][ml])+'</summary>'+(r.scope?'<p class="md-scope">'+esc(r.scope)+'</p>':'')+(source?'<p class="md-source">'+source+'</p>':'')+'</details>':'')+'</article>';
  }).join('')+'</div><p class="md-note">'+esc(labels[0][ml])+'</p>';
 }
 
@@ -218,7 +232,7 @@ function build(plant,previewRecord){
  if(modern){
   MODERN_GROUPS.forEach(function(g,i){
    var cards=g[1].map(function(k){
-    var content=k==='chem_profile'?modernChemHtml(F[k],ml):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):k==='interactions'?modernInteractions(F[k],ml):paras(F[k],dir);
+    var content=k==='chem_profile'?modernChemHtml(F[k],ml,F.molecular_formulas):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):k==='interactions'?modernInteractions(F[k],ml):paras(F[k],dir);
     if(!content&&(k==='molecular_formulas'||k==='chem_profile')){
      var empty=k==='molecular_formulas'?['مالیکولي فورمولونه لا نه دي ثبت سوي.','فرمول‌های مولکولی هنوز ثبت نشده‌اند.','سالماتی فارمولے ابھی درج نہیں ہوئے۔','Molecular formulae have not yet been recorded.']:['د کیمیاوي اجزاوو مستند معلومات لا نه دي ثبت سوي.','اطلاعات مستند اجزای کیمیایی هنوز ثبت نشده‌اند.','کیمیائی اجزا کی مستند معلومات ابھی درج نہیں ہوئیں۔','Documented chemical composition has not yet been recorded.'];
      content='<div class="md-compound"><p class="md-note" role="status">'+esc(empty[ml])+'</p></div>';
