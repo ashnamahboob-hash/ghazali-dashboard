@@ -1,0 +1,19 @@
+/* Taj-only chemistry cards and non-scrolling bottom sheet */
+.bk:not(.md-monograph) .bk-chart .bk-bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bk:not(.md-monograph) .bk-chart .bk-crow{min-width:0;text-align:start;border:1px solid #d8dfd5;border-radius:12px;background:#fffdf7;padding:12px;box-shadow:0 2px 8px #183b2510}
+.bk:not(.md-monograph) .bk-chart .bk-crow.on{border-color:#b99648}
+.bk:not(.md-monograph) .bk-chart .bk-ctop{display:flex;flex-direction:column;align-items:flex-start;gap:8px;overflow-wrap:anywhere}
+.bk:not(.md-monograph) .bk-chart .bk-ctrack{height:4px;margin-top:10px}
+.bk:not(.md-monograph) .bk-chart .bk-cbox{display:none!important}
+.gk-chem-overlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-end;justify-content:center}
+.gk-chem-backdrop{position:absolute;inset:0;background:#0c2016a8;border:0;width:100%;height:100%}
+.gk-chem-panel{position:relative;width:100%;max-width:640px;max-height:85dvh;display:flex;flex-direction:column;background:#fffdf7;color:#183e30;border-radius:20px 20px 0 0;box-shadow:0 -8px 32px #0003;padding:10px 18px max(18px,env(safe-area-inset-bottom))}
+.gk-chem-handle{width:42px;height:4px;border-radius:9px;background:#b5b9b0;margin:0 auto 12px}
+.gk-chem-header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d9d6c8;padding-bottom:10px}
+.gk-chem-header h3{margin:0;font-size:18px;overflow-wrap:anywhere}
+.gk-chem-close{font-size:26px;line-height:1;background:transparent;border:0;color:inherit;min-width:44px;min-height:44px;cursor:pointer}
+.gk-chem-body{overflow-y:auto;overscroll-behavior:contain;padding:16px 0;line-height:1.8}
+.gk-chem-body h4{font-size:15px;margin:10px 0}
+.gk-chem-description{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.gk-chem-share{color:#496b59;font-size:13px}
+@media(max-width:350px){.bk:not(.md-monograph) .bk-chart .bk-bars{gap:6px}.bk:not(.md-monograph) .bk-chart .bk-crow{padding:9px}}
