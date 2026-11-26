@@ -194,3 +194,6 @@
 .bk.md-monograph .md-field h3,.bk.md-monograph .bk-sec-head h2{display:flex;align-items:center;gap:8px}
 .bk.md-monograph .bk-sec-head h2 .md-icon{width:22px;height:22px;flex-basis:22px}
 .bk.md-monograph .md-formula{max-width:100%;overflow-wrap:anywhere}
+
+/* Modern interaction register: responsive rows, no horizontal scrolling. */
+.bk.md-monograph .md-interactions{display:grid;gap:10px}.bk.md-monograph .md-interaction dl{margin:8px 0 0}.bk.md-monograph .md-interaction dl>div{display:grid;grid-template-columns:minmax(85px,1fr) minmax(0,2fr);gap:10px;padding:8px 0;border-top:1px solid var(--bk-border)}.bk.md-monograph .md-interaction dt{color:var(--bk-muted);font-size:12px;font-weight:700}.bk.md-monograph .md-interaction dd{margin:0;font-size:14px;overflow-wrap:anywhere}
