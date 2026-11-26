@@ -401,7 +401,10 @@ window.addEventListener("scroll",function(){if(!ticking){ticking=true;requestAni
 function init(){
  var a=document.getElementById("app");if(!a)return;
  if(a.querySelector(".bk")){a.classList.add("bkpage");fonts();
-  try{var g=glanceRow(H[cur]);var nm=a.querySelector("#bk-names");if(g&&nm&&!a.querySelector(".glance"))nm.after(g)}catch(e){}
+  // Modern monographs use the scientific chapters directly, without traditional classification chips.
+  if(!a.querySelector(".bk.md-monograph")){
+   try{var g=glanceRow(H[cur]);var nm=a.querySelector("#bk-names");if(g&&nm&&!a.querySelector(".glance"))nm.after(g)}catch(e){}
+  }
   onScroll();
  }
 }
