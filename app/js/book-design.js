@@ -128,22 +128,31 @@ function chartHtml(rows,x){
 }
 
 var SEED={"T036": {"ps": "ګوند | 20 | د کتاب چاپي سلنه\nرال | 70 | د کتاب چاپي سلنه\nفرار غوړي | 4 | د کتاب چاپي سلنه\nنور مواد | 6 | د کتاب چاپي سلنه", "fa": "صمغ | 20 | درصد چاپ‌شده در کتاب\nرزین | 70 | درصد چاپ‌شده در کتاب\nروغن‌های فرار | 4 | درصد چاپ‌شده در کتاب\nسایر مواد | 6 | درصد چاپ‌شده در کتاب", "ur": "گوند | 20 | کتاب میں چھپا ہوا فیصد\nرال | 70 | کتاب میں چھپا ہوا فیصد\nفرار تیل | 4 | کتاب میں چھپا ہوا فیصد\nدیگر مواد | 6 | کتاب میں چھپا ہوا فیصد", "en": "Gum | 20 | Percentage printed in the book\nResin | 70 | Percentage printed in the book\nVolatile oil | 4 | Percentage printed in the book\nOther material | 6 | Percentage printed in the book"}, "T039": {"ps": "فرار غوړي (Absinthol) | 1.5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.\nتریخ جوهر (Absinthin) | 0.5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.\nرال | 5 | د کتاب چاپي شمېره؛ د هرې نمونې ثابت ترکیب نه دئ.", "fa": "روغن فرار (Absinthol) | 1.5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.\nجوهر تلخ (Absinthin) | 0.5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.\nرزین | 5 | عدد چاپ‌شده در کتاب؛ ترکیب ثابت هر نمونه نیست.", "ur": "فرار تیل (Absinthol) | 1.5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔\nتلخ جوہر (Absinthin) | 0.5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔\nرال | 5 | کتاب میں چھپا عدد؛ ہر نمونے کی مستقل ترکیب نہیں۔", "en": "Volatile oil (Absinthol) | 1.5 | Figure printed in the book; not a fixed composition of every sample.\nBitter principle (Absinthin) | 0.5 | Figure printed in the book; not a fixed composition of every sample.\nResin | 5 | Figure printed in the book; not a fixed composition of every sample."}, "T024": {"ps": "ټېنین | 15 | د کتاب چاپي سلنه\nکلسیم کاربونېټ | 3 | د کتاب چاپي سلنه", "fa": "تانن | 15 | درصد چاپ‌شده در کتاب\nکربنات کلسیم | 3 | درصد چاپ‌شده در کتاب", "ur": "ٹینن | 15 | کتاب میں چھپا ہوا فیصد\nکیلشیم کاربونیٹ | 3 | کتاب میں چھپا ہوا فیصد", "en": "Tannin | 15 | Percentage printed in the book\nCalcium carbonate | 3 | Percentage printed in the book"}, "T005": {"ps": "کاربوهایډرېټ | 12 | د ۱۰۰ ګرامو لپاره د کتاب چاپي سلنه.\nپروټین | 5 | د ۱۰۰ ګرامو لپاره د کتاب چاپي سلنه.", "fa": "کربوهیدرات | 12 | درصد چاپ‌شده در کتاب برای ۱۰۰ گرم.\nپروتئین | 5 | درصد چاپ‌شده در کتاب برای ۱۰۰ گرم.", "ur": "کاربوہائیڈریٹ | 12 | ۱۰۰ گرام کے لیے کتاب میں چھپا فیصد۔\nپروٹین | 5 | ۱۰۰ گرام کے لیے کتاب میں چھپا فیصد۔", "en": "Carbohydrate | 12 | Percentage printed in the book, per 100 g.\nProtein | 5 | Percentage printed in the book, per 100 g."}};
+const MODERN_FIELDS={"mhy":["نباتي پېژندنه","شناخت گیاه‌شناسی","نباتاتی شناخت","Botanical description"],"origin":["جغرافیایي خپرېدنه","پراکندگی جغرافیایی","جغرافیائی پھیلاؤ","Geographical distribution"],"part":["کارېدونکې برخه","بخش مورد استفاده","مستعمل حصہ","Medicinal part"],"macro":["ظاهري ځانګړتیاوي","ویژگی‌های ظاهری","ظاہری خصوصیات","Macroscopic characteristics"],"micro":["مایکروسکوپي ځانګړتیاوي","ویژگی‌های میکروسکوپی","خوردبینی خصوصیات","Microscopic characteristics"],"chem":["کیمیاوي اجزا","اجزای کیمیایی","کیمیائی اجزا","Chemical constituents"],"pharmacology":["فارماکولوژیکي اغېزې","اثرات فارماکولوژیک","فارماکولوجیکل اثرات","Pharmacological effects"],"clinical":["کلینیکي شواهد","شواهد بالینی","طبی تحقیقی شواہد","Clinical evidence"],"use":["طبي استعمالونه","کاربردهای درمانی","طبی استعمالات","Medicinal indications"],"dose":["د خوراک مقدار او طریقه","مقدار و روش مصرف","مقدار اور طریقۂ استعمال","Dosage and administration"],"mzr":["جانبي عوارض","عوارض جانبی","ضمنی اثرات","Adverse effects"],"contraindications":["د استعمال ممانعتونه","موارد منع مصرف","ممانعتِ استعمال","Contraindications"],"interactions":["له درملو سره تعاملات","تداخلات دارویی","دواؤں کے ساتھ تعاملات","Drug interactions"],"safety":["احتیاطي تدابیر","احتیاط‌ها","احتیاطی تدابیر","Precautions"],"quality":["کیفیت او خالصوالی","کیفیت و خلوص","معیار اور خالص پن","Quality and purity"],"storage":["ساتنه","نگهداری","ذخیرہ کرنے کا طریقہ","Storage"],"refs":["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"]},MODERN_GROUPS=[[["نباتي پېژندنه او تشخیص","شناخت و تشخیص گیاه","نباتاتی شناخت و تشخیص","Botanical identification"],["mhy","origin","part","macro","micro"]],[["کیمیا او فارماکولوژي","کیمیا و فارماکولوژی","کیمیا اور فارماکولوجی","Chemistry and pharmacology"],["chem","pharmacology","clinical"]],[["طبي استعمال او خوراک","کاربرد و مقدار مصرف","طبی استعمال اور خوراک","Indications and dosage"],["use","dose"]],[["خوندیتوب","ایمنی","حفاظت","Safety"],["mzr","contraindications","interactions","safety"]],[["کیفیت او ساتنه","کیفیت و نگهداری","معیار اور ذخیرہ","Quality and storage"],["quality","storage"]],[["علمي سرچینې","منابع علمی","علمی ماخذ","Scientific references"],["refs"]]],MODERN_CORE=["mhy","part","use","mzr","refs"],MODERN_SOFT=["origin","macro","micro","chem","pharmacology","clinical","dose","contraindications","interactions","safety","quality","storage"];
 function build(plant){
  var rec=wordDetailLayout.records[plant.taj[0]],F=rec.fields[lang]||rec.fields.ps||{},dir=lang==="en"?"ltr":"rtl",
   LB=wordDetailLayout.labels[lang]||wordDetailLayout.labels.ps,MT=wordDetailLayout.meta[lang]||wordDetailLayout.meta.ps,x=X();
  var has=function(k){return F[k]&&F[k].length};
+ var modern=/^MD\d{4,}$/.test(plant.taj[0]), ml=['ps','fa','ur','en'].indexOf(lang);
  var nameRows=[];try{nameRows=gkEntryNameRows(rec.names[lang]||rec.names.ps||[],lang)}catch(e){}
 
  /* lean output used only for full-text search indexing */
  if(window.__bkLean){
   return '<div>'+nameRows.map(function(r){return '<p>'+esc(r[0])+" "+esc(r[1])+'</p>'}).join("")+
-   Object.keys(F).map(function(k){return '<div data-field="'+k+'"><h3>'+esc(LB[k]||k)+'</h3>'+paras(F[k],dir)+'</div>'}).join("")+'</div>';
+   Object.keys(F).map(function(k){return '<div data-field="'+k+'"><h3>'+esc((modern&&MODERN_FIELDS[k]?MODERN_FIELDS[k][ml]:LB[k])||k)+'</h3>'+paras(F[k],dir)+'</div>'}).join("")+'</div>';
  }
 
  var idx=H.indexOf(plant),isFav=idx>-1&&fav.indexOf(idx)>-1;
  var name=herbDisplay(plant),sci=rec.scientific||"",fam=rec.family||"";
  var chapters=[];
 
+ if(modern){
+  MODERN_GROUPS.forEach(function(g,i){
+   var li=g[1].map(function(k){return lead(MODERN_FIELDS[k][ml],paras(F[k],dir))}).join('');
+   if(i===3){li+='<li><p><strong>'+esc(x.pro)+':</strong> '+esc(t().disc)+'</p></li>';}
+   if(li)chapters.push({id:'bk-c'+(i+1),t:[g[0][ml],g[0][ml]],html:'<ul class="bk-list bk-ed">'+li+'</ul>'});
+  });
+ }else{
  /* chapter 1: identity / origin */
  (function(){
   var body=paras(F.mhy,dir);if(body)body=body.replace("<p ",'<p class="bk-dropcap" ');
@@ -198,6 +207,7 @@ function build(plant){
   chapters.push({id:"bk-c5",t:x.c5,html:'<div class="bk-warn"><div class="bk-warn-h">'+svg("warn")+'<span>'+esc(x.warn)+'</span></div><ul class="bk-list">'+li+'</ul></div>'});
  })();
 
+ }
  /* names + photos */
  var names='<section id="bk-names" class="bk-names" data-bk-sec="1"><div class="bk-names-head"><h3 class="bk-serif">'+esc(x.other)+'</h3><span>'+esc(x.otherSub)+'</span></div>'+
   (nameRows.length?'<div class="bk-grid">'+nameRows.map(function(r){return '<div class="bk-cell"><small>'+esc(r[0])+'</small><strong dir="auto">'+esc(r[1])+'</strong></div>'}).join("")+'</div>'
@@ -234,7 +244,7 @@ function build(plant){
    '<button type="button" class="bk-btn bk-fav'+(isFav?" on":"")+'" onclick="bkFav()" aria-label="'+esc(x.aFav)+'">'+svg("heart")+'</button>'+
    '<button type="button" class="bk-btn" onclick="bkShare()" aria-label="'+esc(x.aShare)+'">'+svg("share")+'</button></div></div>'+
    '<nav class="bk-nav" aria-label="'+esc(x.aNav)+'">'+chips+'</nav><div class="bk-prog" aria-hidden="true"><i></i></div></header>'+
-  '<main class="bk-main"><section class="bk-title"><span class="bk-badge">'+esc(x.badge)+' · '+esc(x.code)+': '+esc(plant.taj[0])+'</span>'+
+  '<main class="bk-main"><section class="bk-title"><span class="bk-badge">'+esc(modern?libraryBooks.modern[lang]:x.badge)+' · '+esc(x.code)+': '+esc(plant.taj[0])+'</span>'+
    '<h2 class="bk-serif">'+esc(name)+'</h2>'+
    (sci||fam?'<p class="bk-sci" dir="ltr">'+(sci?esc(sci):"")+(sci&&fam?" — ":"")+(fam?'Family: <b>'+esc(fam)+'</b>':"")+'</p>':"")+'</section>'+
    fig+names+divider()+secs+refsHtml+'</main></div>';
