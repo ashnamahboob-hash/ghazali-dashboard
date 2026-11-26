@@ -75,7 +75,7 @@
 .bk-sec{scroll-margin-top:120px;display:grid;gap:14px}
 .bk-sec-head{border-bottom:1px solid var(--bk-border);padding-bottom:8px}
 .bk-sec-head small{display:block;font-size:12px;font-weight:700;color:var(--bk-gold);letter-spacing:.02em}
-.bk-sec-head h2{font-size:21px;font-weight:700;color:var(--bk-green);margin-top:2px;line-height:1.6}
+.bk-sec-head h2{font-size:clamp(14px,4.1vw,17px);font-weight:700;color:var(--bk-green);margin-top:2px;line-height:1.6}
 .bk-ed{font-family:"Noto Naskh Arabic","Amiri",serif;font-size:var(--bk-fs);line-height:var(--bk-lh);color:var(--bk-text)}
 .bk[dir="ltr"] .bk-ed{font-family:Georgia,"Noto Serif",serif;line-height:1.75}
 .bk[dir="rtl"] .bk-ed{text-align:justify}
