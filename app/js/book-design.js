@@ -189,7 +189,7 @@ function moleculeReference(name,f){
  'menthofuran':'329983','منتوفوران':'329983','منتوفوران':'329983','مینتھوفیوران':'329983',
  'pulegone':'442495','(+)-pulegone':'442495','پولیګون':'442495','پولگون':'442495','پولے گون':'442495',
  'carvone':'7439','کاروون':'7439','کارون':'7439','کاروین':'7439',
- 'isopulegol':'170833','(-)-isopulegol':'170833','ایزوپولیګول':'170833','ایزوپولگول':'170833','آئیسوپولیگول':'170833'};
+ 'rosmarinic acid':'5281792','rosemary acid':'5281792','روزمارینیک اسید':'5281792','روسمارینیک اسید':'5281792','روزمارینیک اسیډ':'5281792','روسمارینیک اسیډ':'5281792','رزمارینیک اسید':'5281792','اسید رزمارینیک':'5281792','اسید روزمارینیک':'5281792','روزمارینک ایسڈ':'5281792','روسمارینک ایسڈ':'5281792','isopulegol':'170833','(-)-isopulegol':'170833','ایزوپولیګول':'170833','ایزوپولگول':'170833','آئیسوپولیگول':'170833'};
  var n=String(name||'').normalize('NFKC').toLowerCase().trim().replace(/−/g,'-').replace(/\s+/g,' ');
  var candidate=aliases[n]||'';
  if(!candidate){var p=/\(([a-z][a-z0-9 ,\-]+)\)$/i.exec(n);if(p)candidate=aliases[p[1].trim()]||'';}
@@ -208,9 +208,9 @@ function moleculeLocal(cid,f){
  if(!rec||rec.formula!==f)return '';
  var paths=Object.keys(rec.paths).map(function(k){
   var color=k[1]==='r'?'#bc4545':'currentColor';
-  return '<path d="'+rec.paths[k]+'" fill="'+(k[0]==='f'?color:'none')+'" stroke="'+color+'" stroke-width="'+(k[2]==='1'?'1':'2')+'" stroke-linecap="round" stroke-linejoin="round"/>';
+  return '<path d="'+rec.paths[k]+'" fill="'+(k[0]==='f'?color:'none')+'" stroke="'+color+'" stroke-width="'+(k[2]==='1'?'1':(rec.bondWidth||2))+'" stroke-linecap="round" stroke-linejoin="round"/>';
  }).join('');
- var labels=rec.labels.map(function(v){return '<text x="'+v[0]+'" y="'+v[1]+'" fill="#bc4545" font-family="system-ui,sans-serif" font-size="15">'+v[2]+'</text>';}).join('');
+ var labels=rec.labels.map(function(v){return '<text x="'+v[0]+'" y="'+v[1]+'" fill="#bc4545" font-family="system-ui,sans-serif" font-size="'+(rec.labelSize||15)+'">'+v[2]+'</text>';}).join('');
  return '<svg viewBox="0 0 190 150" role="img" aria-label="PubChem CID '+cid+' — 2D reference" xmlns="http://www.w3.org/2000/svg">'+paths+labels+'</svg>';
 }
 function modernMolecules(items,legacy,ml){
@@ -223,7 +223,7 @@ function modernMolecules(items,legacy,ml){
  var L={mass:['مالیکولي وزن','وزن مولکولی','سالماتی وزن','Molecular weight'],class:['کیمیاوي ډله','گروه کیمیایی','کیمیائی گروہ','Chemical class'],details:['علمي تفصیل','جزئیات علمی','علمی تفصیل','Scientific details'],missing:['مالیکولي شکل نه دئ ثبت سوی','ساختار مولکولی ثبت نشده','سالماتی ساخت درج نہیں','Structure unavailable'],offline:['شکل اوس نه ښکاري','تصویر فعلاً در دسترس نیست','تصویر فی الحال دستیاب نہیں','Structure currently unavailable'],simple:['ساده ۲D شکل؛ فضایي جهتونه نه دي ښودل سوي','شکل سادهٔ دوبعدی؛ آرایش فضایی نمایش داده نشده','سادہ دو بعدی شکل؛ فضائی ترتیب نہیں دکھائی گئی','2D connectivity; stereochemistry omitted'],alcohol:['الکول','الکل','الکحل','Alcohol'],ketone:['کیټون','کتون','کیٹون','Ketone']};
  return '<div class="md-chem-grid md-molecule-grid">'+rows.map(function(r){
   var f=String(r.formula).trim().replace(/[₀₁₂₃₄₅₆₇₈₉]/g,function(n){return '₀₁₂₃₄₅₆₇₈₉'.indexOf(n)}),explicitCid=moleculeCid(r.source),cid=explicitCid||moleculeReference(r.name,f),mass=moleculeMass(f),rec=(window.GHAZALI_MOLECULES||{})[cid],local=moleculeLocal(cid,f);
-  var groups={alcohol:L.alcohol,ketone:L.ketone,ester:['اسټر','استر','ایسٹر','Ester'],ether:['ایتر','اتر','ایتھر','Ether'],hydrocarbon:['هایدروکاربن','هیدروکربن','ہائیڈروکاربن','Hydrocarbon'],furan:['فوران','فوران','فیوران','Furan']};
+  var groups={phenolicacid:['فینولي اسید','اسید فنولی','فینولک ایسڈ','Phenolic acid'],alcohol:L.alcohol,ketone:L.ketone,ester:['اسټر','استر','ایسٹر','Ester'],ether:['ایتر','اتر','ایتھر','Ether'],hydrocarbon:['هایدروکاربن','هیدروکربن','ہائیڈروکاربن','Hydrocarbon'],furan:['فوران','فوران','فیوران','Furan']};
   var group=local&&rec&&groups[rec.group]?groups[rec.group][ml]:'';
   if(rec&&rec.formula!==f)cid='';
   var note=['د PubChem مرجع شکل؛ د نمونې فضایي جوړښت نه ثابتوي','ساختار مرجع PubChem؛ آرایش فضایی نمونه را اثبات نمی‌کند','PubChem کا حوالہ جاتی ساخت؛ نمونے کی فضائی ترتیب ثابت نہیں کرتا','PubChem reference structure; not proof of sample stereochemistry'][ml];
