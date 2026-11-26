@@ -197,3 +197,21 @@
 
 /* Modern interaction register: responsive rows, no horizontal scrolling. */
 .bk.md-monograph .md-interactions{display:grid;gap:10px}.bk.md-monograph .md-interaction dl{margin:8px 0 0}.bk.md-monograph .md-interaction dl>div{display:grid;grid-template-columns:minmax(85px,1fr) minmax(0,2fr);gap:10px;padding:8px 0;border-top:1px solid var(--bk-border)}.bk.md-monograph .md-interaction dt{color:var(--bk-muted);font-size:12px;font-weight:700}.bk.md-monograph .md-interaction dd{margin:0;font-size:14px;overflow-wrap:anywhere}
+
+
+/* Compact, two-column molecular composition cards; ranges use a fixed 0–100 scale. */
+.bk.md-monograph .md-gauge-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start}
+.bk.md-monograph .md-gauge-card{border-radius:15px;padding:10px 8px;text-align:center;display:grid;gap:4px;align-content:start;overflow:hidden}
+.bk.md-monograph .md-gauge{position:relative;width:100%;max-width:210px;margin:auto;color:var(--md-gauge-color);aspect-ratio:140/88}
+.bk.md-monograph .md-gauge svg{display:block;width:100%;height:100%}
+.bk.md-monograph .md-gauge-center{position:absolute;top:29%;left:0;right:0;display:grid;gap:2px;justify-items:center}
+.bk.md-monograph .md-gauge-center b{font:750 clamp(13px,4.3vw,22px)/1.2 system-ui;color:var(--bk-text);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bk.md-monograph .md-gauge-formula{font:600 clamp(12px,3.5vw,17px)/1.2 system-ui;color:var(--bk-muted);max-width:100%;overflow-wrap:anywhere}
+.bk.md-monograph .md-gauge-formula sub{font-size:.7em}
+.bk.md-monograph .md-gauge-scale{position:absolute;bottom:0;left:5%;right:5%;display:flex;justify-content:space-between;font:10px system-ui;color:var(--bk-muted)}
+.bk.md-monograph .md-gauge-name{font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.bk.md-monograph .md-gauge-card .md-note{margin:0;font-size:11px}
+.bk.md-monograph .md-gauge-details{margin-top:5px;text-align:start;border-top:1px solid var(--bk-border);padding-top:6px;font-size:12px;color:var(--bk-muted)}
+.bk.md-monograph .md-gauge-details summary{cursor:pointer;color:var(--bk-green);font-weight:600;overflow-wrap:anywhere}
+.bk.md-monograph .md-gauge-details p{overflow-wrap:anywhere}
+@media(max-width:320px){.bk.md-monograph .md-gauge-grid{grid-template-columns:minmax(0,1fr)}}
