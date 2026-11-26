@@ -210,6 +210,10 @@ function build(plant){
   MODERN_GROUPS.forEach(function(g,i){
    var cards=g[1].map(function(k){
     var content=k==='chem_profile'?modernChemHtml(F[k],ml):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):paras(F[k],dir);
+    if(!content&&(k==='molecular_formulas'||k==='chem_profile')){
+     var empty=k==='molecular_formulas'?['مالیکولي فورمولونه لا نه دي ثبت سوي.','فرمول‌های مولکولی هنوز ثبت نشده‌اند.','سالماتی فارمولے ابھی درج نہیں ہوئے۔','Molecular formulae have not yet been recorded.']:['د کیمیاوي اجزاوو مستند معلومات لا نه دي ثبت سوي.','اطلاعات مستند اجزای کیمیایی هنوز ثبت نشده‌اند.','کیمیائی اجزا کی مستند معلومات ابھی درج نہیں ہوئیں۔','Documented chemical composition has not yet been recorded.'];
+     content='<div class="md-compound"><p class="md-note" role="status">'+esc(empty[ml])+'</p></div>';
+    }
     if(!content)return '';
     return '<article class="md-field md-field-'+k+'" data-field="'+k+'"><h3>'+mdIcon(k)+esc(MODERN_FIELDS[k][ml])+'</h3><div class="md-field-body">'+content+'</div></article>';
    }).join('');
