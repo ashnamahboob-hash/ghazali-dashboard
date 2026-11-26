@@ -51,6 +51,23 @@ var lang="ps",view="home",q="",letter="",cur=null,app=document.getElementById("a
 function t(){return L[lang]}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 let libraryPosition = {top:0, letters:0};
+let libraryBook = "";
+const libraryBooks = {
+ taj:{ps:"تاج المفردات",fa:"تاج المفردات",ur:"تاج المفردات",en:"Taj al-Mufradat"},
+ ibn:{ps:"الجامع — ابن البیطار",fa:"الجامع — ابن بیطار",ur:"الجامع — ابن البیطار",en:"Al-Jami — Ibn al-Baytar"},
+ modern:{ps:"عصري طبي بوټي",fa:"گیاهان دارویی معاصر",ur:"جدید طبی پودے",en:"Modern medicinal plants"}
+};
+const libraryBookOf=p=>/^IB\d{4,}$/.test(p?.taj?.[0]||"")?"ibn":/^MD\d{4,}$/.test(p?.taj?.[0]||"")?"modern":"taj";
+const libraryChooseLabels={ps:"سرچینه وټاکئ",fa:"منبع را انتخاب کنید",ur:"ماخذ منتخب کریں",en:"Choose a source"};
+function chooseLibraryBook(key){
+ if(!libraryBooks[key])return;
+ rememberPage();libraryBook=key;letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);
+}
+function librarySourceMenu(T){
+ const available=H.filter(isPublished);
+ app.innerHTML=bar(T.lib)+'<div class="sec"><h3>'+esc(libraryChooseLabels[lang])+'</h3>'+Object.entries(libraryBooks).map(([k,n])=>'<button type="button" data-library-book="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:18px 12px;margin:10px 0;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:start"><strong>'+esc(n[lang])+'</strong><span>'+available.filter(p=>libraryBookOf(p)===k).length+'</span></button>').join("")+'</div>';
+ app.querySelectorAll("[data-library-book]").forEach(b=>b.onclick=()=>chooseLibraryBook(b.dataset.libraryBook));
+}
 const pageTrail = [];
 let homeQuery = "";
 let photoPreview = "";
@@ -66,7 +83,7 @@ function restorePosition(position) {
 function rememberPage() {
  const position=pagePosition();
  if(view==="lib"&&cur===null)libraryPosition=position;
- const library = view==="lib" && cur===null ? {q,letter,lang} : null;
+ const library = view==="lib" && cur===null ? {q,letter,lang,libraryBook} : null;
  pageTrail.push({view,cur,position,library});
 }
 function go(v,x) {
@@ -77,6 +94,7 @@ function go(v,x) {
   pageTrail.length=0;
   pickFt();
  }
+ if(v==="lib"){libraryBook="";q=x===undefined?"":x;letter="";libraryPosition={top:0,letters:0};}
  if(v==="lib"&&x!==undefined) {
   q=x;
   letter="";
@@ -99,6 +117,7 @@ function goBack() {
  cur=previous.cur;
  if(previous.library){
   q=previous.library.q;
+  libraryBook=previous.library.libraryBook||"";
   letter=previous.library.lang===lang ? previous.library.letter : "";
   libraryPosition=previous.position;
  }
@@ -250,7 +269,7 @@ var homeLabels={
 };
 function featuredHerbs(T){
  if(!FT.length)return "";
- return '<h3 class="home-title featured">'+T.feat+'</h3><div class="fg library-featured">'+FT.filter(function(i){return isPublished(H[i])}).map(function(i){
+ return '<h3 class="home-title featured">'+T.feat+'</h3><div class="fg library-featured">'+FT.filter(function(i){return isPublished(H[i])&&(!libraryBook||view!=="lib"||libraryBookOf(H[i])===libraryBook)}).map(function(i){
    var p=H[i];
    return '<button class="fc" onclick="openHerb('+i+')"><span class="fph" style="'+bg(p)+'"></span><b>'+herbDisplay(p)+'</b></button>';
  }).join("")+'</div>';
@@ -417,9 +436,10 @@ function libraryMatches(p, query) {
  return names.some(name => librarySearchKey(name).includes(query));
 }
 function libraryPage(T) {
+ if(!libraryBook)return librarySourceMenu(T);
  const counts = new Map();
  const collator = new Intl.Collator(lang, {numeric:true, sensitivity:"base"});
- const entries = H.filter(isPublished).map(plant => {
+ const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook).map(plant => {
   const name = herbDisplay(plant);
   return {plant, name, initial:libraryInitial(name)};
  }).sort((a,b) => collator.compare(a.name,b.name));
@@ -429,7 +449,7 @@ function libraryPage(T) {
  const letters = Array.from(counts.keys()).sort(collator.compare);
  const chip = (key,label) => '<button class="chip'+(letter===key?' on':'')+
   '" aria-pressed="'+(letter===key)+'" data-letter="'+esc(key)+'">'+label+'</button>';
- app.innerHTML = bar(T.lib)+'<div class="search">'+ic("search")+
+ app.innerHTML = bar(esc(libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
   '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div>'+
   '<div class="chips" id="library-letters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+
   letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+mzRow()+
@@ -462,8 +482,10 @@ const unmatchedSource = {
 };
 function librarySource(p) {
  const labels=libraryLabels[lang], entry=p.taj;
+ const sourceBook=libraryBookOf(p);
+ const sourceTitle=sourceBook==="taj"?TM[lang]:sourceBook==="ibn"?"الجامع لمفردات الأدوية والأغذية — ابن البیطار":libraryBooks.modern[lang];
  const reference=entry
-  ? '<p>'+esc(TM[lang])+'</p><p>'+labels[1]+' '+esc(reviewedSimpleRecords[entry[0]]?.pages||({T001:'1–5',T002:'5–8',T003:'8–15'})[entry[0]]||entry[3])+
+  ? '<p>'+esc(sourceTitle)+'</p><p>'+labels[1]+' '+esc(reviewedSimpleRecords[entry[0]]?.pages||({T001:'1–5',T002:'5–8',T003:'8–15'})[entry[0]]||wordDetailLayout.records[entry[0]]?.pages||entry[3])+
     ' · <b dir="ltr">'+esc(entry[0])+'</b></p><p dir="rtl" lang="ur">'+esc(entry[1])+'</p>'
   : '<p>'+unmatchedSource[lang]+'</p>';
  return '<div class="sec"><h3>'+labels[0]+'</h3>'+reference+((["T001","T002","T003"].includes(entry?.[0])||Boolean(reviewedSimpleRecords[entry?.[0]]?.taxonomy_source))?'<p><a href="'+(reviewedSimpleRecords[entry[0]]?reviewedSimpleRecords[entry[0]].taxonomy_source:entry[0]==="T003"?"https://powo.science.kew.org/taxon/554129-1":entry[0]==="T001"?"https://powo.science.kew.org/taxon/852556-1":"https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:544772-1")+'" target="_blank" rel="noopener">Kew · Plants of the World Online</a></p>':'')+currentSafetySource(reviewedSimpleRecords[entry?.[0]])+'</div>';
