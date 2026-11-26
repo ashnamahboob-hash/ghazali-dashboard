@@ -168,6 +168,15 @@ function modernMolecules(items,legacy,ml){
   return '<article class="md-compound"><div class="md-compound-head"><strong dir="auto">'+esc(r.name)+'</strong><span class="md-formula" dir="ltr">'+modernFormula(r.formula)+'</span></div>'+(r.source?'<p class="md-source">'+esc(r.source)+'</p>':'')+'</article>';
  }).join('')+'</div>';
 }
+function modernInteractions(items,ml){
+ var labels=[["درمل یا ډله","د تعامل ډول","احتمالي اغېز","احتیاط","علمي سرچینه"],["دارو یا گروه","نوع تداخل","اثر احتمالی","احتیاط","منبع علمی"],["دوا یا گروہ","تعامل کی نوعیت","ممکنہ اثر","احتیاط","علمی ماخذ"],["Drug or class","Interaction type","Potential effect","Precaution","Scientific source"]][ml],empty=["د تعاملاتو مستند معلومات لا نه دي ثبت سوي.","اطلاعات مستند تداخلات هنوز ثبت نشده است.","تعاملات کی مستند معلومات ابھی درج نہیں ہوئیں۔","Documented interaction information has not yet been recorded."][ml],rows=[],legacy=[];
+ (items||[]).forEach(function(b){String(b.text||'').split(/\n/).forEach(function(line){
+  if(!line.trim())return;var p=line.split('|').map(function(x){return x.trim()});
+  if(p.length===5&&p[0]&&p[4])rows.push(p);else legacy.push(line);
+ })});
+ var h=rows.length?'<div class="md-interactions">'+rows.map(function(p){return '<article class="md-compound md-interaction"><div class="md-compound-head"><strong dir="auto">'+esc(p[0])+'</strong></div><dl>'+p.slice(1).map(function(v,i){var val=esc(v);if(i===3&&/^https:\/\/[a-z0-9.-]+(?:[/?#][^\s]*)?$/i.test(v))val='<a href="'+esc(v)+'" target="_blank" rel="noopener noreferrer">'+esc(labels[4])+'</a>';return '<div><dt>'+esc(labels[i+1])+'</dt><dd dir="auto">'+(val||'—')+'</dd></div>'}).join('')+'</dl></article>'}).join('')+'</div>':'';
+ return h+legacy.map(function(line){return '<p>'+esc(line)+'</p>'}).join('')||'<p class="md-note">'+esc(empty)+'</p>';
+}
 var MD_ICONS={
  leaf:'<path d="M20 4C9 3 3 9 5 15s12 5 15-11ZM4 20l10-10"/>',
  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18 5-5 5-13 0-18Z"/>',
@@ -209,7 +218,7 @@ function build(plant,previewRecord){
  if(modern){
   MODERN_GROUPS.forEach(function(g,i){
    var cards=g[1].map(function(k){
-    var content=k==='chem_profile'?modernChemHtml(F[k],ml):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):paras(F[k],dir);
+    var content=k==='chem_profile'?modernChemHtml(F[k],ml):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):k==='interactions'?modernInteractions(F[k],ml):paras(F[k],dir);
     if(!content&&(k==='molecular_formulas'||k==='chem_profile')){
      var empty=k==='molecular_formulas'?['مالیکولي فورمولونه لا نه دي ثبت سوي.','فرمول‌های مولکولی هنوز ثبت نشده‌اند.','سالماتی فارمولے ابھی درج نہیں ہوئے۔','Molecular formulae have not yet been recorded.']:['د کیمیاوي اجزاوو مستند معلومات لا نه دي ثبت سوي.','اطلاعات مستند اجزای کیمیایی هنوز ثبت نشده‌اند.','کیمیائی اجزا کی مستند معلومات ابھی درج نہیں ہوئیں۔','Documented chemical composition has not yet been recorded.'];
      content='<div class="md-compound"><p class="md-note" role="status">'+esc(empty[ml])+'</p></div>';
