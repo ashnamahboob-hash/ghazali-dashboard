@@ -183,8 +183,9 @@ try{
 /* Public entries require explicit dashboard approval and complete core content. */
 function publicEntryComplete(h){
  const text=v=>Array.isArray(v)?v.some(x=>text(typeof x==='string'?x:x&&x.text)):typeof v==='string'&&v.trim().length>0;
- return !!(h&&h.status==='approved'&&text(String(h.pages||''))&&['ps','fa','ur','en'].every(l=>
-  text(h.names&&h.names[l])&&['mzj','mhy','khs','use','mzr'].every(k=>text(h.fields&&h.fields[l]&&h.fields[l][k]))));
+ const legacy=['mzj','mhy','khs','use','mzr'], modern=["mhy","part","use","mzr","refs"], langs=['ps','fa','ur','en'];
+ const complete=keys=>langs.every(l=>text(h.names?.[l])&&keys.every(k=>text(h.fields?.[l]?.[k])));
+ return !!(h&&h.status==='approved'&&text(String(h.pages||''))&&( (/^MD\d{4,}$/.test(h.code||'')&&complete(modern))||complete(legacy)));
 }
 function isPublished(p){return !!(p&&!p.hiddenDuplicate&&p.publicationApproved===true);}
 function openHerb(i){

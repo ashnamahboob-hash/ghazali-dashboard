@@ -10,9 +10,10 @@ function applyHerbs(list){
   const before=H.filter(isPublished).map(p=>p.taj&&p.taj[0]).join('|');
   H.forEach(p=>{p.publicationApproved=false;});
   let changed=false;
-  const KEYS=wordDetailLayout.order;
+  const legacyKeys=wordDetailLayout.order;
   for(const h of list){
     const code=h&&h.code;if(!code||!publicEntryComplete(h))continue;
+    const KEYS=/^MD\d{4,}$/.test(code)?[...new Set([...legacyKeys,...["mhy","origin","part","macro","micro","chem","pharmacology","clinical","use","dose","mzr","contraindications","interactions","safety","quality","storage","refs"]])]:legacyKeys;
     const nm=h.names;if(h.fields)delete h.fields.ar;
     let p=H.find(x=>x.taj&&x.taj[0]===code),rec=wordDetailLayout.records[code];
     if(!p){
