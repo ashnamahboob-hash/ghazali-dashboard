@@ -1,7 +1,12 @@
 /* moved to data/afghan-embed.js */
 var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
 var afProvExpanded = false, afLayout = "grid";
-var AF_BATCH_SIZE = 20, afVisibleCount = 0, afMoreObserver = null, afLoadingMore = false;
+var AF_BATCH_SIZE = 10, afVisibleCount = 0, afMoreObserver = null, afLoadingMore = false;
+/* The repository currently has no bundled jpg photos under /afghan-plants.
+   Do not issue hundreds of guaranteed-404 requests from the offline catalogue.
+   Update these IDs when real local image files are added; Firestore thumbnails still work. */
+var AF_LOCAL_IMAGE_IDS = new Set();
+function afHasLocalImage(id) { return AF_LOCAL_IMAGE_IDS.has(String(id)); }
 function afStopObserver() { if (afMoreObserver) { afMoreObserver.disconnect(); afMoreObserver = null; } }
 try { afLayout = localStorage.getItem("gk_afghan_layout") === "list" ? "list" : "grid"; } catch (e) {}
 
@@ -80,15 +85,15 @@ window.addEventListener("gk-firebase-ready", afRefreshLiveData);
 window.addEventListener("online", afRefreshLiveData);
 function afLoadData() {
   if (afPlants || afLoading) return;
-  afLoading = true;
-  afLoadFirestore().catch(function() { return null; }).then(function(list) {
-    if (Array.isArray(list) && list.length) { afSource = "fs"; return list; }
-    afSource = "json";
-    return afLoadJson();
-  }).then(function(list) {
-    afPlants = afSort(Array.isArray(list) ? list : []); afLoading = false; if (view === "regions") render();
-    if (afSource !== "fs") afRefreshLiveData();
-  }).catch(function() { afSource = "json"; afLoading = false; afPlants = afSort(AF_EMBED); if (view === "regions") render(); });
+  // The bundled catalogue is available offline: show it without waiting for
+  // a Firebase connection (which previously held the screen for up to 6s).
+  afPlants = afSort(Array.isArray(AF_EMBED) ? AF_EMBED : []);
+  afSource = "json";
+  afLoading = false;
+  afLoadCredits();
+  // Refresh using Firestore in the background; it remains the live source.
+  // Avoid replacing the visible scroll position during an active swipe.
+  afRefreshLiveData();
 }
 function afLoadPhotos(id) {
   if (afPhotos[id] || afPhotoLoading[id] || !afFS || !window.gkFirebase || !window.gkFirebase.db) return;
@@ -115,7 +120,8 @@ function afGalleryHtml(p) {
     }).join("");
     return '<div class="af-gallery">' + ph.map(function(x) { return '<img alt="' + esc(p.name_en || "") + '" src="' + x.data + '">'; }).join("") + "</div>" + cr;
   }
-  return '<div class="af-gallery">' + [1, 2, 3, 4].map(function(n) { return '<img loading="lazy" alt="' + esc(p.name_en || "") + '" src="' + afImgUrl(p.id, n) + '" onerror="this.remove()">'; }).join("") + "</div>" + afCreditLine(p.id);
+  if (!afHasLocalImage(p.id)) return "";
+  return '<div class="af-gallery">' + [1, 2, 3, 4].map(function(n) { return '<img loading="lazy" decoding="async" alt="' + esc(p.name_en || "") + '" src="' + afImgUrl(p.id, n) + '" onerror="this.remove()">'; }).join("") + "</div>" + afCreditLine(p.id);
 }
 
 /* Photos: put files in app/afghan-plants/ named 001.jpg (main), 001-2.jpg, 001-3.jpg, 001-4.jpg.
@@ -252,7 +258,7 @@ function afRenderCards(list) {
     var name = afField(p, "name"), scientific = p.scientific_name || "";
     var photo = afSource === "fs"
       ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" loading="lazy" decoding="async" alt="" src="' + esc(p.thumb) + '">' : "")
-      : '<img class="af-thumb" loading="lazy" decoding="async" alt="" src="' + esc(afImgUrl(p.id, 1)) + '" onerror="this.remove()">';
+      : (afHasLocalImage(p.id) ? '<img class="af-thumb" loading="lazy" decoding="async" alt="" src="' + esc(afImgUrl(p.id, 1)) + '" onerror="this.remove()">' : "");
     return '<button type="button" class="af-card" data-af-id="' + esc(p.id) + '">' +
       '<span class="af-photo" aria-hidden="true">' + ic("leaf") + photo + '</span>' +
       '<span class="af-card-top"><b>' + esc(name) + '</b>' +
@@ -283,7 +289,7 @@ function afAddMoreButton(total) {
   if ("IntersectionObserver" in window) {
     afMoreObserver = new IntersectionObserver(function(entries) {
       if (entries.some(function(entry) { return entry.isIntersecting; })) afLoadMoreCards();
-    }, {rootMargin:"350px 0px"});
+    }, {rootMargin:"150px 0px"});
     afMoreObserver.observe(button);
   }
 }
@@ -316,7 +322,7 @@ regionPage = function(v) {
   var u = AF_UI[lang] || AF_UI.ps;
   if (!afPlants) {
     afLoadData();
-    return bar(regionText[lang][0]) + '<div class="empty">' + u.loading + '</div>';
+    if (!afPlants) return bar(regionText[lang][0]) + '<div class="empty">' + u.loading + '</div>';
   }
   if (afSelectedId !== null) {
     var p = afPlants.find(function(x) { return String(x.id) === String(afSelectedId); });
