@@ -74,7 +74,7 @@ function libraryCategoryMenu(T){
  document.getElementById("category-search").oninput=function(){const value=this.value;if(!value.trim())return;select("all");q=value;render();const input=document.getElementById("ls");if(input){input.focus();try{input.setSelectionRange(value.length,value.length)}catch(e){}}};
 }
 const libraryBooks = {
- taj:{ps:"تاج المفردات",fa:"تاج المفردات",ur:"تاج المفردات",en:"Taj al-Mufradat"},
+ taj:{ps:"تاج المفردات خواص الادویة",fa:"تاج المفردات خواص الادویة",ur:"تاج المفردات خواص الادویة",en:"Taj al-Mufradat Khawas al-Adwiya"},
  ibn:{ps:"الجامع لمفردات الأدوية والأغذية",fa:"الجامع لمفردات الأدوية والأغذية",ur:"الجامع لمفردات الأدوية والأغذية",en:"Al-Jami li-Mufradat al-Adwiya wa-l-Aghdhiya"},
  modern:{ps:"عصري طبي بوټي",fa:"گیاهان دارویی معاصر",ur:"جدید طبی پودے",en:"Modern medicinal plants"}
 };
@@ -395,7 +395,7 @@ function homePage(){
  '<button class="id-banner" onclick="go(\'id\')"><span class="id-banner-ic">'+ic("cam")+'</span><span class="id-banner-tx"><strong>'+identBannerTitle[lang]+'</strong><span>'+(typeof gkLensCopy==="function"?gkLensCopy()[0]:"")+'</span></span><svg class="id-banner-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>'+
  '<button class="library-hero" onclick="go(\'lib\')"><span><strong>'+T.lib+'</strong><span class="library-cta">'+labels[0]+'</span></span>'+libraryCover()+'</button>'+
  '<div class="grid">'+tiles.map(function(x){
- return '<button class="tile" onclick="go(\''+x[0]+'\')">'<span class="tile-icon" aria-hidden="true">'+ic(x[1])+'</span><span>'+x[2]+'</span></button>';
+ return '<button class="tile" onclick="go(\''+x[0]+'\')"><span class="tile-icon" aria-hidden="true">'+ic(x[1])+'</span><span>'+x[2]+'</span></button>';
  }).join("")+'</div>'+discoveryCards();
 }
 const settingsLabels={
