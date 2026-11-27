@@ -35,3 +35,44 @@
 .af-loc{font-size:12.5px;color:var(--soft);opacity:.9}
 .af-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .af-links a{font-size:12.5px;color:var(--gold);background:var(--bg);border:1px solid var(--bd);padding:6px 12px;border-radius:12px;text-decoration:none}
+
+/* Afghanistan catalogue 2026-11-27: same filter and card language as the main library */
+#af-list.af-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+#af-list.af-results[data-layout=list]{grid-template-columns:minmax(0,1fr)}
+.af-sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:27;padding:4px 0 10px;background:var(--bg);background:color-mix(in srgb,var(--bg) 87%,transparent);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px);box-shadow:0 5px 12px rgba(0,0,0,.035)}
+.af-sticky .bar{margin-bottom:12px}
+.af-sticky .af-controls{position:relative;display:flex;align-items:center;padding:0 12px;min-height:54px;border-radius:18px;background:var(--card)}
+.af-sticky .af-search{min-width:0;flex:1;background:transparent;border:0;outline:0;padding:10px 6px;font-size:16px}
+.af-sticky .af-search:focus{outline:none}
+.af-search-icon{display:grid;place-items:center;color:var(--gold);flex:none}
+.af-search-icon svg{width:23px;height:23px}
+.af-filter-row{display:flex;align-items:stretch;gap:8px;margin-top:9px}
+.af-prov-panel{flex:1;min-width:0}
+.af-prov-toggle{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;min-height:43px;border:1px solid rgba(140,155,140,.35);border-radius:12px;background:rgba(130,165,145,.12);color:var(--ink);font:inherit;font-size:15px;padding:7px 12px;cursor:pointer}
+.af-prov-chevron{color:var(--gold);font-size:20px;line-height:1;transition:transform .15s}
+.af-prov-toggle[aria-expanded=true] .af-prov-chevron{transform:rotate(180deg)}
+.af-provs[hidden]{display:none!important}
+.af-provs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-flow:row;grid-auto-columns:auto;grid-template-rows:none;gap:7px;max-height:min(52vh,390px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:10px;margin-top:7px;border:1px solid var(--bd);border-radius:16px;background:var(--card)}
+.af-provs button{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0;min-height:55px;padding:6px 3px;white-space:normal;overflow-wrap:anywhere;border-radius:10px;text-align:center;font-size:13px;background:transparent}
+.af-provs button span{display:block;line-height:1.35}
+.af-provs button small{font-size:10px;min-width:0;padding:0 5px}
+.af-provs button.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.af-provs button.zero{opacity:.55}
+.af-layout-mode{display:flex;flex:none;align-self:start;gap:5px}
+.af-layout-mode button{display:grid;place-items:center;min-width:42px;min-height:43px;padding:6px;border:1px solid var(--gold);border-radius:11px;background:var(--card);color:var(--ink);cursor:pointer}
+.af-layout-mode button[aria-pressed=true]{background:var(--gold);color:#174a38}
+.af-layout-mode svg{display:block}
+#af-list .af-card{display:flex;flex-direction:column;min-width:0;gap:10px;align-items:stretch;padding:10px;text-align:start;font:inherit;background:rgba(130,165,145,.12);border:1px solid rgba(140,155,140,.28);border-radius:20px;color:var(--ink);box-shadow:none;cursor:pointer}
+#af-list .af-photo{position:relative;display:flex;align-items:center;justify-content:center;flex:none;width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:15px;background:linear-gradient(145deg,#1f6448,#184737);color:#f2efdd}
+#af-list .af-photo>svg{width:43px;height:43px;stroke-width:1.7}
+#af-list .af-thumb{position:absolute;inset:0;display:block;width:100%;height:100%;margin:0;border-radius:0;object-fit:cover;background:transparent}
+#af-list .af-card-top{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:5px;min-width:0;flex:1}
+#af-list .af-card b{display:block;font-size:17px;line-height:1.5;overflow-wrap:anywhere;font-weight:700}
+#af-list .af-card i{display:block;font-size:12px;font-style:italic;color:var(--soft);direction:ltr;text-align:start;overflow-wrap:anywhere}
+#af-list .af-loc{display:flex;align-items:flex-start;gap:3px;font-size:11px;color:var(--soft);line-height:1.45;min-width:0;overflow-wrap:anywhere}
+#af-list .af-loc svg{width:13px;height:13px;flex:none}
+#af-list[data-layout=list] .af-card{flex-direction:row;align-items:center}
+#af-list[data-layout=list] .af-photo{width:86px;aspect-ratio:1;align-self:center}
+#af-list[data-layout=list] .af-card-top{justify-content:center}
+@media(max-width:360px){.af-provs{grid-template-columns:repeat(2,minmax(0,1fr))}.af-layout-mode button{min-width:37px}#af-list .af-card{padding:8px}#af-list .af-card b{font-size:15px}}
+@media(min-width:680px){.af-provs{grid-template-columns:repeat(4,minmax(0,1fr))}}
