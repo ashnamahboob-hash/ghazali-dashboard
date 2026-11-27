@@ -740,12 +740,11 @@ function ibnPlantDetails(p,rec){
  const paragraphs=blocks=>(Array.isArray(blocks)?blocks:[]).filter(b=>String(b?.text||"").trim()).map(b=>'<p dir="auto" style="white-space:pre-wrap;line-height:2;margin:0 0 1em">'+esc(b.text)+'</p>').join("");
  const body=paragraphs(f.full_text);
  const missing=["بشپړ متن په دې ژبه لا نه دئ ثبت سوی.","متن کامل به این زبان هنوز ثبت نشده است.","اس زبان میں مکمل متن ابھی درج نہیں ہوا۔","The full text has not yet been entered in this language."][i];
- const historical=["دا د تاریخي طبي کتاب متن دئ، نه د معاصر علاج لارښوونه.","این متن یک کتاب طبی تاریخی است، نه دستور درمان معاصر.","یہ ایک تاریخی طبی کتاب کا متن ہے، جدید علاج کی ہدایت نہیں۔","This is a historical medical text, not modern treatment guidance."][i];
  const caution=paragraphs(f.safety);
  const copy=wordDetailLayout.meta[lang], head=(key,body)=>'<div class="detail-identity-block" data-field="'+key+'"><h3>'+esc(copy[key])+'</h3>'+body+'</div>';
  const names=gkEntryNameRows(rec.names?.[lang]||[],lang);
  const identity='<section class="sec word-detail-field detail-identity-card" data-card="identity">'+head('scientific','<p class="scientific-name" dir="ltr" lang="la"><i>'+esc(rec.scientific||copy.absent)+'</i></p>')+head('family','<p dir="auto">'+esc(rec.family||copy.absent)+'</p>')+head('names',names.length?'<div class="other-names"><dl>'+names.map(([label,name])=>'<div><dt>'+esc(label)+'</dt><dd dir="auto">'+esc(name)+'</dd></div>').join('')+'</dl></div>':'<p>'+esc(copy.absent)+'</p>')+'</section>';
- return bar(esc(herbDisplay(p)))+stagePhotoSlots()+identity+'<article class="sec word-detail-field" data-card="ibn-full-text" style="padding:20px 18px"><p class="note" dir="auto">'+esc(historical)+'</p>'+(body||'<p dir="auto">'+esc(missing)+'</p>')+(caution?'<div class="note" style="margin-top:16px">'+caution+'</div>':'')+'</article>'+librarySource(p);
+ return bar(esc(herbDisplay(p)))+stagePhotoSlots()+identity+'<article class="sec word-detail-field" data-card="ibn-full-text" style="padding:20px 18px">'+(body||'<p dir="auto">'+esc(missing)+'</p>')+(caution?'<div class="note" style="margin-top:16px">'+caution+'</div>':'')+'</article>'+librarySource(p);
 }
 
 function stagePlantDetails(p) {
