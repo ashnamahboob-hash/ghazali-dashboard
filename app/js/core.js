@@ -59,12 +59,12 @@ const libraryCategories = {
  M:{ps:"معدني مفردات",fa:"مفردات معدنی",ur:"معدنی مفردات",en:"Mineral substances",icon:"💎"},
  O:{ps:"روغنیات",fa:"روغنیات",ur:"روغنیات",en:"Oils",icon:"💧"}
 };
-function libraryCategoryOf(p){const c=p.taj?.[0]||"";return /^[TAMO]\d+$/.test(c)?c[0]:"";}
+function libraryCategoryOf(p){const c=p.taj?.[0]||"";return /^[TAMO]\d+$/.test(c)?c[0]:/^IB\d{4,}$/.test(c)?(p.libraryCategory||""):"";}
 function libraryCategoryMenu(T){
- const entries=H.filter(p=>isPublished(p)&&libraryBookOf(p)==="taj");
+ const entries=H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook);
  const labels={ps:"طبقه وټاکئ",fa:"دسته را انتخاب کنید",ur:"قسم منتخب کریں",en:"Choose a category"};
  const button=(k,n,icon,count)=>'<button type="button" data-library-category="'+k+'" style="border:1px solid rgba(154,126,55,.35);border-radius:22px;background:linear-gradient(145deg,rgba(128,166,120,.13),rgba(190,160,75,.07));color:inherit;padding:14px 8px;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:'+(k==="all"?"80":"150")+'px;box-shadow:0 5px 14px rgba(25,65,42,.08);cursor:pointer">'+(icon?'<span style="font-size:34px;display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:rgba(128,166,120,.15)" aria-hidden="true">'+icon+'</span>':'')+'<strong style="font-size:16px">'+esc(n)+'</strong><span style="font-size:30px;font-weight:800;line-height:1.15;color:#a58328;font-variant-numeric:tabular-nums">'+count+'</span></button>';
- app.innerHTML=bar(esc(libraryBooks.taj[lang]))+'<div class="search">'+ic("search")+'<input id="category-search" type="search" placeholder="'+esc(T.ph)+'" aria-label="'+esc(T.ph)+'"></div><div class="sec"><h3>'+labels[lang]+'</h3><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">'+Object.entries(libraryCategories).map(([k,n])=>button(k,n[lang],n.icon,entries.filter(p=>libraryCategoryOf(p)===k).length)).join("")+'</div><div style="display:grid;margin-top:12px">'+button("all",T.all,"",entries.length)+'</div></div>';
+ app.innerHTML=bar(esc(libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+'<input id="category-search" type="search" placeholder="'+esc(T.ph)+'" aria-label="'+esc(T.ph)+'"></div><div class="sec"><h3>'+labels[lang]+'</h3><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">'+Object.entries(libraryCategories).map(([k,n])=>button(k,n[lang],n.icon,entries.filter(p=>libraryCategoryOf(p)===k).length)).join("")+'</div><div style="display:grid;margin-top:12px">'+button("all",T.all,"",entries.length)+'</div></div>';
  const select=k=>{rememberPage();libraryCategory=k;letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);};
  app.querySelectorAll("[data-library-category]").forEach(b=>b.onclick=()=>select(b.dataset.libraryCategory));
  document.getElementById("category-search").oninput=function(){const value=this.value;if(!value.trim())return;select("all");q=value;render();const input=document.getElementById("ls");if(input){input.focus();try{input.setSelectionRange(value.length,value.length)}catch(e){}}};
@@ -455,10 +455,10 @@ function libraryMatches(p, query) {
 }
 function libraryPage(T) {
  if(!libraryBook)return librarySourceMenu(T);
- if(libraryBook==="taj"&&!libraryCategory)return libraryCategoryMenu(T);
+ if(libraryBook!=="modern"&&!libraryCategory)return libraryCategoryMenu(T);
  const counts = new Map();
  const collator = new Intl.Collator(lang, {numeric:true, sensitivity:"base"});
- const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook&&(libraryBook!=="taj"||libraryCategory==="all"||libraryCategoryOf(p)===libraryCategory)).map(plant => {
+ const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook&&(libraryBook==="modern"||libraryCategory==="all"||libraryCategoryOf(p)===libraryCategory)).map(plant => {
   const name = herbDisplay(plant);
   return {plant, name, initial:libraryInitial(name)};
  }).sort((a,b) => collator.compare(a.name,b.name));
@@ -468,11 +468,11 @@ function libraryPage(T) {
  const letters = Array.from(counts.keys()).sort(collator.compare);
  const chip = (key,label) => '<button class="chip'+(letter===key?' on':'')+
   '" aria-pressed="'+(letter===key)+'" data-letter="'+esc(key)+'">'+label+'</button>';
- app.innerHTML = bar(esc(libraryBook==="taj"&&libraryCategories[libraryCategory]?libraryCategories[libraryCategory][lang]:libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
+ app.innerHTML = bar(esc(libraryBook!=="modern"&&libraryCategories[libraryCategory]?libraryCategories[libraryCategory][lang]:libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
   '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div>'+
   '<div class="chips" id="library-letters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+
   letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+mzRow()+
-  '<div id="featured">'+(libraryBook==="taj"&&libraryCategory!=="all"?"":featuredHerbs(T))+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
+  '<div id="featured">'+(libraryBook!=="modern"&&libraryCategory!=="all"?"":featuredHerbs(T))+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
  const update = function () {
   const query = librarySearchKey(q);
   const matches = entries.filter(({plant,initial}) => (!letter || (letter==="*done" ? isRich(plant) : initial===letter)) && mzOK(plant) && libraryMatches(plant,query));
