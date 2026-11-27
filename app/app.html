@@ -28,6 +28,13 @@
 <link rel="stylesheet" href="css/book-design.css?v=21" id="ghazali-book-design-css">
 
 <link rel="stylesheet" href="css/taj-chem-sheet.css?v=2">
+<style id="library-glass-fix">
+#app .search-hint{display:none!important}
+#app .gk-lib-sticky{background:rgba(23,74,56,.36)!important;-webkit-backdrop-filter:blur(12px)!important;backdrop-filter:blur(12px)!important}
+:root[data-theme=light] #app .gk-lib-sticky{background:rgba(243,241,232,.48)!important}
+:root[data-theme=night] #app .gk-lib-sticky{background:rgba(15,26,22,.48)!important}
+:root[data-theme=sand] #app .gk-lib-sticky{background:rgba(74,58,34,.48)!important}
+</style>
 </head>
 <body>
 <div class="app" id="app"></div>
@@ -44,7 +51,7 @@
 
 
 <script>window.HERB_PHOTOS = {};</script>
-<script src="js/improvements-v2.js?v=2"></script>
+<script src="js/improvements-v2.js?v=3"></script>
 <script src="js/plantnet-id.js"></script>
 <script src="js/entry-names.js"></script>
 <script src="data/lst45.js"></script>
