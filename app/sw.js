@@ -1,5 +1,5 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v24';
+const VERSION = 'gk-shell-v25';
 const SHELL = [
   './',
   'index.html',
