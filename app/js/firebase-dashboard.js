@@ -21,6 +21,8 @@ function applyHerbs(list){
       p={nm:{ps:nm.ps||'',fa:nm.fa||nm.ps||'',ur:nm.ur||nm.ps||'',en:nm.en||'',ar:nm.ar||''},s:h.scientific||'',c:'#2d5c4a',img:undefined,taj:row,imported:true};
       H.push(p);changed=true;
     }
+    const category=/^IB\d{4,}$/.test(code)?(["T","A","M","O"].includes(h.category)?h.category:["A","M","O"].includes(h.type)?h.type:""):"";
+    if(p.libraryCategory!==category){p.libraryCategory=category;changed=true;}
     p.publicationApproved=true;
     if(p.taj)p.taj[3]=String(h.pages||"");
     if(rec)rec.pages=String(h.pages||"");
