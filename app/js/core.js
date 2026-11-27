@@ -750,7 +750,7 @@ function ibnPlantDetails(p,rec){
 
 function stagePlantDetails(p) {
  const id=p.taj[0];
- const ibnRec=wordDetailLayout.records[id];if(/^IB\d{4,}$/.test(id)&&ibnRec&&Object.values(ibnRec.fields||{}).some(f=>f.full_text?.length))return ibnPlantDetails(p,ibnRec);
+ const ibnRec=wordDetailLayout.records[id];if(/^IB\d{4,}$/.test(id)&&ibnRec&&Object.values(ibnRec.fields||{}).some(f=>f.full_text?.length))return wordOrderedPlantDetails(p);
  if(Object.hasOwn(wordDetailLayout.records,id))return wordOrderedPlantDetails(p);
  let content;
  if(id==="T001") content=figNamesAndPhotos()+figBookDetails();
