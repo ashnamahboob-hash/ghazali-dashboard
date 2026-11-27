@@ -52,6 +52,23 @@ function t(){return L[lang]}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 let libraryPosition = {top:0, letters:0};
 let libraryBook = "";
+let libraryCategory = "";
+const libraryCategories = {
+ T:{ps:"نباتي مفردات",fa:"مفردات گیاهی",ur:"نباتاتی مفردات",en:"Plant substances",icon:"🌿"},
+ A:{ps:"حیواني مفردات",fa:"مفردات حیوانی",ur:"حیوانی مفردات",en:"Animal substances",icon:"🐾"},
+ M:{ps:"معدني مفردات",fa:"مفردات معدنی",ur:"معدنی مفردات",en:"Mineral substances",icon:"💎"},
+ O:{ps:"روغنیات",fa:"روغنیات",ur:"روغنیات",en:"Oils",icon:"💧"}
+};
+function libraryCategoryOf(p){const c=p.taj?.[0]||"";return /^[TAMO]\d+$/.test(c)?c[0]:"";}
+function libraryCategoryMenu(T){
+ const entries=H.filter(p=>isPublished(p)&&libraryBookOf(p)==="taj");
+ const labels={ps:"طبقه وټاکئ",fa:"دسته را انتخاب کنید",ur:"قسم منتخب کریں",en:"Choose a category"};
+ const button=(k,n,icon,count)=>'<button type="button" data-library-category="'+k+'" style="border:1px solid currentColor;border-radius:18px;background:transparent;color:inherit;padding:20px 8px;font:inherit;display:flex;flex-direction:column;align-items:center;gap:8px"><span style="font-size:30px" aria-hidden="true">'+icon+'</span><strong>'+esc(n)+'</strong><span>'+count+'</span></button>';
+ app.innerHTML=bar(esc(libraryBooks.taj[lang]))+'<div class="search">'+ic("search")+'<input id="category-search" type="search" placeholder="'+esc(T.ph)+'" aria-label="'+esc(T.ph)+'"></div><div class="sec"><h3>'+labels[lang]+'</h3><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">'+Object.entries(libraryCategories).map(([k,n])=>button(k,n[lang],n.icon,entries.filter(p=>libraryCategoryOf(p)===k).length)).join("")+'</div><div style="display:grid;margin-top:12px">'+button("all",T.all,"",entries.length)+'</div></div>';
+ const select=k=>{rememberPage();libraryCategory=k;letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);};
+ app.querySelectorAll("[data-library-category]").forEach(b=>b.onclick=()=>select(b.dataset.libraryCategory));
+ document.getElementById("category-search").oninput=function(){const value=this.value;if(!value.trim())return;select("all");q=value;render();const input=document.getElementById("ls");if(input){input.focus();try{input.setSelectionRange(value.length,value.length)}catch(e){}}};
+}
 const libraryBooks = {
  taj:{ps:"تاج المفردات",fa:"تاج المفردات",ur:"تاج المفردات",en:"Taj al-Mufradat"},
  ibn:{ps:"الجامع لمفردات الأدوية والأغذية — ابن البیطار",fa:"الجامع لمفردات الأدوية والأغذية — ابن بیطار",ur:"الجامع لمفردات الأدوية والأغذية — ابن البیطار",en:"Al-Jami li-Mufradat al-Adwiya wa-l-Aghdhiya — Ibn al-Baytar"},
@@ -61,7 +78,7 @@ const libraryBookOf=p=>/^IB\d{4,}$/.test(p?.taj?.[0]||"")?"ibn":/^MD\d{4,}$/.tes
 const libraryChooseLabels={ps:"سرچینه وټاکئ",fa:"منبع را انتخاب کنید",ur:"ماخذ منتخب کریں",en:"Choose a source"};
 function chooseLibraryBook(key){
  if(!libraryBooks[key])return;
- rememberPage();libraryBook=key;letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);
+ rememberPage();libraryBook=key;libraryCategory=q?"all":"";letter="";libraryPosition={top:0,letters:0};render();window.scrollTo(0,0);
 }
 function librarySourceMenu(T){
  const available=H.filter(isPublished).filter(p=>!q||libraryMatches(p,librarySearchKey(q)));
@@ -83,7 +100,7 @@ function restorePosition(position) {
 function rememberPage() {
  const position=pagePosition();
  if(view==="lib"&&cur===null)libraryPosition=position;
- const library = view==="lib" && cur===null ? {q,letter,lang,libraryBook} : null;
+ const library = view==="lib" && cur===null ? {q,letter,lang,libraryBook,libraryCategory} : null;
  pageTrail.push({view,cur,position,library});
 }
 function go(v,x) {
@@ -94,7 +111,7 @@ function go(v,x) {
   pageTrail.length=0;
   pickFt();
  }
- if(v==="lib"){libraryBook="";q=x===undefined?"":x;letter="";libraryPosition={top:0,letters:0};}
+ if(v==="lib"){libraryBook="";libraryCategory="";q=x===undefined?"":x;letter="";libraryPosition={top:0,letters:0};}
  if(v==="lib"&&x!==undefined) {
   q=x;
   letter="";
@@ -117,7 +134,7 @@ function goBack() {
  cur=previous.cur;
  if(previous.library){
   q=previous.library.q;
-  libraryBook=previous.library.libraryBook||"";
+  libraryBook=previous.library.libraryBook||"";libraryCategory=previous.library.libraryCategory||"";
   letter=previous.library.lang===lang ? previous.library.letter : "";
   libraryPosition=previous.position;
  }
@@ -438,9 +455,10 @@ function libraryMatches(p, query) {
 }
 function libraryPage(T) {
  if(!libraryBook)return librarySourceMenu(T);
+ if(libraryBook==="taj"&&!libraryCategory)return libraryCategoryMenu(T);
  const counts = new Map();
  const collator = new Intl.Collator(lang, {numeric:true, sensitivity:"base"});
- const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook).map(plant => {
+ const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook&&(libraryBook!=="taj"||libraryCategory==="all"||libraryCategoryOf(p)===libraryCategory)).map(plant => {
   const name = herbDisplay(plant);
   return {plant, name, initial:libraryInitial(name)};
  }).sort((a,b) => collator.compare(a.name,b.name));
@@ -450,11 +468,11 @@ function libraryPage(T) {
  const letters = Array.from(counts.keys()).sort(collator.compare);
  const chip = (key,label) => '<button class="chip'+(letter===key?' on':'')+
   '" aria-pressed="'+(letter===key)+'" data-letter="'+esc(key)+'">'+label+'</button>';
- app.innerHTML = bar(esc(libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
+ app.innerHTML = bar(esc(libraryBook==="taj"&&libraryCategories[libraryCategory]?libraryCategories[libraryCategory][lang]:libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
   '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div>'+
   '<div class="chips" id="library-letters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+
   letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+mzRow()+
-  '<div id="featured">'+featuredHerbs(T)+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
+  '<div id="featured">'+(libraryBook==="taj"&&libraryCategory!=="all"?"":featuredHerbs(T))+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
  const update = function () {
   const query = librarySearchKey(q);
   const matches = entries.filter(({plant,initial}) => (!letter || (letter==="*done" ? isRich(plant) : initial===letter)) && mzOK(plant) && libraryMatches(plant,query));
