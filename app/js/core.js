@@ -470,6 +470,12 @@ function libraryPage(T) {
  if(!libraryBook)return librarySourceMenu(T);
  if(libraryBook!=="modern"&&!libraryCategory)return libraryCategoryMenu(T);
  const counts = new Map();
+ const li=["ps","fa","ur","en"].indexOf(lang), modes=[["لیست","کارتونه"],["فهرست","کارت‌ها"],["فہرست","کارڈز"],["List","Grid"]][li];
+ let layout="list";try{if(localStorage.getItem("gk_library_layout")==="grid")layout="grid"}catch(e){}
+ const alphabet=lang==="en"?Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):lang==="ps"?Array.from("آابپتټثجځچڅحخدډذرړزژږسشښصضطظعغفقکګلمنڼوهیېۍئ"):lang==="ur"?Array.from("آابپتٹثجچحخدڈذرڑزژسشصضطظعغفقکگلمنںوہھءیے"):Array.from("آابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی");
+ const iconFor=k=>'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">'+(k==="grid"?'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>':'<path d="M8 5h13M8 12h13M8 19h13M3 5h1M3 12h1M3 19h1"/>')+'</svg>';
+ const compactCard=p=>{const idx=H.indexOf(p),name=herbDisplay(p),scientific=p.s||(p.taj?p.taj[2]:"");return '<button type="button" class="gk-lib-card" onclick="openHerb('+idx+')"><span class="gk-lib-photo ph" style="'+bg(p)+'">'+(p.img||inStage(p)?'':ic("leaf"))+'</span><span class="gk-lib-info"><b>'+esc(name)+'</b>'+(scientific?'<i dir="auto">'+esc(scientific)+'</i>':'')+(isRich(p)?'<small>✓ '+esc(DONE[lang]||DONE.en)+'</small>':'')+'</span><span class="gk-lib-arrow" aria-hidden="true">'+(lang==="en"?"›":"‹")+'</span></button>'};
+ const style='<style>.gk-lib-sticky{position:sticky;top:0;z-index:5;padding:5px 0 8px;background:inherit;backdrop-filter:blur(20px)}.gk-lib-sticky .search{margin:0 0 6px}.gk-lib-filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:8px 0}.gk-lib-filters .chip{margin:0;white-space:normal}.gk-lib-mode{margin-inline-start:auto;display:flex;gap:5px}.gk-lib-mode button{border:1px solid currentColor;border-radius:9px;background:transparent;color:inherit;padding:8px;display:flex;align-items:center;justify-content:center}.gk-lib-mode button[aria-pressed=true]{background:#d9bd69;color:#174a38;border-color:#d9bd69}#library-letters.gk-lib-alpha{display:grid!important;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;overflow:visible!important;white-space:normal;padding:7px 0;margin:0 0 8px}#library-letters.gk-lib-alpha .chip{min-width:0;padding:7px 2px;margin:0;text-align:center;line-height:1.2;white-space:normal}#library-letters .chip:disabled{opacity:.32;cursor:default}#library-letters .chip small{display:block;font-size:10px;margin-top:3px}#list.gk-lib-results{display:grid;gap:9px;grid-template-columns:minmax(0,1fr)}#list.gk-lib-results[data-layout=grid]{grid-template-columns:repeat(2,minmax(0,1fr))}.gk-lib-card{display:flex;width:100%;min-width:0;align-items:center;gap:10px;padding:9px;border:1px solid rgba(140,155,140,.28);border-radius:18px;background:rgba(130,165,145,.12);color:inherit;text-align:start;font:inherit;cursor:pointer}.gk-lib-photo.ph{display:flex;align-items:center;justify-content:center;flex:none;width:66px;height:66px;border-radius:14px;background-size:cover;background-position:center;overflow:hidden}.gk-lib-photo svg{width:30px;height:30px}.gk-lib-info{flex:1;min-width:0;display:grid;gap:3px}.gk-lib-info b{font-size:17px;line-height:1.5;overflow-wrap:anywhere}.gk-lib-info i{font-size:12px;line-height:1.4;overflow-wrap:anywhere;color:inherit;opacity:.85}.gk-lib-info small{font-size:11px;color:inherit;opacity:.7}.gk-lib-arrow{font-size:22px;color:#b89642}.gk-lib-results[data-layout=grid] .gk-lib-card{flex-direction:column;align-items:stretch}.gk-lib-results[data-layout=grid] .gk-lib-photo.ph{width:100%;height:auto;aspect-ratio:4/3}.gk-lib-results[data-layout=grid] .gk-lib-arrow{display:none}@media(max-width:350px){#library-letters.gk-lib-alpha{grid-template-columns:repeat(6,minmax(0,1fr))}}</style>';
  const collator = new Intl.Collator(lang, {numeric:true, sensitivity:"base"});
  const entries = H.filter(p=>isPublished(p)&&libraryBookOf(p)===libraryBook&&(libraryBook==="modern"||libraryCategory==="all"||libraryCategoryOf(p)===libraryCategory)).map(plant => {
   const name = herbDisplay(plant);
@@ -478,24 +484,23 @@ function libraryPage(T) {
  for (const {initial} of entries) {
   counts.set(initial,(counts.get(initial) || 0)+1);
  }
- const letters = Array.from(counts.keys()).sort(collator.compare);
+ const letters = [...new Set([...alphabet,...Array.from(counts.keys()).sort(collator.compare)])];
  const chip = (key,label) => '<button class="chip'+(letter===key?' on':'')+
   '" aria-pressed="'+(letter===key)+'" data-letter="'+esc(key)+'">'+label+'</button>';
- app.innerHTML = bar(esc(libraryBook!=="modern"&&libraryCategories[libraryCategory]?libraryCategories[libraryCategory][lang]:libraryBooks[libraryBook][lang]))+'<div class="search">'+ic("search")+
-  '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div>'+
-  '<div class="chips" id="library-letters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+
-  letters.map(c=>chip(c,esc(c)+" "+counts.get(c))).join("")+'</div>'+mzRow()+
-  '<div id="featured">'+(libraryBook!=="modern"&&libraryCategory!=="all"?"":featuredHerbs(T))+'</div><p id="library-count" aria-live="polite"></p><div id="list"></div>';
+ app.innerHTML = style+bar(esc(libraryBook!=="modern"&&libraryCategories[libraryCategory]?libraryCategories[libraryCategory][lang]:libraryBooks[libraryBook][lang]))+'<div class="gk-lib-sticky"><div class="search">'+ic("search")+
+  '<input id="ls" type="search" value="'+esc(q)+'" aria-label="'+esc(T.ph)+'" placeholder="'+esc(T.ph)+'"></div></div><div class="gk-lib-filters" id="gk-lib-filters">'+chip("",T.all+" "+entries.length)+chip("*done","✓ "+(DONE[lang]||DONE.en)+" "+entries.filter(e=>isRich(e.plant)).length)+'<div class="gk-lib-mode">'+["list","grid"].map((k,j)=>'<button type="button" data-layout-mode="'+k+'" aria-label="'+esc(modes[j])+'" title="'+esc(modes[j])+'" aria-pressed="'+(layout===k)+'">'+iconFor(k)+'</button>').join("")+'</div></div>'+
+  '<div class="chips gk-lib-alpha" id="library-letters">'+letters.map(c=>'<button type="button" class="chip'+(letter===c?' on':'')+'" data-letter="'+esc(c)+'" aria-pressed="'+(letter===c)+'" '+(counts.has(c)?'':'disabled')+'>'+esc(c)+'<small>'+(counts.get(c)||0)+'</small></button>').join("")+'</div>'+mzRow()+
+  '<div id="featured">'+(libraryBook!=="modern"&&libraryCategory!=="all"?"":featuredHerbs(T))+'</div><p id="library-count" aria-live="polite"></p><div id="list" class="gk-lib-results" data-layout="'+layout+'"></div>';
  const update = function () {
   const query = librarySearchKey(q);
   const matches = entries.filter(({plant,initial}) => (!letter || (letter==="*done" ? isRich(plant) : initial===letter)) && mzOK(plant) && libraryMatches(plant,query));
   document.getElementById("featured").hidden=Boolean(query||letter||mzActive());
   document.getElementById("library-count").textContent=matches.length+" "+libraryLabels[lang][2];
-  document.getElementById("list").innerHTML=matches.map(({plant})=>card(plant)).join("")||'<div class="empty">'+T.none+'</div>';
+  document.getElementById("list").innerHTML=matches.map(({plant})=>compactCard(plant)).join("")||'<div class="empty">'+T.none+'</div>';
  };
  document.getElementById("ls").oninput=function(){q=this.value;update()};
  var mzr=document.getElementById("mz-row");if(mzr)mzr.onclick=function(event){var b=event.target.closest("button[data-mz]");if(!b)return;var k=b.dataset.mz;mzSel[k]=!mzSel[k];var pos=pagePosition();libraryPage(T);restorePosition(pos)};
- document.getElementById("library-letters").onclick=function(event){
+ const chooseLetter=function(event){
   const button=event.target.closest("button[data-letter]");
   if(button){
    const position=pagePosition();
@@ -504,6 +509,8 @@ function libraryPage(T) {
    restorePosition(position);
   }
  };
+ document.getElementById("library-letters").onclick=chooseLetter;
+ document.getElementById("gk-lib-filters").onclick=function(e){const b=e.target.closest("[data-layout-mode]");if(!b){chooseLetter(e);return}layout=b.dataset.layoutMode;try{localStorage.setItem("gk_library_layout",layout)}catch(x){}document.getElementById("list").dataset.layout=layout;this.querySelectorAll("[data-layout-mode]").forEach(n=>n.setAttribute("aria-pressed",String(n.dataset.layoutMode===layout)))};
  update();
 }
 const unmatchedSource = {
