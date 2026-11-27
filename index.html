@@ -434,7 +434,7 @@ function pass(c,h,skip,q){
  if(skip!=='ch'&&flt.ch&&initial(nm(h))!==flt.ch)return false;
  return !q||hay(c,h).includes(q)}
 /* شمېرې د اوسنیو نورو فلټرونو او لټون له مخې بدلېږي (faceted) */
-function chipsRow(){const q=norm($('#gs').value),E=Object.entries(DB),cn={all:0,index:0,draft:0,reviewed:0,approved:0,inc:0},ct={all:0,T:0,M:0,A:0},lc={};
+function chipsRow(){const q=norm($('#gs').value),E=Object.entries(DB),cn={all:0,index:0,draft:0,reviewed:0,approved:0,inc:0},ct={all:0,T:0,M:0,A:0,O:0},lc={};
  for(const [c,h] of E){if(pass(c,h,'st',q)){cn.all++;cn[h.status]=(cn[h.status]||0)+1;if(h.status!=='index'&&Q(h).red)cn.inc++}
   if(pass(c,h,'ty',q)){ct.all++;const ty=h.type||'T';ct[ty]=(ct[ty]||0)+1}
   if(pass(c,h,'ch',q)){const i=initial(nm(h));lc[i]=(lc[i]||0)+1}}
@@ -632,7 +632,7 @@ function home(){if(!libraryBook){$('#ed').innerHTML='<div class="home"><h2>د ب
  $('#ed').innerHTML=`<div class="home"><h2>${BOOKS[libraryBook]}${libraryBook==='taj'&&TAJ_EDITORS[flt.ty]?' · '+TAJ_EDITORS[flt.ty].title:''}</h2><p>له لیست څخه یو مدخل وټاکئ.</p>${libraryBook==='taj'?`<div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:18px">${Object.entries(TAJ_EDITORS).map(([k,v])=>`<button class="stat" data-editor-pick="${k}" style="cursor:pointer;${flt.ty===k?'border:2px solid #b49a52;':''}"><b>${Object.keys(DB).filter(c=>codeBook(c)==='taj'&&c[0]===k).length}</b><span>${v.title}</span></button>`).join('')}</div>`:''}
  <div class="stats">${[['ټول مدخلونه',v.length],['تایید سوي (په ایپ کې)',n('approved')],['بیاکتل (تایید ته انتظار)',n('reviewed')],['مسوده',n('draft')],['نیمګړي (سور)',inc]].map(([t,c])=>`<div class="stat"><b>${c}</b><span>${t}</span></div>`).join('')}</div>
  <div class="box"><h3>پرمختګ</h3><div class="prog"><i style="width:${(n('approved')+n('reviewed'))/tot*100}%;background:var(--ok)"></i><i style="width:${n('draft')/tot*100}%;background:var(--warn)"></i></div><span class="hint">زرغون = بیاکتل/تایید · نارنجي = مسوده · پاتې = یوازې فهرست (${n('index')})</span></div>
- <div class="box"><h3>وروستي بدلونونه</h3>${rec.map(([c,h])=>`<div class="rec" data-c="${c}"><b>${c}</b><span>${esc(nm(h))}</span><small>${new Date(h.updatedAt).toLocaleString()}</small></div>`).join('')||'<span class="hint">تر اوسه هیڅ بدلون نشته.</span>'}</div></div>`;$('#ed').querySelectorAll('[data-editor-pick]').forEach(b=>b.onclick=()=>{flt.ty=b.dataset.editorPick;flt.st='all';flt.ch='all';renderList()})}
+ <div class="box"><h3>وروستي بدلونونه</h3>${rec.map(([c,h])=>`<div class="rec" data-c="${c}"><b>${c}</b><span>${esc(nm(h))}</span><small>${new Date(h.updatedAt).toLocaleString()}</small></div>`).join('')||'<span class="hint">تر اوسه هیڅ بدلون نشته.</span>'}</div></div>`;$('#ed').querySelectorAll('[data-editor-pick]').forEach(b=>b.onclick=()=>{flt.ty=b.dataset.editorPick;flt.st='all';flt.ch='';renderList()})}
 $('#fs').onclick=e=>{const k=e.target.dataset.fs;if(k){flt.st=k;renderList()}};
 $('#fc').onclick=e=>{const b=e.target.closest('button');if(b){flt.ch=b.dataset.fc;renderList()}};
 $('#ft').onclick=e=>{const k=e.target.closest('[data-ft]')?.dataset.ft;if(k){if(dirty&&!confirm('بدلونونه ذخیره نه دي. طبقه بدله سي؟'))return;dirty=false;cur=null;$('#app').classList.remove('ed');flt.ty=k;renderList()}};
