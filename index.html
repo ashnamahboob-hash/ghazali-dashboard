@@ -430,19 +430,19 @@ $('#book-select').onchange=function(){if(dirty&&!confirm('بدلونونه ذخ�
 function pass(c,h,skip,q){
  if(!selectedBook(c,h))return false;
  if(skip!=='st'){if(flt.st==='inc'){if(h.status==='index'||!Q(h).red)return false}else if(flt.st!=='all'&&h.status!==flt.st)return false}
- if(skip!=='ty'&&flt.ty!=='all'&&(h.type||'T')!==flt.ty)return false;
+ if(skip!=='ty'&&flt.ty!=='all'&&(codeBook(c)==='taj'?c[0]:(h.type||'T'))!==flt.ty)return false;
  if(skip!=='ch'&&flt.ch&&initial(nm(h))!==flt.ch)return false;
  return !q||hay(c,h).includes(q)}
 /* شمېرې د اوسنیو نورو فلټرونو او لټون له مخې بدلېږي (faceted) */
 function chipsRow(){const q=norm($('#gs').value),E=Object.entries(DB),cn={all:0,index:0,draft:0,reviewed:0,approved:0,inc:0},ct={all:0,T:0,M:0,A:0,O:0},lc={};
  for(const [c,h] of E){if(pass(c,h,'st',q)){cn.all++;cn[h.status]=(cn[h.status]||0)+1;if(h.status!=='index'&&Q(h).red)cn.inc++}
-  if(pass(c,h,'ty',q)){ct.all++;const ty=h.type||'T';ct[ty]=(ct[ty]||0)+1}
+  if(pass(c,h,'ty',q)){ct.all++;const ty=codeBook(c)==='taj'?c[0]:(h.type||'T');ct[ty]=(ct[ty]||0)+1}
   if(pass(c,h,'ch',q)){const i=initial(nm(h));lc[i]=(lc[i]||0)+1}}
  if(flt.ch&&!lc[flt.ch])lc[flt.ch]=0;
  const ls=Object.keys(lc).sort(new Intl.Collator('ps',{numeric:true}).compare);
  $('#fc').innerHTML=`<button data-fc="" class="${flt.ch===''?'on':''}">ټول</button>`+ls.map(c=>`<button data-fc="${c}" class="${flt.ch===c?'on':''}">${c} ${lc[c]}</button>`).join('');
- $('#fs').innerHTML=Object.entries(FS).map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');
- $('#ft').innerHTML=Object.entries(FT).map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t} <span class="n">${ct[k]||0}</span></button>`).join('')}
+ $('#fs').innerHTML=Object.entries(FS).filter(([k])=>flt.st==='all'||k===flt.st||k==='all').map(([k,t])=>`<button data-fs="${k}" class="${flt.st===k?'on':''}">${t} <span class="n">${cn[k]||0}</span></button>`).join('');
+ $('#ft').innerHTML=Object.entries(FT).filter(([k])=>flt.ty==='all'||k===flt.ty||k==='all').map(([k,t])=>`<button data-ft="${k}" class="${flt.ty===k?'on':''}">${t} <span class="n">${ct[k]||0}</span></button>`).join('')}
 function secBar(){$('#sec').innerHTML=SEC.map(([k,t])=>`<button data-sec="${k}" class="${sec===k?'on':''}">${t}${k==='feedback'&&FBN?` <span class="b r">${FBN}</span>`:''}</button>`).join('');$('#app').classList.toggle('nolib',sec!=='lib')}
 async function fbLoadAll(){try{const results=await Promise.allSettled(['feedback','suggestions'].map(async source=>{const s=await getDocs(query(collection(db,source),orderBy('createdAt','desc'),limit(200)));return s.docs.map(d=>({...d.data(),id:d.id,_collection:source}))}));if(results.every(r=>r.status==='rejected'))throw results[0].reason;FBK=results.flatMap(r=>r.status==='fulfilled'?r.value:[]).sort((a,b)=>(b.ts||0)-(a.ts||0));if(results.some(r=>r.status==='rejected'))alert('ځینې وړاندیزونه ونه لوستل سول. د Firebase Rules تنظیم وګورئ.');FBN=FBK.filter(x=>x.status==='new').length;return true}catch(e){FBK=[];return e.code||String(e)}}
 function fbRender(){const list=FBK.filter(x=>FBV==='all'||x.status==='new');
@@ -624,7 +624,7 @@ function secPage(){if(sec==='api')return apiSettingsPage();if(sec==='feedback')r
 $('#sec').onclick=async e=>{const k=e.target.closest('[data-sec]')?.dataset.sec;if(!k||k===sec)return;if(dirty&&!confirm('بدلونونه ذخیره نه دي. برخه بدلوئ؟'))return;dirty=false;sec=k;if(k!=='lib')cur=null;$('#app').classList.remove('ed');secBar();if(k==='lib')renderList();else secPage()};
 function renderList(){secBar();if(sec!=='lib')return secPage();$('#book-select').value=libraryBook;$('#new').disabled=!libraryBook;$('#imp').disabled=!libraryBook;$('#rcb').disabled=!libraryBook;$('#syn').disabled=libraryBook!=='taj';$('#fixd').disabled=!libraryBook;chipsRow();const q=norm($('#gs').value);
  const a=Object.entries(DB).filter(([c,h])=>pass(c,h,'',q)).sort((x,y)=>(x[1].order??9e9)-(y[1].order??9e9));
- $('#cnt').textContent=a.length+' / '+Object.entries(DB).filter(([c,h])=>selectedBook(c,h)).length;
+ $('#cnt').textContent=a.length+' مدخلونه';
  $('#list').innerHTML=a.map(([c,h])=>`<div class="it ${cur&&cur.code===c?'on':''}" data-c="${c}"><span class="dot s-${h.status}"></span><small>${c}</small><span class="nm">${esc(nm(h))}</span>${badges(h)}${h.status==='approved'?'<span class="b pub" title="د ایپ لپاره تایید سوی">✓ ایپ</span>':''}${h.note&&h.status==='index'?'<span title="'+esc(h.note)+'" style="color:var(--warn)">⚑</span>':''}</div>`).join('');
  if(!cur)home()}
 function home(){if(!libraryBook){$('#ed').innerHTML='<div class="home"><h2>د بوټو کتابتون</h2><p>د ایډیټ لپاره کتاب یا عصري برخه وټاکئ.</p></div><div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">'+Object.entries(BOOKS).map(([k,t])=>`<button class="stat" data-book-pick="${k}"><b>${Object.keys(DB).filter(c=>codeBook(c)===k).length}</b><span>${t}</span></button>`).join('')+'</div>';$('#ed').querySelectorAll('[data-book-pick]').forEach(b=>b.onclick=()=>{$('#book-select').value=b.dataset.bookPick;$('#book-select').onchange()});return}const categoryMatch=c=>libraryBook!=='taj'||flt.ty==='all'||c[0]===flt.ty;const v=Object.entries(DB).filter(([c,h])=>selectedBook(c,h)&&categoryMatch(c)).map(([,h])=>h),n=s=>v.filter(h=>h.status===s).length,inc=v.filter(h=>h.status!=='index'&&Q(h).red).length,tot=v.length||1;
