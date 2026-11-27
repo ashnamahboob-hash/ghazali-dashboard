@@ -62,20 +62,29 @@ function afSort(list) {
     return afCol.compare(a.name_ps || "", b.name_ps || "");
   });
 }
-var afRefreshLoading = false;
+var afRefreshLoading = false, afPendingLiveList = null, afLastScrollTime = 0;
+window.addEventListener("scroll", function() { afLastScrollTime = Date.now(); }, {passive:true, capture:true});
+function afInstallLiveList(list) {
+  afPlants = afSort(list);
+  afSource = "fs";
+  afPhotos = {};
+  afPhotoLoading = {};
+  if (afSelectedId !== null && !afPlants.some(function(p) { return String(p.id) === String(afSelectedId); })) afSelectedId = null;
+}
+function afScrollingNow() {
+  return view === "regions" && afSelectedId === null &&
+    (window.scrollY > 140 || Date.now() - afLastScrollTime < 1200);
+}
 function afRefreshLiveData() {
-  if (afSource === "fs" || afLoading || afRefreshLoading || !afPlants ||
+  if (afSource === "fs" || afLoading || afRefreshLoading || afPendingLiveList || !afPlants ||
       !window.gkFirebase || !window.gkFirebase.db) return;
   afRefreshLoading = true;
   afLoadFirestore().then(function(list) {
     if (!Array.isArray(list) || !list.length) return;
-    afPlants = afSort(list);
-    afSource = "fs";
-    afPhotos = {};
-    afPhotoLoading = {};
-    if (afSelectedId !== null && !afPlants.some(function(p) { return String(p.id) === String(afSelectedId); })) {
-      afSelectedId = null;
-    }
+    // Keep the current card list stable during scrolling. The pending live
+    // catalogue is installed when the user next returns to this screen.
+    if (afScrollingNow()) { afPendingLiveList = list; return; }
+    afInstallLiveList(list);
     if (view === "regions") render();
   }).catch(function() {
     // Keep the existing offline list until live data becomes available.
@@ -319,6 +328,11 @@ function afRenderListOnly() {
 var _origRegionPage = typeof regionPage === "function" ? regionPage : null;
 regionPage = function(v) {
   if (v !== "regions") return _origRegionPage ? _origRegionPage(v) : "";
+  if (afPendingLiveList && !afScrollingNow()) {
+    var pendingList = afPendingLiveList;
+    afPendingLiveList = null;
+    afInstallLiveList(pendingList);
+  }
   var u = AF_UI[lang] || AF_UI.ps;
   if (!afPlants) {
     afLoadData();
