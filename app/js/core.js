@@ -202,6 +202,7 @@ function publicEntryComplete(h){
  const text=v=>Array.isArray(v)?v.some(x=>text(typeof x==='string'?x:x&&x.text)):typeof v==='string'&&v.trim().length>0;
  const legacy=['mzj','mhy','khs','use','mzr'], modern=["mhy","part","use","mzr","refs"], langs=['ps','fa','ur','en'];
  const complete=keys=>langs.every(l=>text(h.names?.[l])&&keys.every(k=>text(h.fields?.[l]?.[k])));
+ if(h&&/^IB\d{4,}$/.test(h.code||'')&&langs.some(l=>text(h.fields?.[l]?.full_text)))return h.status==='approved'&&text(String(h.pages||''))&&complete(['full_text']);
  return !!(h&&h.status==='approved'&&text(String(h.pages||''))&&( (/^MD\d{4,}$/.test(h.code||'')&&complete(modern))||complete(legacy)));
 }
 function isPublished(p){return !!(p&&!p.hiddenDuplicate&&p.publicationApproved===true);}
@@ -732,8 +733,20 @@ function reviewedSimpleDetails(record){
  '<div class="note">'+t().disc+'</div>';
 }
 
+const ibnFieldLabels={
+ name_explanation:["د نوم لغوي تشریح او تلفظ","شرح لغوی و تلفظ نام","نام کی لغوی تشریح اور تلفظ","Name and pronunciation"],mhy:["ماهیت او پېژندنه","ماهیت و شناسایی","ماہیت اور شناخت","Description"],origin:["د پیدا کېدو ځای","محل پیدایش","مقام پیدائش","Habitat"],mzj:["مزاج او قوتونه","مزاج و قوا","مزاج اور قوتیں","Temperament and powers"],dioscorides:["د دیوسقوریدوس قول","قول دیوسقوریدوس","قول دیوسقوریدوس","Dioscorides"],galen:["د جالینوس قول","قول جالینوس","قول جالینوس","Galen"],democritus:["د دیمقراطیس قول","قول دیمقراطیس","قول دیمقراطیس","Democritus"],ghafiqi:["د غافقي قول","قول غافقی","قول غافقی","Al-Ghafiqi"],ibn_baytar:["د ابن البیطار نظر","نظر ابن بیطار","ابن البیطار کی رائے","Ibn al-Baytar"],other_scholars:["د نورو حکیمانو اقوال","اقوال دیگر حکما","دیگر حکما کے اقوال","Other scholars"],use:["تاریخي استعمال","کاربرد تاریخی","تاریخی استعمال","Historical uses"],dose:["تاریخي خوراک مقدار","مقدار تاریخی","تاریخی مقدار","Historical quantities"],disagreements:["د حکیمانو اختلافات","اختلاف حکما","حکما کے اختلافات","Scholarly disagreements"],cross_references:["نورو مدخلونو ته ارجاع","ارجاعات","دیگر اندراجات کے حوالے","Cross-references"],identity:["معاصر علمي هویت","هویت علمی معاصر","جدید علمی شناخت","Modern identity"],safety:["معاصر طبي احتیاط","احتیاط پزشکی معاصر","جدید طبی احتیاط","Modern safety"],full_text:["بشپړ متن","متن کامل","مکمل متن","Full text"],refs:["سرچینې","منابع","ماخذ","References"]};
+function ibnPlantDetails(p,rec){
+ const f=rec.fields?.[lang]||{},i=["ps","fa","ur","en"].indexOf(lang);
+ const section=(k,label)=>{const blocks=f[k]||[];const body=blocks.filter(b=>String(b?.text||"").trim()).map(b=>'<p dir="auto" style="white-space:pre-wrap;line-height:1.9">'+esc(b.text)+'</p>').join("");return body?'<details class="sec" '+(k==="safety"?'open':'')+'><summary style="font-weight:700;cursor:pointer">'+esc(label)+'</summary>'+body+'</details>':"";};
+ const labels=rec.scholarLabels||{};
+ const order=Object.keys(ibnFieldLabels).filter(k=>!["full_text","refs","safety"].includes(k));
+ const keys=[...order,...Object.keys(labels).filter(k=>/^scholar_\d+$/.test(k)),"safety","full_text","refs"];
+ const missing=["لا نه دئ تثبیت سوی","هنوز تثبیت نشده","ابھی متعین نہیں","Not yet established"][i];
+ return bar(esc(herbDisplay(p)))+stagePhotoSlots()+'<section class="sec"><h3>'+esc(t().sci)+'</h3><p dir="auto">'+esc(rec.scientific||missing)+'</p><p dir="auto">'+esc(rec.family||"")+'</p><p dir="auto">'+esc(p.taj[0]+" · "+(rec.pages||p.taj[3]||""))+'</p>'+["ps","fa","ur","en","ar"].filter(l=>rec.name?.[l]).map(l=>'<p dir="auto">'+esc(rec.name[l])+'</p>').join("")+'</section>'+keys.map(k=>section(k,ibnFieldLabels[k]?.[i]||labels[k]||k)).join("")+'<div class="note">'+esc(t().disc)+'</div>'+librarySource(p);
+}
 function stagePlantDetails(p) {
  const id=p.taj[0];
+ const ibnRec=wordDetailLayout.records[id];if(/^IB\d{4,}$/.test(id)&&ibnRec&&Object.values(ibnRec.fields||{}).some(f=>f.full_text?.length))return ibnPlantDetails(p,ibnRec);
  if(Object.hasOwn(wordDetailLayout.records,id))return wordOrderedPlantDetails(p);
  let content;
  if(id==="T001") content=figNamesAndPhotos()+figBookDetails();
