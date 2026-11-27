@@ -281,8 +281,15 @@ function build(plant,previewRecord){
  var idx=H.indexOf(plant),isFav=idx>-1&&fav.indexOf(idx)>-1;
  var name=previewRecord?rec.name[lang]:herbDisplay(plant),sci=rec.scientific||"",fam=rec.family||"";
  var chapters=[];
-
- if(modern){
+ var ibn=/^IB\d{4,}$/.test(plant.taj[0]);
+ if(ibn){
+  var fullLabel=["بشپړ متن","متن کامل","مکمل متن","Full text"][ml];
+  var warning=["دا تاریخي طبي متن دئ، نه د معاصر علاج لارښوونه.","این متن طبی تاریخی است، نه دستور درمان معاصر.","یہ تاریخی طبی متن ہے، جدید علاج کی ہدایت نہیں۔","Historical medical text, not modern treatment guidance."][ml];
+  var missing=["بشپړ متن لا نه دئ ثبت سوی.","متن کامل هنوز ثبت نشده است.","مکمل متن ابھی درج نہیں ہوا۔","Full text has not yet been entered."][ml];
+  var body=paras(F.full_text,dir);
+  var safety=paras(F.safety,dir);
+  chapters.push({id:"bk-c1",t:[fullLabel,fullLabel],html:'<p class="bk-note">'+esc(warning)+'</p><div class="bk-ed">'+(body||'<p>'+esc(missing)+'</p>')+'</div>'+(safety?'<div class="bk-warn">'+safety+'</div>':'')});
+ }else if(modern){
   MODERN_GROUPS.forEach(function(g,i){
    var cards=g[1].map(function(k){
     var content=k==='chem_profile'?modernChemHtml(F[k],ml,F.molecular_formulas):k==='molecular_formulas'?modernMolecules(F[k],F.chem_profile,ml):k==='interactions'?modernInteractions(F[k],ml):paras(F[k],dir);
@@ -360,7 +367,7 @@ function build(plant,previewRecord){
 
  var hasPhoto=false;
  try{var ph=window.HERB_PHOTOS&&window.HERB_PHOTOS[plant.taj[0]];hasPhoto=!!(ph&&PH_KEYS.some(function(k){return ph[k]}))}catch(e){}
- var fig=hasPhoto?'<div class="bk-photos">'+stagePhotoSlots()+'</div>'
+ var fig=(hasPhoto||ibn)?'<div class="bk-photos">'+stagePhotoSlots()+'</div>'
   :'<figure class="bk-plate"><div class="bk-svgbox">'+plate(sci,name)+'</div><figcaption><span>'+esc((typeof PH_SOON!=="undefined"&&PH_SOON[lang])||"")+'</span>'+(sci?'<em>'+esc(sci)+'</em>':'')+'</figcaption></figure>';
 
  /* references */
@@ -382,13 +389,13 @@ function build(plant,previewRecord){
  return '<div class="bk'+(modern?' md-monograph':'')+'" dir="'+dir+'" lang="'+lang+'" data-paper="'+paper+'" data-i="'+idx+'" style="--bk-fs:'+fs+'px">'+
   '<header class="bk-head"><div class="bk-bar"><div class="bk-left">'+
    '<button type="button" class="bk-btn bk-back" onclick="bkBack()" aria-label="'+esc(x.aBack)+'">'+svg("back")+'</button>'+
-   '<div class="bk-ttl"><h1>'+esc(name)+(modern?'':' — '+esc(x.booklet))+'</h1><p>'+esc(t().title)+'</p></div></div>'+
+   '<div class="bk-ttl"><h1>'+esc(name)+(modern||ibn?'':' — '+esc(x.booklet))+'</h1><p>'+esc(t().title)+'</p></div></div>'+
    '<div class="bk-ctl"><div class="bk-sz"><button type="button" onclick="bkFont(-1)" aria-label="'+esc(x.aSm)+'">'+esc(x.fm)+'</button><span id="bk-fsb">'+fs+'</span><button type="button" onclick="bkFont(1)" aria-label="'+esc(x.aLg)+'">'+esc(x.fp)+'</button></div>'+
    '<button type="button" class="bk-btn" onclick="bkPaper()" aria-label="'+esc(x.aTheme)+'">'+svg("moon","bk-moon")+svg("sun","bk-sun")+'</button>'+
    '<button type="button" class="bk-btn bk-fav'+(isFav?" on":"")+'" onclick="bkFav()" aria-label="'+esc(x.aFav)+'">'+svg("heart")+'</button>'+
    '<button type="button" class="bk-btn" onclick="bkShare()" aria-label="'+esc(x.aShare)+'">'+svg("share")+'</button></div></div>'+
    '<nav class="bk-nav" aria-label="'+esc(x.aNav)+'">'+chips+'</nav><div class="bk-prog" aria-hidden="true"><i></i></div></header>'+
-  '<main class="bk-main"><section class="bk-title"><span class="bk-badge">'+esc(modern?libraryBooks.modern[lang]:x.badge)+' · '+esc(x.code)+': '+esc(plant.taj[0])+'</span>'+
+  '<main class="bk-main"><section class="bk-title"><span class="bk-badge">'+esc(ibn?libraryBooks.ibn[lang]:modern?libraryBooks.modern[lang]:x.badge)+' · '+esc(x.code)+': '+esc(plant.taj[0])+'</span>'+
    '<h2 class="bk-serif">'+esc(name)+'</h2>'+
    (sci||fam?'<p class="bk-sci" dir="ltr">'+(sci?esc(sci):"")+(sci&&fam?" — ":"")+(fam?'Family: <b>'+esc(fam)+'</b>':"")+'</p>':"")+'</section>'+
    (previewRecord?'<article class="md-field md-warning" role="note"><h3>'+esc(previewRecord.warning[lang])+'</h3><p><a href="../index.html">'+esc(x.aBack)+'</a></p></article>':'')+fig+names+(modern?'':divider())+secs+refsHtml+'</main></div>';
