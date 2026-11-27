@@ -13,7 +13,7 @@ function applyHerbs(list){
   const legacyKeys=wordDetailLayout.order;
   for(const h of list){
     const code=h&&h.code;if(!code||!publicEntryComplete(h))continue;
-    const KEYS=/^MD\d{4,}$/.test(code)?[...new Set([...legacyKeys,...["mhy","origin","part","macro","micro","chem","chem_profile","molecular_formulas","chem_reactions","pharmacology","clinical","use","dose","mzr","contraindications","interactions","safety","quality","storage","refs"]])]:legacyKeys;
+    const KEYS=/^IB\d{4,}$/.test(code)?[...new Set([...legacyKeys,...LG.flatMap(l=>Object.keys(h.fields?.[l]||{}))])]:/^MD\d{4,}$/.test(code)?[...new Set([...legacyKeys,...["mhy","origin","part","macro","micro","chem","chem_profile","molecular_formulas","chem_reactions","pharmacology","clinical","use","dose","mzr","contraindications","interactions","safety","quality","storage","refs"]])]:legacyKeys;
     const nm=h.names;if(h.fields)delete h.fields.ar;
     let p=H.find(x=>x.taj&&x.taj[0]===code),rec=wordDetailLayout.records[code];
     if(!p){
@@ -25,12 +25,12 @@ function applyHerbs(list){
     if(p.libraryCategory!==category){p.libraryCategory=category;changed=true;}
     p.publicationApproved=true;
     if(p.taj)p.taj[3]=String(h.pages||"");
-    if(rec)rec.pages=String(h.pages||"");
+    if(rec){rec.pages=String(h.pages||"");if(JSON.stringify(rec.scholarLabels||{})!==JSON.stringify(h.scholarLabels||{})){rec.scholarLabels=h.scholarLabels||{};changed=true;}}
     if(nm.ar){p.nm.ar=nm.ar;if(rec)rec.name.ar=nm.ar;}
     if(typeof h.link==='string'&&p.link!==h.link){p.link=h.link;changed=true;}
     if(h.status==='index'||!h.fields)continue;
     if(!rec){
-      rec={code,scientific:h.scientific||'',family:h.family||'',name:{},names:{},name_notes:{},fields:{},tables:{},identity_note:{},pages:String(h.pages||'')};
+      rec={code,scholarLabels:h.scholarLabels||{},scientific:h.scientific||'',family:h.family||'',name:{},names:{},name_notes:{},fields:{},tables:{},identity_note:{},pages:String(h.pages||'')};
       for(const l of LG){
         rec.name[l]=nm[l]||nm.ps||'';
         rec.names[l]=parseOther(h.otherNames&&h.otherNames[l],l);
