@@ -83,7 +83,6 @@ render=function(){_render.apply(this,arguments);if(view==="lib"&&cur!==null)enha
 render();
 
 /* ===== v2.1: full-text search + share ===== */
-var HINT={ps:"لټون د نومونو او د بشپړو بوټو په متن (ګټه، ناروغي، مرکبات) کې کېږي.",fa:"جستجو در نام‌ها و متن گیاهان کامل (خواص، بیماری، ترکیبات) انجام می‌شود.",ur:"تلاش ناموں اور مکمل اندراجات کے متن (فوائد، امراض، اجزا) میں ہوتی ہے۔",en:"Search covers names and the full text of detailed herbs (uses, ailments, compounds)."};
 var SHARE={ps:"شریک کړه",fa:"اشتراک",ur:"شیئر",en:"Share"};
 var COPIED={ps:"کاپي شو",fa:"کپی شد",ur:"کاپی ہو گیا",en:"Copied"};
 I.share='<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>';
