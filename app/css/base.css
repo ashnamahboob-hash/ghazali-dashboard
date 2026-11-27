@@ -459,8 +459,10 @@ label.camera{display:flex;align-items:center;justify-content:center;text-align:c
 /* Professional library icon system (2026-11-27) */
 #app .gk-category-icon svg{display:block;width:30px;height:30px;max-width:100%;max-height:100%;fill:none;stroke:#275d47;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 :root[data-theme=night] #app .gk-category-icon svg{stroke:#d7c17d}
-.ho .tile{min-height:118px;gap:10px;padding:14px 9px;line-height:1.45;box-shadow:0 3px 12px rgba(28,61,47,.05)}
-.ho .tile-icon{width:48px;height:48px;display:grid;place-items:center;flex:0 0 auto;border-radius:16px;background:linear-gradient(145deg,rgba(199,164,78,.15),rgba(55,116,81,.07));border:1px solid rgba(176,143,68,.12)}
-.ho .tile-icon svg{display:block;width:27px;height:27px;color:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ho .tile>span:last-child{max-width:100%;font-weight:650;overflow-wrap:anywhere;text-align:center}
-@media(max-width:360px){.ho .tile-icon{width:43px;height:43px}.ho .tile-icon svg{width:25px;height:25px}}
+/* Compact home tiles — preserve original two-row layout and modern vector icons. */
+.ho .grid{grid-template-rows:none;align-items:stretch}
+.ho .tile{min-height:70px;height:auto;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:7px;padding:8px;border-radius:17px;font-size:15px;line-height:1.45;box-shadow:none;text-align:start}
+.ho .tile-icon{width:46px;height:46px;box-sizing:border-box;display:grid;place-items:center;flex:0 0 46px;border-radius:14px;background:linear-gradient(145deg,rgba(199,164,78,.15),rgba(55,116,81,.07));border:1px solid rgba(176,143,68,.12)}
+.ho .tile-icon svg{display:block;box-sizing:border-box;width:25px;height:25px;padding:0;flex:none;border:0;border-radius:0;background:none;color:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ho .tile>span:last-child{min-width:0;max-width:100%;font-weight:650;overflow-wrap:anywhere;text-align:start}
+@media(max-width:360px){.ho .tile{min-height:66px;padding:7px 6px;gap:6px;font-size:13px}.ho .tile-icon{width:42px;height:42px;flex-basis:42px}.ho .tile-icon svg{width:23px;height:23px;padding:0}}
