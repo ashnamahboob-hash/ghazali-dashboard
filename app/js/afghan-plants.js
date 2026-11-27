@@ -1,5 +1,7 @@
 /* moved to data/afghan-embed.js */
 var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
+var afProvExpanded = false, afLayout = "grid";
+try { afLayout = localStorage.getItem("gk_afghan_layout") === "list" ? "list" : "grid"; } catch (e) {}
 
 var AF_UI = {
   ps: { allProv: "ټول", search: "د بوټي نوم یا ګټه ولټوئ...", found: "بوټي وموندل شول", allCat: "ټول", mizaj: "مزاج", ben: "طبي ګټې", loc: "د پیدا کېدو سیمې", warn: "احتیاط او خبرداری", src: "سرچینې او علمي لینکونه", backList: "بېرته لېست ته", loading: "معلومات راولول کېږي..." },
@@ -172,9 +174,27 @@ function afProvCount(pr) {
 }
 function afPickProv(i) {
   selectedProvince = i < 0 ? "" : provinces[i];
-  var btns = document.querySelectorAll(".af-provs button");
-  for (var k = 0; k < btns.length; k++) btns[k].classList.toggle("on", Number(btns[k].getAttribute("data-i")) === i);
-  afRenderListOnly();
+  afProvExpanded = false;
+  render();
+}
+function afToggleProvs() {
+  afProvExpanded = !afProvExpanded;
+  var grid = document.getElementById("af-provs-grid"), toggle = document.getElementById("af-prov-toggle");
+  if (grid) grid.hidden = !afProvExpanded;
+  if (toggle) toggle.setAttribute("aria-expanded", String(afProvExpanded));
+}
+function afSetLayout(mode) {
+  afLayout = mode === "list" ? "list" : "grid";
+  try { localStorage.setItem("gk_afghan_layout", afLayout); } catch (e) {}
+  var list = document.getElementById("af-list");
+  if (list) list.setAttribute("data-layout", afLayout);
+  document.querySelectorAll(".af-layout-mode [data-af-layout]").forEach(function(b) {
+    b.setAttribute("aria-pressed", String(b.dataset.afLayout === afLayout));
+  });
+}
+function afLayoutIcon(mode) {
+  return '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    (mode === "grid" ? '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' : '<path d="M8 5h13M8 12h13M8 19h13M3 5h1M3 12h1M3 19h1"/>') + '</svg>';
 }
 /* Province display names are localized; canonical Pashto keys remain unchanged for filtering. */
 var AF_PROV_NAMES = {
@@ -187,13 +207,21 @@ function afProvName(pr) {
  return i < 0 || !names || !names[i] ? pr : names[i];
 }
 function afProvChips(u) {
-  var items = provinces.map(function(pr, i) { return { i: i, n: afProvCount(pr), name: afProvName(pr) }; })
-    .sort(function(a, b) { return b.n - a.n; });
-  var all = '<button data-i="-1" class="' + (selectedProvince === "" ? "on" : "") + '" onclick="afPickProv(-1)">' + u.allProv + '<small>' + afPlants.length + '</small></button>';
-  return '<div class="af-provs">' + all + items.map(function(x) {
-    var cls = (selectedProvince === provinces[x.i] ? "on" : "") + (x.n === 0 ? " zero" : "");
-    return '<button data-i="' + x.i + '" class="' + cls.trim() + '" onclick="afPickProv(' + x.i + ')">' + esc(x.name) + '<small>' + x.n + '</small></button>';
-  }).join("") + '</div>';
+  var items = provinces.map(function(pr, i) { return { i: i, n: afProvCount(pr), name: afProvName(pr) }; });
+  var comparator = new Intl.Collator(lang, { sensitivity: "base" });
+  items.sort(function(a, b) { return comparator.compare(a.name, b.name); });
+  var title = selectedProvince ? afProvName(selectedProvince) : ({ ps: "ولایتونه", fa: "ولایت‌ها", ur: "صوبے", en: "Provinces" })[lang];
+  var all = '<button type="button" data-i="-1" class="' + (selectedProvince === "" ? "on" : "") +
+    '" onclick="afPickProv(-1)" aria-pressed="' + (selectedProvince === "") + '">' + esc(u.allProv) + '<small>' + afPlants.length + '</small></button>';
+  var cells = items.map(function(x) {
+    var selected = selectedProvince === provinces[x.i];
+    var cls = (selected ? "on" : "") + (x.n === 0 ? " zero" : "");
+    return '<button type="button" data-i="' + x.i + '" class="' + cls.trim() + '" aria-pressed="' + selected +
+      '" onclick="afPickProv(' + x.i + ')"><span>' + esc(x.name) + '</span><small>' + x.n + '</small></button>';
+  }).join("");
+  return '<div class="af-prov-panel"><button type="button" class="af-prov-toggle" id="af-prov-toggle" onclick="afToggleProvs()" aria-controls="af-provs-grid" aria-expanded="' +
+    afProvExpanded + '"><span>' + esc(title) + '</span><span class="af-prov-chevron" aria-hidden="true">⌄</span></button>' +
+    '<div class="af-provs" id="af-provs-grid"' + (afProvExpanded ? "" : " hidden") + '>' + all + cells + '</div></div>';
 }
 function afFilterPlants() {
   if (!afPlants) return [];
@@ -217,20 +245,23 @@ function afFilterPlants() {
 }
 
 function afRenderCards(list) {
-  if (!list.length) return '<div class="empty">' + t().none + '</div>';
+  if (!list.length) return '<div class="empty">' + esc(t().none) + '</div>';
   return list.map(function(p) {
-    var hasWarn = !!(p.warning_ps && p.warning_ps.trim());
-    var mzClass = afIsCold(p) ? "cold" : "hot";
-    return '<div class="af-card" onclick="afOpenPlant(\'' + p.id + '\')">' +
-      (afSource === "fs" ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" alt="" src="' + p.thumb + '">' : "") : '<img class="af-thumb" loading="lazy" alt="" src="' + afImgUrl(p.id, 1) + '" onerror="this.remove()">') +
-      '<div class="af-card-top"><div><b>' + esc(afField(p, "name")) + '</b><i>' + esc(p.scientific_name) + '</i></div>' +
-      (hasWarn ? '<span class="af-mz warn-tag">⚠</span>' : '') + '</div>' +
-      '<div class="af-badges"><span class="af-mz ' + mzClass + '">' + esc(afField(p, "mizaj")) + '</span></div>' +
-      '<p class="af-sum">' + esc(afField(p, "benefits")) + '</p>' +
-      '<div class="af-loc">📍 ' + esc(afField(p, "location")) + '</div></div>';
+    var name = afField(p, "name"), scientific = p.scientific_name || "";
+    var photo = afSource === "fs"
+      ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" alt="" src="' + esc(p.thumb) + '">' : "")
+      : '<img class="af-thumb" loading="lazy" alt="" src="' + esc(afImgUrl(p.id, 1)) + '" onerror="this.remove()">';
+    return '<button type="button" class="af-card" data-af-id="' + esc(p.id) + '">' +
+      '<span class="af-photo" aria-hidden="true">' + ic("leaf") + photo + '</span>' +
+      '<span class="af-card-top"><b>' + esc(name) + '</b>' +
+      (scientific ? '<i dir="ltr">' + esc(scientific) + '</i>' : '') +
+      '<small class="af-loc">' + ic("pin") + esc(afField(p, "location")) + '</small></span></button>';
   }).join("");
 }
-
+document.addEventListener("click", function(event) {
+  var card = event.target.closest("#af-list .af-card[data-af-id]");
+  if (card) afOpenPlant(card.getAttribute("data-af-id"));
+});
 function afRenderListOnly() {
   var list = afFilterPlants(), u = AF_UI[lang] || AF_UI.ps;
   var cEl = document.getElementById("af-count"), lEl = document.getElementById("af-list");
@@ -270,10 +301,20 @@ regionPage = function(v) {
     }
   }
   var list = afFilterPlants();
-  return bar(regionText[lang][0]) +
-    '<div class="af-wrap"><div class="af-controls">' +
-    '<input class="af-search" type="search" value="' + esc(afQuery) + '" placeholder="' + esc(u.search) + '" oninput="afSetQuery(this.value)">' +
-    '</div>' + afProvChips(u) +
-    '<div class="af-count" id="af-count">' + list.length + ' ' + u.found + '</div>' +
-    '<div id="af-list" class="af-wrap">' + afRenderCards(list) + '</div></div>';
+  var labels = {
+    ps: ["لست", "کارتونه"], fa: ["فهرست", "کارت‌ها"],
+    ur: ["فہرست", "کارڈز"], en: ["List", "Grid"]
+  }[lang];
+  return '<div class="af-wrap"><div class="af-sticky">' + bar(regionText[lang][0]) +
+    '<div class="af-controls"><span class="af-search-icon" aria-hidden="true">' + ic("search") + '</span>' +
+    '<input class="af-search" type="search" value="' + esc(afQuery) + '" placeholder="' + esc(u.search) +
+    '" aria-label="' + esc(u.search) + '" oninput="afSetQuery(this.value)"></div>' +
+    '<div class="af-filter-row">' + afProvChips(u) +
+    '<div class="af-layout-mode">' + ["list", "grid"].map(function(k, j) {
+      return '<button type="button" data-af-layout="' + k + '" title="' + esc(labels[j]) +
+        '" aria-label="' + esc(labels[j]) + '" aria-pressed="' + (afLayout === k) +
+        '" onclick="afSetLayout(\'' + k + '\')">' + afLayoutIcon(k) + '</button>';
+    }).join("") + '</div></div></div>' +
+    '<div class="af-count" id="af-count" aria-live="polite">' + list.length + ' ' + esc(u.found) + '</div>' +
+    '<div id="af-list" class="af-results" data-layout="' + afLayout + '">' + afRenderCards(list) + '</div></div>';
 };
