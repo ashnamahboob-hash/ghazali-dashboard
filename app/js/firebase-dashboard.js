@@ -54,7 +54,7 @@ function applyHerbs(list){
     if(typeof h.family==='string'&&h.family!==rec.family&&h.family){rec.family=h.family;changed=true}
   }
   if(before!==H.filter(isPublished).map(p=>p.taj&&p.taj[0]).join('|'))changed=true;
-  if(changed){try{pickFt();build();render()}catch(e){console.warn(e)}}
+  if(changed){try{pickFt();build();if(view!=="regions")render()}catch(e){console.warn(e)}}
 }
 /* moved to data/lst45.js */
 const is45=c=>c[0]==='T'&&+c.slice(1)<=45;
@@ -64,7 +64,7 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
  for(const l of ['ps','fa','ur','en','ar']){if(!x[l])continue;if(p&&p.nm[l]!==x[l]){p.nm[l]=x[l];ch=1}if(rec&&rec.name&&rec.name[l]!==x[l]){rec.name[l]=x[l];ch=1}}
  const t=tajRecords.find(r=>r[0]===c);if(t){t[1]=x.ur;t[2]=x.en}
  const sOk=okS(c,p&&p.s,x.s),fOk=okF(c,x.f);if(p){if(sOk&&p.s!==x.s){p.s=x.s;ch=1}if(fOk)p.fam=x.f;if(x.l)p.link=x.l}if(rec){if(sOk)rec.scientific=x.s;if(fOk)rec.family=x.f}}
- if(ch){try{render()}catch(e){}}})();
+ if(ch&&view!=="regions"){try{render()}catch(e){}}})();
 (async()=>{
   try{const c=JSON.parse(localStorage.getItem(CK)||'null');if(c&&c.length)applyHerbs(c)}catch(e){}
   try{
@@ -97,7 +97,13 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
     },error=>console.warn('published entries sync',error));
     try{
       let any=false;
-      await Promise.all(list.filter(publicEntryComplete).map(async h=>{
+      // A large dashboard import can have many image subcollections with
+      // base64 data. Fetch at most two at once and pause completely while
+      // the user is scrolling the independent Afghan plants catalogue.
+      const photoEntries=list.filter(publicEntryComplete);
+      for(let offset=0;offset<photoEntries.length;offset+=2){
+        while(view==="regions") await new Promise(resolve=>setTimeout(resolve,700));
+        await Promise.all(photoEntries.slice(offset,offset+2).map(async h=>{
         try{
           const s=await getDocs(collection(db,'herbs',h.code,'images'));
           const im=s.docs.map(d=>d.data()).filter(x=>x&&!x.hide&&typeof x.data==='string'&&/^data:image\//.test(x.data)).sort((x,y)=>(x.order||0)-(y.order||0));
@@ -112,8 +118,10 @@ const okF=(c,f)=>!!f&&!(is45(c)&&/^Plant Family/i.test(f));
           ['plant','leaf','flower','fruit','used'].forEach(k=>{if(!e[k]&&left.length){const y=left.shift();e[k]=y.data;e.lic[k]=ln(y)}});
           e.licCredit=[...new Set(Object.values(e.lic).filter(Boolean))].join(' · ');
         }catch(e){}
-      }));
-      if(any){try{applyPhotos()}catch(e){}try{render()}catch(e){}}
+        }));
+        if(offset+2<photoEntries.length) await new Promise(resolve=>setTimeout(resolve,160));
+      }
+      if(any){try{applyPhotos()}catch(e){}if(view!=="regions"){try{render()}catch(e){}}}
     }catch(e){console.warn('images',e)}
   }catch(e){console.warn('Firebase',e)}
 })();
