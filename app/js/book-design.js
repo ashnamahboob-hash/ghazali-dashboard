@@ -286,7 +286,7 @@ function build(plant,previewRecord){
   var fullLabel=["بشپړ متن","متن کامل","مکمل متن","Full text"][ml];
   var warning=["دا تاریخي طبي متن دئ، نه د معاصر علاج لارښوونه.","این متن طبی تاریخی است، نه دستور درمان معاصر.","یہ تاریخی طبی متن ہے، جدید علاج کی ہدایت نہیں۔","Historical medical text, not modern treatment guidance."][ml];
   var missing=["بشپړ متن لا نه دئ ثبت سوی.","متن کامل هنوز ثبت نشده است.","مکمل متن ابھی درج نہیں ہوا۔","Full text has not yet been entered."][ml];
-  var body=paras(F.full_text,dir);
+  var body=(F.full_text||[]).flatMap(function(b){return String(b.text||"").split(/\r?\n+/).map(function(t){return t.trim()}).filter(Boolean).map(function(t){return {text:t,subtitle:b.subtitle||""}})}).map(function(b){var t=b.text,match=t.match(/^\S+(?:\s+\S+){0,2}/u),start=match?match[0]:t;return '<p dir="'+dir+'" style="margin:0 0 1.2em;padding-bottom:.65em;border-bottom:1px solid var(--bk-border);white-space:pre-wrap">'+(b.subtitle?'<strong style="font-size:1.15em;color:var(--bk-green)">'+esc(b.subtitle)+'</strong> ':'')+'<strong style="font-size:1.12em;color:var(--bk-green)">'+esc(start)+'</strong>'+esc(t.slice(start.length))+'</p>'}).join("");
   var safety=paras(F.safety,dir);
   chapters.push({id:"bk-c1",t:[fullLabel,fullLabel],html:'<p class="bk-note">'+esc(warning)+'</p><div class="bk-ed">'+(body||'<p>'+esc(missing)+'</p>')+'</div>'+(safety?'<div class="bk-warn">'+safety+'</div>':'')});
  }else if(modern){
