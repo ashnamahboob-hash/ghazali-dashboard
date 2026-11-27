@@ -120,10 +120,7 @@ function shareHerb(i){
 var _render2=render;
 render=function(){
  _render2.apply(this,arguments);
- if(view==="lib"&&cur===null){
-  var sr=document.querySelector("#app .search");
-  if(sr&&!document.querySelector(".search-hint")){var h=document.createElement("p");h.className="search-hint";h.textContent=HINT[lang]||HINT.en;sr.after(h)}
- }
+
 };
 render();
 
