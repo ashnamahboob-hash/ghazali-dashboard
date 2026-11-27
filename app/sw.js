@@ -1,5 +1,5 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v44';
+const VERSION = 'gk-shell-v45';
 const SHELL = [
   './',
   'index.html',
@@ -36,7 +36,7 @@ const SHELL = [
   'js/firebase-dashboard.js?v=15',
   'js/settings-modern.js',
   'js/hardware-back.js',
-  'js/afghan-plants.js?v=3',
+  'js/afghan-plants.js?v=4',
   'data/molecules.js?v=2',
   'js/book-design.js?v=26'
 ];
