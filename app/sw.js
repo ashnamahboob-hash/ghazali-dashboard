@@ -1,5 +1,5 @@
 // غزالي خزانه - service worker (offline shell). Bump VERSION when shell files change.
-const VERSION = 'gk-shell-v37';
+const VERSION = 'gk-shell-v38';
 const SHELL = [
   './',
   'index.html',
@@ -30,7 +30,7 @@ const SHELL = [
   'js/mint-lens-init.js',
   'js/core.js?v=23',
   'js/account-v2.js',
-  'js/improvements-v2.js?v=2',
+  'js/improvements-v2.js?v=3',
   'js/plantnet-id.js',
   'js/entry-names.js',
   'js/firebase-dashboard.js?v=15',
@@ -70,7 +70,7 @@ self.addEventListener('fetch', event => {
 
   // Network first: use fresh files when online, cached files when offline.
   event.respondWith(
-    fetch(request).then(response => {
+    fetch(request, {cache: 'no-cache'}).then(response => {
       if (response && response.ok) {
         const copy = response.clone();
         caches.open(VERSION).then(cache => cache.put(request, copy)).catch(() => {});
