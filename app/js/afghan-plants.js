@@ -1,6 +1,8 @@
 /* moved to data/afghan-embed.js */
 var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
 var afProvExpanded = false, afLayout = "grid";
+var AF_BATCH_SIZE = 20, afVisibleCount = 0, afMoreObserver = null, afLoadingMore = false;
+function afStopObserver() { if (afMoreObserver) { afMoreObserver.disconnect(); afMoreObserver = null; } }
 try { afLayout = localStorage.getItem("gk_afghan_layout") === "list" ? "list" : "grid"; } catch (e) {}
 
 var AF_UI = {
@@ -249,8 +251,8 @@ function afRenderCards(list) {
   return list.map(function(p) {
     var name = afField(p, "name"), scientific = p.scientific_name || "";
     var photo = afSource === "fs"
-      ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" alt="" src="' + esc(p.thumb) + '">' : "")
-      : '<img class="af-thumb" loading="lazy" alt="" src="' + esc(afImgUrl(p.id, 1)) + '" onerror="this.remove()">';
+      ? (/^data:image\//.test(p.thumb || "") ? '<img class="af-thumb" loading="lazy" decoding="async" alt="" src="' + esc(p.thumb) + '">' : "")
+      : '<img class="af-thumb" loading="lazy" decoding="async" alt="" src="' + esc(afImgUrl(p.id, 1)) + '" onerror="this.remove()">';
     return '<button type="button" class="af-card" data-af-id="' + esc(p.id) + '">' +
       '<span class="af-photo" aria-hidden="true">' + ic("leaf") + photo + '</span>' +
       '<span class="af-card-top"><b>' + esc(name) + '</b>' +
@@ -262,11 +264,50 @@ document.addEventListener("click", function(event) {
   var card = event.target.closest("#af-list .af-card[data-af-id]");
   if (card) afOpenPlant(card.getAttribute("data-af-id"));
 });
+/* Render small batches to keep long provincial catalogues responsive on phones. */
+function afAddMoreButton(total) {
+  var old = document.getElementById("af-load-more");
+  if (old) old.remove();
+  afStopObserver();
+  if (afVisibleCount >= total) return;
+  var listEl = document.getElementById("af-list");
+  if (!listEl) return;
+  var captions = {ps:"نور بوټي وښایئ",fa:"گیاهان بیشتر",ur:"مزید پودے",en:"Show more plants"};
+  var button = document.createElement("button");
+  button.type = "button";
+  button.id = "af-load-more";
+  button.className = "af-load-more";
+  button.textContent = captions[lang] || captions.ps;
+  button.onclick = afLoadMoreCards;
+  listEl.insertAdjacentElement("afterend", button);
+  if ("IntersectionObserver" in window) {
+    afMoreObserver = new IntersectionObserver(function(entries) {
+      if (entries.some(function(entry) { return entry.isIntersecting; })) afLoadMoreCards();
+    }, {rootMargin:"350px 0px"});
+    afMoreObserver.observe(button);
+  }
+}
+function afLoadMoreCards() {
+  if (afLoadingMore || view !== "regions" || afSelectedId !== null) return;
+  var listEl = document.getElementById("af-list");
+  if (!listEl) return;
+  afLoadingMore = true;
+  afStopObserver();
+  var items = afFilterPlants();
+  var next = items.slice(afVisibleCount, afVisibleCount + AF_BATCH_SIZE);
+  afVisibleCount += next.length;
+  if (next.length) listEl.insertAdjacentHTML("beforeend", afRenderCards(next));
+  afAddMoreButton(items.length);
+  afLoadingMore = false;
+}
 function afRenderListOnly() {
+  afStopObserver();
   var list = afFilterPlants(), u = AF_UI[lang] || AF_UI.ps;
   var cEl = document.getElementById("af-count"), lEl = document.getElementById("af-list");
   if (cEl) cEl.textContent = list.length + " " + u.found;
-  if (lEl) lEl.innerHTML = afRenderCards(list);
+  afVisibleCount = Math.min(AF_BATCH_SIZE, list.length);
+  if (lEl) lEl.innerHTML = afRenderCards(list.slice(0, afVisibleCount));
+  afAddMoreButton(list.length);
 }
 
 var _origRegionPage = typeof regionPage === "function" ? regionPage : null;
@@ -301,6 +342,12 @@ regionPage = function(v) {
     }
   }
   var list = afFilterPlants();
+  afVisibleCount = Math.min(AF_BATCH_SIZE, list.length);
+  afStopObserver();
+  setTimeout(function() {
+    if (view === "regions" && afSelectedId === null && document.getElementById("af-list"))
+      afAddMoreButton(afFilterPlants().length);
+  }, 0);
   var labels = {
     ps: ["لست", "کارتونه"], fa: ["فهرست", "کارت‌ها"],
     ur: ["فہرست", "کارڈز"], en: ["List", "Grid"]
@@ -316,5 +363,5 @@ regionPage = function(v) {
         '" onclick="afSetLayout(\'' + k + '\')">' + afLayoutIcon(k) + '</button>';
     }).join("") + '</div></div></div>' +
     '<div class="af-count" id="af-count" aria-live="polite">' + list.length + ' ' + esc(u.found) + '</div>' +
-    '<div id="af-list" class="af-results" data-layout="' + afLayout + '">' + afRenderCards(list) + '</div></div>';
+    '<div id="af-list" class="af-results" data-layout="' + afLayout + '">' + afRenderCards(list.slice(0, afVisibleCount)) + '</div></div>';
 };
