@@ -333,7 +333,7 @@ const groupsFor=h=>isModern(h)?MODERN_GROUPS.map(([t,k])=>[t[0],k]):GROUPS;
 const coreFor=h=>isModern(h)?[]:CORE,softFor=h=>isModern(h)?[]:SOFT;
 const labelFor=(h,l,k)=>isModern(h)&&MODERN_FIELDS[k]?MODERN_FIELDS[k][L.indexOf(l)]:LAB[l][k];
 const ST={index:'یوازې فهرست',draft:'مسوده',reviewed:'بیاکتل سوی',approved:'تایید سوی'};
-const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'T M A',T:'T بوټي',M:'M معدني',A:'A حیواني'};
+const FS={all:'ټول',index:'فهرست',draft:'مسوده',reviewed:'بیاکتل',approved:'تایید',inc:'نیمګړي'},FT={all:'ټولي طبقې',T:'T بوټي',M:'M معدني',A:'A حیواني',O:'O روغنیات'};
 /* د ایپ اصلي برخې (ui.sections) او د هرې برخې متنونه، لکه په ایپ کې */
 const SEC=[['lib','کتابتون (بوټي)'],['feedback','نظرونه'],['users','کارونکي'],['regions','د افغانستان طبي بوټي'],['farming','کرنه او اقتصادي ارزښت'],['health','روغتیا او ناروغۍ'],['compounds','یوناني مرکبات'],['pharm','فارما کوپیا قرابادین'],['qanun','فارماکوپیا قانون مفرداعضاء'],['api','API تنظیمات']];
 const PROV=["بدخشان","بادغیس","بغلان","بلخ","بامیان","دایکندي","فراه","فاریاب","غزني","غور","هلمند","هرات","جوزجان","کابل","کندهار","کاپیسا","خوست","کنړ","کندز","لغمان","لوګر","ننګرهار","نیمروز","نورستان","پکتیا","پکتیکا","پنجشېر","پروان","سمنګان","سرپل","تخار","ارزګان","میدان وردګ","زابل"];
@@ -416,7 +416,7 @@ const hasBody=h=>{const f=h.fields||{},o=h.otherNames||{};return L.some(l=>Objec
 function badges(h){if(h.status==='index')return '';const q=Q(h);return (q.red?`<span class="b r">${q.red} سور</span>`:'')+(q.yel?`<span class="b y">${q.yel} ژېړ</span>`:'')}
 const BOOKS={taj:'تاج المفردات',ibn:'الجامع لمفردات الأدوية والأغذية — ابن البیطار',modern:'عصري طبي بوټي'};
 let libraryBook='';
-const codeBook=c=>/^IB\d{4,}$/.test(c)?'ibn':/^MD\d{4,}$/.test(c)?'modern':/^[TMA]\d{3,}$/.test(c)?'taj':'';
+const codeBook=c=>/^IB\d{4,}$/.test(c)?'ibn':/^MD\d{4,}$/.test(c)?'modern':/^[TMAO]\d{3,}$/.test(c)?'taj':'';
 const entryBook=(c,h)=>codeBook(c);
 const selectedBook=(c,h)=>!!libraryBook&&entryBook(c,h)===libraryBook;
 $('#book-select').onchange=function(){if(dirty&&!confirm('بدلونونه ذخیره نه دي. کتاب بدلوئ؟')){this.value=libraryBook;return}libraryBook=this.value;cur=null;dirty=false;imgs=[];HS=[];flt={st:'all',ty:'all',ch:''};$('#gs').value='';$('#gsr').style.display='none';$('#app').classList.remove('ed');renderList()};
@@ -1012,25 +1012,25 @@ $('#rcb').onclick=openRecent;
 $('#seedf').onchange=async e=>{
  let arr;try{arr=JSON.parse(await e.target.files[0].text())}catch(er){e.target.value='';return alert('JSON فایل سم نه دی: '+er.message)}
  const rep=!Array.isArray(arr)&&!!arr&&arr.exportedFrom==='ghazali-entry';if(!Array.isArray(arr))arr=arr.entries||arr.herbs||[arr];
- const LG=['ps','fa','ur','en'],ok=h=>h&&typeof h.code==='string'&&codeBook(h.code)===libraryBook&&!!libraryBook&&(!h.sourceBook||h.sourceBook===libraryBook);
- const nw=[],mg=[],sk=[],bad=[],rp=[];
- for(const h of arr){if(!ok(h)){bad.push(h&&h.code||'؟');continue}const o=DB[h.code];if(!o)nw.push(h);else if(rep)rp.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
+ const LG=['ps','fa','ur','en'],ok=h=>h&&typeof h.code==='string'&&!!codeBook(h.code);
+ const nw=[],mg=[],sk=[],bad=[],rp=[],seen=new Set();
+ for(const h of arr){if(!ok(h)||seen.has(h.code)){bad.push(h&&h.code||'؟');continue}seen.add(h.code);const o=DB[h.code];if(!o)nw.push(h);else if(rep)rp.push(h);else if(o.status==='reviewed'||o.status==='approved')sk.push(h.code);else mg.push(h)}
  if(!nw.length&&!mg.length&&!rp.length){e.target.value='';return alert('هیڅ نوی یا د ډکولو وړ مدخل ونه موندل سو.'+(sk.length?'\nبیاکتل/تایید سوي مدخلونه نه بدلیږي: '+sk.slice(0,10).join(', '):'')+(bad.length?'\nناسم کوډونه: '+bad.slice(0,10).join(', '):''))}
  if(!confirm((rp.length?'اصلاح سوي مدخلونه چې پخواني ځای کې ځای پر ځای کیږي: '+rp.map(h=>h.code).join(', ')+'\n\n':'')+'نوي مدخلونه: '+nw.length+'\nد موجود مدخلونو ډکول (یوازې که د کتاب متن ولري «مسوده» کیږي، نه نو «یوازې فهرست» پاتې کیږي): '+mg.length+'\nنه بدلیږي (بیاکتل/تایید سوي): '+sk.length+'\nناسم: '+bad.length+'\n\nدوام؟')){e.target.value='';return}
  const PH='په کتاب کې نه دی لیکل شوی',s=v=>typeof v==='string'&&v.trim()&&v.trim()!==PH?v.trim():'',sf=(v,old)=>typeof v==='string'&&v.trim()&&(v.trim()!==PH||!old||!String(old).trim())?v.trim():'';let k=0;
- for(const h of nw){const st0=h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft';const x={...h,sourceBook:libraryBook,added:true,status:st0==='draft'&&!hasBody(h)?'index':st0,version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};if(!x.type)x.type=libraryBook==='taj'?h.code[0]:'T';if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),cleanContentLanguages(JSON.parse(JSON.stringify(x))));DB[h.code]=cleanContentLanguages(x);k++}
+ for(const h of nw){const st0=h.status&&h.status!=='reviewed'&&h.status!=='approved'?h.status:'draft';const x={...h,sourceBook:codeBook(h.code),added:true,status:st0==='draft'&&!hasBody(h)?'index':st0,version:1,updatedAt:Date.now(),updatedBy:auth.currentUser.email};x.type=codeBook(h.code)==='taj'?h.code[0]:'T';if(x.order==null)x.order=9000+Object.keys(DB).length;await setDoc(doc(db,'herbs',h.code),cleanContentLanguages(JSON.parse(JSON.stringify(x))));DB[h.code]=cleanContentLanguages(x);k++}
  let m=0;
  for(const h of mg){const o=DB[h.code],x=JSON.parse(JSON.stringify(o));
   ['scientific','family','pages','note','link'].forEach(f=>{if(s(h[f]))x[f]=s(h[f])});
   x.names={...(x.names||{})};['ps','fa','ur','en','ar'].forEach(l=>{if(s(h.names&&h.names[l]))x.names[l]=s(h.names[l])});
   x.otherNames={...(x.otherNames||{})};LG.forEach(l=>{if(s(h.otherNames&&h.otherNames[l]))x.otherNames[l]=s(h.otherNames[l])});
   x.fields={...(x.fields||{})};LG.forEach(l=>{const src=h.fields&&h.fields[l];if(!src)return;x.fields[l]={...(x.fields[l]||{})};for(const [key,v] of Object.entries(src)){const t=sf(v,x.fields[l][key]);if(t)x.fields[l][key]=t}});
-  x.status=(o.status==='index'&&!hasBody(x))?'index':'draft';x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
+  x.sourceBook=codeBook(h.code);x.type=x.sourceBook==='taj'?h.code[0]:'T';x.status=(o.status==='index'&&!hasBody(x))?'index':'draft';x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;
   cleanContentLanguages(x);await setDoc(doc(db,'herbs',h.code),x);
   await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د JSON واردات له لارې ډک سو',data:x});
   DB[h.code]=x;m++}
  let r=0;
- for(const h of rp){const o=DB[h.code];const x={...o,...JSON.parse(JSON.stringify(h)),code:o.code,sourceBook:libraryBook,order:o.order,type:o.type,status:o.status};if(!x.names)x.names=o.names;if(!x.fields)x.fields=o.fields;x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;cleanContentLanguages(x);await setDoc(doc(db,'herbs',h.code),x);await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د اصلاح سوي فایل په واردولو سره ځای پر ځای سو',data:x});DB[h.code]=x;r++}
+ for(const h of rp){const o=DB[h.code];const x={...o,...JSON.parse(JSON.stringify(h)),code:o.code,sourceBook:codeBook(o.code),order:o.order,type:codeBook(o.code)==='taj'?o.code[0]:'T',status:o.status};if(!x.names)x.names=o.names;if(!x.fields)x.fields=o.fields;x.version=(o.version||0)+1;x.updatedAt=Date.now();x.updatedBy=auth.currentUser.email;cleanContentLanguages(x);await setDoc(doc(db,'herbs',h.code),x);await addDoc(collection(db,'herbs',h.code,'history'),{at:serverTimestamp(),by:x.updatedBy,version:x.version,note:'د اصلاح سوي فایل په واردولو سره ځای پر ځای سو',data:x});DB[h.code]=x;r++}
  if(cur&&rp.some(h=>h.code===cur.code)){dirty=false;openHerb(cur.code)}
  e.target.value='';renderList();toast((r?r+' مدخل ځای پر ځای سو، ':'')+k+' نوي، '+m+' ډک سو'+(sk.length?'، '+sk.length+' پرېښودل سول':''))};
 /* خالي مسودې (د کتاب هیڅ متن نه لري) بیرته «یوازې فهرست» ته. بیاکتل/تایید سوي هیڅکله نه لمس کېږي. */
