@@ -416,7 +416,7 @@ const libraryLabels = {
 };
 // Link matching source entries to the existing library indices, which also back saved favourites.
 const tajLinks = {
- T345:0,T426:1,T547:2,T256:3,T147:4,T015:6,T018:7,T022:8,T033:9,T017:10,
+ T343:0,T424:1,T545:2,T254:3,T145:4,T015:6,T018:7,T022:8,T033:9,T017:10,
  T034:11,T051:12,T063:14,M001:15,T066:16,T020:17
 };
 function libraryNormalize(value) {
