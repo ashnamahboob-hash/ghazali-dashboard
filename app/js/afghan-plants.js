@@ -2,6 +2,16 @@
 var afPlants = null, afLoading = false, afQuery = "", afCat = "all", afSelectedId = null;
 var afProvExpanded = false, afLayout = "grid";
 var AF_BATCH_SIZE = 10, afVisibleCount = 0, afMoreObserver = null, afLoadingMore = false;
+var afFilteredBatch = [], afBatchRevision = 0, afPendingAppend = null;
+function afCancelAppend() {
+  afBatchRevision++;
+  if (afPendingAppend !== null) {
+    if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(afPendingAppend);
+    else clearTimeout(afPendingAppend);
+    afPendingAppend = null;
+  }
+  afLoadingMore = false;
+}
 /* The repository currently has no bundled jpg photos under /afghan-plants.
    Do not issue hundreds of guaranteed-404 requests from the offline catalogue.
    Update these IDs when real local image files are added; Firestore thumbnails still work. */
@@ -298,7 +308,7 @@ function afAddMoreButton(total) {
   if ("IntersectionObserver" in window) {
     afMoreObserver = new IntersectionObserver(function(entries) {
       if (entries.some(function(entry) { return entry.isIntersecting; })) afLoadMoreCards();
-    }, {rootMargin:"150px 0px"});
+    }, {rootMargin:"750px 0px"});
     afMoreObserver.observe(button);
   }
 }
@@ -306,18 +316,34 @@ function afLoadMoreCards() {
   if (afLoadingMore || view !== "regions" || afSelectedId !== null) return;
   var listEl = document.getElementById("af-list");
   if (!listEl) return;
+  var items = afFilteredBatch, revision = afBatchRevision;
+  var next = items.slice(afVisibleCount, afVisibleCount + AF_BATCH_SIZE);
+  if (!next.length) { afAddMoreButton(items.length); return; }
   afLoadingMore = true;
   afStopObserver();
-  var items = afFilterPlants();
-  var next = items.slice(afVisibleCount, afVisibleCount + AF_BATCH_SIZE);
-  afVisibleCount += next.length;
-  if (next.length) listEl.insertAdjacentHTML("beforeend", afRenderCards(next));
-  afAddMoreButton(items.length);
-  afLoadingMore = false;
+  // Avoid parsing and inserting new cards inside an intersection or scroll
+  // callback. Build the next batch when the main thread is idle instead.
+  var append = function() {
+    afPendingAppend = null;
+    if (revision !== afBatchRevision || view !== "regions" || afSelectedId !== null ||
+        document.getElementById("af-list") !== listEl) {
+      afLoadingMore = false;
+      return;
+    }
+    listEl.insertAdjacentHTML("beforeend", afRenderCards(next));
+    afVisibleCount += next.length;
+    afLoadingMore = false;
+    afAddMoreButton(items.length);
+  };
+  if (typeof window.requestIdleCallback === "function")
+    afPendingAppend = window.requestIdleCallback(append, {timeout: 1000});
+  else afPendingAppend = setTimeout(append, 90);
 }
 function afRenderListOnly() {
   afStopObserver();
+  afCancelAppend();
   var list = afFilterPlants(), u = AF_UI[lang] || AF_UI.ps;
+  afFilteredBatch = list;
   var cEl = document.getElementById("af-count"), lEl = document.getElementById("af-list");
   if (cEl) cEl.textContent = list.length + " " + u.found;
   afVisibleCount = Math.min(AF_BATCH_SIZE, list.length);
@@ -362,8 +388,10 @@ regionPage = function(v) {
     }
   }
   var list = afFilterPlants();
-  afVisibleCount = Math.min(AF_BATCH_SIZE, list.length);
   afStopObserver();
+  afCancelAppend();
+  afFilteredBatch = list;
+  afVisibleCount = Math.min(AF_BATCH_SIZE, list.length);
   setTimeout(function() {
     if (view === "regions" && afSelectedId === null && document.getElementById("af-list"))
       afAddMoreButton(afFilterPlants().length);
